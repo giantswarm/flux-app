@@ -1,13 +1,13 @@
 version: 2.1
 orbs:
-  architect: giantswarm/architect@0.17.0
+  architect: giantswarm/architect@0.17.1
 
 workflows:
   package-and-push-chart-on-tag:
     jobs:
       - architect/push-to-app-catalog:
           context: "architect"
-          # executor: "app-build-suite" # enable this after architect-orb with the required changes has been released
+          executor: "app-build-suite"
           name: "package and push flux-app chart"
           app_catalog: "giantswarm-playground-catalog"
           app_catalog_test: "giantswarm-playground-test-catalog"
