@@ -1,1 +1,14 @@
-# empty values file
+images:
+  registry: quay.io
+  helm_controller:
+    image: fluxcd-helm-controller
+    tag: v0.3.0
+  source_controller:
+    image: fluxcd-source-controller
+    tag: v0.3.0
+  kustomize_controller:
+    image: fluxcd-kustomize-controller
+    tag: v0.3.0
+  notification_controller:
+    image: fluxcd-notification-controller
+    tag: v0.3.0
