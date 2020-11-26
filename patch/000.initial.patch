@@ -1,0 +1,52 @@
+diff --git a/templates/helm-controller.yaml b/templates/helm-controller.yaml
+index 01d3f71..c02c2fc 100644
+--- a/templates/helm-controller.yaml
++++ b/templates/helm-controller.yaml
+@@ -431,7 +431,7 @@ spec:
+           valueFrom:
+             fieldRef:
+               fieldPath: metadata.namespace
+-        image: fluxcd/helm-controller:v0.3.0
++        image: "{{ .Values.images.registry }}/{{ .Values.images.helm_controller.name }}:{{ .Values.images.helm_controller.tag }}"
+         imagePullPolicy: IfNotPresent
+         livenessProbe:
+           httpGet:
+diff --git a/templates/kustomize-controller.yaml b/templates/kustomize-controller.yaml
+index 6758a09..7c3a2c0 100644
+--- a/templates/kustomize-controller.yaml
++++ b/templates/kustomize-controller.yaml
+@@ -297,7 +297,7 @@ spec:
+           valueFrom:
+             fieldRef:
+               fieldPath: metadata.namespace
+-        image: fluxcd/kustomize-controller:v0.3.0
++        image: "{{ .Values.images.registry }}/{{ .Values.images.kustomize_controller.name }}:{{ .Values.images.kustomize_controller.tag }}"
+         imagePullPolicy: IfNotPresent
+         livenessProbe:
+           httpGet:
+diff --git a/templates/notification-controller.yaml b/templates/notification-controller.yaml
+index faa6305..19b6e64 100644
+--- a/templates/notification-controller.yaml
++++ b/templates/notification-controller.yaml
+@@ -515,7 +515,7 @@ spec:
+           valueFrom:
+             fieldRef:
+               fieldPath: metadata.namespace
+-        image: fluxcd/notification-controller:v0.3.0
++        image: "{{ .Values.images.registry }}/{{ .Values.images.notification_controller.name }}:{{ .Values.images.notification_controller.tag }}"
+         imagePullPolicy: IfNotPresent
+         livenessProbe:
+           httpGet:
+diff --git a/templates/source-controller.yaml b/templates/source-controller.yaml
+index 0aa081a..3388690 100644
+--- a/templates/source-controller.yaml
++++ b/templates/source-controller.yaml
+@@ -767,7 +767,7 @@ spec:
+           valueFrom:
+             fieldRef:
+               fieldPath: metadata.namespace
+-        image: fluxcd/source-controller:v0.3.0
++        image: "{{ .Values.images.registry }}/{{ .Values.images.source_controller.name }}:{{ .Values.images.source_controller.tag }}"
+         imagePullPolicy: IfNotPresent
+         livenessProbe:
+           httpGet:
