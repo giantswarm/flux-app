@@ -223,6 +223,7 @@ spec:
                 - github
                 - gitlab
                 - bitbucket
+                - azuredevops
                 type: string
               username:
                 description: Bot username for this provider
@@ -519,8 +520,8 @@ spec:
         imagePullPolicy: IfNotPresent
         livenessProbe:
           httpGet:
-            path: /metrics
-            port: http-prom
+            path: /healthz
+            port: healthz
         name: manager
         ports:
         - containerPort: 9090
@@ -529,6 +530,13 @@ spec:
           name: http-webhook
         - containerPort: 8080
           name: http-prom
+        - containerPort: 9440
+          name: healthz
+          protocol: TCP
+        readinessProbe:
+          httpGet:
+            path: /readyz
+            port: healthz
         resources:
           limits:
             cpu: 1000m
