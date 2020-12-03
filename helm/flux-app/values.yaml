@@ -1,14 +1,14 @@
 images:
   registry: quay.io
   helm_controller:
-    image: fluxcd-helm-controller
+    image: giantswarm/fluxcd-helm-controller
     tag: v0.4.1
   source_controller:
-    image: fluxcd-source-controller
+    image: giantswarm/fluxcd-source-controller
     tag: v0.4.1
   kustomize_controller:
-    image: fluxcd-kustomize-controller
+    image: giantswarm/fluxcd-kustomize-controller
     tag: v0.4.0
   notification_controller:
-    image: fluxcd-notification-controller
+    image: giantswarm/fluxcd-notification-controller
     tag: v0.4.0
