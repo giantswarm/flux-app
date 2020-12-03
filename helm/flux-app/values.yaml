@@ -2,7 +2,7 @@ images:
   registry: quay.io
   helm_controller:
     image: fluxcd-helm-controller
-    tag: v0.4.0
+    tag: v0.4.1
   source_controller:
     image: fluxcd-source-controller
     tag: v0.4.1

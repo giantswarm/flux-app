@@ -1,0 +1,19 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+images:
+- name: fluxcd/helm-controller
+  newName: "{{ .Values.images.registry }}/{{ .Values.images.helm_controller.name }}"
+  newTag: "{{ .Values.images.helm_controller.tag }}"
+- name: fluxcd/kustomize-controller
+  newName: "{{ .Values.images.registry }}/{{ .Values.images.kustomize_controller.name }}"
+  newTag: "{{ .Values.images.kustomize_controller.tag }}"
+- name: fluxcd/source-controller
+  newName: "{{ .Values.images.registry }}/{{ .Values.images.source_controller.name }}"
+  newTag: "{{ .Values.images.source_controller.tag }}"
+- name: fluxcd/notification-controller
+  newName: "{{ .Values.images.registry }}/{{ .Values.images.notification_controller.name }}"
+  newTag: "{{ .Values.images.notification_controller.tag }}"
+
+
+resources:

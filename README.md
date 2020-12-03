@@ -11,13 +11,13 @@ It can be used to install [flux2](https://github.com/flux/flux2).
 
 First, check the [upstream releases page](https://github.com/fluxcd/flux2/releases) and copy the `manifests.tar.gz` URL.`
 
-Check out [`script/sync.sh`](https://github.com/giantswarm/flux-app/blob/master/script/sync.sh). It can be used to fetch updated manifests from upstream with manifests in this repository.
+Check out [`hack/sync.sh`](https://github.com/giantswarm/flux-app/blob/master/hack/sync.sh). It can be used to fetch updated manifests from upstream with manifests in this repository.
 
-Edit `script/sync.sh` and replace the `upstream_manifests_url` value with the URL from the upstream releases page.
+Edit `hack/sync.sh` and replace the `upstream_manifests_url` value with the URL from the upstream releases page.
 
 ```bash
-# Execute ./script/sync.sh form the root of the repository
-./script/sync.sh
+# Execute ./hack/sync.sh form the root of the repository
+./hack/sync.sh
 ```
 
 Any previous changes are recorded in patch files residing in the [`patch`](https://github.com/giantswarm/flux-app/tree/master/patch) directory and will be applied through the script.
