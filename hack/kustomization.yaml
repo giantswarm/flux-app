@@ -3,16 +3,16 @@ kind: Kustomization
 
 images:
 - name: fluxcd/helm-controller
-  newName: "{{ .Values.images.registry }}/{{ .Values.images.helm_controller.name }}"
+  newName: "{{ .Values.images.registry }}/{{ .Values.images.helm_controller.image }}"
   newTag: "{{ .Values.images.helm_controller.tag }}"
 - name: fluxcd/kustomize-controller
-  newName: "{{ .Values.images.registry }}/{{ .Values.images.kustomize_controller.name }}"
+  newName: "{{ .Values.images.registry }}/{{ .Values.images.kustomize_controller.image }}"
   newTag: "{{ .Values.images.kustomize_controller.tag }}"
 - name: fluxcd/source-controller
-  newName: "{{ .Values.images.registry }}/{{ .Values.images.source_controller.name }}"
+  newName: "{{ .Values.images.registry }}/{{ .Values.images.source_controller.image }}"
   newTag: "{{ .Values.images.source_controller.tag }}"
 - name: fluxcd/notification-controller
-  newName: "{{ .Values.images.registry }}/{{ .Values.images.notification_controller.name }}"
+  newName: "{{ .Values.images.registry }}/{{ .Values.images.notification_controller.image }}"
   newTag: "{{ .Values.images.notification_controller.tag }}"
 
 
