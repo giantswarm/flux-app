@@ -3,7 +3,7 @@ kind: Namespace
 metadata:
   labels:
     app.kubernetes.io/instance: flux-system
-  name: flux-system
+  name: '{{ .Release.Namespace }}'
 ---
 apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
@@ -2361,7 +2361,7 @@ metadata:
   labels:
     app.kubernetes.io/instance: flux-system
   name: crd-controller
-  namespace: flux-system
+  namespace: '{{ .Release.Namespace }}'
 rules:
 - apiGroups:
   - source.toolkit.fluxcd.io
@@ -2408,7 +2408,7 @@ metadata:
   labels:
     app.kubernetes.io/instance: flux-system
   name: crd-controller
-  namespace: flux-system
+  namespace: '{{ .Release.Namespace }}'
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: Role
@@ -2416,7 +2416,7 @@ roleRef:
 subjects:
 - kind: ServiceAccount
   name: default
-  namespace: flux-system
+  namespace: '{{ .Release.Namespace }}'
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
@@ -2431,7 +2431,7 @@ roleRef:
 subjects:
 - kind: ServiceAccount
   name: default
-  namespace: flux-system
+  namespace: '{{ .Release.Namespace }}'
 ---
 apiVersion: v1
 kind: Service
@@ -2440,7 +2440,7 @@ metadata:
     app.kubernetes.io/instance: flux-system
     control-plane: controller
   name: notification-controller
-  namespace: flux-system
+  namespace: '{{ .Release.Namespace }}'
 spec:
   ports:
   - name: http
@@ -2458,7 +2458,7 @@ metadata:
     app.kubernetes.io/instance: flux-system
     control-plane: controller
   name: source-controller
-  namespace: flux-system
+  namespace: '{{ .Release.Namespace }}'
 spec:
   ports:
   - name: http
@@ -2476,7 +2476,7 @@ metadata:
     app.kubernetes.io/instance: flux-system
     control-plane: controller
   name: webhook-receiver
-  namespace: flux-system
+  namespace: '{{ .Release.Namespace }}'
 spec:
   ports:
   - name: http
@@ -2494,7 +2494,7 @@ metadata:
     app.kubernetes.io/instance: flux-system
     control-plane: controller
   name: helm-controller
-  namespace: flux-system
+  namespace: '{{ .Release.Namespace }}'
 spec:
   replicas: 1
   selector:
@@ -2562,7 +2562,7 @@ metadata:
     app.kubernetes.io/instance: flux-system
     control-plane: controller
   name: image-automation-controller
-  namespace: flux-system
+  namespace: '{{ .Release.Namespace }}'
 spec:
   replicas: 1
   selector:
@@ -2630,7 +2630,7 @@ metadata:
     app.kubernetes.io/instance: flux-system
     control-plane: controller
   name: image-reflector-controller
-  namespace: flux-system
+  namespace: '{{ .Release.Namespace }}'
 spec:
   replicas: 1
   selector:
@@ -2702,7 +2702,7 @@ metadata:
     app.kubernetes.io/instance: flux-system
     control-plane: controller
   name: kustomize-controller
-  namespace: flux-system
+  namespace: '{{ .Release.Namespace }}'
 spec:
   replicas: 1
   selector:
@@ -2772,7 +2772,7 @@ metadata:
     app.kubernetes.io/instance: flux-system
     control-plane: controller
   name: notification-controller
-  namespace: flux-system
+  namespace: '{{ .Release.Namespace }}'
 spec:
   replicas: 1
   selector:
@@ -2843,7 +2843,7 @@ metadata:
     app.kubernetes.io/instance: flux-system
     control-plane: controller
   name: source-controller
-  namespace: flux-system
+  namespace: '{{ .Release.Namespace }}'
 spec:
   replicas: 1
   selector:
@@ -2915,7 +2915,7 @@ metadata:
   labels:
     app.kubernetes.io/instance: flux-system
   name: allow-scraping
-  namespace: flux-system
+  namespace: '{{ .Release.Namespace }}'
 spec:
   ingress:
   - from:
@@ -2933,7 +2933,7 @@ metadata:
   labels:
     app.kubernetes.io/instance: flux-system
   name: allow-webhooks
-  namespace: flux-system
+  namespace: '{{ .Release.Namespace }}'
 spec:
   ingress:
   - from:
@@ -2950,7 +2950,7 @@ metadata:
   labels:
     app.kubernetes.io/instance: flux-system
   name: deny-ingress
-  namespace: flux-system
+  namespace: '{{ .Release.Namespace }}'
 spec:
   ingress:
   - from:
