@@ -14,6 +14,13 @@ images:
 - name: fluxcd/notification-controller
   newName: "{{ .Values.images.registry }}/{{ .Values.images.notification_controller.image }}"
   newTag: "{{ .Values.images.notification_controller.tag }}"
+- name: fluxcd/image-automation-controller
+  newName: "{{ .Values.images.registry }}/{{ .Values.images.image_automation_controller.image }}"
+  newTag: "{{ .Values.images.image_automation_controller.tag }}"
+- name: fluxcd/image-reflector-controller
+  newName: "{{ .Values.images.registry }}/{{ .Values.images.image_reflector_controller.image }}"
+  newTag: "{{ .Values.images.image_reflector_controller.tag }}"
 
 
 resources:
+- https://github.com/fluxcd/flux2/releases/download/v0.5.5/install.yaml
