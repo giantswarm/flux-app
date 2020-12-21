@@ -2,19 +2,30 @@ images:
   registry: quay.io
   helm_controller:
     image: giantswarm/fluxcd-helm-controller
-    tag: v0.4.3
   source_controller:
     image: giantswarm/fluxcd-source-controller
-    tag: v0.5.4
   kustomize_controller:
     image: giantswarm/fluxcd-kustomize-controller
-    tag: v0.5.1
   notification_controller:
     image: giantswarm/fluxcd-notification-controller
-    tag: v0.5.0
   image_automation_controller:
     image: giantswarm/fluxcd-image-automation-controller
-    tag: v0.1.0
   image_reflector_controller:
     image: giantswarm/fluxcd-image-reflector-controller
-    tag: v0.1.0
+
+# only GitRepository for now
+sources: []
+# - kind: GitRepository
+#   name: my-git-source
+#   url: https://github.com/giantswarm/example
+#   credentials:
+#     username: username
+#     password: abcdefg
+#   interval: 1m0s
+#   branch: main
+kustomizations: []
+# - name: my-kustomization
+#   source_name: my-git-source
+#   path: ./path-in-git-repo
+#   prune: false
+#   interval: 10m0s

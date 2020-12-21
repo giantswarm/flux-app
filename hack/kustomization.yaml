@@ -6,22 +6,16 @@ namespace: "{{ .Release.Namespace }}"
 images:
 - name: fluxcd/helm-controller
   newName: "{{ .Values.images.registry }}/{{ .Values.images.helm_controller.image }}"
-  newTag: "{{ .Values.images.helm_controller.tag }}"
 - name: fluxcd/kustomize-controller
   newName: "{{ .Values.images.registry }}/{{ .Values.images.kustomize_controller.image }}"
-  newTag: "{{ .Values.images.kustomize_controller.tag }}"
 - name: fluxcd/source-controller
   newName: "{{ .Values.images.registry }}/{{ .Values.images.source_controller.image }}"
-  newTag: "{{ .Values.images.source_controller.tag }}"
 - name: fluxcd/notification-controller
   newName: "{{ .Values.images.registry }}/{{ .Values.images.notification_controller.image }}"
-  newTag: "{{ .Values.images.notification_controller.tag }}"
 - name: fluxcd/image-automation-controller
   newName: "{{ .Values.images.registry }}/{{ .Values.images.image_automation_controller.image }}"
-  newTag: "{{ .Values.images.image_automation_controller.tag }}"
 - name: fluxcd/image-reflector-controller
   newName: "{{ .Values.images.registry }}/{{ .Values.images.image_reflector_controller.image }}"
-  newTag: "{{ .Values.images.image_reflector_controller.tag }}"
 
 
 resources:
