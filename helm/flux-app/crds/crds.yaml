@@ -5,7 +5,14 @@ metadata:
     controller-gen.kubebuilder.io/version: v0.3.0
   creationTimestamp: null
   labels:
-    app.kubernetes.io/instance: flux-system
+    app.giantswarm.io/branch: '{{ .Values.project.branch | replace "#" "-" | replace "/" "-" | replace "." "-" | trunc 63 | trimSuffix "-" | quote }}'
+    app.giantswarm.io/commit: '{{ .Values.project.commit | quote }}'
+    app.kubernetes.io/instance: '{{ .Release.Name | quote }}'
+    app.kubernetes.io/managed-by: '{{ .Release.Service | quote }}'
+    app.kubernetes.io/name: '{{ include "name" . | quote }}'
+    app.kubernetes.io/version: '{{ .Chart.AppVersion | quote }}'
+    giantswarm.io/service-type: '{{ .Values.serviceType }}'
+    helm.sh/chart: '{{ include "chart" . | quote }}'
   name: alerts.notification.toolkit.fluxcd.io
 spec:
   group: notification.toolkit.fluxcd.io
@@ -164,7 +171,14 @@ metadata:
     controller-gen.kubebuilder.io/version: v0.3.0
   creationTimestamp: null
   labels:
-    app.kubernetes.io/instance: flux-system
+    app.giantswarm.io/branch: '{{ .Values.project.branch | replace "#" "-" | replace "/" "-" | replace "." "-" | trunc 63 | trimSuffix "-" | quote }}'
+    app.giantswarm.io/commit: '{{ .Values.project.commit | quote }}'
+    app.kubernetes.io/instance: '{{ .Release.Name | quote }}'
+    app.kubernetes.io/managed-by: '{{ .Release.Service | quote }}'
+    app.kubernetes.io/name: '{{ include "name" . | quote }}'
+    app.kubernetes.io/version: '{{ .Chart.AppVersion | quote }}'
+    giantswarm.io/service-type: '{{ .Values.serviceType }}'
+    helm.sh/chart: '{{ include "chart" . | quote }}'
   name: buckets.source.toolkit.fluxcd.io
 spec:
   group: source.toolkit.fluxcd.io
@@ -348,7 +362,14 @@ metadata:
     controller-gen.kubebuilder.io/version: v0.3.0
   creationTimestamp: null
   labels:
-    app.kubernetes.io/instance: flux-system
+    app.giantswarm.io/branch: '{{ .Values.project.branch | replace "#" "-" | replace "/" "-" | replace "." "-" | trunc 63 | trimSuffix "-" | quote }}'
+    app.giantswarm.io/commit: '{{ .Values.project.commit | quote }}'
+    app.kubernetes.io/instance: '{{ .Release.Name | quote }}'
+    app.kubernetes.io/managed-by: '{{ .Release.Service | quote }}'
+    app.kubernetes.io/name: '{{ include "name" . | quote }}'
+    app.kubernetes.io/version: '{{ .Chart.AppVersion | quote }}'
+    giantswarm.io/service-type: '{{ .Values.serviceType }}'
+    helm.sh/chart: '{{ include "chart" . | quote }}'
   name: gitrepositories.source.toolkit.fluxcd.io
 spec:
   group: source.toolkit.fluxcd.io
@@ -558,7 +579,14 @@ metadata:
     controller-gen.kubebuilder.io/version: v0.3.0
   creationTimestamp: null
   labels:
-    app.kubernetes.io/instance: flux-system
+    app.giantswarm.io/branch: '{{ .Values.project.branch | replace "#" "-" | replace "/" "-" | replace "." "-" | trunc 63 | trimSuffix "-" | quote }}'
+    app.giantswarm.io/commit: '{{ .Values.project.commit | quote }}'
+    app.kubernetes.io/instance: '{{ .Release.Name | quote }}'
+    app.kubernetes.io/managed-by: '{{ .Release.Service | quote }}'
+    app.kubernetes.io/name: '{{ include "name" . | quote }}'
+    app.kubernetes.io/version: '{{ .Chart.AppVersion | quote }}'
+    giantswarm.io/service-type: '{{ .Values.serviceType }}'
+    helm.sh/chart: '{{ include "chart" . | quote }}'
   name: helmcharts.source.toolkit.fluxcd.io
 spec:
   group: source.toolkit.fluxcd.io
@@ -748,7 +776,14 @@ metadata:
     controller-gen.kubebuilder.io/version: v0.3.0
   creationTimestamp: null
   labels:
-    app.kubernetes.io/instance: flux-system
+    app.giantswarm.io/branch: '{{ .Values.project.branch | replace "#" "-" | replace "/" "-" | replace "." "-" | trunc 63 | trimSuffix "-" | quote }}'
+    app.giantswarm.io/commit: '{{ .Values.project.commit | quote }}'
+    app.kubernetes.io/instance: '{{ .Release.Name | quote }}'
+    app.kubernetes.io/managed-by: '{{ .Release.Service | quote }}'
+    app.kubernetes.io/name: '{{ include "name" . | quote }}'
+    app.kubernetes.io/version: '{{ .Chart.AppVersion | quote }}'
+    giantswarm.io/service-type: '{{ .Values.serviceType }}'
+    helm.sh/chart: '{{ include "chart" . | quote }}'
   name: helmreleases.helm.toolkit.fluxcd.io
 spec:
   group: helm.toolkit.fluxcd.io
@@ -1158,7 +1193,14 @@ metadata:
     controller-gen.kubebuilder.io/version: v0.3.0
   creationTimestamp: null
   labels:
-    app.kubernetes.io/instance: flux-system
+    app.giantswarm.io/branch: '{{ .Values.project.branch | replace "#" "-" | replace "/" "-" | replace "." "-" | trunc 63 | trimSuffix "-" | quote }}'
+    app.giantswarm.io/commit: '{{ .Values.project.commit | quote }}'
+    app.kubernetes.io/instance: '{{ .Release.Name | quote }}'
+    app.kubernetes.io/managed-by: '{{ .Release.Service | quote }}'
+    app.kubernetes.io/name: '{{ include "name" . | quote }}'
+    app.kubernetes.io/version: '{{ .Chart.AppVersion | quote }}'
+    giantswarm.io/service-type: '{{ .Values.serviceType }}'
+    helm.sh/chart: '{{ include "chart" . | quote }}'
   name: helmrepositories.source.toolkit.fluxcd.io
 spec:
   group: source.toolkit.fluxcd.io
@@ -1322,7 +1364,14 @@ metadata:
     controller-gen.kubebuilder.io/version: v0.3.0
   creationTimestamp: null
   labels:
-    app.kubernetes.io/instance: flux-system
+    app.giantswarm.io/branch: '{{ .Values.project.branch | replace "#" "-" | replace "/" "-" | replace "." "-" | trunc 63 | trimSuffix "-" | quote }}'
+    app.giantswarm.io/commit: '{{ .Values.project.commit | quote }}'
+    app.kubernetes.io/instance: '{{ .Release.Name | quote }}'
+    app.kubernetes.io/managed-by: '{{ .Release.Service | quote }}'
+    app.kubernetes.io/name: '{{ include "name" . | quote }}'
+    app.kubernetes.io/version: '{{ .Chart.AppVersion | quote }}'
+    giantswarm.io/service-type: '{{ .Values.serviceType }}'
+    helm.sh/chart: '{{ include "chart" . | quote }}'
   name: imagepolicies.image.toolkit.fluxcd.io
 spec:
   group: image.toolkit.fluxcd.io
@@ -1460,7 +1509,14 @@ metadata:
     controller-gen.kubebuilder.io/version: v0.3.0
   creationTimestamp: null
   labels:
-    app.kubernetes.io/instance: flux-system
+    app.giantswarm.io/branch: '{{ .Values.project.branch | replace "#" "-" | replace "/" "-" | replace "." "-" | trunc 63 | trimSuffix "-" | quote }}'
+    app.giantswarm.io/commit: '{{ .Values.project.commit | quote }}'
+    app.kubernetes.io/instance: '{{ .Release.Name | quote }}'
+    app.kubernetes.io/managed-by: '{{ .Release.Service | quote }}'
+    app.kubernetes.io/name: '{{ include "name" . | quote }}'
+    app.kubernetes.io/version: '{{ .Chart.AppVersion | quote }}'
+    giantswarm.io/service-type: '{{ .Values.serviceType }}'
+    helm.sh/chart: '{{ include "chart" . | quote }}'
   name: imagerepositories.image.toolkit.fluxcd.io
 spec:
   group: image.toolkit.fluxcd.io
@@ -1601,7 +1657,14 @@ metadata:
     controller-gen.kubebuilder.io/version: v0.3.0
   creationTimestamp: null
   labels:
-    app.kubernetes.io/instance: flux-system
+    app.giantswarm.io/branch: '{{ .Values.project.branch | replace "#" "-" | replace "/" "-" | replace "." "-" | trunc 63 | trimSuffix "-" | quote }}'
+    app.giantswarm.io/commit: '{{ .Values.project.commit | quote }}'
+    app.kubernetes.io/instance: '{{ .Release.Name | quote }}'
+    app.kubernetes.io/managed-by: '{{ .Release.Service | quote }}'
+    app.kubernetes.io/name: '{{ include "name" . | quote }}'
+    app.kubernetes.io/version: '{{ .Chart.AppVersion | quote }}'
+    giantswarm.io/service-type: '{{ .Values.serviceType }}'
+    helm.sh/chart: '{{ include "chart" . | quote }}'
   name: imageupdateautomations.image.toolkit.fluxcd.io
 spec:
   group: image.toolkit.fluxcd.io
@@ -1759,7 +1822,14 @@ metadata:
     controller-gen.kubebuilder.io/version: v0.3.0
   creationTimestamp: null
   labels:
-    app.kubernetes.io/instance: flux-system
+    app.giantswarm.io/branch: '{{ .Values.project.branch | replace "#" "-" | replace "/" "-" | replace "." "-" | trunc 63 | trimSuffix "-" | quote }}'
+    app.giantswarm.io/commit: '{{ .Values.project.commit | quote }}'
+    app.kubernetes.io/instance: '{{ .Release.Name | quote }}'
+    app.kubernetes.io/managed-by: '{{ .Release.Service | quote }}'
+    app.kubernetes.io/name: '{{ include "name" . | quote }}'
+    app.kubernetes.io/version: '{{ .Chart.AppVersion | quote }}'
+    giantswarm.io/service-type: '{{ .Values.serviceType }}'
+    helm.sh/chart: '{{ include "chart" . | quote }}'
   name: kustomizations.kustomize.toolkit.fluxcd.io
 spec:
   group: kustomize.toolkit.fluxcd.io
@@ -2049,7 +2119,14 @@ metadata:
     controller-gen.kubebuilder.io/version: v0.3.0
   creationTimestamp: null
   labels:
-    app.kubernetes.io/instance: flux-system
+    app.giantswarm.io/branch: '{{ .Values.project.branch | replace "#" "-" | replace "/" "-" | replace "." "-" | trunc 63 | trimSuffix "-" | quote }}'
+    app.giantswarm.io/commit: '{{ .Values.project.commit | quote }}'
+    app.kubernetes.io/instance: '{{ .Release.Name | quote }}'
+    app.kubernetes.io/managed-by: '{{ .Release.Service | quote }}'
+    app.kubernetes.io/name: '{{ include "name" . | quote }}'
+    app.kubernetes.io/version: '{{ .Chart.AppVersion | quote }}'
+    giantswarm.io/service-type: '{{ .Values.serviceType }}'
+    helm.sh/chart: '{{ include "chart" . | quote }}'
   name: providers.notification.toolkit.fluxcd.io
 spec:
   group: notification.toolkit.fluxcd.io
@@ -2189,7 +2266,14 @@ metadata:
     controller-gen.kubebuilder.io/version: v0.3.0
   creationTimestamp: null
   labels:
-    app.kubernetes.io/instance: flux-system
+    app.giantswarm.io/branch: '{{ .Values.project.branch | replace "#" "-" | replace "/" "-" | replace "." "-" | trunc 63 | trimSuffix "-" | quote }}'
+    app.giantswarm.io/commit: '{{ .Values.project.commit | quote }}'
+    app.kubernetes.io/instance: '{{ .Release.Name | quote }}'
+    app.kubernetes.io/managed-by: '{{ .Release.Service | quote }}'
+    app.kubernetes.io/name: '{{ include "name" . | quote }}'
+    app.kubernetes.io/version: '{{ .Chart.AppVersion | quote }}'
+    giantswarm.io/service-type: '{{ .Values.serviceType }}'
+    helm.sh/chart: '{{ include "chart" . | quote }}'
   name: receivers.notification.toolkit.fluxcd.io
 spec:
   group: notification.toolkit.fluxcd.io
