@@ -2,13 +2,10 @@ apiVersion: rbac.authorization.k8s.io/v1
 kind: Role
 metadata:
   labels:
-    app.giantswarm.io/branch: '{{ .Values.project.branch | replace "#" "-" | replace "/" "-" | replace "." "-" | trunc 63 | trimSuffix "-" | quote }}'
-    app.giantswarm.io/commit: '{{ .Values.project.commit | quote }}'
     app.kubernetes.io/instance: '{{ .Release.Name | quote }}'
     app.kubernetes.io/managed-by: '{{ .Release.Service | quote }}'
     app.kubernetes.io/name: '{{ include "name" . | quote }}'
     app.kubernetes.io/version: '{{ .Chart.AppVersion | quote }}'
-    giantswarm.io/service-type: '{{ .Values.serviceType }}'
     helm.sh/chart: '{{ include "chart" . | quote }}'
   name: crd-controller
   namespace: '{{ .Release.Namespace }}'
@@ -56,13 +53,10 @@ apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
 metadata:
   labels:
-    app.giantswarm.io/branch: '{{ .Values.project.branch | replace "#" "-" | replace "/" "-" | replace "." "-" | trunc 63 | trimSuffix "-" | quote }}'
-    app.giantswarm.io/commit: '{{ .Values.project.commit | quote }}'
     app.kubernetes.io/instance: '{{ .Release.Name | quote }}'
     app.kubernetes.io/managed-by: '{{ .Release.Service | quote }}'
     app.kubernetes.io/name: '{{ include "name" . | quote }}'
     app.kubernetes.io/version: '{{ .Chart.AppVersion | quote }}'
-    giantswarm.io/service-type: '{{ .Values.serviceType }}'
     helm.sh/chart: '{{ include "chart" . | quote }}'
   name: crd-controller
   namespace: '{{ .Release.Namespace }}'
@@ -79,13 +73,10 @@ apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
 metadata:
   labels:
-    app.giantswarm.io/branch: '{{ .Values.project.branch | replace "#" "-" | replace "/" "-" | replace "." "-" | trunc 63 | trimSuffix "-" | quote }}'
-    app.giantswarm.io/commit: '{{ .Values.project.commit | quote }}'
     app.kubernetes.io/instance: '{{ .Release.Name | quote }}'
     app.kubernetes.io/managed-by: '{{ .Release.Service | quote }}'
     app.kubernetes.io/name: '{{ include "name" . | quote }}'
     app.kubernetes.io/version: '{{ .Chart.AppVersion | quote }}'
-    giantswarm.io/service-type: '{{ .Values.serviceType }}'
     helm.sh/chart: '{{ include "chart" . | quote }}'
   name: cluster-reconciler
 roleRef:
@@ -101,14 +92,11 @@ apiVersion: v1
 kind: Service
 metadata:
   labels:
-    app.giantswarm.io/branch: '{{ .Values.project.branch | replace "#" "-" | replace "/" "-" | replace "." "-" | trunc 63 | trimSuffix "-" | quote }}'
-    app.giantswarm.io/commit: '{{ .Values.project.commit | quote }}'
     app.kubernetes.io/instance: '{{ .Release.Name | quote }}'
     app.kubernetes.io/managed-by: '{{ .Release.Service | quote }}'
     app.kubernetes.io/name: '{{ include "name" . | quote }}'
     app.kubernetes.io/version: '{{ .Chart.AppVersion | quote }}'
     control-plane: controller
-    giantswarm.io/service-type: '{{ .Values.serviceType }}'
     helm.sh/chart: '{{ include "chart" . | quote }}'
   name: notification-controller
   namespace: '{{ .Release.Namespace }}'
@@ -120,13 +108,10 @@ spec:
     targetPort: http
   selector:
     app: notification-controller
-    app.giantswarm.io/branch: '{{ .Values.project.branch | replace "#" "-" | replace "/" "-" | replace "." "-" | trunc 63 | trimSuffix "-" | quote }}'
-    app.giantswarm.io/commit: '{{ .Values.project.commit | quote }}'
     app.kubernetes.io/instance: '{{ .Release.Name | quote }}'
     app.kubernetes.io/managed-by: '{{ .Release.Service | quote }}'
     app.kubernetes.io/name: '{{ include "name" . | quote }}'
     app.kubernetes.io/version: '{{ .Chart.AppVersion | quote }}'
-    giantswarm.io/service-type: '{{ .Values.serviceType }}'
     helm.sh/chart: '{{ include "chart" . | quote }}'
   type: ClusterIP
 ---
@@ -134,14 +119,11 @@ apiVersion: v1
 kind: Service
 metadata:
   labels:
-    app.giantswarm.io/branch: '{{ .Values.project.branch | replace "#" "-" | replace "/" "-" | replace "." "-" | trunc 63 | trimSuffix "-" | quote }}'
-    app.giantswarm.io/commit: '{{ .Values.project.commit | quote }}'
     app.kubernetes.io/instance: '{{ .Release.Name | quote }}'
     app.kubernetes.io/managed-by: '{{ .Release.Service | quote }}'
     app.kubernetes.io/name: '{{ include "name" . | quote }}'
     app.kubernetes.io/version: '{{ .Chart.AppVersion | quote }}'
     control-plane: controller
-    giantswarm.io/service-type: '{{ .Values.serviceType }}'
     helm.sh/chart: '{{ include "chart" . | quote }}'
   name: source-controller
   namespace: '{{ .Release.Namespace }}'
@@ -153,13 +135,10 @@ spec:
     targetPort: http
   selector:
     app: source-controller
-    app.giantswarm.io/branch: '{{ .Values.project.branch | replace "#" "-" | replace "/" "-" | replace "." "-" | trunc 63 | trimSuffix "-" | quote }}'
-    app.giantswarm.io/commit: '{{ .Values.project.commit | quote }}'
     app.kubernetes.io/instance: '{{ .Release.Name | quote }}'
     app.kubernetes.io/managed-by: '{{ .Release.Service | quote }}'
     app.kubernetes.io/name: '{{ include "name" . | quote }}'
     app.kubernetes.io/version: '{{ .Chart.AppVersion | quote }}'
-    giantswarm.io/service-type: '{{ .Values.serviceType }}'
     helm.sh/chart: '{{ include "chart" . | quote }}'
   type: ClusterIP
 ---
@@ -167,14 +146,11 @@ apiVersion: v1
 kind: Service
 metadata:
   labels:
-    app.giantswarm.io/branch: '{{ .Values.project.branch | replace "#" "-" | replace "/" "-" | replace "." "-" | trunc 63 | trimSuffix "-" | quote }}'
-    app.giantswarm.io/commit: '{{ .Values.project.commit | quote }}'
     app.kubernetes.io/instance: '{{ .Release.Name | quote }}'
     app.kubernetes.io/managed-by: '{{ .Release.Service | quote }}'
     app.kubernetes.io/name: '{{ include "name" . | quote }}'
     app.kubernetes.io/version: '{{ .Chart.AppVersion | quote }}'
     control-plane: controller
-    giantswarm.io/service-type: '{{ .Values.serviceType }}'
     helm.sh/chart: '{{ include "chart" . | quote }}'
   name: webhook-receiver
   namespace: '{{ .Release.Namespace }}'
@@ -186,13 +162,10 @@ spec:
     targetPort: http-webhook
   selector:
     app: notification-controller
-    app.giantswarm.io/branch: '{{ .Values.project.branch | replace "#" "-" | replace "/" "-" | replace "." "-" | trunc 63 | trimSuffix "-" | quote }}'
-    app.giantswarm.io/commit: '{{ .Values.project.commit | quote }}'
     app.kubernetes.io/instance: '{{ .Release.Name | quote }}'
     app.kubernetes.io/managed-by: '{{ .Release.Service | quote }}'
     app.kubernetes.io/name: '{{ include "name" . | quote }}'
     app.kubernetes.io/version: '{{ .Chart.AppVersion | quote }}'
-    giantswarm.io/service-type: '{{ .Values.serviceType }}'
     helm.sh/chart: '{{ include "chart" . | quote }}'
   type: ClusterIP
 ---
@@ -200,14 +173,11 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    app.giantswarm.io/branch: '{{ .Values.project.branch | replace "#" "-" | replace "/" "-" | replace "." "-" | trunc 63 | trimSuffix "-" | quote }}'
-    app.giantswarm.io/commit: '{{ .Values.project.commit | quote }}'
     app.kubernetes.io/instance: '{{ .Release.Name | quote }}'
     app.kubernetes.io/managed-by: '{{ .Release.Service | quote }}'
     app.kubernetes.io/name: '{{ include "name" . | quote }}'
     app.kubernetes.io/version: '{{ .Chart.AppVersion | quote }}'
     control-plane: controller
-    giantswarm.io/service-type: '{{ .Values.serviceType }}'
     helm.sh/chart: '{{ include "chart" . | quote }}'
   name: helm-controller
   namespace: '{{ .Release.Namespace }}'
@@ -216,13 +186,10 @@ spec:
   selector:
     matchLabels:
       app: helm-controller
-      app.giantswarm.io/branch: '{{ .Values.project.branch | replace "#" "-" | replace "/" "-" | replace "." "-" | trunc 63 | trimSuffix "-" | quote }}'
-      app.giantswarm.io/commit: '{{ .Values.project.commit | quote }}'
       app.kubernetes.io/instance: '{{ .Release.Name | quote }}'
       app.kubernetes.io/managed-by: '{{ .Release.Service | quote }}'
       app.kubernetes.io/name: '{{ include "name" . | quote }}'
       app.kubernetes.io/version: '{{ .Chart.AppVersion | quote }}'
-      giantswarm.io/service-type: '{{ .Values.serviceType }}'
       helm.sh/chart: '{{ include "chart" . | quote }}'
   template:
     metadata:
@@ -231,13 +198,10 @@ spec:
         prometheus.io/scrape: "true"
       labels:
         app: helm-controller
-        app.giantswarm.io/branch: '{{ .Values.project.branch | replace "#" "-" | replace "/" "-" | replace "." "-" | trunc 63 | trimSuffix "-" | quote }}'
-        app.giantswarm.io/commit: '{{ .Values.project.commit | quote }}'
         app.kubernetes.io/instance: '{{ .Release.Name | quote }}'
         app.kubernetes.io/managed-by: '{{ .Release.Service | quote }}'
         app.kubernetes.io/name: '{{ include "name" . | quote }}'
         app.kubernetes.io/version: '{{ .Chart.AppVersion | quote }}'
-        giantswarm.io/service-type: '{{ .Values.serviceType }}'
         helm.sh/chart: '{{ include "chart" . | quote }}'
     spec:
       containers:
@@ -291,14 +255,11 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    app.giantswarm.io/branch: '{{ .Values.project.branch | replace "#" "-" | replace "/" "-" | replace "." "-" | trunc 63 | trimSuffix "-" | quote }}'
-    app.giantswarm.io/commit: '{{ .Values.project.commit | quote }}'
     app.kubernetes.io/instance: '{{ .Release.Name | quote }}'
     app.kubernetes.io/managed-by: '{{ .Release.Service | quote }}'
     app.kubernetes.io/name: '{{ include "name" . | quote }}'
     app.kubernetes.io/version: '{{ .Chart.AppVersion | quote }}'
     control-plane: controller
-    giantswarm.io/service-type: '{{ .Values.serviceType }}'
     helm.sh/chart: '{{ include "chart" . | quote }}'
   name: image-automation-controller
   namespace: '{{ .Release.Namespace }}'
@@ -307,13 +268,10 @@ spec:
   selector:
     matchLabels:
       app: image-automation-controller
-      app.giantswarm.io/branch: '{{ .Values.project.branch | replace "#" "-" | replace "/" "-" | replace "." "-" | trunc 63 | trimSuffix "-" | quote }}'
-      app.giantswarm.io/commit: '{{ .Values.project.commit | quote }}'
       app.kubernetes.io/instance: '{{ .Release.Name | quote }}'
       app.kubernetes.io/managed-by: '{{ .Release.Service | quote }}'
       app.kubernetes.io/name: '{{ include "name" . | quote }}'
       app.kubernetes.io/version: '{{ .Chart.AppVersion | quote }}'
-      giantswarm.io/service-type: '{{ .Values.serviceType }}'
       helm.sh/chart: '{{ include "chart" . | quote }}'
   template:
     metadata:
@@ -322,13 +280,10 @@ spec:
         prometheus.io/scrape: "true"
       labels:
         app: image-automation-controller
-        app.giantswarm.io/branch: '{{ .Values.project.branch | replace "#" "-" | replace "/" "-" | replace "." "-" | trunc 63 | trimSuffix "-" | quote }}'
-        app.giantswarm.io/commit: '{{ .Values.project.commit | quote }}'
         app.kubernetes.io/instance: '{{ .Release.Name | quote }}'
         app.kubernetes.io/managed-by: '{{ .Release.Service | quote }}'
         app.kubernetes.io/name: '{{ include "name" . | quote }}'
         app.kubernetes.io/version: '{{ .Chart.AppVersion | quote }}'
-        giantswarm.io/service-type: '{{ .Values.serviceType }}'
         helm.sh/chart: '{{ include "chart" . | quote }}'
     spec:
       containers:
@@ -382,14 +337,11 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    app.giantswarm.io/branch: '{{ .Values.project.branch | replace "#" "-" | replace "/" "-" | replace "." "-" | trunc 63 | trimSuffix "-" | quote }}'
-    app.giantswarm.io/commit: '{{ .Values.project.commit | quote }}'
     app.kubernetes.io/instance: '{{ .Release.Name | quote }}'
     app.kubernetes.io/managed-by: '{{ .Release.Service | quote }}'
     app.kubernetes.io/name: '{{ include "name" . | quote }}'
     app.kubernetes.io/version: '{{ .Chart.AppVersion | quote }}'
     control-plane: controller
-    giantswarm.io/service-type: '{{ .Values.serviceType }}'
     helm.sh/chart: '{{ include "chart" . | quote }}'
   name: image-reflector-controller
   namespace: '{{ .Release.Namespace }}'
@@ -398,13 +350,10 @@ spec:
   selector:
     matchLabels:
       app: image-reflector-controller
-      app.giantswarm.io/branch: '{{ .Values.project.branch | replace "#" "-" | replace "/" "-" | replace "." "-" | trunc 63 | trimSuffix "-" | quote }}'
-      app.giantswarm.io/commit: '{{ .Values.project.commit | quote }}'
       app.kubernetes.io/instance: '{{ .Release.Name | quote }}'
       app.kubernetes.io/managed-by: '{{ .Release.Service | quote }}'
       app.kubernetes.io/name: '{{ include "name" . | quote }}'
       app.kubernetes.io/version: '{{ .Chart.AppVersion | quote }}'
-      giantswarm.io/service-type: '{{ .Values.serviceType }}'
       helm.sh/chart: '{{ include "chart" . | quote }}'
   template:
     metadata:
@@ -413,13 +362,10 @@ spec:
         prometheus.io/scrape: "true"
       labels:
         app: image-reflector-controller
-        app.giantswarm.io/branch: '{{ .Values.project.branch | replace "#" "-" | replace "/" "-" | replace "." "-" | trunc 63 | trimSuffix "-" | quote }}'
-        app.giantswarm.io/commit: '{{ .Values.project.commit | quote }}'
         app.kubernetes.io/instance: '{{ .Release.Name | quote }}'
         app.kubernetes.io/managed-by: '{{ .Release.Service | quote }}'
         app.kubernetes.io/name: '{{ include "name" . | quote }}'
         app.kubernetes.io/version: '{{ .Chart.AppVersion | quote }}'
-        giantswarm.io/service-type: '{{ .Values.serviceType }}'
         helm.sh/chart: '{{ include "chart" . | quote }}'
     spec:
       containers:
@@ -477,14 +423,11 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    app.giantswarm.io/branch: '{{ .Values.project.branch | replace "#" "-" | replace "/" "-" | replace "." "-" | trunc 63 | trimSuffix "-" | quote }}'
-    app.giantswarm.io/commit: '{{ .Values.project.commit | quote }}'
     app.kubernetes.io/instance: '{{ .Release.Name | quote }}'
     app.kubernetes.io/managed-by: '{{ .Release.Service | quote }}'
     app.kubernetes.io/name: '{{ include "name" . | quote }}'
     app.kubernetes.io/version: '{{ .Chart.AppVersion | quote }}'
     control-plane: controller
-    giantswarm.io/service-type: '{{ .Values.serviceType }}'
     helm.sh/chart: '{{ include "chart" . | quote }}'
   name: kustomize-controller
   namespace: '{{ .Release.Namespace }}'
@@ -493,13 +436,10 @@ spec:
   selector:
     matchLabels:
       app: kustomize-controller
-      app.giantswarm.io/branch: '{{ .Values.project.branch | replace "#" "-" | replace "/" "-" | replace "." "-" | trunc 63 | trimSuffix "-" | quote }}'
-      app.giantswarm.io/commit: '{{ .Values.project.commit | quote }}'
       app.kubernetes.io/instance: '{{ .Release.Name | quote }}'
       app.kubernetes.io/managed-by: '{{ .Release.Service | quote }}'
       app.kubernetes.io/name: '{{ include "name" . | quote }}'
       app.kubernetes.io/version: '{{ .Chart.AppVersion | quote }}'
-      giantswarm.io/service-type: '{{ .Values.serviceType }}'
       helm.sh/chart: '{{ include "chart" . | quote }}'
   template:
     metadata:
@@ -508,13 +448,10 @@ spec:
         prometheus.io/scrape: "true"
       labels:
         app: kustomize-controller
-        app.giantswarm.io/branch: '{{ .Values.project.branch | replace "#" "-" | replace "/" "-" | replace "." "-" | trunc 63 | trimSuffix "-" | quote }}'
-        app.giantswarm.io/commit: '{{ .Values.project.commit | quote }}'
         app.kubernetes.io/instance: '{{ .Release.Name | quote }}'
         app.kubernetes.io/managed-by: '{{ .Release.Service | quote }}'
         app.kubernetes.io/name: '{{ include "name" . | quote }}'
         app.kubernetes.io/version: '{{ .Chart.AppVersion | quote }}'
-        giantswarm.io/service-type: '{{ .Values.serviceType }}'
         helm.sh/chart: '{{ include "chart" . | quote }}'
     spec:
       containers:
@@ -570,14 +507,11 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    app.giantswarm.io/branch: '{{ .Values.project.branch | replace "#" "-" | replace "/" "-" | replace "." "-" | trunc 63 | trimSuffix "-" | quote }}'
-    app.giantswarm.io/commit: '{{ .Values.project.commit | quote }}'
     app.kubernetes.io/instance: '{{ .Release.Name | quote }}'
     app.kubernetes.io/managed-by: '{{ .Release.Service | quote }}'
     app.kubernetes.io/name: '{{ include "name" . | quote }}'
     app.kubernetes.io/version: '{{ .Chart.AppVersion | quote }}'
     control-plane: controller
-    giantswarm.io/service-type: '{{ .Values.serviceType }}'
     helm.sh/chart: '{{ include "chart" . | quote }}'
   name: notification-controller
   namespace: '{{ .Release.Namespace }}'
@@ -586,13 +520,10 @@ spec:
   selector:
     matchLabels:
       app: notification-controller
-      app.giantswarm.io/branch: '{{ .Values.project.branch | replace "#" "-" | replace "/" "-" | replace "." "-" | trunc 63 | trimSuffix "-" | quote }}'
-      app.giantswarm.io/commit: '{{ .Values.project.commit | quote }}'
       app.kubernetes.io/instance: '{{ .Release.Name | quote }}'
       app.kubernetes.io/managed-by: '{{ .Release.Service | quote }}'
       app.kubernetes.io/name: '{{ include "name" . | quote }}'
       app.kubernetes.io/version: '{{ .Chart.AppVersion | quote }}'
-      giantswarm.io/service-type: '{{ .Values.serviceType }}'
       helm.sh/chart: '{{ include "chart" . | quote }}'
   template:
     metadata:
@@ -601,13 +532,10 @@ spec:
         prometheus.io/scrape: "true"
       labels:
         app: notification-controller
-        app.giantswarm.io/branch: '{{ .Values.project.branch | replace "#" "-" | replace "/" "-" | replace "." "-" | trunc 63 | trimSuffix "-" | quote }}'
-        app.giantswarm.io/commit: '{{ .Values.project.commit | quote }}'
         app.kubernetes.io/instance: '{{ .Release.Name | quote }}'
         app.kubernetes.io/managed-by: '{{ .Release.Service | quote }}'
         app.kubernetes.io/name: '{{ include "name" . | quote }}'
         app.kubernetes.io/version: '{{ .Chart.AppVersion | quote }}'
-        giantswarm.io/service-type: '{{ .Values.serviceType }}'
         helm.sh/chart: '{{ include "chart" . | quote }}'
     spec:
       containers:
@@ -664,14 +592,11 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    app.giantswarm.io/branch: '{{ .Values.project.branch | replace "#" "-" | replace "/" "-" | replace "." "-" | trunc 63 | trimSuffix "-" | quote }}'
-    app.giantswarm.io/commit: '{{ .Values.project.commit | quote }}'
     app.kubernetes.io/instance: '{{ .Release.Name | quote }}'
     app.kubernetes.io/managed-by: '{{ .Release.Service | quote }}'
     app.kubernetes.io/name: '{{ include "name" . | quote }}'
     app.kubernetes.io/version: '{{ .Chart.AppVersion | quote }}'
     control-plane: controller
-    giantswarm.io/service-type: '{{ .Values.serviceType }}'
     helm.sh/chart: '{{ include "chart" . | quote }}'
   name: source-controller
   namespace: '{{ .Release.Namespace }}'
@@ -680,13 +605,10 @@ spec:
   selector:
     matchLabels:
       app: source-controller
-      app.giantswarm.io/branch: '{{ .Values.project.branch | replace "#" "-" | replace "/" "-" | replace "." "-" | trunc 63 | trimSuffix "-" | quote }}'
-      app.giantswarm.io/commit: '{{ .Values.project.commit | quote }}'
       app.kubernetes.io/instance: '{{ .Release.Name | quote }}'
       app.kubernetes.io/managed-by: '{{ .Release.Service | quote }}'
       app.kubernetes.io/name: '{{ include "name" . | quote }}'
       app.kubernetes.io/version: '{{ .Chart.AppVersion | quote }}'
-      giantswarm.io/service-type: '{{ .Values.serviceType }}'
       helm.sh/chart: '{{ include "chart" . | quote }}'
   template:
     metadata:
@@ -695,13 +617,10 @@ spec:
         prometheus.io/scrape: "true"
       labels:
         app: source-controller
-        app.giantswarm.io/branch: '{{ .Values.project.branch | replace "#" "-" | replace "/" "-" | replace "." "-" | trunc 63 | trimSuffix "-" | quote }}'
-        app.giantswarm.io/commit: '{{ .Values.project.commit | quote }}'
         app.kubernetes.io/instance: '{{ .Release.Name | quote }}'
         app.kubernetes.io/managed-by: '{{ .Release.Service | quote }}'
         app.kubernetes.io/name: '{{ include "name" . | quote }}'
         app.kubernetes.io/version: '{{ .Chart.AppVersion | quote }}'
-        giantswarm.io/service-type: '{{ .Values.serviceType }}'
         helm.sh/chart: '{{ include "chart" . | quote }}'
     spec:
       containers:
@@ -760,13 +679,10 @@ apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
   labels:
-    app.giantswarm.io/branch: '{{ .Values.project.branch | replace "#" "-" | replace "/" "-" | replace "." "-" | trunc 63 | trimSuffix "-" | quote }}'
-    app.giantswarm.io/commit: '{{ .Values.project.commit | quote }}'
     app.kubernetes.io/instance: '{{ .Release.Name | quote }}'
     app.kubernetes.io/managed-by: '{{ .Release.Service | quote }}'
     app.kubernetes.io/name: '{{ include "name" . | quote }}'
     app.kubernetes.io/version: '{{ .Chart.AppVersion | quote }}'
-    giantswarm.io/service-type: '{{ .Values.serviceType }}'
     helm.sh/chart: '{{ include "chart" . | quote }}'
   name: allow-scraping
   namespace: '{{ .Release.Namespace }}'
@@ -785,13 +701,10 @@ apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
   labels:
-    app.giantswarm.io/branch: '{{ .Values.project.branch | replace "#" "-" | replace "/" "-" | replace "." "-" | trunc 63 | trimSuffix "-" | quote }}'
-    app.giantswarm.io/commit: '{{ .Values.project.commit | quote }}'
     app.kubernetes.io/instance: '{{ .Release.Name | quote }}'
     app.kubernetes.io/managed-by: '{{ .Release.Service | quote }}'
     app.kubernetes.io/name: '{{ include "name" . | quote }}'
     app.kubernetes.io/version: '{{ .Chart.AppVersion | quote }}'
-    giantswarm.io/service-type: '{{ .Values.serviceType }}'
     helm.sh/chart: '{{ include "chart" . | quote }}'
   name: allow-webhooks
   namespace: '{{ .Release.Namespace }}'
@@ -802,13 +715,10 @@ spec:
   podSelector:
     matchLabels:
       app: notification-controller
-      app.giantswarm.io/branch: '{{ .Values.project.branch | replace "#" "-" | replace "/" "-" | replace "." "-" | trunc 63 | trimSuffix "-" | quote }}'
-      app.giantswarm.io/commit: '{{ .Values.project.commit | quote }}'
       app.kubernetes.io/instance: '{{ .Release.Name | quote }}'
       app.kubernetes.io/managed-by: '{{ .Release.Service | quote }}'
       app.kubernetes.io/name: '{{ include "name" . | quote }}'
       app.kubernetes.io/version: '{{ .Chart.AppVersion | quote }}'
-      giantswarm.io/service-type: '{{ .Values.serviceType }}'
       helm.sh/chart: '{{ include "chart" . | quote }}'
   policyTypes:
   - Ingress
@@ -817,13 +727,10 @@ apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
   labels:
-    app.giantswarm.io/branch: '{{ .Values.project.branch | replace "#" "-" | replace "/" "-" | replace "." "-" | trunc 63 | trimSuffix "-" | quote }}'
-    app.giantswarm.io/commit: '{{ .Values.project.commit | quote }}'
     app.kubernetes.io/instance: '{{ .Release.Name | quote }}'
     app.kubernetes.io/managed-by: '{{ .Release.Service | quote }}'
     app.kubernetes.io/name: '{{ include "name" . | quote }}'
     app.kubernetes.io/version: '{{ .Chart.AppVersion | quote }}'
-    giantswarm.io/service-type: '{{ .Values.serviceType }}'
     helm.sh/chart: '{{ include "chart" . | quote }}'
   name: deny-ingress
   namespace: '{{ .Release.Namespace }}'
