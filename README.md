@@ -7,6 +7,32 @@ Here we define the flux chart with its templates and default configuration.
 
 It can be used to install [flux2](https://github.com/flux/flux2).
 
+## Values & Secrets
+
+This chart allows to add flux `GitRepository` and `Kustomization` CRs through `values.yaml`
+
+You need to create a GitHub token.
+
+Example yaml:
+
+```yaml
+sources:
+- kind: GitRepository
+  name: my-git-source
+  url: https://github.com/my-org/my-repo.git
+  credentials:
+    username: my-username
+    password: github-token
+  interval: 1m0s
+  branch: the-branch
+kustomizations:
+- name: my-kustomization
+  source_name: my-git-source
+  path: ./the-path
+  prune: false
+  interval: 10m0s
+```
+
 ## Update from upstream
 
 Updating from upstream requires `kustomize`.

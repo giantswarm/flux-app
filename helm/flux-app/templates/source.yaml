@@ -33,7 +33,7 @@ metadata:
 spec:
   interval: "{{ .interval }}"
   path: "{{ .path }}"
-  prune: true
+  prune: "{{ .prune }}"
   sourceRef:
     kind: GitRepository
     name: "{{ .source_name }}"
