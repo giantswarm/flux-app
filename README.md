@@ -9,7 +9,7 @@ It can be used to install [flux2](https://github.com/flux/flux2).
 
 ## Update from upstream
 
-Updating from upstream requires `kustomize`, [`yaml2json`](github.com/bronze1man/yaml2json) and [`gojsontoyaml`](https://github.com/brancz/gojsontoyaml) and `jq`.
+Updating from upstream requires `kustomize`.
 
 - Look for images in the `install.yaml` in the upstream release. Add any images not already retagged to [retagger](https://github.com/giantswarm/retagger)
 - Prepare CRD
@@ -24,7 +24,3 @@ Updating from upstream requires `kustomize`, [`yaml2json`](github.com/bronze1man
   - Delete every `kind: CustomResourceDefinition` parts
   - Search and replace the `'` quotes in all label values in `helm/flux-app/templates/install.yaml`
 - Bump the `appVersion` in `helm/flux-app/Chart.yaml`
-
-## Credit
-
-* {APP HELM REPOSITORY}
