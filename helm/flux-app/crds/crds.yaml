@@ -5,11 +5,7 @@ metadata:
     controller-gen.kubebuilder.io/version: v0.3.0
   creationTimestamp: null
   labels:
-    app.kubernetes.io/instance: {{ .Release.Name | quote }}
-    app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
-    app.kubernetes.io/name: {{ include "name" . | quote }}
-    app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
-    helm.sh/chart: {{ include "chart" . | quote }}
+    app.kubernetes.io/instance: flux-system
   name: alerts.notification.toolkit.fluxcd.io
 spec:
   group: notification.toolkit.fluxcd.io
@@ -168,11 +164,7 @@ metadata:
     controller-gen.kubebuilder.io/version: v0.3.0
   creationTimestamp: null
   labels:
-    app.kubernetes.io/instance: {{ .Release.Name | quote }}
-    app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
-    app.kubernetes.io/name: {{ include "name" . | quote }}
-    app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
-    helm.sh/chart: {{ include "chart" . | quote }}
+    app.kubernetes.io/instance: flux-system
   name: buckets.source.toolkit.fluxcd.io
 spec:
   group: source.toolkit.fluxcd.io
@@ -356,11 +348,7 @@ metadata:
     controller-gen.kubebuilder.io/version: v0.3.0
   creationTimestamp: null
   labels:
-    app.kubernetes.io/instance: {{ .Release.Name | quote }}
-    app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
-    app.kubernetes.io/name: {{ include "name" . | quote }}
-    app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
-    helm.sh/chart: {{ include "chart" . | quote }}
+    app.kubernetes.io/instance: flux-system
   name: gitrepositories.source.toolkit.fluxcd.io
 spec:
   group: source.toolkit.fluxcd.io
@@ -570,11 +558,7 @@ metadata:
     controller-gen.kubebuilder.io/version: v0.3.0
   creationTimestamp: null
   labels:
-    app.kubernetes.io/instance: {{ .Release.Name | quote }}
-    app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
-    app.kubernetes.io/name: {{ include "name" . | quote }}
-    app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
-    helm.sh/chart: {{ include "chart" . | quote }}
+    app.kubernetes.io/instance: flux-system
   name: helmcharts.source.toolkit.fluxcd.io
 spec:
   group: source.toolkit.fluxcd.io
@@ -764,11 +748,7 @@ metadata:
     controller-gen.kubebuilder.io/version: v0.3.0
   creationTimestamp: null
   labels:
-    app.kubernetes.io/instance: {{ .Release.Name | quote }}
-    app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
-    app.kubernetes.io/name: {{ include "name" . | quote }}
-    app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
-    helm.sh/chart: {{ include "chart" . | quote }}
+    app.kubernetes.io/instance: flux-system
   name: helmreleases.helm.toolkit.fluxcd.io
 spec:
   group: helm.toolkit.fluxcd.io
@@ -1178,11 +1158,7 @@ metadata:
     controller-gen.kubebuilder.io/version: v0.3.0
   creationTimestamp: null
   labels:
-    app.kubernetes.io/instance: {{ .Release.Name | quote }}
-    app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
-    app.kubernetes.io/name: {{ include "name" . | quote }}
-    app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
-    helm.sh/chart: {{ include "chart" . | quote }}
+    app.kubernetes.io/instance: flux-system
   name: helmrepositories.source.toolkit.fluxcd.io
 spec:
   group: source.toolkit.fluxcd.io
@@ -1346,11 +1322,7 @@ metadata:
     controller-gen.kubebuilder.io/version: v0.3.0
   creationTimestamp: null
   labels:
-    app.kubernetes.io/instance: {{ .Release.Name | quote }}
-    app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
-    app.kubernetes.io/name: {{ include "name" . | quote }}
-    app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
-    helm.sh/chart: {{ include "chart" . | quote }}
+    app.kubernetes.io/instance: flux-system
   name: imagepolicies.image.toolkit.fluxcd.io
 spec:
   group: image.toolkit.fluxcd.io
@@ -1488,11 +1460,7 @@ metadata:
     controller-gen.kubebuilder.io/version: v0.3.0
   creationTimestamp: null
   labels:
-    app.kubernetes.io/instance: {{ .Release.Name | quote }}
-    app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
-    app.kubernetes.io/name: {{ include "name" . | quote }}
-    app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
-    helm.sh/chart: {{ include "chart" . | quote }}
+    app.kubernetes.io/instance: flux-system
   name: imagerepositories.image.toolkit.fluxcd.io
 spec:
   group: image.toolkit.fluxcd.io
@@ -1633,11 +1601,7 @@ metadata:
     controller-gen.kubebuilder.io/version: v0.3.0
   creationTimestamp: null
   labels:
-    app.kubernetes.io/instance: {{ .Release.Name | quote }}
-    app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
-    app.kubernetes.io/name: {{ include "name" . | quote }}
-    app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
-    helm.sh/chart: {{ include "chart" . | quote }}
+    app.kubernetes.io/instance: flux-system
   name: imageupdateautomations.image.toolkit.fluxcd.io
 spec:
   group: image.toolkit.fluxcd.io
@@ -1672,7 +1636,7 @@ spec:
                 description: Checkout gives the parameters for cloning the git repository, ready to make changes.
                 properties:
                   branch:
-                    description: Branch gives the branch to clone from the git repository. If missing, it will be left to default; be aware this may give indeterminate results.
+                    description: Branch gives the branch to clone from the git repository.
                     type: string
                   gitRepositoryRef:
                     description: GitRepositoryRef refers to the resource giving access details to a git repository to update files in.
@@ -1682,6 +1646,7 @@ spec:
                         type: string
                     type: object
                 required:
+                - branch
                 - gitRepositoryRef
                 type: object
               commit:
@@ -1772,6 +1737,13 @@ spec:
               lastHandledReconcileAt:
                 description: LastHandledReconcileAt holds the value of the most recent reconcile request value, so a change can be detected.
                 type: string
+              lastPushCommit:
+                description: LastPushCommit records the SHA1 of the last commit made by the controller, for this automation object
+                type: string
+              lastPushTime:
+                description: LastPushTime records the time of the last pushed change.
+                format: date-time
+                type: string
               observedGeneration:
                 format: int64
                 type: integer
@@ -1795,11 +1767,7 @@ metadata:
     controller-gen.kubebuilder.io/version: v0.3.0
   creationTimestamp: null
   labels:
-    app.kubernetes.io/instance: {{ .Release.Name | quote }}
-    app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
-    app.kubernetes.io/name: {{ include "name" . | quote }}
-    app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
-    helm.sh/chart: {{ include "chart" . | quote }}
+    app.kubernetes.io/instance: flux-system
   name: kustomizations.kustomize.toolkit.fluxcd.io
 spec:
   group: kustomize.toolkit.fluxcd.io
@@ -1914,7 +1882,7 @@ spec:
                   type: object
                 type: array
               interval:
-                description: The interval at which to reconcile the kustomization.
+                description: The interval at which to reconcile the Kustomization.
                 type: string
               kubeConfig:
                 description: The KubeConfig for reconciling the Kustomization on a remote cluster. When specified, KubeConfig takes precedence over ServiceAccountName.
@@ -1928,8 +1896,7 @@ spec:
                     type: object
                 type: object
               path:
-                description: Path to the directory containing the kustomization file.
-                pattern: ^\./
+                description: Path to the directory containing the kustomization.yaml file, or the set of plain YAMLs a kustomization.yaml should be generated for. Defaults to 'None', which translates to the root path of the SourceRef.
                 type: string
               prune:
                 description: Prune enables garbage collection.
@@ -1979,7 +1946,6 @@ spec:
                 type: string
             required:
             - interval
-            - path
             - prune
             - sourceRef
             type: object
@@ -2089,11 +2055,7 @@ metadata:
     controller-gen.kubebuilder.io/version: v0.3.0
   creationTimestamp: null
   labels:
-    app.kubernetes.io/instance: {{ .Release.Name | quote }}
-    app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
-    app.kubernetes.io/name: {{ include "name" . | quote }}
-    app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
-    helm.sh/chart: {{ include "chart" . | quote }}
+    app.kubernetes.io/instance: flux-system
   name: providers.notification.toolkit.fluxcd.io
 spec:
   group: notification.toolkit.fluxcd.io
@@ -2233,11 +2195,7 @@ metadata:
     controller-gen.kubebuilder.io/version: v0.3.0
   creationTimestamp: null
   labels:
-    app.kubernetes.io/instance: {{ .Release.Name | quote }}
-    app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
-    app.kubernetes.io/name: {{ include "name" . | quote }}
-    app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
-    helm.sh/chart: {{ include "chart" . | quote }}
+    app.kubernetes.io/instance: flux-system
   name: receivers.notification.toolkit.fluxcd.io
 spec:
   group: notification.toolkit.fluxcd.io
@@ -2395,4 +2353,3 @@ status:
     plural: ""
   conditions: []
   storedVersions: []
----

@@ -19,7 +19,7 @@ images:
 
 
 resources:
-- https://github.com/fluxcd/flux2/releases/download/v0.5.5/install.yaml
+- https://github.com/fluxcd/flux2/releases/download/v0.5.9/install.yaml
 
 commonLabels:
   app.kubernetes.io/name: '{{ include "name" . | quote }}'
