@@ -9,30 +9,21 @@ It can be used to install [flux2](https://github.com/flux/flux2).
 
 ## Update from upstream
 
-First, check the [upstream releases page](https://github.com/fluxcd/flux2/releases) and copy the `manifests.tar.gz` URL.`
+Updating from upstream requires `kustomize`, [`yaml2json`](github.com/bronze1man/yaml2json) and [`gojsontoyaml`](https://github.com/brancz/gojsontoyaml) and `jq`.
 
-Check out [`hack/sync.sh`](https://github.com/giantswarm/flux-app/blob/master/hack/sync.sh). It can be used to fetch updated manifests from upstream with manifests in this repository.
-
-Edit `hack/sync.sh` and replace the `upstream_manifests_url` value with the URL from the upstream releases page.
-
-```bash
-# Execute ./hack/sync.sh form the root of the repository
-./hack/sync.sh
-```
-
-Any previous changes are recorded in patch files residing in the [`patch`](https://github.com/giantswarm/flux-app/tree/master/patch) directory and will be applied through the script.
-
-After you've executed the `sync.sh` script, do the following:
-
-- Examine the changes, don't commit anything yet
-- `git add -A helm/flux-app`
-- If you see stuff you need to change, make a commit now without doing anything yet.
-- Make your changes, but don't `git add` them yet
-- Create a patch of your changes. `git -C helm/gatekeeper-app diff --relative | tee patch/XX.foo.patch` (Set XXX to the next available integer, patches are applied sequentially)
-- Stage and commit everything
-- To verify everything is ok, re-run the sync script
-
-This workflow and script is heavily inspired by the script in [gatekeeper-app](https://github.com/giantswarm/gatekeeper-app).
+- Look for images in the `install.yaml` in the upstream release. Add any images not already retagged to [retagger](https://github.com/giantswarm/retagger)
+- Prepare CRD
+  - Comment out the `commonLabels` in the `hack/kustomization.yaml` file
+  - Execute `kustomize build hack > helm/flux-app/crds/crds.yaml`
+  - Delete the `kind: Namespace` part
+  - Delete everything apart from `kind: CustomResourceDefinition` parts
+- Prepare resources
+  - Restore the `commonLabels` in `hack/kustomization.yaml`
+  - Execute `kustomize build hack > helm/flux-app/templates/install.yaml`
+  - Delete the `kind: Namespace` part
+  - Delete every `kind: CustomResourceDefinition` parts
+  - Search and replace the `'` quotes in all label values in `helm/flux-app/templates/install.yaml`
+- Bump the `appVersion` in `helm/flux-app/Chart.yaml`
 
 ## Credit
 
