@@ -5,7 +5,6 @@ metadata:
     app.kubernetes.io/instance: {{ .Release.Name | quote }}
     app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
     app.kubernetes.io/name: {{ include "name" . | quote }}
-    app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
     helm.sh/chart: {{ include "chart" . | quote }}
   name: crd-controller
   namespace: '{{ .Release.Namespace }}'
@@ -56,7 +55,6 @@ metadata:
     app.kubernetes.io/instance: {{ .Release.Name | quote }}
     app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
     app.kubernetes.io/name: {{ include "name" . | quote }}
-    app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
     helm.sh/chart: {{ include "chart" . | quote }}
   name: crd-controller
   namespace: '{{ .Release.Namespace }}'
@@ -76,7 +74,6 @@ metadata:
     app.kubernetes.io/instance: {{ .Release.Name | quote }}
     app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
     app.kubernetes.io/name: {{ include "name" . | quote }}
-    app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
     helm.sh/chart: {{ include "chart" . | quote }}
   name: cluster-reconciler
 roleRef:
@@ -95,7 +92,6 @@ metadata:
     app.kubernetes.io/instance: {{ .Release.Name | quote }}
     app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
     app.kubernetes.io/name: {{ include "name" . | quote }}
-    app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
     control-plane: controller
     helm.sh/chart: {{ include "chart" . | quote }}
   name: notification-controller
@@ -111,7 +107,6 @@ spec:
     app.kubernetes.io/instance: {{ .Release.Name | quote }}
     app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
     app.kubernetes.io/name: {{ include "name" . | quote }}
-    app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
     helm.sh/chart: {{ include "chart" . | quote }}
   type: ClusterIP
 ---
@@ -122,7 +117,6 @@ metadata:
     app.kubernetes.io/instance: {{ .Release.Name | quote }}
     app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
     app.kubernetes.io/name: {{ include "name" . | quote }}
-    app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
     control-plane: controller
     helm.sh/chart: {{ include "chart" . | quote }}
   name: source-controller
@@ -138,7 +132,6 @@ spec:
     app.kubernetes.io/instance: {{ .Release.Name | quote }}
     app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
     app.kubernetes.io/name: {{ include "name" . | quote }}
-    app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
     helm.sh/chart: {{ include "chart" . | quote }}
   type: ClusterIP
 ---
@@ -149,7 +142,6 @@ metadata:
     app.kubernetes.io/instance: {{ .Release.Name | quote }}
     app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
     app.kubernetes.io/name: {{ include "name" . | quote }}
-    app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
     control-plane: controller
     helm.sh/chart: {{ include "chart" . | quote }}
   name: webhook-receiver
@@ -165,7 +157,6 @@ spec:
     app.kubernetes.io/instance: {{ .Release.Name | quote }}
     app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
     app.kubernetes.io/name: {{ include "name" . | quote }}
-    app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
     helm.sh/chart: {{ include "chart" . | quote }}
   type: ClusterIP
 ---
@@ -176,7 +167,6 @@ metadata:
     app.kubernetes.io/instance: {{ .Release.Name | quote }}
     app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
     app.kubernetes.io/name: {{ include "name" . | quote }}
-    app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
     control-plane: controller
     helm.sh/chart: {{ include "chart" . | quote }}
   name: helm-controller
@@ -189,7 +179,6 @@ spec:
       app.kubernetes.io/instance: {{ .Release.Name | quote }}
       app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
       app.kubernetes.io/name: {{ include "name" . | quote }}
-      app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
       helm.sh/chart: {{ include "chart" . | quote }}
   template:
     metadata:
@@ -201,7 +190,6 @@ spec:
         app.kubernetes.io/instance: {{ .Release.Name | quote }}
         app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
         app.kubernetes.io/name: {{ include "name" . | quote }}
-        app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
         helm.sh/chart: {{ include "chart" . | quote }}
     spec:
       containers:
@@ -258,7 +246,6 @@ metadata:
     app.kubernetes.io/instance: {{ .Release.Name | quote }}
     app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
     app.kubernetes.io/name: {{ include "name" . | quote }}
-    app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
     control-plane: controller
     helm.sh/chart: {{ include "chart" . | quote }}
   name: image-automation-controller
@@ -271,7 +258,6 @@ spec:
       app.kubernetes.io/instance: {{ .Release.Name | quote }}
       app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
       app.kubernetes.io/name: {{ include "name" . | quote }}
-      app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
       helm.sh/chart: {{ include "chart" . | quote }}
   template:
     metadata:
@@ -283,7 +269,6 @@ spec:
         app.kubernetes.io/instance: {{ .Release.Name | quote }}
         app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
         app.kubernetes.io/name: {{ include "name" . | quote }}
-        app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
         helm.sh/chart: {{ include "chart" . | quote }}
     spec:
       containers:
@@ -340,7 +325,6 @@ metadata:
     app.kubernetes.io/instance: {{ .Release.Name | quote }}
     app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
     app.kubernetes.io/name: {{ include "name" . | quote }}
-    app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
     control-plane: controller
     helm.sh/chart: {{ include "chart" . | quote }}
   name: image-reflector-controller
@@ -353,7 +337,6 @@ spec:
       app.kubernetes.io/instance: {{ .Release.Name | quote }}
       app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
       app.kubernetes.io/name: {{ include "name" . | quote }}
-      app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
       helm.sh/chart: {{ include "chart" . | quote }}
   template:
     metadata:
@@ -365,7 +348,6 @@ spec:
         app.kubernetes.io/instance: {{ .Release.Name | quote }}
         app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
         app.kubernetes.io/name: {{ include "name" . | quote }}
-        app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
         helm.sh/chart: {{ include "chart" . | quote }}
     spec:
       containers:
@@ -426,7 +408,6 @@ metadata:
     app.kubernetes.io/instance: {{ .Release.Name | quote }}
     app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
     app.kubernetes.io/name: {{ include "name" . | quote }}
-    app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
     control-plane: controller
     helm.sh/chart: {{ include "chart" . | quote }}
   name: kustomize-controller
@@ -439,7 +420,6 @@ spec:
       app.kubernetes.io/instance: {{ .Release.Name | quote }}
       app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
       app.kubernetes.io/name: {{ include "name" . | quote }}
-      app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
       helm.sh/chart: {{ include "chart" . | quote }}
   template:
     metadata:
@@ -451,7 +431,6 @@ spec:
         app.kubernetes.io/instance: {{ .Release.Name | quote }}
         app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
         app.kubernetes.io/name: {{ include "name" . | quote }}
-        app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
         helm.sh/chart: {{ include "chart" . | quote }}
     spec:
       containers:
@@ -510,7 +489,6 @@ metadata:
     app.kubernetes.io/instance: {{ .Release.Name | quote }}
     app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
     app.kubernetes.io/name: {{ include "name" . | quote }}
-    app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
     control-plane: controller
     helm.sh/chart: {{ include "chart" . | quote }}
   name: notification-controller
@@ -523,7 +501,6 @@ spec:
       app.kubernetes.io/instance: {{ .Release.Name | quote }}
       app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
       app.kubernetes.io/name: {{ include "name" . | quote }}
-      app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
       helm.sh/chart: {{ include "chart" . | quote }}
   template:
     metadata:
@@ -535,7 +512,6 @@ spec:
         app.kubernetes.io/instance: {{ .Release.Name | quote }}
         app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
         app.kubernetes.io/name: {{ include "name" . | quote }}
-        app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
         helm.sh/chart: {{ include "chart" . | quote }}
     spec:
       containers:
@@ -595,7 +571,6 @@ metadata:
     app.kubernetes.io/instance: {{ .Release.Name | quote }}
     app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
     app.kubernetes.io/name: {{ include "name" . | quote }}
-    app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
     control-plane: controller
     helm.sh/chart: {{ include "chart" . | quote }}
   name: source-controller
@@ -608,7 +583,6 @@ spec:
       app.kubernetes.io/instance: {{ .Release.Name | quote }}
       app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
       app.kubernetes.io/name: {{ include "name" . | quote }}
-      app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
       helm.sh/chart: {{ include "chart" . | quote }}
   template:
     metadata:
@@ -620,7 +594,6 @@ spec:
         app.kubernetes.io/instance: {{ .Release.Name | quote }}
         app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
         app.kubernetes.io/name: {{ include "name" . | quote }}
-        app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
         helm.sh/chart: {{ include "chart" . | quote }}
     spec:
       containers:
@@ -682,7 +655,6 @@ metadata:
     app.kubernetes.io/instance: {{ .Release.Name | quote }}
     app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
     app.kubernetes.io/name: {{ include "name" . | quote }}
-    app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
     helm.sh/chart: {{ include "chart" . | quote }}
   name: allow-scraping
   namespace: '{{ .Release.Namespace }}'
@@ -704,7 +676,6 @@ metadata:
     app.kubernetes.io/instance: {{ .Release.Name | quote }}
     app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
     app.kubernetes.io/name: {{ include "name" . | quote }}
-    app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
     helm.sh/chart: {{ include "chart" . | quote }}
   name: allow-webhooks
   namespace: '{{ .Release.Namespace }}'
@@ -718,7 +689,6 @@ spec:
       app.kubernetes.io/instance: {{ .Release.Name | quote }}
       app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
       app.kubernetes.io/name: {{ include "name" . | quote }}
-      app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
       helm.sh/chart: {{ include "chart" . | quote }}
   policyTypes:
   - Ingress
@@ -730,7 +700,6 @@ metadata:
     app.kubernetes.io/instance: {{ .Release.Name | quote }}
     app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
     app.kubernetes.io/name: {{ include "name" . | quote }}
-    app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
     helm.sh/chart: {{ include "chart" . | quote }}
   name: deny-ingress
   namespace: '{{ .Release.Namespace }}'
