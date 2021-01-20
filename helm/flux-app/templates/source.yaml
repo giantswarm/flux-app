@@ -1,0 +1,41 @@
+{{- range .Values.sources }}
+---
+apiVersion: source.toolkit.fluxcd.io/v1beta1
+kind: GitRepository
+metadata:
+  name: "{{ .name }}"
+  namespace: "{{ $.Release.Namespace }}"
+spec:
+  interval: "{{ .interval }}"
+  ref:
+    branch: "{{ .branch }}"
+  secretRef:
+    name: "{{ .name }}-credentials"
+  url: "{{ .url }}"
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: "{{ .name }}-credentials"
+  namespace: "{{ $.Release.Namespace }}"
+type: Opaque
+data:
+  username: "{{ .credentials.username | b64enc }}"
+  password: "{{ .credentials.password | b64enc }}"
+{{- end }}
+{{- range .Values.kustomizations }}
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1beta1
+kind: Kustomization
+metadata:
+  name: "{{ .name }}"
+  namespace: "{{ $.Release.Namespace }}"
+spec:
+  interval: "{{ .interval }}"
+  path: "{{ .path }}"
+  prune: {{ .prune }}
+  sourceRef:
+    kind: GitRepository
+    name: "{{ .source_name }}"
+  validation: client
+{{- end }}
