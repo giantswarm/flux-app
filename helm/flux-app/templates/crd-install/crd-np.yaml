@@ -2,21 +2,21 @@
 kind: NetworkPolicy
 apiVersion: networking.k8s.io/v1
 metadata:
-  name: {{ include "flux-app.crdInstall" . }}
+  name: {{ include "crdInstall" . }}
   namespace: {{ .Release.Namespace | quote }}
   annotations:
     # create hook dependencies in the right order
     "helm.sh/hook-weight": "-7"
-    {{- include "flux-app.CRDInstallAnnotations" . | nindent 4 }}
+    {{- include "crdInstallAnnotations" . | nindent 4 }}
   labels:
-    app.kubernetes.io/component: {{ include "flux-app.crdInstall" . | quote }}
-    {{- include "flux-app.selectorLabels" . | nindent 4 }}
-    role: {{ include "flux-app.CRDInstallSelector" . | quote }}
+    app.kubernetes.io/component: {{ include "crdInstall" . | quote }}
+    {{- include "labels.selector" . | nindent 4 }}
+    role: {{ include "crdInstallSelector" . | quote }}
 spec:
   podSelector:
     matchLabels:
-      app.kubernetes.io/component: {{ include "flux-app.crdInstall" . | quote }}
-      {{- include "flux-app.selectorLabels" . | nindent 6 }}
+      app.kubernetes.io/component: {{ include "crdInstall" . | quote }}
+      {{- include "labels.selector" . | nindent 6 }}
   # allow egress traffic to the Kubernetes API
   egress:
   - ports:

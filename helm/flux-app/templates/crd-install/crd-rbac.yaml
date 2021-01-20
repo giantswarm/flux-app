@@ -2,16 +2,16 @@
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
 metadata:
-  name: {{ include "flux-app.crdInstall" . }}
+  name: {{ include "crdInstall" . }}
   namespace: {{ .Release.Namespace | quote }}
   annotations:
     # create hook dependencies in the right order
     "helm.sh/hook-weight": "-3"
-    {{- include "flux-app.CRDInstallAnnotations" . | nindent 4 }}
+    {{- include "crdInstallAnnotations" . | nindent 4 }}
   labels:
-    app.kubernetes.io/component: {{ include "flux-app.crdInstall" . | quote }}
-    {{- include "flux-app.selectorLabels" . | nindent 4 }}
-    role: {{ include "flux-app.CRDInstallSelector" . | quote }}
+    app.kubernetes.io/component: {{ include "crdInstall" . | quote }}
+    {{- include "labels.selector" . | nindent 4 }}
+    role: {{ include "crdInstallSelector" . | quote }}
 rules:
 - apiGroups:
   - ""
@@ -34,29 +34,29 @@ rules:
   resources:
   - podsecuritypolicies
   resourceNames:
-  - {{ include "flux-app.crdInstall" . }}
+  - {{ include "crdInstall" . }}
   verbs:
   - use
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
 metadata:
-  name: {{ include "flux-app.crdInstall" . }}
+  name: {{ include "crdInstall" . }}
   namespace: {{ .Release.Namespace | quote }}
   annotations:
     # create hook dependencies in the right order
     "helm.sh/hook-weight": "-2"
-    {{- include "flux-app.CRDInstallAnnotations" . | nindent 4 }}
+    {{- include "crdInstallAnnotations" . | nindent 4 }}
   labels:
-    app.kubernetes.io/component: {{ include "flux-app.crdInstall" . | quote }}
+    app.kubernetes.io/component: {{ include "crdInstall" . | quote }}
     {{- include "labels.common" . | nindent 4 }}
-    role: {{ include "flux-app.CRDInstallSelector" . | quote }}
+    role: {{ include "crdInstallSelector" . | quote }}
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: ClusterRole
-  name: {{ include "flux-app.crdInstall" . }}
+  name: {{ include "crdInstall" . }}
 subjects:
   - kind: ServiceAccount
-    name: {{ include "flux-app.crdInstall" . }}
+    name: {{ include "crdInstall" . }}
     namespace: {{ .Release.Namespace | quote }}
 {{- end }}
