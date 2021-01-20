@@ -1,183 +1,166 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema",
   "type": "object",
-  "required": [
-      "images",
-      "sources",
-      "kustomizations"
-  ],
+  "required": ["images", "sources", "kustomizations"],
   "properties": {
-      "images": {
+    "images": {
+      "type": "object",
+      "required": [
+        "registry",
+        "helm_controller",
+        "source_controller",
+        "kustomize_controller",
+        "notification_controller",
+        "image_automation_controller",
+        "image_reflector_controller"
+      ],
+      "properties": {
+        "registry": {
+          "type": "string"
+        },
+        "helm_controller": {
           "type": "object",
-          "required": [
-              "registry",
-              "helm_controller",
-              "source_controller",
-              "kustomize_controller",
-              "notification_controller",
-              "image_automation_controller",
-              "image_reflector_controller"
-          ],
+          "required": ["image"],
           "properties": {
-              "registry": {
-                  "type": "string"
-              },
-              "helm_controller": {
-                  "type": "object",
-                  "required": [
-                      "image"
-                  ],
-                  "properties": {
-                      "image": {
-                          "type": "string"
-                      }
-                  },
-                  "additionalProperties": false
-              },
-              "source_controller": {
-                  "type": "object",
-                  "required": [
-                      "image"
-                  ],
-                  "properties": {
-                      "image": {
-                          "type": "string"
-                      }
-                  },
-                  "additionalProperties": false
-              },
-              "kustomize_controller": {
-                  "type": "object",
-                  "required": [
-                      "image"
-                  ],
-                  "properties": {
-                      "image": {
-                          "type": "string"
-                      }
-                  },
-                  "additionalProperties": false
-              },
-              "notification_controller": {
-                  "type": "object",
-                  "required": [
-                      "image"
-                  ],
-                  "properties": {
-                      "image": {
-                          "type": "string"
-                      }
-                  },
-                  "additionalProperties": false
-              },
-              "image_automation_controller": {
-                  "type": "object",
-                  "required": [
-                      "image"
-                  ],
-                  "properties": {
-                      "image": {
-                          "type": "string"
-                      }
-                  },
-                  "additionalProperties": false
-              },
-              "image_reflector_controller": {
-                  "type": "object",
-                  "required": [
-                      "image"
-                  ],
-                  "properties": {
-                      "image": {
-                          "type": "string"
-                      }
-                  },
-                  "additionalProperties": false
-              }
+            "image": {
+              "type": "string"
+            }
           },
           "additionalProperties": false
+        },
+        "source_controller": {
+          "type": "object",
+          "required": ["image"],
+          "properties": {
+            "image": {
+              "type": "string"
+            }
+          },
+          "additionalProperties": false
+        },
+        "kustomize_controller": {
+          "type": "object",
+          "required": ["image"],
+          "properties": {
+            "image": {
+              "type": "string"
+            }
+          },
+          "additionalProperties": false
+        },
+        "notification_controller": {
+          "type": "object",
+          "required": ["image"],
+          "properties": {
+            "image": {
+              "type": "string"
+            }
+          },
+          "additionalProperties": false
+        },
+        "image_automation_controller": {
+          "type": "object",
+          "required": ["image"],
+          "properties": {
+            "image": {
+              "type": "string"
+            }
+          },
+          "additionalProperties": false
+        },
+        "image_reflector_controller": {
+          "type": "object",
+          "required": ["image"],
+          "properties": {
+            "image": {
+              "type": "string"
+            }
+          },
+          "additionalProperties": false
+        }
       },
-      "sources": {
-          "type": "array",
-          "additionalItems": false,
-          "items": {
-              "type": "object",
-              "required": [
-                  "kind",
-                  "name",
-                  "url",
-                  "credentials",
-                  "interval",
-                  "branch"
-              ],
-              "properties": {
-                  "kind": {
-                      "type": "string"
-                  },
-                  "name": {
-                      "type": "string"
-                  },
-                  "url": {
-                      "type": "string"
-                  },
-                  "credentials": {
-                      "type": "object",
-                      "required": [
-                          "username",
-                          "password"
-                      ],
-                      "properties": {
-                          "username": {
-                              "type": "string"
-                          },
-                          "password": {
-                              "type": "string"
-                          }
-                      },
-                      "additionalProperties": false
-                  },
-                  "interval": {
-                      "type": "string"
-                  },
-                  "branch": {
-                      "type": "string"
-                  }
+      "additionalProperties": false
+    },
+    "sources": {
+      "type": "array",
+      "additionalItems": false,
+      "items": {
+        "type": "object",
+        "required": [
+          "kind",
+          "name",
+          "url",
+          "credentials",
+          "interval",
+          "branch"
+        ],
+        "properties": {
+          "kind": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "url": {
+            "type": "string"
+          },
+          "credentials": {
+            "type": "object",
+            "required": ["username", "password"],
+            "properties": {
+              "username": {
+                "type": "string"
               },
-              "additionalProperties": false
+              "password": {
+                "type": "string"
+              }
+            },
+            "additionalProperties": false
+          },
+          "interval": {
+            "type": "string"
+          },
+          "branch": {
+            "type": "string"
           }
-      },
-      "kustomizations": {
-          "type": "array",
-          "additionalItems": false,
-          "items": {
-              "type": "object",
-              "required": [
-                  "name",
-                  "source_name",
-                  "path",
-                  "prune",
-                  "interval"
-              ],
-              "properties": {
-                  "name": {
-                      "type": "string"
-                  },
-                  "source_name": {
-                      "type": "string"
-                  },
-                  "path": {
-                      "type": "string"
-                  },
-                  "prune": {
-                      "type": "boolean"
-                  },
-                  "interval": {
-                      "type": "string"
-                  }
-              },
-              "additionalProperties": false
-          }
+        },
+        "additionalProperties": false
       }
+    },
+    "kustomizations": {
+      "type": "array",
+      "additionalItems": false,
+      "items": {
+        "type": "object",
+        "required": ["name", "source_name", "path", "prune", "interval"],
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "source_name": {
+            "type": "string"
+          },
+          "path": {
+            "type": "string"
+          },
+          "prune": {
+            "type": "boolean"
+          },
+          "interval": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "crds": {
+      "type": "object",
+      "properties": {
+        "install": {
+          "type": "boolean"
+        }
+      }
+    }
   },
   "additionalProperties": true
 }

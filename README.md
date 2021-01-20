@@ -41,8 +41,9 @@ Updating from upstream requires `kustomize`.
 - Prepare CRD
   - Comment out the `commonLabels` in the `hack/kustomization.yaml` file
   - Execute `kustomize build hack > helm/flux-app/crds/crds.yaml`
-  - Delete the `kind: Namespace` part
-  - Delete everything apart from `kind: CustomResourceDefinition` parts
+  - Delete the `kind: Namespace` part from `helm/flux-app/crds/crds.yaml`
+  - Move each `kind: CustomResourceDefinition` resource into an own file
+  - Discard everything else
 - Prepare resources
   - Restore the `commonLabels` in `hack/kustomization.yaml`
   - Execute `kustomize build hack > helm/flux-app/templates/install.yaml`

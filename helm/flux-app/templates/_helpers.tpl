@@ -35,3 +35,22 @@ Selector labels
 app.kubernetes.io/name: {{ include "name" . | quote }}
 app.kubernetes.io/instance: {{ .Release.Name | quote }}
 {{- end -}}
+
+{{- define "flux-app.crdInstall" -}}
+{{- printf "%s-%s" ( include "flux-app.name" . ) "crd-install" | replace "+" "_" | trimSuffix "-" -}}
+{{- end -}}
+
+{{- define "flux-app.CRDInstallAnnotations" -}}
+"helm.sh/hook": "pre-install,pre-upgrade"
+"helm.sh/hook-delete-policy": "before-hook-creation,hook-succeeded,hook-failed"
+{{- end -}}
+
+{{- define "flux-app.selectorLabels" -}}
+app.kubernetes.io/name: "{{ template "flux-app.name" . }}"
+app.kubernetes.io/instance: "{{ template "flux-app.name" . }}"
+{{- end -}}
+
+{{/* Create a label which can be used to select any orphaned crd-install hook resources */}}
+{{- define "flux-app.CRDInstallSelector" -}}
+{{- printf "%s" "crd-install-hook" -}}
+{{- end -}}

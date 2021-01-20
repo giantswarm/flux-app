@@ -14,18 +14,21 @@ images:
     image: giantswarm/fluxcd-image-reflector-controller
 
 # only GitRepository for now
-sources: []
-# - kind: GitRepository
-#   name: my-git-source
-#   url: https://github.com/giantswarm/example
-#   credentials:
-#     username: username
-#     password: abcdefg
-#   interval: 1m0s
-#   branch: main
-kustomizations: []
-# - name: my-kustomization
-#   source_name: my-git-source
-#   path: ./path-in-git-repo
-#   prune: false
-#   interval: 10m0s
+sources:
+- kind: GitRepository
+  name: my-git-source
+  url: https://github.com/giantswarm/example
+  credentials:
+    username: username
+    password: abcdefg
+  interval: 1m0s
+  branch: main
+kustomizations:
+- name: my-kustomization
+  source_name: my-git-source
+  path: ./path-in-git-repo
+  prune: false
+  interval: 10m0s
+
+crds:
+  install: true
