@@ -20,8 +20,6 @@ Common labels
 {{ include "labels.selector" . }}
 app.kubernetes.io/name: {{ .Values.name }}
 app.kubernetes.io/instance: {{ .Release.Name | quote }}
-app.giantswarm.io/branch: {{ .Values.project.branch | replace "#" "-" | replace "/" "-" | replace "." "-" | trunc 63 | trimSuffix "-" | quote }}
-app.giantswarm.io/commit: {{ .Values.project.commit | quote }}
 app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
 app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
 helm.sh/chart: {{ include "chart" . | quote }}
@@ -37,7 +35,7 @@ app.kubernetes.io/instance: {{ .Release.Name | quote }}
 {{- end -}}
 
 {{- define "flux-app.crdInstall" -}}
-{{- printf "%s-%s" ( include "flux-app.name" . ) "crd-install" | replace "+" "_" | trimSuffix "-" -}}
+{{- printf "%s-%s" ( include "name" . ) "crd-install" | replace "+" "_" | trimSuffix "-" -}}
 {{- end -}}
 
 {{- define "flux-app.CRDInstallAnnotations" -}}
@@ -46,8 +44,8 @@ app.kubernetes.io/instance: {{ .Release.Name | quote }}
 {{- end -}}
 
 {{- define "flux-app.selectorLabels" -}}
-app.kubernetes.io/name: "{{ template "flux-app.name" . }}"
-app.kubernetes.io/instance: "{{ template "flux-app.name" . }}"
+app.kubernetes.io/name: "{{ template "name" . }}"
+app.kubernetes.io/instance: "{{ template "name" . }}"
 {{- end -}}
 
 {{/* Create a label which can be used to select any orphaned crd-install hook resources */}}

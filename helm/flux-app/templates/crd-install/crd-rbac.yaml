@@ -49,7 +49,7 @@ metadata:
     {{- include "flux-app.CRDInstallAnnotations" . | nindent 4 }}
   labels:
     app.kubernetes.io/component: {{ include "flux-app.crdInstall" . | quote }}
-    {{- include "flux-app.labels" . | nindent 4 }}
+    {{- include "labels.common" . | nindent 4 }}
     role: {{ include "flux-app.CRDInstallSelector" . | quote }}
 roleRef:
   apiGroup: rbac.authorization.k8s.io
