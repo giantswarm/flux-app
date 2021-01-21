@@ -33,6 +33,61 @@ kustomizations:
   interval: 10m0s
 ```
 
+## Encrypt Kubernetes Secrets in a Git repository using Mozilla SOPS
+
+This chart is able to install a gpg secret key for usage with sops.
+
+For this to work, export your secret key using `gpg --export-secret-keys --armor <your-gpg-key-id>`. Then specify it in your values.yaml like this:
+
+```
+sopsEncryption:
+  enabled: true
+  encryptionKey: |
+    <output of gpg --export-secret-keys \
+        --armor <your-gpg-key-id>>
+```
+
+Then encrypt your secrets using the method described below (`In your Git repository create Secrets as usual`).
+
+Original documentation: [https://toolkit.fluxcd.io/guides/mozilla-sops/](https://toolkit.fluxcd.io/guides/mozilla-sops/)
+
+### TL;DR manually:
+
+- Install [sops](https://github.com/mozilla/sops/releases)
+- Create a Secret containing your public and private keypair
+
+      gpg --export-secret-keys \
+        --armor <your-gpg-key-id> |
+      kubectl create secret generic sops-gpg \
+        --namespace=<your-flux-namespace> \
+        --from-file=sops.asc=/dev/stdin
+
+- In your Git repository create Secrets as usual, but encrypt them using `sops`
+
+      kubectl -n default create secret generic basic-auth \
+        --from-literal=user=admin \
+        --from-literal=password=change-me \
+        --dry-run=client \
+        -o yaml > basic-auth.yaml
+
+      sops --encrypt \
+        --pgp=<your-gpg-key-id> \
+        --encrypted-regex '^(data|stringData)$' \
+        --in-place basic-auth.yaml
+
+- Your Kustomization should reference the `sops-gpg` secret for decryption
+
+      apiVersion: kustomize.toolkit.fluxcd.io/v1beta1
+      kind: Kustomization
+      metadata:
+        name: my-kustomization
+        namespace: my-namespace
+      spec:
+        ...stuff not relevant for this example...
+        decryption:
+          provider: sops
+          secretRef: sops-gpg
+
 ## Update from upstream
 
 Updating from upstream requires `kustomize`.
