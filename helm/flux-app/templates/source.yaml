@@ -60,7 +60,7 @@ spec:
     kind: GitRepository
     name: "{{ .source_name }}"
   validation: client
-{{- if .Values.sopsEncryption.enabled }}
+{{- if $.Values.sopsEncryption.enabled }}
   decryption:
     provider: sops
     secretRef:
