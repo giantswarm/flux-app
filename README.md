@@ -37,14 +37,18 @@ kustomizations:
 
 This chart is able to install a gpg secret key for usage with sops.
 
-For this to work, export your secret key using `gpg --export-secret-keys --armor <your-gpg-key-id>`. Then specify it in your values.yaml like this:
+For this to work, export your secret key using `gpg --export-secret-keys --armor <your-gpg-key-id>`. Then specify it in your values.yaml like this (its possible to specify multiple keys):
 
 ```
 sopsEncryption:
   enabled: true
-  encryptionKey: |
-    <output of gpg --export-secret-keys \
-        --armor <your-gpg-key-id>>
+  encryptionKeys:
+    - |
+      <output of gpg --export-secret-keys \
+          --armor <your-gpg-key-id>>
+    - |
+      <output of gpg --export-secret-keys \
+          --armor <your-other-gpg-key-id>>
 ```
 
 Then encrypt your secrets using the method described below (`In your Git repository create Secrets as usual`).

@@ -19,7 +19,7 @@ kustomizations: []
 
 sopsEncryption:
   enabled: false
-  encryptionKey: ""
+  encryptionKeys: []
 
 crds:
   install: true
