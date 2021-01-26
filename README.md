@@ -101,6 +101,10 @@ This example shows how to import a gpg key into your local keychain and add it t
 
 To change the encrypted file, one must have all public keys in their keychain. Then its possible to use `sops filename` to change the contents of the file.
 
+### Hints
+
+It's possible to use a 'common' gpg key which is only used for decryption on the cluster. Just add the key id to the `.sops.yaml` file and update the keys used as described in the section above. Now only the private key of the 'common' key needs to be present on the cluster.
+
 ## Update from upstream
 
 Updating from upstream requires `kustomize`.
