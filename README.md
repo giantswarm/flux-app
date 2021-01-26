@@ -92,6 +92,15 @@ Original documentation: [https://toolkit.fluxcd.io/guides/mozilla-sops/](https:/
           provider: sops
           secretRef: sops-gpg
 
+### Add additional keys to the encrypted secret
+
+This example shows how to import a gpg key into your local keychain and add it to a secret.
+
+- Import public key `gpg --import file-with-public-key` (Exported using `gpg --export --armor KEYID`)
+- `sops updatekeys filename`. This requires a [`.sops.yaml`](https://github.com/mozilla/sops/tree/38b25bd449619e1d6da20e637702f7c73203aa44#updatekeys-command) file which contains all pgp key ids.
+
+To change the encrypted file, one must have all public keys in their keychain. Then its possible to use `sops filename` to change the contents of the file.
+
 ## Update from upstream
 
 Updating from upstream requires `kustomize`.
