@@ -7,4 +7,4 @@ icon: https://s.giantswarm.io/app-icons/1/png/flux-app-light.png
 name: flux-app
 sources:
 - https://github.com/fluxcd/flux2
-version: [[ .Version ]]
+version: 0.0.0
