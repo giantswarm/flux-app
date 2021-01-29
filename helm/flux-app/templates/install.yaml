@@ -5,48 +5,49 @@ metadata:
     app.kubernetes.io/instance: {{ .Release.Name | quote }}
     app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
     app.kubernetes.io/name: {{ include "name" . | quote }}
+    app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
     helm.sh/chart: {{ include "chart" . | quote }}
   name: crd-controller
-  namespace: '{{ .Release.Namespace }}'
+  namespace: {{ .Release.Namespace }}
 rules:
-- apiGroups:
-  - source.toolkit.fluxcd.io
-  resources:
-  - '*'
-  verbs:
-  - '*'
-- apiGroups:
-  - kustomize.toolkit.fluxcd.io
-  resources:
-  - '*'
-  verbs:
-  - '*'
-- apiGroups:
-  - helm.toolkit.fluxcd.io
-  resources:
-  - '*'
-  verbs:
-  - '*'
-- apiGroups:
-  - notification.toolkit.fluxcd.io
-  resources:
-  - '*'
-  verbs:
-  - '*'
-- apiGroups:
-  - ""
-  resources:
-  - configmaps
-  - configmaps/status
-  verbs:
-  - '*'
-- apiGroups:
-  - ""
-  resources:
-  - events
-  verbs:
-  - create
-  - patch
+  - apiGroups:
+      - source.toolkit.fluxcd.io
+    resources:
+      - '*'
+    verbs:
+      - '*'
+  - apiGroups:
+      - kustomize.toolkit.fluxcd.io
+    resources:
+      - '*'
+    verbs:
+      - '*'
+  - apiGroups:
+      - helm.toolkit.fluxcd.io
+    resources:
+      - '*'
+    verbs:
+      - '*'
+  - apiGroups:
+      - notification.toolkit.fluxcd.io
+    resources:
+      - '*'
+    verbs:
+      - '*'
+  - apiGroups:
+      - ""
+    resources:
+      - configmaps
+      - configmaps/status
+    verbs:
+      - '*'
+  - apiGroups:
+      - ""
+    resources:
+      - events
+    verbs:
+      - create
+      - patch
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
@@ -55,17 +56,18 @@ metadata:
     app.kubernetes.io/instance: {{ .Release.Name | quote }}
     app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
     app.kubernetes.io/name: {{ include "name" . | quote }}
+    app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
     helm.sh/chart: {{ include "chart" . | quote }}
   name: crd-controller
-  namespace: '{{ .Release.Namespace }}'
+  namespace: {{ .Release.Namespace }}
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: Role
   name: crd-controller
 subjects:
-- kind: ServiceAccount
-  name: default
-  namespace: '{{ .Release.Namespace }}'
+  - kind: ServiceAccount
+    name: default
+    namespace: {{ .Release.Namespace }}
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
@@ -74,6 +76,7 @@ metadata:
     app.kubernetes.io/instance: {{ .Release.Name | quote }}
     app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
     app.kubernetes.io/name: {{ include "name" . | quote }}
+    app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
     helm.sh/chart: {{ include "chart" . | quote }}
   name: cluster-reconciler
 roleRef:
@@ -81,9 +84,9 @@ roleRef:
   kind: ClusterRole
   name: cluster-admin
 subjects:
-- kind: ServiceAccount
-  name: default
-  namespace: '{{ .Release.Namespace }}'
+  - kind: ServiceAccount
+    name: default
+    namespace: {{ .Release.Namespace }}
 ---
 apiVersion: v1
 kind: Service
@@ -92,21 +95,23 @@ metadata:
     app.kubernetes.io/instance: {{ .Release.Name | quote }}
     app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
     app.kubernetes.io/name: {{ include "name" . | quote }}
+    app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
     control-plane: controller
     helm.sh/chart: {{ include "chart" . | quote }}
   name: notification-controller
-  namespace: '{{ .Release.Namespace }}'
+  namespace: {{ .Release.Namespace }}
 spec:
   ports:
-  - name: http
-    port: 80
-    protocol: TCP
-    targetPort: http
+    - name: http
+      port: 80
+      protocol: TCP
+      targetPort: http
   selector:
     app: notification-controller
     app.kubernetes.io/instance: {{ .Release.Name | quote }}
     app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
     app.kubernetes.io/name: {{ include "name" . | quote }}
+    app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
     helm.sh/chart: {{ include "chart" . | quote }}
   type: ClusterIP
 ---
@@ -117,21 +122,23 @@ metadata:
     app.kubernetes.io/instance: {{ .Release.Name | quote }}
     app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
     app.kubernetes.io/name: {{ include "name" . | quote }}
+    app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
     control-plane: controller
     helm.sh/chart: {{ include "chart" . | quote }}
   name: source-controller
-  namespace: '{{ .Release.Namespace }}'
+  namespace: {{ .Release.Namespace }}
 spec:
   ports:
-  - name: http
-    port: 80
-    protocol: TCP
-    targetPort: http
+    - name: http
+      port: 80
+      protocol: TCP
+      targetPort: http
   selector:
     app: source-controller
     app.kubernetes.io/instance: {{ .Release.Name | quote }}
     app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
     app.kubernetes.io/name: {{ include "name" . | quote }}
+    app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
     helm.sh/chart: {{ include "chart" . | quote }}
   type: ClusterIP
 ---
@@ -142,21 +149,23 @@ metadata:
     app.kubernetes.io/instance: {{ .Release.Name | quote }}
     app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
     app.kubernetes.io/name: {{ include "name" . | quote }}
+    app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
     control-plane: controller
     helm.sh/chart: {{ include "chart" . | quote }}
   name: webhook-receiver
-  namespace: '{{ .Release.Namespace }}'
+  namespace: {{ .Release.Namespace }}
 spec:
   ports:
-  - name: http
-    port: 80
-    protocol: TCP
-    targetPort: http-webhook
+    - name: http
+      port: 80
+      protocol: TCP
+      targetPort: http-webhook
   selector:
     app: notification-controller
     app.kubernetes.io/instance: {{ .Release.Name | quote }}
     app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
     app.kubernetes.io/name: {{ include "name" . | quote }}
+    app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
     helm.sh/chart: {{ include "chart" . | quote }}
   type: ClusterIP
 ---
@@ -167,10 +176,11 @@ metadata:
     app.kubernetes.io/instance: {{ .Release.Name | quote }}
     app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
     app.kubernetes.io/name: {{ include "name" . | quote }}
+    app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
     control-plane: controller
     helm.sh/chart: {{ include "chart" . | quote }}
   name: helm-controller
-  namespace: '{{ .Release.Namespace }}'
+  namespace: {{ .Release.Namespace }}
 spec:
   replicas: 1
   selector:
@@ -179,7 +189,6 @@ spec:
       app.kubernetes.io/instance: {{ .Release.Name | quote }}
       app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
       app.kubernetes.io/name: {{ include "name" . | quote }}
-      helm.sh/chart: {{ include "chart" . | quote }}
   template:
     metadata:
       annotations:
@@ -190,54 +199,55 @@ spec:
         app.kubernetes.io/instance: {{ .Release.Name | quote }}
         app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
         app.kubernetes.io/name: {{ include "name" . | quote }}
+        app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
         helm.sh/chart: {{ include "chart" . | quote }}
     spec:
       containers:
-      - args:
-        - --events-addr=http://notification-controller/
-        - --watch-all-namespaces
-        - --log-level=info
-        - --log-json
-        - --enable-leader-election
-        env:
-        - name: RUNTIME_NAMESPACE
-          valueFrom:
-            fieldRef:
-              fieldPath: metadata.namespace
-        image: '{{ .Values.images.registry }}/{{ .Values.images.helm_controller.image }}:v0.4.4'
-        imagePullPolicy: IfNotPresent
-        livenessProbe:
-          httpGet:
-            path: /healthz
-            port: healthz
-        name: manager
-        ports:
-        - containerPort: 8080
-          name: http-prom
-        - containerPort: 9440
-          name: healthz
-          protocol: TCP
-        readinessProbe:
-          httpGet:
-            path: /readyz
-            port: healthz
-        resources:
-          limits:
-            cpu: 1000m
-            memory: 1Gi
-          requests:
-            cpu: 100m
-            memory: 64Mi
-        securityContext:
-          allowPrivilegeEscalation: false
-          readOnlyRootFilesystem: true
-        volumeMounts:
-        - mountPath: /tmp
-          name: temp
+        - args:
+            - --events-addr=http://notification-controller/
+            - --watch-all-namespaces
+            - --log-level=info
+            - --log-json
+            - --enable-leader-election
+          env:
+            - name: RUNTIME_NAMESPACE
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.namespace
+          image: {{ .Values.images.registry }}/{{ .Values.images.helm_controller.image }}:v0.4.4'
+          imagePullPolicy: IfNotPresent
+          livenessProbe:
+            httpGet:
+              path: /healthz
+              port: healthz
+          name: manager
+          ports:
+            - containerPort: 8080
+              name: http-prom
+            - containerPort: 9440
+              name: healthz
+              protocol: TCP
+          readinessProbe:
+            httpGet:
+              path: /readyz
+              port: healthz
+          resources:
+            limits:
+              cpu: 1000m
+              memory: 1Gi
+            requests:
+              cpu: 100m
+              memory: 64Mi
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+          volumeMounts:
+            - mountPath: /tmp
+              name: temp
       terminationGracePeriodSeconds: 600
       volumes:
-      - emptyDir: {}
-        name: temp
+        - emptyDir: {}
+          name: temp
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -246,10 +256,11 @@ metadata:
     app.kubernetes.io/instance: {{ .Release.Name | quote }}
     app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
     app.kubernetes.io/name: {{ include "name" . | quote }}
+    app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
     control-plane: controller
     helm.sh/chart: {{ include "chart" . | quote }}
   name: image-automation-controller
-  namespace: '{{ .Release.Namespace }}'
+  namespace: {{ .Release.Namespace }}
 spec:
   replicas: 1
   selector:
@@ -258,7 +269,6 @@ spec:
       app.kubernetes.io/instance: {{ .Release.Name | quote }}
       app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
       app.kubernetes.io/name: {{ include "name" . | quote }}
-      helm.sh/chart: {{ include "chart" . | quote }}
   template:
     metadata:
       annotations:
@@ -269,54 +279,55 @@ spec:
         app.kubernetes.io/instance: {{ .Release.Name | quote }}
         app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
         app.kubernetes.io/name: {{ include "name" . | quote }}
+        app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
         helm.sh/chart: {{ include "chart" . | quote }}
     spec:
       containers:
-      - args:
-        - --events-addr=http://notification-controller/
-        - --watch-all-namespaces
-        - --log-level=info
-        - --log-json
-        - --enable-leader-election
-        env:
-        - name: RUNTIME_NAMESPACE
-          valueFrom:
-            fieldRef:
-              fieldPath: metadata.namespace
-        image: '{{ .Values.images.registry }}/{{ .Values.images.image_automation_controller.image }}:v0.2.0'
-        imagePullPolicy: IfNotPresent
-        livenessProbe:
-          httpGet:
-            path: /healthz
-            port: healthz
-        name: manager
-        ports:
-        - containerPort: 8080
-          name: http-prom
-        - containerPort: 9440
-          name: healthz
-          protocol: TCP
-        readinessProbe:
-          httpGet:
-            path: /readyz
-            port: healthz
-        resources:
-          limits:
-            cpu: 1000m
-            memory: 1Gi
-          requests:
-            cpu: 100m
-            memory: 64Mi
-        securityContext:
-          allowPrivilegeEscalation: false
-          readOnlyRootFilesystem: true
-        volumeMounts:
-        - mountPath: /tmp
-          name: temp
+        - args:
+            - --events-addr=http://notification-controller/
+            - --watch-all-namespaces
+            - --log-level=info
+            - --log-json
+            - --enable-leader-election
+          env:
+            - name: RUNTIME_NAMESPACE
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.namespace
+          image: {{ .Values.images.registry }}/{{ .Values.images.image_automation_controller.image }}:v0.2.0'
+          imagePullPolicy: IfNotPresent
+          livenessProbe:
+            httpGet:
+              path: /healthz
+              port: healthz
+          name: manager
+          ports:
+            - containerPort: 8080
+              name: http-prom
+            - containerPort: 9440
+              name: healthz
+              protocol: TCP
+          readinessProbe:
+            httpGet:
+              path: /readyz
+              port: healthz
+          resources:
+            limits:
+              cpu: 1000m
+              memory: 1Gi
+            requests:
+              cpu: 100m
+              memory: 64Mi
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+          volumeMounts:
+            - mountPath: /tmp
+              name: temp
       terminationGracePeriodSeconds: 10
       volumes:
-      - emptyDir: {}
-        name: temp
+        - emptyDir: {}
+          name: temp
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -325,10 +336,11 @@ metadata:
     app.kubernetes.io/instance: {{ .Release.Name | quote }}
     app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
     app.kubernetes.io/name: {{ include "name" . | quote }}
+    app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
     control-plane: controller
     helm.sh/chart: {{ include "chart" . | quote }}
   name: image-reflector-controller
-  namespace: '{{ .Release.Namespace }}'
+  namespace: {{ .Release.Namespace }}
 spec:
   replicas: 1
   selector:
@@ -337,7 +349,6 @@ spec:
       app.kubernetes.io/instance: {{ .Release.Name | quote }}
       app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
       app.kubernetes.io/name: {{ include "name" . | quote }}
-      helm.sh/chart: {{ include "chart" . | quote }}
   template:
     metadata:
       annotations:
@@ -348,58 +359,59 @@ spec:
         app.kubernetes.io/instance: {{ .Release.Name | quote }}
         app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
         app.kubernetes.io/name: {{ include "name" . | quote }}
+        app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
         helm.sh/chart: {{ include "chart" . | quote }}
     spec:
       containers:
-      - args:
-        - --events-addr=http://notification-controller/
-        - --watch-all-namespaces
-        - --log-level=info
-        - --log-json
-        - --enable-leader-election
-        env:
-        - name: RUNTIME_NAMESPACE
-          valueFrom:
-            fieldRef:
-              fieldPath: metadata.namespace
-        image: '{{ .Values.images.registry }}/{{ .Values.images.image_reflector_controller.image }}:v0.1.0'
-        imagePullPolicy: IfNotPresent
-        livenessProbe:
-          httpGet:
-            path: /healthz
-            port: healthz
-        name: manager
-        ports:
-        - containerPort: 8080
-          name: http-prom
-        - containerPort: 9440
-          name: healthz
-          protocol: TCP
-        readinessProbe:
-          httpGet:
-            path: /readyz
-            port: healthz
-        resources:
-          limits:
-            cpu: 1000m
-            memory: 1Gi
-          requests:
-            cpu: 100m
-            memory: 64Mi
-        securityContext:
-          allowPrivilegeEscalation: false
-          readOnlyRootFilesystem: true
-        volumeMounts:
-        - mountPath: /tmp
-          name: temp
-        - mountPath: /data
-          name: data
+        - args:
+            - --events-addr=http://notification-controller/
+            - --watch-all-namespaces
+            - --log-level=info
+            - --log-json
+            - --enable-leader-election
+          env:
+            - name: RUNTIME_NAMESPACE
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.namespace
+          image: {{ .Values.images.registry }}/{{ .Values.images.image_reflector_controller.image }}:v0.1.0'
+          imagePullPolicy: IfNotPresent
+          livenessProbe:
+            httpGet:
+              path: /healthz
+              port: healthz
+          name: manager
+          ports:
+            - containerPort: 8080
+              name: http-prom
+            - containerPort: 9440
+              name: healthz
+              protocol: TCP
+          readinessProbe:
+            httpGet:
+              path: /readyz
+              port: healthz
+          resources:
+            limits:
+              cpu: 1000m
+              memory: 1Gi
+            requests:
+              cpu: 100m
+              memory: 64Mi
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+          volumeMounts:
+            - mountPath: /tmp
+              name: temp
+            - mountPath: /data
+              name: data
       terminationGracePeriodSeconds: 10
       volumes:
-      - emptyDir: {}
-        name: temp
-      - emptyDir: {}
-        name: data
+        - emptyDir: {}
+          name: temp
+        - emptyDir: {}
+          name: data
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -408,10 +420,11 @@ metadata:
     app.kubernetes.io/instance: {{ .Release.Name | quote }}
     app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
     app.kubernetes.io/name: {{ include "name" . | quote }}
+    app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
     control-plane: controller
     helm.sh/chart: {{ include "chart" . | quote }}
   name: kustomize-controller
-  namespace: '{{ .Release.Namespace }}'
+  namespace: {{ .Release.Namespace }}
 spec:
   replicas: 1
   selector:
@@ -420,7 +433,6 @@ spec:
       app.kubernetes.io/instance: {{ .Release.Name | quote }}
       app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
       app.kubernetes.io/name: {{ include "name" . | quote }}
-      helm.sh/chart: {{ include "chart" . | quote }}
   template:
     metadata:
       annotations:
@@ -431,56 +443,57 @@ spec:
         app.kubernetes.io/instance: {{ .Release.Name | quote }}
         app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
         app.kubernetes.io/name: {{ include "name" . | quote }}
+        app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
         helm.sh/chart: {{ include "chart" . | quote }}
     spec:
       containers:
-      - args:
-        - --events-addr=http://notification-controller/
-        - --watch-all-namespaces
-        - --log-level=info
-        - --log-json
-        - --enable-leader-election
-        env:
-        - name: RUNTIME_NAMESPACE
-          valueFrom:
-            fieldRef:
-              fieldPath: metadata.namespace
-        image: '{{ .Values.images.registry }}/{{ .Values.images.kustomize_controller.image }}:v0.5.3'
-        imagePullPolicy: IfNotPresent
-        livenessProbe:
-          httpGet:
-            path: /healthz
-            port: healthz
-        name: manager
-        ports:
-        - containerPort: 8080
-          name: http-prom
-        - containerPort: 9440
-          name: healthz
-          protocol: TCP
-        readinessProbe:
-          httpGet:
-            path: /readyz
-            port: healthz
-        resources:
-          limits:
-            cpu: 1000m
-            memory: 1Gi
-          requests:
-            cpu: 100m
-            memory: 64Mi
-        securityContext:
-          allowPrivilegeEscalation: false
-          readOnlyRootFilesystem: true
-        volumeMounts:
-        - mountPath: /tmp
-          name: temp
+        - args:
+            - --events-addr=http://notification-controller/
+            - --watch-all-namespaces
+            - --log-level=info
+            - --log-json
+            - --enable-leader-election
+          env:
+            - name: RUNTIME_NAMESPACE
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.namespace
+          image: {{ .Values.images.registry }}/{{ .Values.images.kustomize_controller.image }}:v0.5.3'
+          imagePullPolicy: IfNotPresent
+          livenessProbe:
+            httpGet:
+              path: /healthz
+              port: healthz
+          name: manager
+          ports:
+            - containerPort: 8080
+              name: http-prom
+            - containerPort: 9440
+              name: healthz
+              protocol: TCP
+          readinessProbe:
+            httpGet:
+              path: /readyz
+              port: healthz
+          resources:
+            limits:
+              cpu: 1000m
+              memory: 1Gi
+            requests:
+              cpu: 100m
+              memory: 64Mi
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+          volumeMounts:
+            - mountPath: /tmp
+              name: temp
       securityContext:
         fsGroup: 1337
       terminationGracePeriodSeconds: 60
       volumes:
-      - emptyDir: {}
-        name: temp
+        - emptyDir: {}
+          name: temp
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -489,10 +502,11 @@ metadata:
     app.kubernetes.io/instance: {{ .Release.Name | quote }}
     app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
     app.kubernetes.io/name: {{ include "name" . | quote }}
+    app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
     control-plane: controller
     helm.sh/chart: {{ include "chart" . | quote }}
   name: notification-controller
-  namespace: '{{ .Release.Namespace }}'
+  namespace: {{ .Release.Namespace }}
 spec:
   replicas: 1
   selector:
@@ -501,7 +515,6 @@ spec:
       app.kubernetes.io/instance: {{ .Release.Name | quote }}
       app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
       app.kubernetes.io/name: {{ include "name" . | quote }}
-      helm.sh/chart: {{ include "chart" . | quote }}
   template:
     metadata:
       annotations:
@@ -512,57 +525,58 @@ spec:
         app.kubernetes.io/instance: {{ .Release.Name | quote }}
         app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
         app.kubernetes.io/name: {{ include "name" . | quote }}
+        app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
         helm.sh/chart: {{ include "chart" . | quote }}
     spec:
       containers:
-      - args:
-        - --watch-all-namespaces
-        - --log-level=info
-        - --log-json
-        - --enable-leader-election
-        env:
-        - name: RUNTIME_NAMESPACE
-          valueFrom:
-            fieldRef:
-              fieldPath: metadata.namespace
-        image: '{{ .Values.images.registry }}/{{ .Values.images.notification_controller.image }}:v0.5.0'
-        imagePullPolicy: IfNotPresent
-        livenessProbe:
-          httpGet:
-            path: /healthz
-            port: healthz
-        name: manager
-        ports:
-        - containerPort: 9090
-          name: http
-        - containerPort: 9292
-          name: http-webhook
-        - containerPort: 8080
-          name: http-prom
-        - containerPort: 9440
-          name: healthz
-          protocol: TCP
-        readinessProbe:
-          httpGet:
-            path: /readyz
-            port: healthz
-        resources:
-          limits:
-            cpu: 1000m
-            memory: 1Gi
-          requests:
-            cpu: 100m
-            memory: 64Mi
-        securityContext:
-          allowPrivilegeEscalation: false
-          readOnlyRootFilesystem: true
-        volumeMounts:
-        - mountPath: /tmp
-          name: temp
+        - args:
+            - --watch-all-namespaces
+            - --log-level=info
+            - --log-json
+            - --enable-leader-election
+          env:
+            - name: RUNTIME_NAMESPACE
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.namespace
+          image: {{ .Values.images.registry }}/{{ .Values.images.notification_controller.image }}:v0.5.0'
+          imagePullPolicy: IfNotPresent
+          livenessProbe:
+            httpGet:
+              path: /healthz
+              port: healthz
+          name: manager
+          ports:
+            - containerPort: 9090
+              name: http
+            - containerPort: 9292
+              name: http-webhook
+            - containerPort: 8080
+              name: http-prom
+            - containerPort: 9440
+              name: healthz
+              protocol: TCP
+          readinessProbe:
+            httpGet:
+              path: /readyz
+              port: healthz
+          resources:
+            limits:
+              cpu: 1000m
+              memory: 1Gi
+            requests:
+              cpu: 100m
+              memory: 64Mi
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+          volumeMounts:
+            - mountPath: /tmp
+              name: temp
       terminationGracePeriodSeconds: 10
       volumes:
-      - emptyDir: {}
-        name: temp
+        - emptyDir: {}
+          name: temp
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -571,10 +585,11 @@ metadata:
     app.kubernetes.io/instance: {{ .Release.Name | quote }}
     app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
     app.kubernetes.io/name: {{ include "name" . | quote }}
+    app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
     control-plane: controller
     helm.sh/chart: {{ include "chart" . | quote }}
   name: source-controller
-  namespace: '{{ .Release.Namespace }}'
+  namespace: {{ .Release.Namespace }}
 spec:
   replicas: 1
   selector:
@@ -583,7 +598,6 @@ spec:
       app.kubernetes.io/instance: {{ .Release.Name | quote }}
       app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
       app.kubernetes.io/name: {{ include "name" . | quote }}
-      helm.sh/chart: {{ include "chart" . | quote }}
   template:
     metadata:
       annotations:
@@ -594,59 +608,60 @@ spec:
         app.kubernetes.io/instance: {{ .Release.Name | quote }}
         app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
         app.kubernetes.io/name: {{ include "name" . | quote }}
+        app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
         helm.sh/chart: {{ include "chart" . | quote }}
     spec:
       containers:
-      - args:
-        - --events-addr=http://notification-controller/
-        - --watch-all-namespaces
-        - --log-level=info
-        - --log-json
-        - --enable-leader-election
-        - --storage-path=/data
-        - --storage-adv-addr=source-controller.$(RUNTIME_NAMESPACE).svc.cluster.local.
-        env:
-        - name: RUNTIME_NAMESPACE
-          valueFrom:
-            fieldRef:
-              fieldPath: metadata.namespace
-        image: '{{ .Values.images.registry }}/{{ .Values.images.source_controller.image }}:v0.5.6'
-        imagePullPolicy: IfNotPresent
-        livenessProbe:
-          httpGet:
-            path: /
-            port: http
-        name: manager
-        ports:
-        - containerPort: 9090
-          name: http
-        - containerPort: 8080
-          name: http-prom
-        readinessProbe:
-          httpGet:
-            path: /
-            port: http
-        resources:
-          limits:
-            cpu: 1000m
-            memory: 1Gi
-          requests:
-            cpu: 50m
-            memory: 64Mi
-        securityContext:
-          allowPrivilegeEscalation: false
-          readOnlyRootFilesystem: true
-        volumeMounts:
-        - mountPath: /data
-          name: data
-        - mountPath: /tmp
-          name: tmp
+        - args:
+            - --events-addr=http://notification-controller/
+            - --watch-all-namespaces
+            - --log-level=info
+            - --log-json
+            - --enable-leader-election
+            - --storage-path=/data
+            - --storage-adv-addr=source-controller.$(RUNTIME_NAMESPACE).svc.cluster.local.
+          env:
+            - name: RUNTIME_NAMESPACE
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.namespace
+          image: {{ .Values.images.registry }}/{{ .Values.images.source_controller.image }}:v0.5.6'
+          imagePullPolicy: IfNotPresent
+          livenessProbe:
+            httpGet:
+              path: /
+              port: http
+          name: manager
+          ports:
+            - containerPort: 9090
+              name: http
+            - containerPort: 8080
+              name: http-prom
+          readinessProbe:
+            httpGet:
+              path: /
+              port: http
+          resources:
+            limits:
+              cpu: 1000m
+              memory: 1Gi
+            requests:
+              cpu: 50m
+              memory: 64Mi
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+          volumeMounts:
+            - mountPath: /data
+              name: data
+            - mountPath: /tmp
+              name: tmp
       terminationGracePeriodSeconds: 10
       volumes:
-      - emptyDir: {}
-        name: data
-      - emptyDir: {}
-        name: tmp
+        - emptyDir: {}
+          name: data
+        - emptyDir: {}
+          name: tmp
 ---
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
@@ -655,19 +670,20 @@ metadata:
     app.kubernetes.io/instance: {{ .Release.Name | quote }}
     app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
     app.kubernetes.io/name: {{ include "name" . | quote }}
+    app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
     helm.sh/chart: {{ include "chart" . | quote }}
   name: allow-scraping
-  namespace: '{{ .Release.Namespace }}'
+  namespace: {{ .Release.Namespace }}
 spec:
   ingress:
-  - from:
-    - namespaceSelector: {}
-    ports:
-    - port: 8080
-      protocol: TCP
+    - from:
+        - namespaceSelector: {}
+      ports:
+        - port: 8080
+          protocol: TCP
   podSelector: {}
   policyTypes:
-  - Ingress
+    - Ingress
 ---
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
@@ -676,22 +692,22 @@ metadata:
     app.kubernetes.io/instance: {{ .Release.Name | quote }}
     app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
     app.kubernetes.io/name: {{ include "name" . | quote }}
+    app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
     helm.sh/chart: {{ include "chart" . | quote }}
   name: allow-webhooks
-  namespace: '{{ .Release.Namespace }}'
+  namespace: {{ .Release.Namespace }}
 spec:
   ingress:
-  - from:
-    - namespaceSelector: {}
+    - from:
+        - namespaceSelector: {}
   podSelector:
     matchLabels:
       app: notification-controller
       app.kubernetes.io/instance: {{ .Release.Name | quote }}
       app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
       app.kubernetes.io/name: {{ include "name" . | quote }}
-      helm.sh/chart: {{ include "chart" . | quote }}
   policyTypes:
-  - Ingress
+    - Ingress
 ---
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
@@ -700,13 +716,14 @@ metadata:
     app.kubernetes.io/instance: {{ .Release.Name | quote }}
     app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
     app.kubernetes.io/name: {{ include "name" . | quote }}
+    app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
     helm.sh/chart: {{ include "chart" . | quote }}
   name: deny-ingress
-  namespace: '{{ .Release.Namespace }}'
+  namespace: {{ .Release.Namespace }}
 spec:
   ingress:
-  - from:
-    - podSelector: {}
+    - from:
+        - podSelector: {}
   podSelector: {}
   policyTypes:
-  - Ingress
+    - Ingress

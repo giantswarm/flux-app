@@ -107,19 +107,16 @@ It's possible to use a 'common' gpg key which is only used for decryption on the
 
 ## Update from upstream
 
-Updating from upstream requires `kustomize`.
+Updating from upstream requires `kustomize` (https://github.com/kubernetes-sigs/kustomize) and `yq` (https://github.com/mikefarah/yq).
 
 - Look for images in the `install.yaml` in the upstream release. Add any images not already retagged to [retagger](https://github.com/giantswarm/retagger)
 - Prepare CRD
-  - Comment out the `commonLabels` in the `hack/kustomization.yaml` file
-  - Execute `kustomize build hack > helm/flux-app/crds/crds.yaml`
-  - Delete the `kind: Namespace` part from `helm/flux-app/crds/crds.yaml`
+  - Comment out the `transformers` in the `hack/kustomization.yaml` file
+  - Execute `kustomize build hack | yq eval-all 'select(.kind == "CustomResourceDefinition")' - > helm/flux-app/crds/crds.yaml`
   - Move each `kind: CustomResourceDefinition` resource into an own file
-  - Discard everything else
+  - Delete `helm/flux-app/crds/crds.yaml`
 - Prepare resources
-  - Restore the `commonLabels` in `hack/kustomization.yaml`
-  - Execute `kustomize build hack > helm/flux-app/templates/install.yaml`
-  - Delete the `kind: Namespace` part
-  - Delete every `kind: CustomResourceDefinition` parts
-  - Search and replace the `'` quotes in all label values in `helm/flux-app/templates/install.yaml`
+  - Restore the `transformers` in `hack/kustomization.yaml`
+  - Execute `kustomize build hack | yq eval-all 'select((.kind == "CustomResourceDefinition" | not) and (.kind == "Namespace" | not))' - > helm/flux-app/templates/install.yaml`
+  - Execute `sed -i -e "s/'{{/{{/g" -e "s/}}'/}}/g" helm/flux-app/templates/install.yaml` to search and replace `'{{` with `{{` and `}}'` with `}}` in `helm/flux-app/templates/install.yaml`
 - Bump the `appVersion` in `helm/flux-app/Chart.yaml`
