@@ -118,5 +118,5 @@ Updating from upstream requires `kustomize` (https://github.com/kubernetes-sigs/
 - Prepare resources
   - Restore the `transformers` in `hack/kustomization.yaml`
   - Execute `kustomize build hack | yq eval-all 'select((.kind == "CustomResourceDefinition" | not) and (.kind == "Namespace" | not))' - > helm/flux-app/templates/install.yaml`
-  - Execute `sed -i -e "s/'{{/{{/g" -e "s/}}'/}}/g" helm/flux-app/templates/install.yaml` to search and replace `'{{` with `{{` and `}}'` with `}}` in `helm/flux-app/templates/install.yaml`
+  - Execute `sed -i -e "/image:/b;s/'{{/{{/g" -e "/image:/b;s/}}'/}}/g" helm/flux-app/templates/install.yaml` to search and replace `'{{` with `{{` and `}}'` with `}}` in `helm/flux-app/templates/install.yaml`. But not in lines containing `image:`
 - Bump the `appVersion` in `helm/flux-app/Chart.yaml`
