@@ -2,13 +2,13 @@ apiVersion: rbac.authorization.k8s.io/v1
 kind: Role
 metadata:
   labels:
-    app.kubernetes.io/instance: {{ .Release.Name | quote }}
-    app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
-    app.kubernetes.io/name: {{ include "name" . | quote }}
-    app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
-    helm.sh/chart: {{ include "chart" . | quote }}
+    app.kubernetes.io/instance: '{{ .Release.Name | quote }}'
+    app.kubernetes.io/managed-by: '{{ .Release.Service | quote }}'
+    app.kubernetes.io/name: '{{ include "name" . | quote }}'
+    app.kubernetes.io/version: '{{ .Chart.AppVersion | quote }}'
+    helm.sh/chart: '{{ include "chart" . | quote }}'
   name: crd-controller
-  namespace: {{ .Release.Namespace }}
+  namespace: '{{ .Release.Namespace }}'
 rules:
   - apiGroups:
       - source.toolkit.fluxcd.io
@@ -53,13 +53,13 @@ apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
 metadata:
   labels:
-    app.kubernetes.io/instance: {{ .Release.Name | quote }}
-    app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
-    app.kubernetes.io/name: {{ include "name" . | quote }}
-    app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
-    helm.sh/chart: {{ include "chart" . | quote }}
+    app.kubernetes.io/instance: '{{ .Release.Name | quote }}'
+    app.kubernetes.io/managed-by: '{{ .Release.Service | quote }}'
+    app.kubernetes.io/name: '{{ include "name" . | quote }}'
+    app.kubernetes.io/version: '{{ .Chart.AppVersion | quote }}'
+    helm.sh/chart: '{{ include "chart" . | quote }}'
   name: crd-controller
-  namespace: {{ .Release.Namespace }}
+  namespace: '{{ .Release.Namespace }}'
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: Role
@@ -67,17 +67,17 @@ roleRef:
 subjects:
   - kind: ServiceAccount
     name: default
-    namespace: {{ .Release.Namespace }}
+    namespace: '{{ .Release.Namespace }}'
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
 metadata:
   labels:
-    app.kubernetes.io/instance: {{ .Release.Name | quote }}
-    app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
-    app.kubernetes.io/name: {{ include "name" . | quote }}
-    app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
-    helm.sh/chart: {{ include "chart" . | quote }}
+    app.kubernetes.io/instance: '{{ .Release.Name | quote }}'
+    app.kubernetes.io/managed-by: '{{ .Release.Service | quote }}'
+    app.kubernetes.io/name: '{{ include "name" . | quote }}'
+    app.kubernetes.io/version: '{{ .Chart.AppVersion | quote }}'
+    helm.sh/chart: '{{ include "chart" . | quote }}'
   name: cluster-reconciler
 roleRef:
   apiGroup: rbac.authorization.k8s.io
@@ -86,20 +86,20 @@ roleRef:
 subjects:
   - kind: ServiceAccount
     name: default
-    namespace: {{ .Release.Namespace }}
+    namespace: '{{ .Release.Namespace }}'
 ---
 apiVersion: v1
 kind: Service
 metadata:
   labels:
-    app.kubernetes.io/instance: {{ .Release.Name | quote }}
-    app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
-    app.kubernetes.io/name: {{ include "name" . | quote }}
-    app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
+    app.kubernetes.io/instance: '{{ .Release.Name | quote }}'
+    app.kubernetes.io/managed-by: '{{ .Release.Service | quote }}'
+    app.kubernetes.io/name: '{{ include "name" . | quote }}'
+    app.kubernetes.io/version: '{{ .Chart.AppVersion | quote }}'
     control-plane: controller
-    helm.sh/chart: {{ include "chart" . | quote }}
+    helm.sh/chart: '{{ include "chart" . | quote }}'
   name: notification-controller
-  namespace: {{ .Release.Namespace }}
+  namespace: '{{ .Release.Namespace }}'
 spec:
   ports:
     - name: http
@@ -108,25 +108,25 @@ spec:
       targetPort: http
   selector:
     app: notification-controller
-    app.kubernetes.io/instance: {{ .Release.Name | quote }}
-    app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
-    app.kubernetes.io/name: {{ include "name" . | quote }}
-    app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
-    helm.sh/chart: {{ include "chart" . | quote }}
+    app.kubernetes.io/instance: '{{ .Release.Name | quote }}'
+    app.kubernetes.io/managed-by: '{{ .Release.Service | quote }}'
+    app.kubernetes.io/name: '{{ include "name" . | quote }}'
+    app.kubernetes.io/version: '{{ .Chart.AppVersion | quote }}'
+    helm.sh/chart: '{{ include "chart" . | quote }}'
   type: ClusterIP
 ---
 apiVersion: v1
 kind: Service
 metadata:
   labels:
-    app.kubernetes.io/instance: {{ .Release.Name | quote }}
-    app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
-    app.kubernetes.io/name: {{ include "name" . | quote }}
-    app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
+    app.kubernetes.io/instance: '{{ .Release.Name | quote }}'
+    app.kubernetes.io/managed-by: '{{ .Release.Service | quote }}'
+    app.kubernetes.io/name: '{{ include "name" . | quote }}'
+    app.kubernetes.io/version: '{{ .Chart.AppVersion | quote }}'
     control-plane: controller
-    helm.sh/chart: {{ include "chart" . | quote }}
+    helm.sh/chart: '{{ include "chart" . | quote }}'
   name: source-controller
-  namespace: {{ .Release.Namespace }}
+  namespace: '{{ .Release.Namespace }}'
 spec:
   ports:
     - name: http
@@ -135,25 +135,25 @@ spec:
       targetPort: http
   selector:
     app: source-controller
-    app.kubernetes.io/instance: {{ .Release.Name | quote }}
-    app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
-    app.kubernetes.io/name: {{ include "name" . | quote }}
-    app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
-    helm.sh/chart: {{ include "chart" . | quote }}
+    app.kubernetes.io/instance: '{{ .Release.Name | quote }}'
+    app.kubernetes.io/managed-by: '{{ .Release.Service | quote }}'
+    app.kubernetes.io/name: '{{ include "name" . | quote }}'
+    app.kubernetes.io/version: '{{ .Chart.AppVersion | quote }}'
+    helm.sh/chart: '{{ include "chart" . | quote }}'
   type: ClusterIP
 ---
 apiVersion: v1
 kind: Service
 metadata:
   labels:
-    app.kubernetes.io/instance: {{ .Release.Name | quote }}
-    app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
-    app.kubernetes.io/name: {{ include "name" . | quote }}
-    app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
+    app.kubernetes.io/instance: '{{ .Release.Name | quote }}'
+    app.kubernetes.io/managed-by: '{{ .Release.Service | quote }}'
+    app.kubernetes.io/name: '{{ include "name" . | quote }}'
+    app.kubernetes.io/version: '{{ .Chart.AppVersion | quote }}'
     control-plane: controller
-    helm.sh/chart: {{ include "chart" . | quote }}
+    helm.sh/chart: '{{ include "chart" . | quote }}'
   name: webhook-receiver
-  namespace: {{ .Release.Namespace }}
+  namespace: '{{ .Release.Namespace }}'
 spec:
   ports:
     - name: http
@@ -162,33 +162,33 @@ spec:
       targetPort: http-webhook
   selector:
     app: notification-controller
-    app.kubernetes.io/instance: {{ .Release.Name | quote }}
-    app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
-    app.kubernetes.io/name: {{ include "name" . | quote }}
-    app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
-    helm.sh/chart: {{ include "chart" . | quote }}
+    app.kubernetes.io/instance: '{{ .Release.Name | quote }}'
+    app.kubernetes.io/managed-by: '{{ .Release.Service | quote }}'
+    app.kubernetes.io/name: '{{ include "name" . | quote }}'
+    app.kubernetes.io/version: '{{ .Chart.AppVersion | quote }}'
+    helm.sh/chart: '{{ include "chart" . | quote }}'
   type: ClusterIP
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    app.kubernetes.io/instance: {{ .Release.Name | quote }}
-    app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
-    app.kubernetes.io/name: {{ include "name" . | quote }}
-    app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
+    app.kubernetes.io/instance: '{{ .Release.Name | quote }}'
+    app.kubernetes.io/managed-by: '{{ .Release.Service | quote }}'
+    app.kubernetes.io/name: '{{ include "name" . | quote }}'
+    app.kubernetes.io/version: '{{ .Chart.AppVersion | quote }}'
     control-plane: controller
-    helm.sh/chart: {{ include "chart" . | quote }}
+    helm.sh/chart: '{{ include "chart" . | quote }}'
   name: helm-controller
-  namespace: {{ .Release.Namespace }}
+  namespace: '{{ .Release.Namespace }}'
 spec:
   replicas: 1
   selector:
     matchLabels:
       app: helm-controller
-      app.kubernetes.io/instance: {{ .Release.Name | quote }}
-      app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
-      app.kubernetes.io/name: {{ include "name" . | quote }}
+      app.kubernetes.io/instance: '{{ .Release.Name | quote }}'
+      app.kubernetes.io/managed-by: '{{ .Release.Service | quote }}'
+      app.kubernetes.io/name: '{{ include "name" . | quote }}'
   template:
     metadata:
       annotations:
@@ -196,11 +196,11 @@ spec:
         prometheus.io/scrape: "true"
       labels:
         app: helm-controller
-        app.kubernetes.io/instance: {{ .Release.Name | quote }}
-        app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
-        app.kubernetes.io/name: {{ include "name" . | quote }}
-        app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
-        helm.sh/chart: {{ include "chart" . | quote }}
+        app.kubernetes.io/instance: '{{ .Release.Name | quote }}'
+        app.kubernetes.io/managed-by: '{{ .Release.Service | quote }}'
+        app.kubernetes.io/name: '{{ include "name" . | quote }}'
+        app.kubernetes.io/version: '{{ .Chart.AppVersion | quote }}'
+        helm.sh/chart: '{{ include "chart" . | quote }}'
     spec:
       containers:
         - args:
@@ -214,7 +214,7 @@ spec:
               valueFrom:
                 fieldRef:
                   fieldPath: metadata.namespace
-          image: {{ .Values.images.registry }}/{{ .Values.images.helm_controller.image }}:v0.4.4'
+          image: '{{ .Values.images.registry }}/{{ .Values.images.helm_controller.image }}:v0.4.4'
           imagePullPolicy: IfNotPresent
           livenessProbe:
             httpGet:
@@ -253,22 +253,22 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    app.kubernetes.io/instance: {{ .Release.Name | quote }}
-    app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
-    app.kubernetes.io/name: {{ include "name" . | quote }}
-    app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
+    app.kubernetes.io/instance: '{{ .Release.Name | quote }}'
+    app.kubernetes.io/managed-by: '{{ .Release.Service | quote }}'
+    app.kubernetes.io/name: '{{ include "name" . | quote }}'
+    app.kubernetes.io/version: '{{ .Chart.AppVersion | quote }}'
     control-plane: controller
-    helm.sh/chart: {{ include "chart" . | quote }}
+    helm.sh/chart: '{{ include "chart" . | quote }}'
   name: image-automation-controller
-  namespace: {{ .Release.Namespace }}
+  namespace: '{{ .Release.Namespace }}'
 spec:
   replicas: 1
   selector:
     matchLabels:
       app: image-automation-controller
-      app.kubernetes.io/instance: {{ .Release.Name | quote }}
-      app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
-      app.kubernetes.io/name: {{ include "name" . | quote }}
+      app.kubernetes.io/instance: '{{ .Release.Name | quote }}'
+      app.kubernetes.io/managed-by: '{{ .Release.Service | quote }}'
+      app.kubernetes.io/name: '{{ include "name" . | quote }}'
   template:
     metadata:
       annotations:
@@ -276,11 +276,11 @@ spec:
         prometheus.io/scrape: "true"
       labels:
         app: image-automation-controller
-        app.kubernetes.io/instance: {{ .Release.Name | quote }}
-        app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
-        app.kubernetes.io/name: {{ include "name" . | quote }}
-        app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
-        helm.sh/chart: {{ include "chart" . | quote }}
+        app.kubernetes.io/instance: '{{ .Release.Name | quote }}'
+        app.kubernetes.io/managed-by: '{{ .Release.Service | quote }}'
+        app.kubernetes.io/name: '{{ include "name" . | quote }}'
+        app.kubernetes.io/version: '{{ .Chart.AppVersion | quote }}'
+        helm.sh/chart: '{{ include "chart" . | quote }}'
     spec:
       containers:
         - args:
@@ -294,7 +294,7 @@ spec:
               valueFrom:
                 fieldRef:
                   fieldPath: metadata.namespace
-          image: {{ .Values.images.registry }}/{{ .Values.images.image_automation_controller.image }}:v0.2.0'
+          image: '{{ .Values.images.registry }}/{{ .Values.images.image_automation_controller.image }}:v0.2.0'
           imagePullPolicy: IfNotPresent
           livenessProbe:
             httpGet:
@@ -333,22 +333,22 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    app.kubernetes.io/instance: {{ .Release.Name | quote }}
-    app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
-    app.kubernetes.io/name: {{ include "name" . | quote }}
-    app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
+    app.kubernetes.io/instance: '{{ .Release.Name | quote }}'
+    app.kubernetes.io/managed-by: '{{ .Release.Service | quote }}'
+    app.kubernetes.io/name: '{{ include "name" . | quote }}'
+    app.kubernetes.io/version: '{{ .Chart.AppVersion | quote }}'
     control-plane: controller
-    helm.sh/chart: {{ include "chart" . | quote }}
+    helm.sh/chart: '{{ include "chart" . | quote }}'
   name: image-reflector-controller
-  namespace: {{ .Release.Namespace }}
+  namespace: '{{ .Release.Namespace }}'
 spec:
   replicas: 1
   selector:
     matchLabels:
       app: image-reflector-controller
-      app.kubernetes.io/instance: {{ .Release.Name | quote }}
-      app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
-      app.kubernetes.io/name: {{ include "name" . | quote }}
+      app.kubernetes.io/instance: '{{ .Release.Name | quote }}'
+      app.kubernetes.io/managed-by: '{{ .Release.Service | quote }}'
+      app.kubernetes.io/name: '{{ include "name" . | quote }}'
   template:
     metadata:
       annotations:
@@ -356,11 +356,11 @@ spec:
         prometheus.io/scrape: "true"
       labels:
         app: image-reflector-controller
-        app.kubernetes.io/instance: {{ .Release.Name | quote }}
-        app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
-        app.kubernetes.io/name: {{ include "name" . | quote }}
-        app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
-        helm.sh/chart: {{ include "chart" . | quote }}
+        app.kubernetes.io/instance: '{{ .Release.Name | quote }}'
+        app.kubernetes.io/managed-by: '{{ .Release.Service | quote }}'
+        app.kubernetes.io/name: '{{ include "name" . | quote }}'
+        app.kubernetes.io/version: '{{ .Chart.AppVersion | quote }}'
+        helm.sh/chart: '{{ include "chart" . | quote }}'
     spec:
       containers:
         - args:
@@ -374,7 +374,7 @@ spec:
               valueFrom:
                 fieldRef:
                   fieldPath: metadata.namespace
-          image: {{ .Values.images.registry }}/{{ .Values.images.image_reflector_controller.image }}:v0.1.0'
+          image: '{{ .Values.images.registry }}/{{ .Values.images.image_reflector_controller.image }}:v0.1.0'
           imagePullPolicy: IfNotPresent
           livenessProbe:
             httpGet:
@@ -417,22 +417,22 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    app.kubernetes.io/instance: {{ .Release.Name | quote }}
-    app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
-    app.kubernetes.io/name: {{ include "name" . | quote }}
-    app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
+    app.kubernetes.io/instance: '{{ .Release.Name | quote }}'
+    app.kubernetes.io/managed-by: '{{ .Release.Service | quote }}'
+    app.kubernetes.io/name: '{{ include "name" . | quote }}'
+    app.kubernetes.io/version: '{{ .Chart.AppVersion | quote }}'
     control-plane: controller
-    helm.sh/chart: {{ include "chart" . | quote }}
+    helm.sh/chart: '{{ include "chart" . | quote }}'
   name: kustomize-controller
-  namespace: {{ .Release.Namespace }}
+  namespace: '{{ .Release.Namespace }}'
 spec:
   replicas: 1
   selector:
     matchLabels:
       app: kustomize-controller
-      app.kubernetes.io/instance: {{ .Release.Name | quote }}
-      app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
-      app.kubernetes.io/name: {{ include "name" . | quote }}
+      app.kubernetes.io/instance: '{{ .Release.Name | quote }}'
+      app.kubernetes.io/managed-by: '{{ .Release.Service | quote }}'
+      app.kubernetes.io/name: '{{ include "name" . | quote }}'
   template:
     metadata:
       annotations:
@@ -440,11 +440,11 @@ spec:
         prometheus.io/scrape: "true"
       labels:
         app: kustomize-controller
-        app.kubernetes.io/instance: {{ .Release.Name | quote }}
-        app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
-        app.kubernetes.io/name: {{ include "name" . | quote }}
-        app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
-        helm.sh/chart: {{ include "chart" . | quote }}
+        app.kubernetes.io/instance: '{{ .Release.Name | quote }}'
+        app.kubernetes.io/managed-by: '{{ .Release.Service | quote }}'
+        app.kubernetes.io/name: '{{ include "name" . | quote }}'
+        app.kubernetes.io/version: '{{ .Chart.AppVersion | quote }}'
+        helm.sh/chart: '{{ include "chart" . | quote }}'
     spec:
       containers:
         - args:
@@ -458,7 +458,7 @@ spec:
               valueFrom:
                 fieldRef:
                   fieldPath: metadata.namespace
-          image: {{ .Values.images.registry }}/{{ .Values.images.kustomize_controller.image }}:v0.5.3'
+          image: '{{ .Values.images.registry }}/{{ .Values.images.kustomize_controller.image }}:v0.5.3'
           imagePullPolicy: IfNotPresent
           livenessProbe:
             httpGet:
@@ -499,22 +499,22 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    app.kubernetes.io/instance: {{ .Release.Name | quote }}
-    app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
-    app.kubernetes.io/name: {{ include "name" . | quote }}
-    app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
+    app.kubernetes.io/instance: '{{ .Release.Name | quote }}'
+    app.kubernetes.io/managed-by: '{{ .Release.Service | quote }}'
+    app.kubernetes.io/name: '{{ include "name" . | quote }}'
+    app.kubernetes.io/version: '{{ .Chart.AppVersion | quote }}'
     control-plane: controller
-    helm.sh/chart: {{ include "chart" . | quote }}
+    helm.sh/chart: '{{ include "chart" . | quote }}'
   name: notification-controller
-  namespace: {{ .Release.Namespace }}
+  namespace: '{{ .Release.Namespace }}'
 spec:
   replicas: 1
   selector:
     matchLabels:
       app: notification-controller
-      app.kubernetes.io/instance: {{ .Release.Name | quote }}
-      app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
-      app.kubernetes.io/name: {{ include "name" . | quote }}
+      app.kubernetes.io/instance: '{{ .Release.Name | quote }}'
+      app.kubernetes.io/managed-by: '{{ .Release.Service | quote }}'
+      app.kubernetes.io/name: '{{ include "name" . | quote }}'
   template:
     metadata:
       annotations:
@@ -522,11 +522,11 @@ spec:
         prometheus.io/scrape: "true"
       labels:
         app: notification-controller
-        app.kubernetes.io/instance: {{ .Release.Name | quote }}
-        app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
-        app.kubernetes.io/name: {{ include "name" . | quote }}
-        app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
-        helm.sh/chart: {{ include "chart" . | quote }}
+        app.kubernetes.io/instance: '{{ .Release.Name | quote }}'
+        app.kubernetes.io/managed-by: '{{ .Release.Service | quote }}'
+        app.kubernetes.io/name: '{{ include "name" . | quote }}'
+        app.kubernetes.io/version: '{{ .Chart.AppVersion | quote }}'
+        helm.sh/chart: '{{ include "chart" . | quote }}'
     spec:
       containers:
         - args:
@@ -539,7 +539,7 @@ spec:
               valueFrom:
                 fieldRef:
                   fieldPath: metadata.namespace
-          image: {{ .Values.images.registry }}/{{ .Values.images.notification_controller.image }}:v0.5.0'
+          image: '{{ .Values.images.registry }}/{{ .Values.images.notification_controller.image }}:v0.5.0'
           imagePullPolicy: IfNotPresent
           livenessProbe:
             httpGet:
@@ -582,22 +582,22 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    app.kubernetes.io/instance: {{ .Release.Name | quote }}
-    app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
-    app.kubernetes.io/name: {{ include "name" . | quote }}
-    app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
+    app.kubernetes.io/instance: '{{ .Release.Name | quote }}'
+    app.kubernetes.io/managed-by: '{{ .Release.Service | quote }}'
+    app.kubernetes.io/name: '{{ include "name" . | quote }}'
+    app.kubernetes.io/version: '{{ .Chart.AppVersion | quote }}'
     control-plane: controller
-    helm.sh/chart: {{ include "chart" . | quote }}
+    helm.sh/chart: '{{ include "chart" . | quote }}'
   name: source-controller
-  namespace: {{ .Release.Namespace }}
+  namespace: '{{ .Release.Namespace }}'
 spec:
   replicas: 1
   selector:
     matchLabels:
       app: source-controller
-      app.kubernetes.io/instance: {{ .Release.Name | quote }}
-      app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
-      app.kubernetes.io/name: {{ include "name" . | quote }}
+      app.kubernetes.io/instance: '{{ .Release.Name | quote }}'
+      app.kubernetes.io/managed-by: '{{ .Release.Service | quote }}'
+      app.kubernetes.io/name: '{{ include "name" . | quote }}'
   template:
     metadata:
       annotations:
@@ -605,11 +605,11 @@ spec:
         prometheus.io/scrape: "true"
       labels:
         app: source-controller
-        app.kubernetes.io/instance: {{ .Release.Name | quote }}
-        app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
-        app.kubernetes.io/name: {{ include "name" . | quote }}
-        app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
-        helm.sh/chart: {{ include "chart" . | quote }}
+        app.kubernetes.io/instance: '{{ .Release.Name | quote }}'
+        app.kubernetes.io/managed-by: '{{ .Release.Service | quote }}'
+        app.kubernetes.io/name: '{{ include "name" . | quote }}'
+        app.kubernetes.io/version: '{{ .Chart.AppVersion | quote }}'
+        helm.sh/chart: '{{ include "chart" . | quote }}'
     spec:
       containers:
         - args:
@@ -625,7 +625,7 @@ spec:
               valueFrom:
                 fieldRef:
                   fieldPath: metadata.namespace
-          image: {{ .Values.images.registry }}/{{ .Values.images.source_controller.image }}:v0.5.6'
+          image: '{{ .Values.images.registry }}/{{ .Values.images.source_controller.image }}:v0.5.6'
           imagePullPolicy: IfNotPresent
           livenessProbe:
             httpGet:
@@ -667,13 +667,13 @@ apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
   labels:
-    app.kubernetes.io/instance: {{ .Release.Name | quote }}
-    app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
-    app.kubernetes.io/name: {{ include "name" . | quote }}
-    app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
-    helm.sh/chart: {{ include "chart" . | quote }}
+    app.kubernetes.io/instance: '{{ .Release.Name | quote }}'
+    app.kubernetes.io/managed-by: '{{ .Release.Service | quote }}'
+    app.kubernetes.io/name: '{{ include "name" . | quote }}'
+    app.kubernetes.io/version: '{{ .Chart.AppVersion | quote }}'
+    helm.sh/chart: '{{ include "chart" . | quote }}'
   name: allow-scraping
-  namespace: {{ .Release.Namespace }}
+  namespace: '{{ .Release.Namespace }}'
 spec:
   ingress:
     - from:
@@ -689,13 +689,13 @@ apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
   labels:
-    app.kubernetes.io/instance: {{ .Release.Name | quote }}
-    app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
-    app.kubernetes.io/name: {{ include "name" . | quote }}
-    app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
-    helm.sh/chart: {{ include "chart" . | quote }}
+    app.kubernetes.io/instance: '{{ .Release.Name | quote }}'
+    app.kubernetes.io/managed-by: '{{ .Release.Service | quote }}'
+    app.kubernetes.io/name: '{{ include "name" . | quote }}'
+    app.kubernetes.io/version: '{{ .Chart.AppVersion | quote }}'
+    helm.sh/chart: '{{ include "chart" . | quote }}'
   name: allow-webhooks
-  namespace: {{ .Release.Namespace }}
+  namespace: '{{ .Release.Namespace }}'
 spec:
   ingress:
     - from:
@@ -703,9 +703,9 @@ spec:
   podSelector:
     matchLabels:
       app: notification-controller
-      app.kubernetes.io/instance: {{ .Release.Name | quote }}
-      app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
-      app.kubernetes.io/name: {{ include "name" . | quote }}
+      app.kubernetes.io/instance: '{{ .Release.Name | quote }}'
+      app.kubernetes.io/managed-by: '{{ .Release.Service | quote }}'
+      app.kubernetes.io/name: '{{ include "name" . | quote }}'
   policyTypes:
     - Ingress
 ---
@@ -713,13 +713,13 @@ apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
   labels:
-    app.kubernetes.io/instance: {{ .Release.Name | quote }}
-    app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
-    app.kubernetes.io/name: {{ include "name" . | quote }}
-    app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
-    helm.sh/chart: {{ include "chart" . | quote }}
+    app.kubernetes.io/instance: '{{ .Release.Name | quote }}'
+    app.kubernetes.io/managed-by: '{{ .Release.Service | quote }}'
+    app.kubernetes.io/name: '{{ include "name" . | quote }}'
+    app.kubernetes.io/version: '{{ .Chart.AppVersion | quote }}'
+    helm.sh/chart: '{{ include "chart" . | quote }}'
   name: deny-ingress
-  namespace: {{ .Release.Namespace }}
+  namespace: '{{ .Release.Namespace }}'
 spec:
   ingress:
     - from:
