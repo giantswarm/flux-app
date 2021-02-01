@@ -5,7 +5,7 @@
 Giant Swarm offers a flux Managed App which can be installed in tenant clusters.
 Here we define the flux chart with its templates and default configuration.
 
-It can be used to install [flux2](https://github.com/flux/flux2).
+It can be used to install [flux2](https://github.com/flux/flux2) toolkit.
 
 ## Values & Secrets
 
