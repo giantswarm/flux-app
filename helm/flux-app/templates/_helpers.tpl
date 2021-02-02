@@ -43,8 +43,3 @@ app.kubernetes.io/instance: {{ .Release.Name | quote }}
 {{- define "crdInstallSelector" -}}
 {{- printf "%s" "crd-install-hook" -}}
 {{- end -}}
-
-{{- define "fluxResourceInstallAnnotations" -}}
-"helm.sh/hook": "post-install,post-upgrade"
-"helm.sh/hook-delete-policy": ""
-{{- end -}}
