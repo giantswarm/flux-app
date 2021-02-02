@@ -11,7 +11,7 @@ metadata:
   annotations:
     # create hook dependencies in the right order
     "helm.sh/hook-weight": "0"
-    {{- include "fluxResourceAnnotations" . | nindent 4 }}
+    {{- include "fluxResourceInstallAnnotations" . | nindent 4 }}
 ---
 {{- end }}
 {{- range .Values.sources }}
@@ -24,7 +24,7 @@ metadata:
   annotations:
     # create hook dependencies in the right order
     "helm.sh/hook-weight": "1"
-    {{- include "fluxResourceAnnotations" . | nindent 4 }}
+    {{- include "fluxResourceInstallAnnotations" . | nindent 4 }}
 spec:
   interval: "{{ .interval }}"
   ref:
@@ -41,7 +41,7 @@ metadata:
   annotations:
     # create hook dependencies in the right order
     "helm.sh/hook-weight": "0"
-    {{- include "fluxResourceAnnotations" . | nindent 4 }}
+    {{- include "fluxResourceInstallAnnotations" . | nindent 4 }}
 type: Opaque
 data:
   username: "{{ .credentials.username | b64enc }}"
@@ -56,7 +56,7 @@ metadata:
   annotations:
     # create hook dependencies in the right order
     "helm.sh/hook-weight": "1"
-    {{- include "fluxResourceAnnotations" . | nindent 4 }}
+    {{- include "fluxResourceInstallAnnotations" . | nindent 4 }}
 spec:
   type: github
   address: "{{ .url | trimSuffix ".git" }}"
@@ -73,7 +73,7 @@ metadata:
   annotations:
     # create hook dependencies in the right order
     "helm.sh/hook-weight": "2"
-    {{- include "fluxResourceAnnotations" . | nindent 4 }}
+    {{- include "fluxResourceInstallAnnotations" . | nindent 4 }}
 spec:
   interval: "{{ .interval }}"
   path: "{{ .path }}"
@@ -97,7 +97,7 @@ metadata:
   annotations:
     # create hook dependencies in the right order
     "helm.sh/hook-weight": "3"
-    {{- include "fluxResourceAnnotations" . | nindent 4 }}
+    {{- include "fluxResourceInstallAnnotations" . | nindent 4 }}
 spec:
   providerRef:
     name: "{{ .source_name }}-github-notification-provider"
