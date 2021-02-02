@@ -8,6 +8,10 @@ kind: Secret
 metadata:
   name: "{{ .Release.Name }}-sops-gpg"
   namespace: "{{ .Release.Namespace }}"
+  annotations:
+    # create hook dependencies in the right order
+    "helm.sh/hook-weight": "0"
+    {{- include "fluxResourceAnnotations" . | nindent 4 }}
 ---
 {{- end }}
 {{- range .Values.sources }}
@@ -17,6 +21,10 @@ kind: GitRepository
 metadata:
   name: "{{ .name }}"
   namespace: "{{ $.Release.Namespace }}"
+  annotations:
+    # create hook dependencies in the right order
+    "helm.sh/hook-weight": "1"
+    {{- include "fluxResourceAnnotations" . | nindent 4 }}
 spec:
   interval: "{{ .interval }}"
   ref:
@@ -30,6 +38,10 @@ kind: Secret
 metadata:
   name: "{{ .name }}-credentials"
   namespace: "{{ $.Release.Namespace }}"
+  annotations:
+    # create hook dependencies in the right order
+    "helm.sh/hook-weight": "0"
+    {{- include "fluxResourceAnnotations" . | nindent 4 }}
 type: Opaque
 data:
   username: "{{ .credentials.username | b64enc }}"
@@ -41,6 +53,10 @@ kind: Provider
 metadata:
   name: "{{ .name }}-github-notification-provider"
   namespace: "{{ $.Release.Namespace }}"
+  annotations:
+    # create hook dependencies in the right order
+    "helm.sh/hook-weight": "1"
+    {{- include "fluxResourceAnnotations" . | nindent 4 }}
 spec:
   type: github
   address: "{{ .url | trimSuffix ".git" }}"
@@ -54,6 +70,10 @@ kind: Kustomization
 metadata:
   name: "{{ .name }}"
   namespace: "{{ $.Release.Namespace }}"
+  annotations:
+    # create hook dependencies in the right order
+    "helm.sh/hook-weight": "2"
+    {{- include "fluxResourceAnnotations" . | nindent 4 }}
 spec:
   interval: "{{ .interval }}"
   path: "{{ .path }}"
@@ -74,6 +94,10 @@ kind: Alert
 metadata:
   name: "{{ .name }}-github-alert"
   namespace: "{{ $.Release.Namespace }}"
+  annotations:
+    # create hook dependencies in the right order
+    "helm.sh/hook-weight": "3"
+    {{- include "fluxResourceAnnotations" . | nindent 4 }}
 spec:
   providerRef:
     name: "{{ .source_name }}-github-notification-provider"
