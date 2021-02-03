@@ -5,7 +5,7 @@
 Giant Swarm offers a flux Managed App which can be installed in tenant clusters.
 Here we define the flux chart with its templates and default configuration.
 
-It can be used to install [flux2](https://github.com/flux/flux2) toolkit.
+It can be used to install [flux2](https://github.com/fluxcd/flux2) toolkit.
 
 ## Values & Secrets
 
@@ -35,7 +35,8 @@ kustomizations:
 
 ## Encrypt Kubernetes Secrets in a Git repository using Mozilla SOPS
 
-This chart is able to install a gpg secret key for usage with sops.
+Since your configuration will sometimes contain sensitive data, flux provides several mechanisms to store and handle that data securely.
+This chart is able to install a gpg secret key for usage with sops. The public key from that same secret can then be used to encrypt the sensitive parts of your configuration, while flux will be able to decrypt it when pulling the configuration.
 
 For this to work, export your secret key using `gpg --export-secret-keys --armor <your-gpg-key-id>`. Then specify it in your values.yaml like this (its possible to specify multiple keys):
 
@@ -113,7 +114,7 @@ Updating from upstream requires `kustomize` (https://github.com/kubernetes-sigs/
 - Prepare CRD
   - Comment out the `transformers` in the `hack/kustomization.yaml` file
   - Execute `kustomize build hack | yq eval-all 'select(.kind == "CustomResourceDefinition")' - > helm/flux-app/crds/crds.yaml`
-  - Move each `kind: CustomResourceDefinition` resource into an own file
+  - Move each `kind: CustomResourceDefinition` resource into its own file
   - Delete `helm/flux-app/crds/crds.yaml`
 - Prepare resources
   - Restore the `transformers` in `hack/kustomization.yaml`
