@@ -3,6 +3,11 @@ kind: Kustomization
 
 namespace: "{{ .Release.Namespace }}"
 
+transformers:
+# comment labels and matchlabels transformers out for crds
+- ./labels-transformer.yaml
+- ./matchlabels-transformer.yaml
+
 images:
 - name: fluxcd/helm-controller
   newName: "{{ .Values.images.registry }}/{{ .Values.images.helm_controller.image }}"
@@ -20,11 +25,3 @@ images:
 
 resources:
 - https://github.com/fluxcd/flux2/releases/download/v0.5.9/install.yaml
-
-# comment out for crds
-commonLabels:
-  app.kubernetes.io/name: '{{ include "name" . | quote }}'
-  app.kubernetes.io/instance: "{{ .Release.Name | quote }}"
-  app.kubernetes.io/managed-by: "{{ .Release.Service | quote }}"
-  app.kubernetes.io/version: "{{ .Chart.AppVersion | quote }}"
-  helm.sh/chart: '{{ include "chart" . | quote }}'

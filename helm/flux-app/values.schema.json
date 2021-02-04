@@ -16,14 +16,16 @@
       ],
       "properties": {
         "registry": {
-          "type": "string"
+          "type": "string",
+          "minLength": 1
         },
         "helm_controller": {
           "type": "object",
           "required": ["image"],
           "properties": {
             "image": {
-              "type": "string"
+              "type": "string",
+              "minLength": 1
             }
           },
           "additionalProperties": false
@@ -33,7 +35,8 @@
           "required": ["image"],
           "properties": {
             "image": {
-              "type": "string"
+              "type": "string",
+              "minLength": 1
             }
           },
           "additionalProperties": false
@@ -43,7 +46,8 @@
           "required": ["image"],
           "properties": {
             "image": {
-              "type": "string"
+              "type": "string",
+              "minLength": 1
             }
           },
           "additionalProperties": false
@@ -53,7 +57,8 @@
           "required": ["image"],
           "properties": {
             "image": {
-              "type": "string"
+              "type": "string",
+              "minLength": 1
             }
           },
           "additionalProperties": false
@@ -63,7 +68,8 @@
           "required": ["image"],
           "properties": {
             "image": {
-              "type": "string"
+              "type": "string",
+              "minLength": 1
             }
           },
           "additionalProperties": false
@@ -73,7 +79,8 @@
           "required": ["image"],
           "properties": {
             "image": {
-              "type": "string"
+              "type": "string",
+              "minLength": 1
             }
           },
           "additionalProperties": false
@@ -96,32 +103,39 @@
         ],
         "properties": {
           "kind": {
-            "type": "string"
+            "type": "string",
+            "minLength": 1
           },
           "name": {
-            "type": "string"
+            "type": "string",
+            "minLength": 1
           },
           "url": {
-            "type": "string"
+            "type": "string",
+            "minLength": 1
           },
           "credentials": {
             "type": "object",
             "required": ["username", "password"],
             "properties": {
               "username": {
-                "type": "string"
+                "type": "string",
+                "minLength": 1
               },
               "password": {
-                "type": "string"
+                "type": "string",
+                "minLength": 1
               }
             },
             "additionalProperties": false
           },
           "interval": {
-            "type": "string"
+            "type": "string",
+            "minLength": 1
           },
           "branch": {
-            "type": "string"
+            "type": "string",
+            "minLength": 1
           }
         },
         "additionalProperties": false
@@ -135,19 +149,23 @@
         "required": ["name", "source_name", "path", "prune", "interval"],
         "properties": {
           "name": {
-            "type": "string"
+            "type": "string",
+            "minLength": 1
           },
           "source_name": {
-            "type": "string"
+            "type": "string",
+            "minLength": 1
           },
           "path": {
-            "type": "string"
+            "type": "string",
+            "minLength": 1
           },
           "prune": {
             "type": "boolean"
           },
           "interval": {
-            "type": "string"
+            "type": "string",
+            "minLength": 1
           }
         },
         "additionalProperties": false
@@ -155,11 +173,31 @@
     },
     "crds": {
       "type": "object",
+      "required": ["install"],
       "properties": {
         "install": {
           "type": "boolean"
         }
-      }
+      },
+      "additionalProperties": true
+    },
+    "sopsEncryption": {
+      "type": "object",
+      "required": ["enabled"],
+      "properties": {
+        "enabled": {
+          "type": "boolean"
+        },
+        "encryptionKeys": {
+          "type": "array",
+          "additionalItems": false,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      },
+      "additionalProperties": true
     }
   },
   "additionalProperties": true
