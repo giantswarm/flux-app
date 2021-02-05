@@ -24,4 +24,4 @@ images:
 
 
 resources:
-- https://github.com/fluxcd/flux2/releases/download/v0.5.9/install.yaml
+- https://github.com/fluxcd/flux2/releases/download/v0.7.6/install.yaml
