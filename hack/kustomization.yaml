@@ -31,6 +31,7 @@ resources:
 - ./additional-resources/kustomize-controller-pv.yaml
 - ./additional-resources/notification-controller-pv.yaml
 - ./additional-resources/source-controller-pv.yaml
+- ./additional-resources/pvc-psp.yaml
 
 patches:
 - path: ./patches/helm-controller-patch.yaml
@@ -39,3 +40,10 @@ patches:
 - path: ./patches/kustomize-controller-patch.yaml
 - path: ./patches/notification-controller-patch.yaml
 - path: ./patches/source-controller-patch.yaml
+- path: ./patches/crd-controller-cluster-role-patch.yaml
+  target:
+    group: rbac.authorization.k8s.io
+    version: v1
+    kind: ClusterRole
+    name: crd-controller
+    labelSelector: "app.kubernetes.io/instance=flux-system"

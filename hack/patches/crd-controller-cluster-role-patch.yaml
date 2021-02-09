@@ -1,0 +1,7 @@
+- op: add
+  path: /rules/-
+  value:
+    apiGroups: ['policy']
+    resources: ['podsecuritypolicies']
+    verbs: ['use']
+    resourceNames: ['{{ printf "%s-pvc-psp" (include "name" .) | quote }}']
