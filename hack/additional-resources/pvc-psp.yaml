@@ -1,7 +1,7 @@
 apiVersion: policy/v1beta1
 kind: PodSecurityPolicy
 metadata:
-  name: '{{ include "name" . }}-pvc-psp'
+  name: '{{ printf "%s-pvc-psp" (include "name" .) | quote }}'
 spec:
   privileged: false
   seLinux:

@@ -79,7 +79,7 @@ metadata:
     app.kubernetes.io/name: {{ include "name" . | quote }}
     app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
     helm.sh/chart: {{ include "chart" . | quote }}
-  name: {{ include "name" . }}-pvc-psp'
+  name: {{ printf "%s-pvc-psp" (include "name" .) | quote }}
 spec:
   fsGroup:
     ranges:
