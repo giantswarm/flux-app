@@ -43,3 +43,10 @@ app.kubernetes.io/instance: {{ .Release.Name | quote }}
 {{- define "crdInstallSelector" -}}
 {{- printf "%s" "crd-install-hook" -}}
 {{- end -}}
+
+{{/* Usage:
+    {{ include "controllerVolumeName" (merge (dict "volumeName" "hello") .) | quote }}
+*/}}
+{{- define "controllerVolumeName" -}}
+{{- printf "%s-controller-%s-volume" (include "name" .) .volumeName -}}
+{{- end -}}

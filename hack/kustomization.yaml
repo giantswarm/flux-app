@@ -25,3 +25,17 @@ images:
 
 resources:
 - https://github.com/fluxcd/flux2/releases/download/v0.7.6/install.yaml
+- ./additional-resources/helm-controller-pv.yaml
+- ./additional-resources/image-automation-controller-pv.yaml
+- ./additional-resources/image-reflector-controller-pv.yaml
+- ./additional-resources/kustomize-controller-pv.yaml
+- ./additional-resources/notification-controller-pv.yaml
+- ./additional-resources/source-controller-pv.yaml
+
+patches:
+- path: ./patches/helm-controller-patch.yaml
+- path: ./patches/image-automation-controller-patch.yaml
+- path: ./patches/image-reflector-controller-patch.yaml
+- path: ./patches/kustomize-controller-patch.yaml
+- path: ./patches/notification-controller-patch.yaml
+- path: ./patches/source-controller-patch.yaml

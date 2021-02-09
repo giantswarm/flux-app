@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app.kubernetes.io/instance: flux-system
+    control-plane: controller
+  name: image-reflector-controller
+  namespace: flux-system
+spec:
+  template:
+    spec:
+      volumes:
+        - name: temp
+          persistentVolumeClaim:
+            claimName: '{{ include "controllerVolumeName" (merge (dict "volumeName" "image-reflector-controller-temp") .) | quote }}'
+          emptyDir: null
+        - name: data
+          persistentVolumeClaim:
+            claimName: '{{ include "controllerVolumeName" (merge (dict "volumeName" "image-reflector-controller-data") .) | quote }}'
+          emptyDir: null

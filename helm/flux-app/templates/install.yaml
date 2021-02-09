@@ -289,6 +289,150 @@ spec:
     helm.sh/chart: {{ include "chart" . | quote }}
   type: ClusterIP
 ---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  labels:
+    app.kubernetes.io/instance: {{ .Release.Name | quote }}
+    app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
+    app.kubernetes.io/name: {{ include "name" . | quote }}
+    app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
+    helm.sh/chart: {{ include "chart" . | quote }}
+  name: {{ include "controllerVolumeName" (merge (dict "volumeName" "helm-controller-temp") .) | quote }}
+  namespace: {{ .Release.Namespace }}
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 100MiB
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  labels:
+    app.kubernetes.io/instance: {{ .Release.Name | quote }}
+    app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
+    app.kubernetes.io/name: {{ include "name" . | quote }}
+    app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
+    helm.sh/chart: {{ include "chart" . | quote }}
+  name: {{ include "controllerVolumeName" (merge (dict "volumeName" "image-automation-controller-temp") .) | quote }}
+  namespace: {{ .Release.Namespace }}
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 100MiB
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  labels:
+    app.kubernetes.io/instance: {{ .Release.Name | quote }}
+    app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
+    app.kubernetes.io/name: {{ include "name" . | quote }}
+    app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
+    helm.sh/chart: {{ include "chart" . | quote }}
+  name: {{ include "controllerVolumeName" (merge (dict "volumeName" "image-reflector-controller-data") .) | quote }}
+  namespace: {{ .Release.Namespace }}
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 100MiB
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  labels:
+    app.kubernetes.io/instance: {{ .Release.Name | quote }}
+    app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
+    app.kubernetes.io/name: {{ include "name" . | quote }}
+    app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
+    helm.sh/chart: {{ include "chart" . | quote }}
+  name: {{ include "controllerVolumeName" (merge (dict "volumeName" "image-reflector-controller-temp") .) | quote }}
+  namespace: {{ .Release.Namespace }}
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 100MiB
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  labels:
+    app.kubernetes.io/instance: {{ .Release.Name | quote }}
+    app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
+    app.kubernetes.io/name: {{ include "name" . | quote }}
+    app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
+    helm.sh/chart: {{ include "chart" . | quote }}
+  name: {{ include "controllerVolumeName" (merge (dict "volumeName" "kustomize-controller-temp") .) | quote }}
+  namespace: {{ .Release.Namespace }}
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 100MiB
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  labels:
+    app.kubernetes.io/instance: {{ .Release.Name | quote }}
+    app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
+    app.kubernetes.io/name: {{ include "name" . | quote }}
+    app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
+    helm.sh/chart: {{ include "chart" . | quote }}
+  name: {{ include "controllerVolumeName" (merge (dict "volumeName" "notification-controller-temp") .) | quote }}
+  namespace: {{ .Release.Namespace }}
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 100MiB
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  labels:
+    app.kubernetes.io/instance: {{ .Release.Name | quote }}
+    app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
+    app.kubernetes.io/name: {{ include "name" . | quote }}
+    app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
+    helm.sh/chart: {{ include "chart" . | quote }}
+  name: {{ include "controllerVolumeName" (merge (dict "volumeName" "source-controller-data") .) | quote }}
+  namespace: {{ .Release.Namespace }}
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 100MiB
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  labels:
+    app.kubernetes.io/instance: {{ .Release.Name | quote }}
+    app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
+    app.kubernetes.io/name: {{ include "name" . | quote }}
+    app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
+    helm.sh/chart: {{ include "chart" . | quote }}
+  name: {{ include "controllerVolumeName" (merge (dict "volumeName" "source-controller-temp") .) | quote }}
+  namespace: {{ .Release.Namespace }}
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 100MiB
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -367,8 +511,9 @@ spec:
       serviceAccountName: helm-controller
       terminationGracePeriodSeconds: 600
       volumes:
-        - emptyDir: {}
-          name: temp
+        - name: temp
+          persistentVolumeClaim:
+            claimName: {{ include "controllerVolumeName" (merge (dict "volumeName" "helm-controller-temp") .) | quote }}
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -448,8 +593,9 @@ spec:
       serviceAccountName: image-automation-controller
       terminationGracePeriodSeconds: 10
       volumes:
-        - emptyDir: {}
-          name: temp
+        - name: temp
+          persistentVolumeClaim:
+            claimName: {{ include "controllerVolumeName" (merge (dict "volumeName" "image-automation-controller-temp") .) | quote }}
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -531,10 +677,12 @@ spec:
       serviceAccountName: image-reflector-controller
       terminationGracePeriodSeconds: 10
       volumes:
-        - emptyDir: {}
-          name: temp
-        - emptyDir: {}
-          name: data
+        - name: temp
+          persistentVolumeClaim:
+            claimName: {{ include "controllerVolumeName" (merge (dict "volumeName" "image-reflector-controller-temp") .) | quote }}
+        - name: data
+          persistentVolumeClaim:
+            claimName: {{ include "controllerVolumeName" (merge (dict "volumeName" "image-reflector-controller-data") .) | quote }}
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -616,8 +764,9 @@ spec:
       serviceAccountName: kustomize-controller
       terminationGracePeriodSeconds: 60
       volumes:
-        - emptyDir: {}
-          name: temp
+        - name: temp
+          persistentVolumeClaim:
+            claimName: {{ include "controllerVolumeName" (merge (dict "volumeName" "kustomize-controller-temp") .) | quote }}
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -700,8 +849,9 @@ spec:
       serviceAccountName: notification-controller
       terminationGracePeriodSeconds: 10
       volumes:
-        - emptyDir: {}
-          name: temp
+        - name: temp
+          persistentVolumeClaim:
+            claimName: {{ include "controllerVolumeName" (merge (dict "volumeName" "notification-controller-temp") .) | quote }}
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -788,10 +938,12 @@ spec:
       serviceAccountName: source-controller
       terminationGracePeriodSeconds: 10
       volumes:
-        - emptyDir: {}
-          name: data
-        - emptyDir: {}
-          name: tmp
+        - name: tmp
+          persistentVolumeClaim:
+            claimName: {{ include "controllerVolumeName" (merge (dict "volumeName" "source-controller-temp") .) | quote }}
+        - name: data
+          persistentVolumeClaim:
+            claimName: {{ include "controllerVolumeName" (merge (dict "volumeName" "source-controller-data") .) | quote }}
 ---
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
