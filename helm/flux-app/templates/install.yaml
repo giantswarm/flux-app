@@ -305,7 +305,7 @@ spec:
     - ReadWriteOnce
   resources:
     requests:
-      storage: 100MiB
+      storage: 100Mi
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
@@ -323,7 +323,7 @@ spec:
     - ReadWriteOnce
   resources:
     requests:
-      storage: 100MiB
+      storage: 100Mi
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
@@ -341,7 +341,7 @@ spec:
     - ReadWriteOnce
   resources:
     requests:
-      storage: 100MiB
+      storage: 100Mi
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
@@ -359,7 +359,7 @@ spec:
     - ReadWriteOnce
   resources:
     requests:
-      storage: 100MiB
+      storage: 100Mi
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
@@ -377,7 +377,7 @@ spec:
     - ReadWriteOnce
   resources:
     requests:
-      storage: 100MiB
+      storage: 100Mi
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
@@ -395,7 +395,7 @@ spec:
     - ReadWriteOnce
   resources:
     requests:
-      storage: 100MiB
+      storage: 100Mi
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
@@ -413,7 +413,7 @@ spec:
     - ReadWriteOnce
   resources:
     requests:
-      storage: 100MiB
+      storage: 100Mi
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
@@ -431,7 +431,7 @@ spec:
     - ReadWriteOnce
   resources:
     requests:
-      storage: 100MiB
+      storage: 100Mi
 ---
 apiVersion: apps/v1
 kind: Deployment
