@@ -343,7 +343,7 @@ spec:
     - ReadWriteOnce
   resources:
     requests:
-      storage: 100Mi
+      storage: {{ .Values.volumes.helmController.temp.size | quote }}
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
@@ -361,7 +361,7 @@ spec:
     - ReadWriteOnce
   resources:
     requests:
-      storage: 100Mi
+      storage: {{ .Values.volumes.imageAutomationController.temp.size | quote }}
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
@@ -379,7 +379,7 @@ spec:
     - ReadWriteOnce
   resources:
     requests:
-      storage: 100Mi
+      storage: {{ .Values.volumes.imageReflectorController.data.size | quote }}
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
@@ -397,7 +397,7 @@ spec:
     - ReadWriteOnce
   resources:
     requests:
-      storage: 100Mi
+      storage: {{ .Values.volumes.imageReflectorController.temp.size | quote }}
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
@@ -415,7 +415,7 @@ spec:
     - ReadWriteOnce
   resources:
     requests:
-      storage: 100Mi
+      storage: {{ .Values.volumes.kustomizeController.temp.size | quote }}
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
@@ -433,7 +433,7 @@ spec:
     - ReadWriteOnce
   resources:
     requests:
-      storage: 100Mi
+      storage: {{ .Values.volumes.notificationController.temp.size | quote }}
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
@@ -451,7 +451,7 @@ spec:
     - ReadWriteOnce
   resources:
     requests:
-      storage: 100Mi
+      storage: {{ .Values.volumes.sourceController.data.size | quote }}
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
@@ -469,7 +469,7 @@ spec:
     - ReadWriteOnce
   resources:
     requests:
-      storage: 100Mi
+      storage: {{ .Values.volumes.sourceController.temp.size | quote }}
 ---
 apiVersion: apps/v1
 kind: Deployment

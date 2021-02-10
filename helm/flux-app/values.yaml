@@ -23,3 +23,28 @@ sopsEncryption:
 
 crds:
   install: true
+
+# allows to change the persistentVolumeClaim request sizes
+volumes:
+  helmController:
+    temp:
+      size: 100Mi
+  imageAutomationController:
+    temp:
+      size: 100Mi
+  imageReflectorController:
+    temp:
+      size: 100Mi
+    data:
+      size: 100Mi
+  kustomizeController:
+    temp:
+      size: 100Mi
+  notificationController:
+    temp:
+      size: 100Mi
+  sourceController:
+    temp:
+      size: 100Mi
+    data:
+      size: 100Mi

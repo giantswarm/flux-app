@@ -1,7 +1,7 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema",
   "type": "object",
-  "required": ["images", "sources", "kustomizations"],
+  "required": ["images", "sources", "kustomizations", "volumes"],
   "properties": {
     "images": {
       "type": "object",
@@ -41,7 +41,7 @@
           },
           "additionalProperties": false
         },
-        "notifictionController": {
+        "notificationController": {
           "type": "object",
           "required": ["image"],
           "properties": {
@@ -179,7 +179,7 @@
           "type": "boolean"
         }
       },
-      "additionalProperties": true
+      "additionalProperties": false
     },
     "sopsEncryption": {
       "type": "object",
@@ -197,8 +197,152 @@
           }
         }
       },
-      "additionalProperties": true
+      "additionalProperties": false
+    },
+    "volumes": {
+      "type": "object",
+      "required": [
+        "helmController",
+        "sourceController",
+        "kustomizeController",
+        "notificationController",
+        "imageAutomationController",
+        "imageReflectorController"
+      ],
+      "properties": {
+        "helmController": {
+          "type": "object",
+          "required": ["temp"],
+          "properties": {
+            "temp": {
+              "type": "object",
+              "required": ["size"],
+              "properties": {
+                "size": {
+                  "type": "string",
+                  "pattern": "^([+-]?[0-9.]+)([eEinumkKMGTP]*[-+]?[0-9]*)$"
+                }
+              },
+              "additionalProperties": false
+            }
+          },
+          "additionalProperties": false
+        },
+        "sourceController": {
+          "type": "object",
+          "required": ["temp", "data"],
+          "properties": {
+            "temp": {
+              "type": "object",
+              "required": ["size"],
+              "properties": {
+                "size": {
+                  "type": "string",
+                  "pattern": "^([+-]?[0-9.]+)([eEinumkKMGTP]*[-+]?[0-9]*)$"
+                }
+              },
+              "additionalProperties": false
+            },
+            "data": {
+              "type": "object",
+              "required": ["size"],
+              "properties": {
+                "size": {
+                  "type": "string",
+                  "pattern": "^([+-]?[0-9.]+)([eEinumkKMGTP]*[-+]?[0-9]*)$"
+                }
+              },
+              "additionalProperties": false
+            }
+          },
+          "additionalProperties": false
+        },
+        "kustomizeController": {
+          "type": "object",
+          "required": ["temp"],
+          "properties": {
+            "temp": {
+              "type": "object",
+              "required": ["size"],
+              "properties": {
+                "size": {
+                  "type": "string",
+                  "pattern": "^([+-]?[0-9.]+)([eEinumkKMGTP]*[-+]?[0-9]*)$"
+                }
+              },
+              "additionalProperties": false
+            }
+          },
+          "additionalProperties": false
+        },
+        "notificationController": {
+          "type": "object",
+          "required": ["temp"],
+          "properties": {
+            "temp": {
+              "type": "object",
+              "required": ["size"],
+              "properties": {
+                "size": {
+                  "type": "string",
+                  "pattern": "^([+-]?[0-9.]+)([eEinumkKMGTP]*[-+]?[0-9]*)$"
+                }
+              },
+              "additionalProperties": false
+            }
+          },
+          "additionalProperties": false
+        },
+        "imageAutomationController": {
+          "type": "object",
+          "required": ["temp"],
+          "properties": {
+            "temp": {
+              "type": "object",
+              "required": ["size"],
+              "properties": {
+                "size": {
+                  "type": "string",
+                  "pattern": "^([+-]?[0-9.]+)([eEinumkKMGTP]*[-+]?[0-9]*)$"
+                }
+              },
+              "additionalProperties": false
+            }
+          },
+          "additionalProperties": false
+        },
+        "imageReflectorController": {
+          "type": "object",
+          "required": ["temp", "data"],
+          "properties": {
+            "temp": {
+              "type": "object",
+              "required": ["size"],
+              "properties": {
+                "size": {
+                  "type": "string",
+                  "pattern": "^([+-]?[0-9.]+)([eEinumkKMGTP]*[-+]?[0-9]*)$"
+                }
+              },
+              "additionalProperties": false
+            },
+            "data": {
+              "type": "object",
+              "required": ["size"],
+              "properties": {
+                "size": {
+                  "type": "string",
+                  "pattern": "^([+-]?[0-9.]+)([eEinumkKMGTP]*[-+]?[0-9]*)$"
+                }
+              },
+              "additionalProperties": false
+            }
+          },
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
     }
   },
-  "additionalProperties": true
+  "additionalProperties": false
 }
