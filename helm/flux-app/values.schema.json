@@ -7,19 +7,19 @@
       "type": "object",
       "required": [
         "registry",
-        "helm_controller",
-        "source_controller",
-        "kustomize_controller",
-        "notification_controller",
-        "image_automation_controller",
-        "image_reflector_controller"
+        "helmController",
+        "sourceController",
+        "kustomizeController",
+        "notificationController",
+        "imageAutomationController",
+        "imageReflectorController"
       ],
       "properties": {
         "registry": {
           "type": "string",
           "minLength": 1
         },
-        "helm_controller": {
+        "helmController": {
           "type": "object",
           "required": ["image"],
           "properties": {
@@ -30,7 +30,7 @@
           },
           "additionalProperties": false
         },
-        "source_controller": {
+        "sourceController": {
           "type": "object",
           "required": ["image"],
           "properties": {
@@ -41,7 +41,7 @@
           },
           "additionalProperties": false
         },
-        "kustomize_controller": {
+        "notifictionController": {
           "type": "object",
           "required": ["image"],
           "properties": {
@@ -52,7 +52,7 @@
           },
           "additionalProperties": false
         },
-        "notification_controller": {
+        "kustomizeController": {
           "type": "object",
           "required": ["image"],
           "properties": {
@@ -63,7 +63,7 @@
           },
           "additionalProperties": false
         },
-        "image_automation_controller": {
+        "imageAutomationController": {
           "type": "object",
           "required": ["image"],
           "properties": {
@@ -74,7 +74,7 @@
           },
           "additionalProperties": false
         },
-        "image_reflector_controller": {
+        "imageReflectorController": {
           "type": "object",
           "required": ["image"],
           "properties": {

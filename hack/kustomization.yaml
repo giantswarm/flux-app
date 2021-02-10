@@ -10,17 +10,17 @@ transformers:
 
 images:
 - name: fluxcd/helm-controller
-  newName: "{{ .Values.images.registry }}/{{ .Values.images.helm_controller.image }}"
+  newName: "{{ .Values.images.registry }}/{{ .Values.images.helmController.image }}"
 - name: fluxcd/kustomize-controller
-  newName: "{{ .Values.images.registry }}/{{ .Values.images.kustomize_controller.image }}"
+  newName: "{{ .Values.images.registry }}/{{ .Values.images.kustomizeController.image }}"
 - name: fluxcd/source-controller
-  newName: "{{ .Values.images.registry }}/{{ .Values.images.source_controller.image }}"
+  newName: "{{ .Values.images.registry }}/{{ .Values.images.sourceController.image }}"
 - name: fluxcd/notification-controller
-  newName: "{{ .Values.images.registry }}/{{ .Values.images.notification_controller.image }}"
+  newName: "{{ .Values.images.registry }}/{{ .Values.images.notificationController.image }}"
 - name: fluxcd/image-automation-controller
-  newName: "{{ .Values.images.registry }}/{{ .Values.images.image_automation_controller.image }}"
+  newName: "{{ .Values.images.registry }}/{{ .Values.images.imageAutomationController.image }}"
 - name: fluxcd/image-reflector-controller
-  newName: "{{ .Values.images.registry }}/{{ .Values.images.image_reflector_controller.image }}"
+  newName: "{{ .Values.images.registry }}/{{ .Values.images.imageReflectorController.image }}"
 
 
 resources:
