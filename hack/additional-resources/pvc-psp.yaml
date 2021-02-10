@@ -3,6 +3,7 @@ kind: PodSecurityPolicy
 metadata:
   name: '{{ printf "%s-pvc-psp" (include "name" .) | quote }}'
 spec:
+  allowPrivilegeEscalation: false
   privileged: false
   seLinux:
     rule: RunAsAny
