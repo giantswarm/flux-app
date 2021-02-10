@@ -24,7 +24,7 @@ images:
 
 
 resources:
-- https://github.com/fluxcd/flux2/releases/download/v0.7.6/install.yaml
+- https://github.com/fluxcd/flux2/releases/download/v0.7.7/install.yaml
 - ./additional-resources/helm-controller-pv.yaml
 - ./additional-resources/image-automation-controller-pv.yaml
 - ./additional-resources/image-reflector-controller-pv.yaml
