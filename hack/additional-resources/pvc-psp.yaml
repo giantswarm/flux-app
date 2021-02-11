@@ -21,3 +21,4 @@ spec:
     rule: MustRunAsNonRoot
   volumes:
   - 'persistentVolumeClaim'
+  - 'secret'
