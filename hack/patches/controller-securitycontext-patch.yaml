@@ -3,4 +3,4 @@
   value:
     allowPrivilegeEscalation: false
     readOnlyRootFilesystem: true
-    runAs: 100
+    runAsUser: 100

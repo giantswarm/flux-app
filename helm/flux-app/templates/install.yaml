@@ -544,7 +544,7 @@ spec:
           securityContext:
             allowPrivilegeEscalation: false
             readOnlyRootFilesystem: true
-            runAs: 100
+            runAsUser: 100
           volumeMounts:
             - mountPath: /tmp
               name: temp
@@ -627,7 +627,7 @@ spec:
           securityContext:
             allowPrivilegeEscalation: false
             readOnlyRootFilesystem: true
-            runAs: 100
+            runAsUser: 100
           volumeMounts:
             - mountPath: /tmp
               name: temp
@@ -710,7 +710,7 @@ spec:
           securityContext:
             allowPrivilegeEscalation: false
             readOnlyRootFilesystem: true
-            runAs: 100
+            runAsUser: 100
           volumeMounts:
             - mountPath: /tmp
               name: temp
@@ -798,7 +798,7 @@ spec:
           securityContext:
             allowPrivilegeEscalation: false
             readOnlyRootFilesystem: true
-            runAs: 100
+            runAsUser: 100
           volumeMounts:
             - mountPath: /tmp
               name: temp
@@ -886,7 +886,7 @@ spec:
           securityContext:
             allowPrivilegeEscalation: false
             readOnlyRootFilesystem: true
-            runAs: 100
+            runAsUser: 100
           volumeMounts:
             - mountPath: /tmp
               name: temp
@@ -974,7 +974,7 @@ spec:
           securityContext:
             allowPrivilegeEscalation: false
             readOnlyRootFilesystem: true
-            runAs: 100
+            runAsUser: 100
           volumeMounts:
             - mountPath: /data
               name: data
