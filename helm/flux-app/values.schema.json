@@ -1,6 +1,30 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema",
   "type": "object",
+  "definitions": {
+    "controllerImageProps": {
+      "type": "object",
+      "required": ["image"],
+      "properties": {
+        "image": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "additionalProperties": false
+    },
+    "volumeProps": {
+      "type": "object",
+      "required": ["size"],
+      "properties": {
+        "size": {
+          "type": "string",
+          "pattern": "^([+-]?[0-9.]+)([eEinumkKMGTP]*[-+]?[0-9]*)$"
+        }
+      },
+      "additionalProperties": false
+    }
+  },
   "required": ["images", "sources", "kustomizations", "volumes"],
   "properties": {
     "images": {
@@ -20,70 +44,22 @@
           "minLength": 1
         },
         "helmController": {
-          "type": "object",
-          "required": ["image"],
-          "properties": {
-            "image": {
-              "type": "string",
-              "minLength": 1
-            }
-          },
-          "additionalProperties": false
+          "$ref": "#/definitions/controllerImageProps"
         },
         "sourceController": {
-          "type": "object",
-          "required": ["image"],
-          "properties": {
-            "image": {
-              "type": "string",
-              "minLength": 1
-            }
-          },
-          "additionalProperties": false
+          "$ref": "#/definitions/controllerImageProps"
         },
         "notificationController": {
-          "type": "object",
-          "required": ["image"],
-          "properties": {
-            "image": {
-              "type": "string",
-              "minLength": 1
-            }
-          },
-          "additionalProperties": false
+          "$ref": "#/definitions/controllerImageProps"
         },
         "kustomizeController": {
-          "type": "object",
-          "required": ["image"],
-          "properties": {
-            "image": {
-              "type": "string",
-              "minLength": 1
-            }
-          },
-          "additionalProperties": false
+          "$ref": "#/definitions/controllerImageProps"
         },
         "imageAutomationController": {
-          "type": "object",
-          "required": ["image"],
-          "properties": {
-            "image": {
-              "type": "string",
-              "minLength": 1
-            }
-          },
-          "additionalProperties": false
+          "$ref": "#/definitions/controllerImageProps"
         },
         "imageReflectorController": {
-          "type": "object",
-          "required": ["image"],
-          "properties": {
-            "image": {
-              "type": "string",
-              "minLength": 1
-            }
-          },
-          "additionalProperties": false
+          "$ref": "#/definitions/controllerImageProps"
         }
       },
       "additionalProperties": false
@@ -215,15 +191,7 @@
           "required": ["temp"],
           "properties": {
             "temp": {
-              "type": "object",
-              "required": ["size"],
-              "properties": {
-                "size": {
-                  "type": "string",
-                  "pattern": "^([+-]?[0-9.]+)([eEinumkKMGTP]*[-+]?[0-9]*)$"
-                }
-              },
-              "additionalProperties": false
+              "$ref": "#/definitions/volumeProps"
             }
           },
           "additionalProperties": false
@@ -233,26 +201,10 @@
           "required": ["temp", "data"],
           "properties": {
             "temp": {
-              "type": "object",
-              "required": ["size"],
-              "properties": {
-                "size": {
-                  "type": "string",
-                  "pattern": "^([+-]?[0-9.]+)([eEinumkKMGTP]*[-+]?[0-9]*)$"
-                }
-              },
-              "additionalProperties": false
+              "$ref": "#/definitions/volumeProps"
             },
             "data": {
-              "type": "object",
-              "required": ["size"],
-              "properties": {
-                "size": {
-                  "type": "string",
-                  "pattern": "^([+-]?[0-9.]+)([eEinumkKMGTP]*[-+]?[0-9]*)$"
-                }
-              },
-              "additionalProperties": false
+              "$ref": "#/definitions/volumeProps"
             }
           },
           "additionalProperties": false
@@ -262,15 +214,7 @@
           "required": ["temp"],
           "properties": {
             "temp": {
-              "type": "object",
-              "required": ["size"],
-              "properties": {
-                "size": {
-                  "type": "string",
-                  "pattern": "^([+-]?[0-9.]+)([eEinumkKMGTP]*[-+]?[0-9]*)$"
-                }
-              },
-              "additionalProperties": false
+              "$ref": "#/definitions/volumeProps"
             }
           },
           "additionalProperties": false
@@ -280,15 +224,7 @@
           "required": ["temp"],
           "properties": {
             "temp": {
-              "type": "object",
-              "required": ["size"],
-              "properties": {
-                "size": {
-                  "type": "string",
-                  "pattern": "^([+-]?[0-9.]+)([eEinumkKMGTP]*[-+]?[0-9]*)$"
-                }
-              },
-              "additionalProperties": false
+              "$ref": "#/definitions/volumeProps"
             }
           },
           "additionalProperties": false
@@ -298,15 +234,7 @@
           "required": ["temp"],
           "properties": {
             "temp": {
-              "type": "object",
-              "required": ["size"],
-              "properties": {
-                "size": {
-                  "type": "string",
-                  "pattern": "^([+-]?[0-9.]+)([eEinumkKMGTP]*[-+]?[0-9]*)$"
-                }
-              },
-              "additionalProperties": false
+              "$ref": "#/definitions/volumeProps"
             }
           },
           "additionalProperties": false
@@ -316,26 +244,10 @@
           "required": ["temp", "data"],
           "properties": {
             "temp": {
-              "type": "object",
-              "required": ["size"],
-              "properties": {
-                "size": {
-                  "type": "string",
-                  "pattern": "^([+-]?[0-9.]+)([eEinumkKMGTP]*[-+]?[0-9]*)$"
-                }
-              },
-              "additionalProperties": false
+              "$ref": "#/definitions/volumeProps"
             },
             "data": {
-              "type": "object",
-              "required": ["size"],
-              "properties": {
-                "size": {
-                  "type": "string",
-                  "pattern": "^([+-]?[0-9.]+)([eEinumkKMGTP]*[-+]?[0-9]*)$"
-                }
-              },
-              "additionalProperties": false
+              "$ref": "#/definitions/volumeProps"
             }
           },
           "additionalProperties": false
