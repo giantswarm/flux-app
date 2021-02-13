@@ -1,89 +1,65 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema",
   "type": "object",
-  "required": ["images", "sources", "kustomizations"],
+  "definitions": {
+    "controllerImageProps": {
+      "type": "object",
+      "required": ["image"],
+      "properties": {
+        "image": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "additionalProperties": false
+    },
+    "volumeProps": {
+      "type": "object",
+      "required": ["size"],
+      "properties": {
+        "size": {
+          "type": "string",
+          "pattern": "^([+-]?[0-9.]+)([eEinumkKMGTP]*[-+]?[0-9]*)$"
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "required": ["images", "sources", "kustomizations", "volumes"],
   "properties": {
     "images": {
       "type": "object",
       "required": [
         "registry",
-        "helm_controller",
-        "source_controller",
-        "kustomize_controller",
-        "notification_controller",
-        "image_automation_controller",
-        "image_reflector_controller"
+        "helmController",
+        "sourceController",
+        "kustomizeController",
+        "notificationController",
+        "imageAutomationController",
+        "imageReflectorController"
       ],
       "properties": {
         "registry": {
           "type": "string",
           "minLength": 1
         },
-        "helm_controller": {
-          "type": "object",
-          "required": ["image"],
-          "properties": {
-            "image": {
-              "type": "string",
-              "minLength": 1
-            }
-          },
-          "additionalProperties": false
+        "helmController": {
+          "$ref": "#/definitions/controllerImageProps"
         },
-        "source_controller": {
-          "type": "object",
-          "required": ["image"],
-          "properties": {
-            "image": {
-              "type": "string",
-              "minLength": 1
-            }
-          },
-          "additionalProperties": false
+        "sourceController": {
+          "$ref": "#/definitions/controllerImageProps"
         },
-        "kustomize_controller": {
-          "type": "object",
-          "required": ["image"],
-          "properties": {
-            "image": {
-              "type": "string",
-              "minLength": 1
-            }
-          },
-          "additionalProperties": false
+        "notificationController": {
+          "$ref": "#/definitions/controllerImageProps"
         },
-        "notification_controller": {
-          "type": "object",
-          "required": ["image"],
-          "properties": {
-            "image": {
-              "type": "string",
-              "minLength": 1
-            }
-          },
-          "additionalProperties": false
+        "kustomizeController": {
+          "$ref": "#/definitions/controllerImageProps"
         },
-        "image_automation_controller": {
-          "type": "object",
-          "required": ["image"],
-          "properties": {
-            "image": {
-              "type": "string",
-              "minLength": 1
-            }
-          },
-          "additionalProperties": false
+        "imageAutomationController": {
+          "$ref": "#/definitions/controllerImageProps"
         },
-        "image_reflector_controller": {
-          "type": "object",
-          "required": ["image"],
-          "properties": {
-            "image": {
-              "type": "string",
-              "minLength": 1
-            }
-          },
-          "additionalProperties": false
+        "imageReflectorController": {
+          "$ref": "#/definitions/controllerImageProps"
         }
       },
       "additionalProperties": false
@@ -179,7 +155,7 @@
           "type": "boolean"
         }
       },
-      "additionalProperties": true
+      "additionalProperties": false
     },
     "sopsEncryption": {
       "type": "object",
@@ -197,7 +173,87 @@
           }
         }
       },
-      "additionalProperties": true
+      "additionalProperties": false
+    },
+    "volumes": {
+      "type": "object",
+      "required": [
+        "helmController",
+        "sourceController",
+        "kustomizeController",
+        "notificationController",
+        "imageAutomationController",
+        "imageReflectorController"
+      ],
+      "properties": {
+        "helmController": {
+          "type": "object",
+          "required": ["temp"],
+          "properties": {
+            "temp": {
+              "$ref": "#/definitions/volumeProps"
+            }
+          },
+          "additionalProperties": false
+        },
+        "sourceController": {
+          "type": "object",
+          "required": ["temp", "data"],
+          "properties": {
+            "temp": {
+              "$ref": "#/definitions/volumeProps"
+            },
+            "data": {
+              "$ref": "#/definitions/volumeProps"
+            }
+          },
+          "additionalProperties": false
+        },
+        "kustomizeController": {
+          "type": "object",
+          "required": ["temp"],
+          "properties": {
+            "temp": {
+              "$ref": "#/definitions/volumeProps"
+            }
+          },
+          "additionalProperties": false
+        },
+        "notificationController": {
+          "type": "object",
+          "required": ["temp"],
+          "properties": {
+            "temp": {
+              "$ref": "#/definitions/volumeProps"
+            }
+          },
+          "additionalProperties": false
+        },
+        "imageAutomationController": {
+          "type": "object",
+          "required": ["temp"],
+          "properties": {
+            "temp": {
+              "$ref": "#/definitions/volumeProps"
+            }
+          },
+          "additionalProperties": false
+        },
+        "imageReflectorController": {
+          "type": "object",
+          "required": ["temp", "data"],
+          "properties": {
+            "temp": {
+              "$ref": "#/definitions/volumeProps"
+            },
+            "data": {
+              "$ref": "#/definitions/volumeProps"
+            }
+          },
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
     }
   },
   "additionalProperties": true

@@ -1,16 +1,16 @@
 images:
   registry: quay.io
-  helm_controller:
+  helmController:
     image: giantswarm/fluxcd-helm-controller
-  source_controller:
+  sourceController:
     image: giantswarm/fluxcd-source-controller
-  kustomize_controller:
+  kustomizeController:
     image: giantswarm/fluxcd-kustomize-controller
-  notification_controller:
+  notificationController:
     image: giantswarm/fluxcd-notification-controller
-  image_automation_controller:
+  imageAutomationController:
     image: giantswarm/fluxcd-image-automation-controller
-  image_reflector_controller:
+  imageReflectorController:
     image: giantswarm/fluxcd-image-reflector-controller
 
 # only GitRepository for now
@@ -23,3 +23,28 @@ sopsEncryption:
 
 crds:
   install: true
+
+# allows to change the persistentVolumeClaim request sizes
+volumes:
+  helmController:
+    temp:
+      size: 100Mi
+  imageAutomationController:
+    temp:
+      size: 100Mi
+  imageReflectorController:
+    temp:
+      size: 100Mi
+    data:
+      size: 100Mi
+  kustomizeController:
+    temp:
+      size: 100Mi
+  notificationController:
+    temp:
+      size: 100Mi
+  sourceController:
+    temp:
+      size: 100Mi
+    data:
+      size: 100Mi

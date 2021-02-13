@@ -1,5 +1,108 @@
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  labels:
+    app.kubernetes.io/instance: {{ .Release.Name | quote }}
+    app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
+    app.kubernetes.io/name: {{ include "name" . | quote }}
+    app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
+    helm.sh/chart: {{ include "chart" . | quote }}
+  name: helm-controller
+  namespace: {{ .Release.Namespace }}
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  labels:
+    app.kubernetes.io/instance: {{ .Release.Name | quote }}
+    app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
+    app.kubernetes.io/name: {{ include "name" . | quote }}
+    app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
+    helm.sh/chart: {{ include "chart" . | quote }}
+  name: image-automation-controller
+  namespace: {{ .Release.Namespace }}
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  labels:
+    app.kubernetes.io/instance: {{ .Release.Name | quote }}
+    app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
+    app.kubernetes.io/name: {{ include "name" . | quote }}
+    app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
+    helm.sh/chart: {{ include "chart" . | quote }}
+  name: image-reflector-controller
+  namespace: {{ .Release.Namespace }}
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  labels:
+    app.kubernetes.io/instance: {{ .Release.Name | quote }}
+    app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
+    app.kubernetes.io/name: {{ include "name" . | quote }}
+    app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
+    helm.sh/chart: {{ include "chart" . | quote }}
+  name: kustomize-controller
+  namespace: {{ .Release.Namespace }}
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  labels:
+    app.kubernetes.io/instance: {{ .Release.Name | quote }}
+    app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
+    app.kubernetes.io/name: {{ include "name" . | quote }}
+    app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
+    helm.sh/chart: {{ include "chart" . | quote }}
+  name: notification-controller
+  namespace: {{ .Release.Namespace }}
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  labels:
+    app.kubernetes.io/instance: {{ .Release.Name | quote }}
+    app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
+    app.kubernetes.io/name: {{ include "name" . | quote }}
+    app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
+    helm.sh/chart: {{ include "chart" . | quote }}
+  name: source-controller
+  namespace: {{ .Release.Namespace }}
+---
+apiVersion: policy/v1beta1
+kind: PodSecurityPolicy
+metadata:
+  labels:
+    app.kubernetes.io/instance: {{ .Release.Name | quote }}
+    app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
+    app.kubernetes.io/name: {{ include "name" . | quote }}
+    app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
+    helm.sh/chart: {{ include "chart" . | quote }}
+  name: {{ printf "%s-pvc-psp" (include "name" .) | quote }}
+spec:
+  allowPrivilegeEscalation: false
+  fsGroup:
+    ranges:
+      - max: 65535
+        min: 1
+    rule: MustRunAs
+  privileged: false
+  runAsUser:
+    rule: MustRunAsNonRoot
+  seLinux:
+    rule: RunAsAny
+  supplementalGroups:
+    ranges:
+      - max: 65535
+        min: 1
+    rule: MustRunAs
+  volumes:
+    - persistentVolumeClaim
+    - secret
+---
 apiVersion: rbac.authorization.k8s.io/v1
-kind: Role
+kind: ClusterRole
 metadata:
   labels:
     app.kubernetes.io/instance: {{ .Release.Name | quote }}
@@ -8,7 +111,6 @@ metadata:
     app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
     helm.sh/chart: {{ include "chart" . | quote }}
   name: crd-controller
-  namespace: {{ .Release.Namespace }}
 rules:
   - apiGroups:
       - source.toolkit.fluxcd.io
@@ -35,12 +137,19 @@ rules:
     verbs:
       - '*'
   - apiGroups:
-      - ""
+      - image.toolkit.fluxcd.io
     resources:
-      - configmaps
-      - configmaps/status
+      - '*'
     verbs:
       - '*'
+  - apiGroups:
+      - ""
+    resources:
+      - secrets
+    verbs:
+      - get
+      - list
+      - watch
   - apiGroups:
       - ""
     resources:
@@ -48,26 +157,39 @@ rules:
     verbs:
       - create
       - patch
----
-apiVersion: rbac.authorization.k8s.io/v1
-kind: RoleBinding
-metadata:
-  labels:
-    app.kubernetes.io/instance: {{ .Release.Name | quote }}
-    app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
-    app.kubernetes.io/name: {{ include "name" . | quote }}
-    app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
-    helm.sh/chart: {{ include "chart" . | quote }}
-  name: crd-controller
-  namespace: {{ .Release.Namespace }}
-roleRef:
-  apiGroup: rbac.authorization.k8s.io
-  kind: Role
-  name: crd-controller
-subjects:
-  - kind: ServiceAccount
-    name: default
-    namespace: {{ .Release.Namespace }}
+  - apiGroups:
+      - ""
+    resources:
+      - configmaps
+      - configmaps/status
+    verbs:
+      - get
+      - list
+      - watch
+      - create
+      - update
+      - patch
+      - delete
+  - apiGroups:
+      - coordination.k8s.io
+    resources:
+      - leases
+    verbs:
+      - get
+      - list
+      - watch
+      - create
+      - update
+      - patch
+      - delete
+  - apiGroups:
+      - policy
+    resourceNames:
+      - {{ printf "%s-pvc-psp" (include "name" .) | quote }}
+    resources:
+      - podsecuritypolicies
+    verbs:
+      - use
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
@@ -85,7 +207,44 @@ roleRef:
   name: cluster-admin
 subjects:
   - kind: ServiceAccount
-    name: default
+    name: kustomize-controller
+    namespace: {{ .Release.Namespace }}
+  - kind: ServiceAccount
+    name: helm-controller
+    namespace: {{ .Release.Namespace }}
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  labels:
+    app.kubernetes.io/instance: {{ .Release.Name | quote }}
+    app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
+    app.kubernetes.io/name: {{ include "name" . | quote }}
+    app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
+    helm.sh/chart: {{ include "chart" . | quote }}
+  name: crd-controller
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: crd-controller
+subjects:
+  - kind: ServiceAccount
+    name: kustomize-controller
+    namespace: {{ .Release.Namespace }}
+  - kind: ServiceAccount
+    name: helm-controller
+    namespace: {{ .Release.Namespace }}
+  - kind: ServiceAccount
+    name: source-controller
+    namespace: {{ .Release.Namespace }}
+  - kind: ServiceAccount
+    name: notification-controller
+    namespace: {{ .Release.Namespace }}
+  - kind: ServiceAccount
+    name: image-reflector-controller
+    namespace: {{ .Release.Namespace }}
+  - kind: ServiceAccount
+    name: image-automation-controller
     namespace: {{ .Release.Namespace }}
 ---
 apiVersion: v1
@@ -169,6 +328,150 @@ spec:
     helm.sh/chart: {{ include "chart" . | quote }}
   type: ClusterIP
 ---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  labels:
+    app.kubernetes.io/instance: {{ .Release.Name | quote }}
+    app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
+    app.kubernetes.io/name: {{ include "name" . | quote }}
+    app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
+    helm.sh/chart: {{ include "chart" . | quote }}
+  name: {{ include "controllerVolumeName" (merge (dict "volumeName" "helm-controller-temp") .) | quote }}
+  namespace: {{ .Release.Namespace }}
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: {{ .Values.volumes.helmController.temp.size | quote }}
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  labels:
+    app.kubernetes.io/instance: {{ .Release.Name | quote }}
+    app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
+    app.kubernetes.io/name: {{ include "name" . | quote }}
+    app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
+    helm.sh/chart: {{ include "chart" . | quote }}
+  name: {{ include "controllerVolumeName" (merge (dict "volumeName" "image-automation-controller-temp") .) | quote }}
+  namespace: {{ .Release.Namespace }}
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: {{ .Values.volumes.imageAutomationController.temp.size | quote }}
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  labels:
+    app.kubernetes.io/instance: {{ .Release.Name | quote }}
+    app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
+    app.kubernetes.io/name: {{ include "name" . | quote }}
+    app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
+    helm.sh/chart: {{ include "chart" . | quote }}
+  name: {{ include "controllerVolumeName" (merge (dict "volumeName" "image-reflector-controller-data") .) | quote }}
+  namespace: {{ .Release.Namespace }}
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: {{ .Values.volumes.imageReflectorController.data.size | quote }}
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  labels:
+    app.kubernetes.io/instance: {{ .Release.Name | quote }}
+    app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
+    app.kubernetes.io/name: {{ include "name" . | quote }}
+    app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
+    helm.sh/chart: {{ include "chart" . | quote }}
+  name: {{ include "controllerVolumeName" (merge (dict "volumeName" "image-reflector-controller-temp") .) | quote }}
+  namespace: {{ .Release.Namespace }}
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: {{ .Values.volumes.imageReflectorController.temp.size | quote }}
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  labels:
+    app.kubernetes.io/instance: {{ .Release.Name | quote }}
+    app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
+    app.kubernetes.io/name: {{ include "name" . | quote }}
+    app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
+    helm.sh/chart: {{ include "chart" . | quote }}
+  name: {{ include "controllerVolumeName" (merge (dict "volumeName" "kustomize-controller-temp") .) | quote }}
+  namespace: {{ .Release.Namespace }}
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: {{ .Values.volumes.kustomizeController.temp.size | quote }}
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  labels:
+    app.kubernetes.io/instance: {{ .Release.Name | quote }}
+    app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
+    app.kubernetes.io/name: {{ include "name" . | quote }}
+    app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
+    helm.sh/chart: {{ include "chart" . | quote }}
+  name: {{ include "controllerVolumeName" (merge (dict "volumeName" "notification-controller-temp") .) | quote }}
+  namespace: {{ .Release.Namespace }}
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: {{ .Values.volumes.notificationController.temp.size | quote }}
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  labels:
+    app.kubernetes.io/instance: {{ .Release.Name | quote }}
+    app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
+    app.kubernetes.io/name: {{ include "name" . | quote }}
+    app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
+    helm.sh/chart: {{ include "chart" . | quote }}
+  name: {{ include "controllerVolumeName" (merge (dict "volumeName" "source-controller-data") .) | quote }}
+  namespace: {{ .Release.Namespace }}
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: {{ .Values.volumes.sourceController.data.size | quote }}
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  labels:
+    app.kubernetes.io/instance: {{ .Release.Name | quote }}
+    app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
+    app.kubernetes.io/name: {{ include "name" . | quote }}
+    app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
+    helm.sh/chart: {{ include "chart" . | quote }}
+  name: {{ include "controllerVolumeName" (merge (dict "volumeName" "source-controller-temp") .) | quote }}
+  namespace: {{ .Release.Namespace }}
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: {{ .Values.volumes.sourceController.temp.size | quote }}
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -207,14 +510,14 @@ spec:
             - --events-addr=http://notification-controller/
             - --watch-all-namespaces
             - --log-level=info
-            - --log-json
+            - --log-encoding=json
             - --enable-leader-election
           env:
             - name: RUNTIME_NAMESPACE
               valueFrom:
                 fieldRef:
                   fieldPath: metadata.namespace
-          image: '{{ .Values.images.registry }}/{{ .Values.images.helm_controller.image }}:v0.4.4'
+          image: '{{ .Values.images.registry }}/{{ .Values.images.helmController.image }}:v0.6.1'
           imagePullPolicy: IfNotPresent
           livenessProbe:
             httpGet:
@@ -241,13 +544,16 @@ spec:
           securityContext:
             allowPrivilegeEscalation: false
             readOnlyRootFilesystem: true
+            runAsUser: 100
           volumeMounts:
             - mountPath: /tmp
               name: temp
+      serviceAccountName: helm-controller
       terminationGracePeriodSeconds: 600
       volumes:
-        - emptyDir: {}
-          name: temp
+        - name: temp
+          persistentVolumeClaim:
+            claimName: {{ include "controllerVolumeName" (merge (dict "volumeName" "helm-controller-temp") .) | quote }}
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -287,14 +593,14 @@ spec:
             - --events-addr=http://notification-controller/
             - --watch-all-namespaces
             - --log-level=info
-            - --log-json
+            - --log-encoding=json
             - --enable-leader-election
           env:
             - name: RUNTIME_NAMESPACE
               valueFrom:
                 fieldRef:
                   fieldPath: metadata.namespace
-          image: '{{ .Values.images.registry }}/{{ .Values.images.image_automation_controller.image }}:v0.2.0'
+          image: '{{ .Values.images.registry }}/{{ .Values.images.imageAutomationController.image }}:v0.4.0'
           imagePullPolicy: IfNotPresent
           livenessProbe:
             httpGet:
@@ -321,13 +627,16 @@ spec:
           securityContext:
             allowPrivilegeEscalation: false
             readOnlyRootFilesystem: true
+            runAsUser: 100
           volumeMounts:
             - mountPath: /tmp
               name: temp
+      serviceAccountName: image-automation-controller
       terminationGracePeriodSeconds: 10
       volumes:
-        - emptyDir: {}
-          name: temp
+        - name: temp
+          persistentVolumeClaim:
+            claimName: {{ include "controllerVolumeName" (merge (dict "volumeName" "image-automation-controller-temp") .) | quote }}
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -367,14 +676,14 @@ spec:
             - --events-addr=http://notification-controller/
             - --watch-all-namespaces
             - --log-level=info
-            - --log-json
+            - --log-encoding=json
             - --enable-leader-election
           env:
             - name: RUNTIME_NAMESPACE
               valueFrom:
                 fieldRef:
                   fieldPath: metadata.namespace
-          image: '{{ .Values.images.registry }}/{{ .Values.images.image_reflector_controller.image }}:v0.1.0'
+          image: '{{ .Values.images.registry }}/{{ .Values.images.imageReflectorController.image }}:v0.5.0'
           imagePullPolicy: IfNotPresent
           livenessProbe:
             httpGet:
@@ -401,17 +710,21 @@ spec:
           securityContext:
             allowPrivilegeEscalation: false
             readOnlyRootFilesystem: true
+            runAsUser: 100
           volumeMounts:
             - mountPath: /tmp
               name: temp
             - mountPath: /data
               name: data
+      serviceAccountName: image-reflector-controller
       terminationGracePeriodSeconds: 10
       volumes:
-        - emptyDir: {}
-          name: temp
-        - emptyDir: {}
-          name: data
+        - name: temp
+          persistentVolumeClaim:
+            claimName: {{ include "controllerVolumeName" (merge (dict "volumeName" "image-reflector-controller-temp") .) | quote }}
+        - name: data
+          persistentVolumeClaim:
+            claimName: {{ include "controllerVolumeName" (merge (dict "volumeName" "image-reflector-controller-data") .) | quote }}
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -451,14 +764,14 @@ spec:
             - --events-addr=http://notification-controller/
             - --watch-all-namespaces
             - --log-level=info
-            - --log-json
+            - --log-encoding=json
             - --enable-leader-election
           env:
             - name: RUNTIME_NAMESPACE
               valueFrom:
                 fieldRef:
                   fieldPath: metadata.namespace
-          image: '{{ .Values.images.registry }}/{{ .Values.images.kustomize_controller.image }}:v0.5.3'
+          image: '{{ .Values.images.registry }}/{{ .Values.images.kustomizeController.image }}:v0.7.4'
           imagePullPolicy: IfNotPresent
           livenessProbe:
             httpGet:
@@ -485,15 +798,18 @@ spec:
           securityContext:
             allowPrivilegeEscalation: false
             readOnlyRootFilesystem: true
+            runAsUser: 100
           volumeMounts:
             - mountPath: /tmp
               name: temp
       securityContext:
         fsGroup: 1337
+      serviceAccountName: kustomize-controller
       terminationGracePeriodSeconds: 60
       volumes:
-        - emptyDir: {}
-          name: temp
+        - name: temp
+          persistentVolumeClaim:
+            claimName: {{ include "controllerVolumeName" (merge (dict "volumeName" "kustomize-controller-temp") .) | quote }}
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -532,14 +848,14 @@ spec:
         - args:
             - --watch-all-namespaces
             - --log-level=info
-            - --log-json
+            - --log-encoding=json
             - --enable-leader-election
           env:
             - name: RUNTIME_NAMESPACE
               valueFrom:
                 fieldRef:
                   fieldPath: metadata.namespace
-          image: '{{ .Values.images.registry }}/{{ .Values.images.notification_controller.image }}:v0.5.0'
+          image: '{{ .Values.images.registry }}/{{ .Values.images.notificationController.image }}:v0.7.1'
           imagePullPolicy: IfNotPresent
           livenessProbe:
             httpGet:
@@ -570,13 +886,16 @@ spec:
           securityContext:
             allowPrivilegeEscalation: false
             readOnlyRootFilesystem: true
+            runAsUser: 100
           volumeMounts:
             - mountPath: /tmp
               name: temp
+      serviceAccountName: notification-controller
       terminationGracePeriodSeconds: 10
       volumes:
-        - emptyDir: {}
-          name: temp
+        - name: temp
+          persistentVolumeClaim:
+            claimName: {{ include "controllerVolumeName" (merge (dict "volumeName" "notification-controller-temp") .) | quote }}
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -598,6 +917,8 @@ spec:
       app.kubernetes.io/instance: {{ .Release.Name | quote }}
       app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
       app.kubernetes.io/name: {{ include "name" . | quote }}
+  strategy:
+    type: Recreate
   template:
     metadata:
       annotations:
@@ -616,7 +937,7 @@ spec:
             - --events-addr=http://notification-controller/
             - --watch-all-namespaces
             - --log-level=info
-            - --log-json
+            - --log-encoding=json
             - --enable-leader-election
             - --storage-path=/data
             - --storage-adv-addr=source-controller.$(RUNTIME_NAMESPACE).svc.cluster.local.
@@ -625,18 +946,20 @@ spec:
               valueFrom:
                 fieldRef:
                   fieldPath: metadata.namespace
-          image: '{{ .Values.images.registry }}/{{ .Values.images.source_controller.image }}:v0.5.6'
+          image: '{{ .Values.images.registry }}/{{ .Values.images.sourceController.image }}:v0.7.4'
           imagePullPolicy: IfNotPresent
           livenessProbe:
             httpGet:
-              path: /
-              port: http
+              path: /healthz
+              port: healthz
           name: manager
           ports:
             - containerPort: 9090
               name: http
             - containerPort: 8080
               name: http-prom
+            - containerPort: 9440
+              name: healthz
           readinessProbe:
             httpGet:
               path: /
@@ -651,17 +974,21 @@ spec:
           securityContext:
             allowPrivilegeEscalation: false
             readOnlyRootFilesystem: true
+            runAsUser: 100
           volumeMounts:
             - mountPath: /data
               name: data
             - mountPath: /tmp
               name: tmp
+      serviceAccountName: source-controller
       terminationGracePeriodSeconds: 10
       volumes:
-        - emptyDir: {}
-          name: data
-        - emptyDir: {}
-          name: tmp
+        - name: tmp
+          persistentVolumeClaim:
+            claimName: {{ include "controllerVolumeName" (merge (dict "volumeName" "source-controller-temp") .) | quote }}
+        - name: data
+          persistentVolumeClaim:
+            claimName: {{ include "controllerVolumeName" (merge (dict "volumeName" "source-controller-data") .) | quote }}
 ---
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
@@ -721,9 +1048,12 @@ metadata:
   name: deny-ingress
   namespace: {{ .Release.Namespace }}
 spec:
+  egress:
+    - {}
   ingress:
     - from:
         - podSelector: {}
   podSelector: {}
   policyTypes:
     - Ingress
+    - Egress

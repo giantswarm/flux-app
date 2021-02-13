@@ -10,18 +10,46 @@ transformers:
 
 images:
 - name: fluxcd/helm-controller
-  newName: "{{ .Values.images.registry }}/{{ .Values.images.helm_controller.image }}"
+  newName: "{{ .Values.images.registry }}/{{ .Values.images.helmController.image }}"
 - name: fluxcd/kustomize-controller
-  newName: "{{ .Values.images.registry }}/{{ .Values.images.kustomize_controller.image }}"
+  newName: "{{ .Values.images.registry }}/{{ .Values.images.kustomizeController.image }}"
 - name: fluxcd/source-controller
-  newName: "{{ .Values.images.registry }}/{{ .Values.images.source_controller.image }}"
+  newName: "{{ .Values.images.registry }}/{{ .Values.images.sourceController.image }}"
 - name: fluxcd/notification-controller
-  newName: "{{ .Values.images.registry }}/{{ .Values.images.notification_controller.image }}"
+  newName: "{{ .Values.images.registry }}/{{ .Values.images.notificationController.image }}"
 - name: fluxcd/image-automation-controller
-  newName: "{{ .Values.images.registry }}/{{ .Values.images.image_automation_controller.image }}"
+  newName: "{{ .Values.images.registry }}/{{ .Values.images.imageAutomationController.image }}"
 - name: fluxcd/image-reflector-controller
-  newName: "{{ .Values.images.registry }}/{{ .Values.images.image_reflector_controller.image }}"
+  newName: "{{ .Values.images.registry }}/{{ .Values.images.imageReflectorController.image }}"
 
 
 resources:
-- https://github.com/fluxcd/flux2/releases/download/v0.5.9/install.yaml
+- https://github.com/fluxcd/flux2/releases/download/v0.7.7/install.yaml
+- ./additional-resources/helm-controller-pv.yaml
+- ./additional-resources/image-automation-controller-pv.yaml
+- ./additional-resources/image-reflector-controller-pv.yaml
+- ./additional-resources/kustomize-controller-pv.yaml
+- ./additional-resources/notification-controller-pv.yaml
+- ./additional-resources/source-controller-pv.yaml
+- ./additional-resources/pvc-psp.yaml
+
+patches:
+- path: ./patches/helm-controller-patch.yaml
+- path: ./patches/image-automation-controller-patch.yaml
+- path: ./patches/image-reflector-controller-patch.yaml
+- path: ./patches/kustomize-controller-patch.yaml
+- path: ./patches/notification-controller-patch.yaml
+- path: ./patches/source-controller-patch.yaml
+- path: ./patches/crd-controller-cluster-role-patch.yaml
+  target:
+    group: rbac.authorization.k8s.io
+    version: v1
+    kind: ClusterRole
+    name: crd-controller
+    labelSelector: "app.kubernetes.io/instance=flux-system"
+- path: ./patches/controller-securitycontext-patch.yaml
+  target:
+    group: apps
+    version: v1
+    kind: Deployment
+    labelSelector: "app.kubernetes.io/instance=flux-system"

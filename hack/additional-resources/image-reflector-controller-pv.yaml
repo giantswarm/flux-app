@@ -1,0 +1,21 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: '{{ include "controllerVolumeName" (merge (dict "volumeName" "image-reflector-controller-temp") .) | quote }}'
+spec:
+  accessModes:
+  - ReadWriteOnce
+  resources:
+    requests:
+      storage: '{{ .Values.volumes.imageReflectorController.temp.size | quote }}'
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: '{{ include "controllerVolumeName" (merge (dict "volumeName" "image-reflector-controller-data") .) | quote }}'
+spec:
+  accessModes:
+  - ReadWriteOnce
+  resources:
+    requests:
+      storage: '{{ .Values.volumes.imageReflectorController.data.size | quote }}'

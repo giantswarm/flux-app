@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: '{{ include "controllerVolumeName" (merge (dict "volumeName" "helm-controller-temp") .) | quote }}'
+spec:
+  accessModes:
+  - ReadWriteOnce
+  resources:
+    requests:
+      storage: '{{ .Values.volumes.helmController.temp.size | quote }}'
