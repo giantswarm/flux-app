@@ -517,7 +517,7 @@ spec:
               valueFrom:
                 fieldRef:
                   fieldPath: metadata.namespace
-          image: '{{ .Values.images.registry }}/{{ .Values.images.helmController.image }}:v0.6.1'
+          image: '{{ .Values.images.registry }}/{{ .Values.images.helmController.image }}:v0.7.0'
           imagePullPolicy: IfNotPresent
           livenessProbe:
             httpGet:
@@ -600,7 +600,7 @@ spec:
               valueFrom:
                 fieldRef:
                   fieldPath: metadata.namespace
-          image: '{{ .Values.images.registry }}/{{ .Values.images.imageAutomationController.image }}:v0.4.0'
+          image: '{{ .Values.images.registry }}/{{ .Values.images.imageAutomationController.image }}:v0.5.0'
           imagePullPolicy: IfNotPresent
           livenessProbe:
             httpGet:
@@ -631,6 +631,8 @@ spec:
           volumeMounts:
             - mountPath: /tmp
               name: temp
+      securityContext:
+        fsGroup: 1337
       serviceAccountName: image-automation-controller
       terminationGracePeriodSeconds: 10
       volumes:
@@ -683,7 +685,7 @@ spec:
               valueFrom:
                 fieldRef:
                   fieldPath: metadata.namespace
-          image: '{{ .Values.images.registry }}/{{ .Values.images.imageReflectorController.image }}:v0.5.0'
+          image: '{{ .Values.images.registry }}/{{ .Values.images.imageReflectorController.image }}:v0.6.0'
           imagePullPolicy: IfNotPresent
           livenessProbe:
             httpGet:
@@ -716,6 +718,8 @@ spec:
               name: temp
             - mountPath: /data
               name: data
+      securityContext:
+        fsGroup: 1337
       serviceAccountName: image-reflector-controller
       terminationGracePeriodSeconds: 10
       volumes:
@@ -771,7 +775,7 @@ spec:
               valueFrom:
                 fieldRef:
                   fieldPath: metadata.namespace
-          image: '{{ .Values.images.registry }}/{{ .Values.images.kustomizeController.image }}:v0.7.4'
+          image: '{{ .Values.images.registry }}/{{ .Values.images.kustomizeController.image }}:v0.8.0'
           imagePullPolicy: IfNotPresent
           livenessProbe:
             httpGet:
@@ -855,7 +859,7 @@ spec:
               valueFrom:
                 fieldRef:
                   fieldPath: metadata.namespace
-          image: '{{ .Values.images.registry }}/{{ .Values.images.notificationController.image }}:v0.7.1'
+          image: '{{ .Values.images.registry }}/{{ .Values.images.notificationController.image }}:v0.8.0'
           imagePullPolicy: IfNotPresent
           livenessProbe:
             httpGet:
@@ -946,7 +950,7 @@ spec:
               valueFrom:
                 fieldRef:
                   fieldPath: metadata.namespace
-          image: '{{ .Values.images.registry }}/{{ .Values.images.sourceController.image }}:v0.7.4'
+          image: '{{ .Values.images.registry }}/{{ .Values.images.sourceController.image }}:v0.8.0'
           imagePullPolicy: IfNotPresent
           livenessProbe:
             httpGet:
@@ -980,6 +984,8 @@ spec:
               name: data
             - mountPath: /tmp
               name: tmp
+      securityContext:
+        fsGroup: 1337
       serviceAccountName: source-controller
       terminationGracePeriodSeconds: 10
       volumes:
