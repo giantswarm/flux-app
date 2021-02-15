@@ -1,7 +1,7 @@
 #!/bin/bash
 
 
-## Works on linux (tm). needs probably GNU grep, sed, tee
+## Works on linux (tm). needs probably GNU grep, sed
 
 set -uo pipefail
 trap 's=$?; echo "$0: Error on line "$LINENO": $BASH_COMMAND"; exit $s' ERR
