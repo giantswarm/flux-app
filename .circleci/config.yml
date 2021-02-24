@@ -1,6 +1,6 @@
 version: 2.1
 orbs:
-  architect: giantswarm/architect@1.1.2
+  architect: giantswarm/architect@dev:update-app-catalog-base-url
 
 workflows:
   package-and-push-chart-on-tag:
