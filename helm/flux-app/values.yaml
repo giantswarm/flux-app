@@ -23,6 +23,13 @@ sopsEncryption:
 
 crds:
   install: true
+  resources:
+    requests:
+      memory: "64Mi"
+      cpu: "250m"
+    limits:
+      memory: "128Mi"
+      cpu: "500m"
 
 # allows to change the persistentVolumeClaim request sizes
 volumes:
