@@ -4,9 +4,13 @@
   "definitions": {
     "controllerImageProps": {
       "type": "object",
-      "required": ["image"],
+      "required": ["image", "version"],
       "properties": {
         "image": {
+          "type": "string",
+          "minLength": 1
+        },
+        "version": {
           "type": "string",
           "minLength": 1
         }
