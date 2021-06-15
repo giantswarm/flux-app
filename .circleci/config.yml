@@ -1,6 +1,6 @@
 version: 2.1
 orbs:
-  architect: giantswarm/architect@dev:update-app-catalog-base-url
+  architect: giantswarm/architect@2.11.0
 
 workflows:
   package-and-push-chart-on-tag:
@@ -9,8 +9,8 @@ workflows:
           context: "architect"
           executor: "app-build-suite"
           name: "package and push flux-app chart"
-          app_catalog: "giantswarm-playground-catalog"
-          app_catalog_test: "giantswarm-playground-test-catalog"
+          app_catalog: "giantswarm-catalog"
+          app_catalog_test: "giantswarm-catalog"
           chart: "flux-app"
           # Trigger job on git tag.
           filters:
