@@ -98,7 +98,7 @@ spec:
         min: 1
     rule: MustRunAs
   volumes:
-    - persistentVolumeClaim
+    - emptyDir
     - secret
 ---
 apiVersion: rbac.authorization.k8s.io/v1
@@ -328,150 +328,6 @@ spec:
     helm.sh/chart: {{ include "chart" . | quote }}
   type: ClusterIP
 ---
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  labels:
-    app.kubernetes.io/instance: {{ .Release.Name | quote }}
-    app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
-    app.kubernetes.io/name: {{ include "name" . | quote }}
-    app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
-    helm.sh/chart: {{ include "chart" . | quote }}
-  name: {{ include "controllerVolumeName" (merge (dict "volumeName" "helm-controller-temp") .) | quote }}
-  namespace: {{ .Release.Namespace }}
-spec:
-  accessModes:
-    - ReadWriteOnce
-  resources:
-    requests:
-      storage: {{ .Values.volumes.helmController.temp.size | quote }}
----
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  labels:
-    app.kubernetes.io/instance: {{ .Release.Name | quote }}
-    app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
-    app.kubernetes.io/name: {{ include "name" . | quote }}
-    app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
-    helm.sh/chart: {{ include "chart" . | quote }}
-  name: {{ include "controllerVolumeName" (merge (dict "volumeName" "image-automation-controller-temp") .) | quote }}
-  namespace: {{ .Release.Namespace }}
-spec:
-  accessModes:
-    - ReadWriteOnce
-  resources:
-    requests:
-      storage: {{ .Values.volumes.imageAutomationController.temp.size | quote }}
----
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  labels:
-    app.kubernetes.io/instance: {{ .Release.Name | quote }}
-    app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
-    app.kubernetes.io/name: {{ include "name" . | quote }}
-    app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
-    helm.sh/chart: {{ include "chart" . | quote }}
-  name: {{ include "controllerVolumeName" (merge (dict "volumeName" "image-reflector-controller-data") .) | quote }}
-  namespace: {{ .Release.Namespace }}
-spec:
-  accessModes:
-    - ReadWriteOnce
-  resources:
-    requests:
-      storage: {{ .Values.volumes.imageReflectorController.data.size | quote }}
----
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  labels:
-    app.kubernetes.io/instance: {{ .Release.Name | quote }}
-    app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
-    app.kubernetes.io/name: {{ include "name" . | quote }}
-    app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
-    helm.sh/chart: {{ include "chart" . | quote }}
-  name: {{ include "controllerVolumeName" (merge (dict "volumeName" "image-reflector-controller-temp") .) | quote }}
-  namespace: {{ .Release.Namespace }}
-spec:
-  accessModes:
-    - ReadWriteOnce
-  resources:
-    requests:
-      storage: {{ .Values.volumes.imageReflectorController.temp.size | quote }}
----
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  labels:
-    app.kubernetes.io/instance: {{ .Release.Name | quote }}
-    app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
-    app.kubernetes.io/name: {{ include "name" . | quote }}
-    app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
-    helm.sh/chart: {{ include "chart" . | quote }}
-  name: {{ include "controllerVolumeName" (merge (dict "volumeName" "kustomize-controller-temp") .) | quote }}
-  namespace: {{ .Release.Namespace }}
-spec:
-  accessModes:
-    - ReadWriteOnce
-  resources:
-    requests:
-      storage: {{ .Values.volumes.kustomizeController.temp.size | quote }}
----
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  labels:
-    app.kubernetes.io/instance: {{ .Release.Name | quote }}
-    app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
-    app.kubernetes.io/name: {{ include "name" . | quote }}
-    app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
-    helm.sh/chart: {{ include "chart" . | quote }}
-  name: {{ include "controllerVolumeName" (merge (dict "volumeName" "notification-controller-temp") .) | quote }}
-  namespace: {{ .Release.Namespace }}
-spec:
-  accessModes:
-    - ReadWriteOnce
-  resources:
-    requests:
-      storage: {{ .Values.volumes.notificationController.temp.size | quote }}
----
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  labels:
-    app.kubernetes.io/instance: {{ .Release.Name | quote }}
-    app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
-    app.kubernetes.io/name: {{ include "name" . | quote }}
-    app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
-    helm.sh/chart: {{ include "chart" . | quote }}
-  name: {{ include "controllerVolumeName" (merge (dict "volumeName" "source-controller-data") .) | quote }}
-  namespace: {{ .Release.Namespace }}
-spec:
-  accessModes:
-    - ReadWriteOnce
-  resources:
-    requests:
-      storage: {{ .Values.volumes.sourceController.data.size | quote }}
----
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  labels:
-    app.kubernetes.io/instance: {{ .Release.Name | quote }}
-    app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
-    app.kubernetes.io/name: {{ include "name" . | quote }}
-    app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
-    helm.sh/chart: {{ include "chart" . | quote }}
-  name: {{ include "controllerVolumeName" (merge (dict "volumeName" "source-controller-temp") .) | quote }}
-  namespace: {{ .Release.Namespace }}
-spec:
-  accessModes:
-    - ReadWriteOnce
-  resources:
-    requests:
-      storage: {{ .Values.volumes.sourceController.temp.size | quote }}
----
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -552,8 +408,7 @@ spec:
       terminationGracePeriodSeconds: 600
       volumes:
         - name: temp
-          persistentVolumeClaim:
-            claimName: {{ include "controllerVolumeName" (merge (dict "volumeName" "helm-controller-temp") .) | quote }}
+          emptyDir: {}
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -635,8 +490,7 @@ spec:
       terminationGracePeriodSeconds: 10
       volumes:
         - name: temp
-          persistentVolumeClaim:
-            claimName: {{ include "controllerVolumeName" (merge (dict "volumeName" "image-automation-controller-temp") .) | quote }}
+          emptyDir: {}
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -720,11 +574,9 @@ spec:
       terminationGracePeriodSeconds: 10
       volumes:
         - name: temp
-          persistentVolumeClaim:
-            claimName: {{ include "controllerVolumeName" (merge (dict "volumeName" "image-reflector-controller-temp") .) | quote }}
+          emptyDir: {}
         - name: data
-          persistentVolumeClaim:
-            claimName: {{ include "controllerVolumeName" (merge (dict "volumeName" "image-reflector-controller-data") .) | quote }}
+          emptyDir: {}
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -808,8 +660,7 @@ spec:
       terminationGracePeriodSeconds: 60
       volumes:
         - name: temp
-          persistentVolumeClaim:
-            claimName: {{ include "controllerVolumeName" (merge (dict "volumeName" "kustomize-controller-temp") .) | quote }}
+          emptyDir: {}
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -894,8 +745,7 @@ spec:
       terminationGracePeriodSeconds: 10
       volumes:
         - name: temp
-          persistentVolumeClaim:
-            claimName: {{ include "controllerVolumeName" (merge (dict "volumeName" "notification-controller-temp") .) | quote }}
+          emptyDir: {}
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -984,11 +834,9 @@ spec:
       terminationGracePeriodSeconds: 10
       volumes:
         - name: tmp
-          persistentVolumeClaim:
-            claimName: {{ include "controllerVolumeName" (merge (dict "volumeName" "source-controller-temp") .) | quote }}
+          emptyDir: {}
         - name: data
-          persistentVolumeClaim:
-            claimName: {{ include "controllerVolumeName" (merge (dict "volumeName" "source-controller-data") .) | quote }}
+          emptyDir: {}
 ---
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
