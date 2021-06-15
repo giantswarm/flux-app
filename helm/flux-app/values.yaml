@@ -2,16 +2,22 @@ images:
   registry: quay.io
   helmController:
     image: giantswarm/fluxcd-helm-controller
+    version: v0.11.0
   sourceController:
     image: giantswarm/fluxcd-source-controller
+    version: v0.14.0
   kustomizeController:
     image: giantswarm/fluxcd-kustomize-controller
+    version: v0.13.0
   notificationController:
     image: giantswarm/fluxcd-notification-controller
+    version: v0.15.0
   imageAutomationController:
     image: giantswarm/fluxcd-image-automation-controller
+    version: v0.12.0
   imageReflectorController:
     image: giantswarm/fluxcd-image-reflector-controller
+    version: v0.10.0
 
 # only GitRepository for now
 sources: []

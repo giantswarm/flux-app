@@ -517,7 +517,7 @@ spec:
               valueFrom:
                 fieldRef:
                   fieldPath: metadata.namespace
-          image: '{{ .Values.images.registry }}/{{ .Values.images.helmController.image }}:v0.6.1'
+          image: '{{ .Values.images.registry }}/{{ .Values.images.helmController.image }}:{{ .Values.images.helmController.version }}'
           imagePullPolicy: IfNotPresent
           livenessProbe:
             httpGet:
@@ -600,7 +600,7 @@ spec:
               valueFrom:
                 fieldRef:
                   fieldPath: metadata.namespace
-          image: '{{ .Values.images.registry }}/{{ .Values.images.imageAutomationController.image }}:v0.4.0'
+          image: '{{ .Values.images.registry }}/{{ .Values.images.imageAutomationController.image }}:{{ .Values.images.imageAutomationController.version }}'
           imagePullPolicy: IfNotPresent
           livenessProbe:
             httpGet:
@@ -683,7 +683,7 @@ spec:
               valueFrom:
                 fieldRef:
                   fieldPath: metadata.namespace
-          image: '{{ .Values.images.registry }}/{{ .Values.images.imageReflectorController.image }}:v0.5.0'
+          image: '{{ .Values.images.registry }}/{{ .Values.images.imageReflectorController.image }}:{{ .Values.images.imageReflectorController.version }}'
           imagePullPolicy: IfNotPresent
           livenessProbe:
             httpGet:
@@ -771,7 +771,7 @@ spec:
               valueFrom:
                 fieldRef:
                   fieldPath: metadata.namespace
-          image: '{{ .Values.images.registry }}/{{ .Values.images.kustomizeController.image }}:v0.7.4'
+          image: '{{ .Values.images.registry }}/{{ .Values.images.kustomizeController.image }}:{{ .Values.images.kustomizeController.version }}'
           imagePullPolicy: IfNotPresent
           livenessProbe:
             httpGet:
@@ -855,7 +855,7 @@ spec:
               valueFrom:
                 fieldRef:
                   fieldPath: metadata.namespace
-          image: '{{ .Values.images.registry }}/{{ .Values.images.notificationController.image }}:v0.7.1'
+          image: '{{ .Values.images.registry }}/{{ .Values.images.notificationController.image }}:{{ .Values.images.notificationController.image }}'
           imagePullPolicy: IfNotPresent
           livenessProbe:
             httpGet:
@@ -946,7 +946,7 @@ spec:
               valueFrom:
                 fieldRef:
                   fieldPath: metadata.namespace
-          image: '{{ .Values.images.registry }}/{{ .Values.images.sourceController.image }}:v0.7.4'
+          image: '{{ .Values.images.registry }}/{{ .Values.images.sourceController.image }}:{{ .Values.images.sourceController.version }}'
           imagePullPolicy: IfNotPresent
           livenessProbe:
             httpGet:
@@ -1045,7 +1045,7 @@ metadata:
     app.kubernetes.io/name: {{ include "name" . | quote }}
     app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
     helm.sh/chart: {{ include "chart" . | quote }}
-  name: deny-ingress
+  name: allow-egress
   namespace: {{ .Release.Namespace }}
 spec:
   egress:
