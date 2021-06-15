@@ -20,6 +20,7 @@ sources:
 - kind: GitRepository
   name: my-git-source
   url: https://github.com/my-org/my-repo.git
+  provider: github
   credentials:
     username: my-username
     password: github-token
