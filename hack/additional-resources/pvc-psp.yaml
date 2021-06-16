@@ -20,5 +20,5 @@ spec:
   runAsUser:
     rule: MustRunAsNonRoot
   volumes:
-  - 'persistentVolumeClaim'
+  - 'emptyDir'
   - 'secret'

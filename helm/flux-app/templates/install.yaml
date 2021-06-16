@@ -373,7 +373,7 @@ spec:
               valueFrom:
                 fieldRef:
                   fieldPath: metadata.namespace
-          image: '{{ .Values.images.registry }}/{{ .Values.images.helmController.image }}:{{ .Values.images.helmController.version }}'
+          image: '{{ .Values.images.registry }}/{{ .Values.images.helmController.image }}:v0.11.0'
           imagePullPolicy: IfNotPresent
           livenessProbe:
             httpGet:
@@ -407,8 +407,8 @@ spec:
       serviceAccountName: helm-controller
       terminationGracePeriodSeconds: 600
       volumes:
-        - name: temp
-          emptyDir: {}
+        - emptyDir: {}
+          name: temp
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -455,7 +455,7 @@ spec:
               valueFrom:
                 fieldRef:
                   fieldPath: metadata.namespace
-          image: '{{ .Values.images.registry }}/{{ .Values.images.imageAutomationController.image }}:{{ .Values.images.imageAutomationController.version }}'
+          image: '{{ .Values.images.registry }}/{{ .Values.images.imageAutomationController.image }}:v0.12.0'
           imagePullPolicy: IfNotPresent
           livenessProbe:
             httpGet:
@@ -486,11 +486,13 @@ spec:
           volumeMounts:
             - mountPath: /tmp
               name: temp
+      securityContext:
+        fsGroup: 1337
       serviceAccountName: image-automation-controller
       terminationGracePeriodSeconds: 10
       volumes:
-        - name: temp
-          emptyDir: {}
+        - emptyDir: {}
+          name: temp
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -537,7 +539,7 @@ spec:
               valueFrom:
                 fieldRef:
                   fieldPath: metadata.namespace
-          image: '{{ .Values.images.registry }}/{{ .Values.images.imageReflectorController.image }}:{{ .Values.images.imageReflectorController.version }}'
+          image: '{{ .Values.images.registry }}/{{ .Values.images.imageReflectorController.image }}:v0.10.0'
           imagePullPolicy: IfNotPresent
           livenessProbe:
             httpGet:
@@ -570,13 +572,15 @@ spec:
               name: temp
             - mountPath: /data
               name: data
+      securityContext:
+        fsGroup: 1337
       serviceAccountName: image-reflector-controller
       terminationGracePeriodSeconds: 10
       volumes:
-        - name: temp
-          emptyDir: {}
-        - name: data
-          emptyDir: {}
+        - emptyDir: {}
+          name: temp
+        - emptyDir: {}
+          name: data
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -623,7 +627,7 @@ spec:
               valueFrom:
                 fieldRef:
                   fieldPath: metadata.namespace
-          image: '{{ .Values.images.registry }}/{{ .Values.images.kustomizeController.image }}:{{ .Values.images.kustomizeController.version }}'
+          image: '{{ .Values.images.registry }}/{{ .Values.images.kustomizeController.image }}:v0.13.0'
           imagePullPolicy: IfNotPresent
           livenessProbe:
             httpGet:
@@ -659,8 +663,8 @@ spec:
       serviceAccountName: kustomize-controller
       terminationGracePeriodSeconds: 60
       volumes:
-        - name: temp
-          emptyDir: {}
+        - emptyDir: {}
+          name: temp
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -706,7 +710,7 @@ spec:
               valueFrom:
                 fieldRef:
                   fieldPath: metadata.namespace
-          image: '{{ .Values.images.registry }}/{{ .Values.images.notificationController.image }}:{{ .Values.images.notificationController.version }}'
+          image: '{{ .Values.images.registry }}/{{ .Values.images.notificationController.image }}:v0.15.0'
           imagePullPolicy: IfNotPresent
           livenessProbe:
             httpGet:
@@ -744,8 +748,8 @@ spec:
       serviceAccountName: notification-controller
       terminationGracePeriodSeconds: 10
       volumes:
-        - name: temp
-          emptyDir: {}
+        - emptyDir: {}
+          name: temp
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -796,7 +800,7 @@ spec:
               valueFrom:
                 fieldRef:
                   fieldPath: metadata.namespace
-          image: '{{ .Values.images.registry }}/{{ .Values.images.sourceController.image }}:{{ .Values.images.sourceController.version }}'
+          image: '{{ .Values.images.registry }}/{{ .Values.images.sourceController.image }}:v0.14.0'
           imagePullPolicy: IfNotPresent
           livenessProbe:
             httpGet:
@@ -830,13 +834,37 @@ spec:
               name: data
             - mountPath: /tmp
               name: tmp
+      securityContext:
+        fsGroup: 1337
       serviceAccountName: source-controller
       terminationGracePeriodSeconds: 10
       volumes:
-        - name: tmp
-          emptyDir: {}
-        - name: data
-          emptyDir: {}
+        - emptyDir: {}
+          name: data
+        - emptyDir: {}
+          name: tmp
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  labels:
+    app.kubernetes.io/instance: {{ .Release.Name | quote }}
+    app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
+    app.kubernetes.io/name: {{ include "name" . | quote }}
+    app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
+    helm.sh/chart: {{ include "chart" . | quote }}
+  name: allow-egress
+  namespace: {{ .Release.Namespace }}
+spec:
+  egress:
+    - {}
+  ingress:
+    - from:
+        - podSelector: {}
+  podSelector: {}
+  policyTypes:
+    - Ingress
+    - Egress
 ---
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
@@ -883,25 +911,3 @@ spec:
       app.kubernetes.io/name: {{ include "name" . | quote }}
   policyTypes:
     - Ingress
----
-apiVersion: networking.k8s.io/v1
-kind: NetworkPolicy
-metadata:
-  labels:
-    app.kubernetes.io/instance: {{ .Release.Name | quote }}
-    app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
-    app.kubernetes.io/name: {{ include "name" . | quote }}
-    app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
-    helm.sh/chart: {{ include "chart" . | quote }}
-  name: allow-egress
-  namespace: {{ .Release.Namespace }}
-spec:
-  egress:
-    - {}
-  ingress:
-    - from:
-        - podSelector: {}
-  podSelector: {}
-  policyTypes:
-    - Ingress
-    - Egress
