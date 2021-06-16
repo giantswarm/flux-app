@@ -42,7 +42,7 @@ metadata:
   name: "{{ .name }}-github-notification-provider"
   namespace: "{{ $.Release.Namespace }}"
 spec:
-  type: github
+  type: {{ .provider }}
   address: "{{ .url | trimSuffix ".git" }}"
   secretRef:
     name: "{{ .name }}-credentials"
