@@ -114,11 +114,11 @@ Updating from upstream requires `kustomize` (https://github.com/kubernetes-sigs/
 - Look for images in the `install.yaml` in the upstream release. Add any images not already retagged to [retagger](https://github.com/giantswarm/retagger)
 - Prepare CRD
   - Comment out the `transformers` in the `hack/kustomization.yaml` file
-  - Execute `kustomize build hack | yq eval-all 'select(.kind == "CustomResourceDefinition")' - > helm/flux-app/crds/crds.yaml`
-  - Move each `kind: CustomResourceDefinition` resource into its own file
+  - Execute `kubectl kustomize hack | yq eval-all 'select(.kind == "CustomResourceDefinition")' - > helm/flux-app/crds/crds.yaml`
+  - Execute `./hack/split-crds.sh` to move each `kind: CustomResourceDefinition` resource into its own file
   - Delete `helm/flux-app/crds/crds.yaml`
 - Prepare resources
   - Restore the `transformers` in `hack/kustomization.yaml`
-  - Execute `kustomize build hack | yq eval-all 'select((.kind == "CustomResourceDefinition" | not) and (.kind == "Namespace" | not))' - > helm/flux-app/templates/install.yaml`
+  - Execute `kubectl kustomize hack | yq eval-all 'select((.kind == "CustomResourceDefinition" | not) and (.kind == "Namespace" | not))' - > helm/flux-app/templates/install.yaml`
   - Execute `sed -i -e "/image:/b;s/'{{/{{/g" -e "/image:/b;s/}}'/}}/g" helm/flux-app/templates/install.yaml` to search and replace `'{{` with `{{` and `}}'` with `}}` in `helm/flux-app/templates/install.yaml`. But not in lines containing `image:`
 - Bump the `appVersion` in `helm/flux-app/Chart.yaml`
