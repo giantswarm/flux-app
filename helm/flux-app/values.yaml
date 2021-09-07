@@ -1,5 +1,5 @@
 images:
-  registry: quay.io
+  registry: docker.io
   helmController:
     image: giantswarm/fluxcd-helm-controller
   sourceController:
