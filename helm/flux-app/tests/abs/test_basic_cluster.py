@@ -67,4 +67,4 @@ def app_deployment(kube_cluster: Cluster) -> List[pykube.Deployment]:
 def test_pods_available(kube_cluster: Cluster, app_deployment: List[pykube.Deployment]):
     for d in app_deployment:
         assert int(d.obj["status"]["readyReplicas"]) > 0
-        logger.info(f"Deployment '{d.obj.name}' is ready")
+        logger.info(f"Deployment '{d.name}' is ready")
