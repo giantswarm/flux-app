@@ -2,3 +2,10 @@ replace-chart-version-with-git: true
 generate-metadata: true
 chart-dir: ./helm/flux-app
 destination: ./build
+
+# CI overwrites this, check .circleci/config.yaml
+catalog-base-url: https://giantswarm.github.io/default-catalog/
+
+smoke-tests-cluster-type: kind
+
+skip-steps: test_functional
