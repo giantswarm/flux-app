@@ -1,0 +1,2 @@
+skip-steps: functional
+smoke-tests-cluster-type: kind

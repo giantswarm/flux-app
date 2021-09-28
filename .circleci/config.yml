@@ -1,6 +1,6 @@
 version: 2.1
 orbs:
-  architect: giantswarm/architect@4.3.0
+  architect: giantswarm/architect@4.4.0
 
 workflows:
   package-and-push-chart-on-tag:
@@ -12,13 +12,13 @@ workflows:
           app_catalog: "giantswarm-catalog"
           app_catalog_test: "giantswarm-test-catalog"
           chart: "flux-app"
+          persist_chart_archive: true
           # Trigger job on git tag.
           filters:
             tags:
               only: /^v.*/
 
-      - architect/run-tests-with-abs:
-          chart_dir: ./helm/flux-app
+      - architect/run-tests-with-ats:
           name: execute chart tests
           filters:
             # Do not trigger the job on merge to master.
