@@ -3,7 +3,7 @@ appVersion: 0.17.1
 description: A Helm chart for flux
 engine: gotpl
 home: https://github.com/giantswarm/flux-app
-icon: https://s.giantswarm.io/app-icons/1/png/flux-app-light.png
+icon: https://s.giantswarm.io/app-icons/flux/1/dark.svg
 name: flux-app
 sources:
 - https://github.com/fluxcd/flux2
