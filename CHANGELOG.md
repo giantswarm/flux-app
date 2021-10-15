@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- Update icon
+
 ## [0.4.0] - 2021-09-16
 
 - Bump upstream flux toolkit version to 0.17.1
