@@ -83,7 +83,7 @@ Original documentation: [https://toolkit.fluxcd.io/guides/mozilla-sops/](https:/
 
 - Your Kustomization should reference the `sops-gpg` secret for decryption
 
-      apiVersion: kustomize.toolkit.fluxcd.io/v1beta1
+      apiVersion: kustomize.toolkit.fluxcd.io/v1beta2
       kind: Kustomization
       metadata:
         name: my-kustomization
