@@ -6,6 +6,7 @@ metadata:
   creationTimestamp: null
   labels:
     app.kubernetes.io/instance: flux-system
+    app.kubernetes.io/part-of: flux
   name: receivers.notification.toolkit.fluxcd.io
 spec:
   group: notification.toolkit.fluxcd.io
@@ -114,6 +115,8 @@ spec:
                 - type
               type: object
             status:
+              default:
+                observedGeneration: -1
               description: ReceiverStatus defines the observed state of Receiver
               properties:
                 conditions:

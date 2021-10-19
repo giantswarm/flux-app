@@ -6,6 +6,7 @@ metadata:
   creationTimestamp: null
   labels:
     app.kubernetes.io/instance: flux-system
+    app.kubernetes.io/part-of: flux
   name: imagepolicies.image.toolkit.fluxcd.io
 spec:
   group: image.toolkit.fluxcd.io
@@ -323,6 +324,9 @@ spec:
                   properties:
                     name:
                       description: Name of the referent
+                      type: string
+                    namespace:
+                      description: Namespace of the referent, when not specified it acts as LocalObjectReference
                       type: string
                   required:
                     - name
