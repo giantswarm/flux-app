@@ -6,6 +6,7 @@ metadata:
   creationTimestamp: null
   labels:
     app.kubernetes.io/instance: flux-system
+    app.kubernetes.io/part-of: flux
   name: providers.notification.toolkit.fluxcd.io
 spec:
   group: notification.toolkit.fluxcd.io
@@ -90,6 +91,8 @@ spec:
                     - telegram
                     - lark
                     - matrix
+                    - opsgenie
+                    - alertmanager
                   type: string
                 username:
                   description: Bot username for this provider
@@ -98,6 +101,8 @@ spec:
                 - type
               type: object
             status:
+              default:
+                observedGeneration: -1
               description: ProviderStatus defines the observed state of Provider
               properties:
                 conditions:
@@ -143,6 +148,10 @@ spec:
                       - type
                     type: object
                   type: array
+                observedGeneration:
+                  description: ObservedGeneration is the last reconciled generation.
+                  format: int64
+                  type: integer
               type: object
           type: object
       served: true

@@ -83,7 +83,7 @@ Original documentation: [https://toolkit.fluxcd.io/guides/mozilla-sops/](https:/
 
 - Your Kustomization should reference the `sops-gpg` secret for decryption
 
-      apiVersion: kustomize.toolkit.fluxcd.io/v1beta1
+      apiVersion: kustomize.toolkit.fluxcd.io/v1beta2
       kind: Kustomization
       metadata:
         name: my-kustomization
@@ -109,9 +109,17 @@ To change the encrypted file, one must have all public keys in their keychain. T
 
 ## Update from upstream
 
-Updating from upstream requires `kustomize` (https://github.com/kubernetes-sigs/kustomize) and `yq` (https://github.com/mikefarah/yq).
+Updating from upstream requires `kustomize` (https://github.com/kubernetes-sigs/kustomize), `yq` (https://github.com/mikefarah/yq) and `skopeo` (https://github.com/containers/skopeo).
+
+### Make container images available
 
 - Look for images in the `install.yaml` in the upstream release. Add any images not already retagged to [retagger](https://github.com/giantswarm/retagger)
+- You can use `skopeo` to find the right sha digests
+
+     skopeo inspect --format "{{.Digest}}" --override-arch=amd64 --override-os=linux docker://docker.io/fluxcd/kustomize-controller:v0.16.0
+
+### Update helm template
+
 - Prepare CRD
   - Comment out the `transformers` in the `hack/kustomization.yaml` file
   - Execute `kubectl kustomize hack | yq eval-all 'select(.kind == "CustomResourceDefinition")' - > helm/flux-app/crds/crds.yaml`

@@ -5,6 +5,7 @@ metadata:
     app.kubernetes.io/instance: {{ .Release.Name | quote }}
     app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
     app.kubernetes.io/name: {{ include "name" . | quote }}
+    app.kubernetes.io/part-of: flux
     app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
     helm.sh/chart: {{ include "chart" . | quote }}
   name: helm-controller
@@ -17,6 +18,7 @@ metadata:
     app.kubernetes.io/instance: {{ .Release.Name | quote }}
     app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
     app.kubernetes.io/name: {{ include "name" . | quote }}
+    app.kubernetes.io/part-of: flux
     app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
     helm.sh/chart: {{ include "chart" . | quote }}
   name: image-automation-controller
@@ -29,6 +31,7 @@ metadata:
     app.kubernetes.io/instance: {{ .Release.Name | quote }}
     app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
     app.kubernetes.io/name: {{ include "name" . | quote }}
+    app.kubernetes.io/part-of: flux
     app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
     helm.sh/chart: {{ include "chart" . | quote }}
   name: image-reflector-controller
@@ -41,6 +44,7 @@ metadata:
     app.kubernetes.io/instance: {{ .Release.Name | quote }}
     app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
     app.kubernetes.io/name: {{ include "name" . | quote }}
+    app.kubernetes.io/part-of: flux
     app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
     helm.sh/chart: {{ include "chart" . | quote }}
   name: kustomize-controller
@@ -53,6 +57,7 @@ metadata:
     app.kubernetes.io/instance: {{ .Release.Name | quote }}
     app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
     app.kubernetes.io/name: {{ include "name" . | quote }}
+    app.kubernetes.io/part-of: flux
     app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
     helm.sh/chart: {{ include "chart" . | quote }}
   name: notification-controller
@@ -65,6 +70,7 @@ metadata:
     app.kubernetes.io/instance: {{ .Release.Name | quote }}
     app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
     app.kubernetes.io/name: {{ include "name" . | quote }}
+    app.kubernetes.io/part-of: flux
     app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
     helm.sh/chart: {{ include "chart" . | quote }}
   name: source-controller
@@ -108,6 +114,7 @@ metadata:
     app.kubernetes.io/instance: {{ .Release.Name | quote }}
     app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
     app.kubernetes.io/name: {{ include "name" . | quote }}
+    app.kubernetes.io/part-of: flux
     app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
     helm.sh/chart: {{ include "chart" . | quote }}
   name: crd-controller
@@ -145,6 +152,7 @@ rules:
   - apiGroups:
       - ""
     resources:
+      - namespaces
       - secrets
     verbs:
       - get
@@ -198,6 +206,7 @@ metadata:
     app.kubernetes.io/instance: {{ .Release.Name | quote }}
     app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
     app.kubernetes.io/name: {{ include "name" . | quote }}
+    app.kubernetes.io/part-of: flux
     app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
     helm.sh/chart: {{ include "chart" . | quote }}
   name: cluster-reconciler
@@ -220,6 +229,7 @@ metadata:
     app.kubernetes.io/instance: {{ .Release.Name | quote }}
     app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
     app.kubernetes.io/name: {{ include "name" . | quote }}
+    app.kubernetes.io/part-of: flux
     app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
     helm.sh/chart: {{ include "chart" . | quote }}
   name: crd-controller
@@ -254,6 +264,7 @@ metadata:
     app.kubernetes.io/instance: {{ .Release.Name | quote }}
     app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
     app.kubernetes.io/name: {{ include "name" . | quote }}
+    app.kubernetes.io/part-of: flux
     app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
     control-plane: controller
     helm.sh/chart: {{ include "chart" . | quote }}
@@ -281,6 +292,7 @@ metadata:
     app.kubernetes.io/instance: {{ .Release.Name | quote }}
     app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
     app.kubernetes.io/name: {{ include "name" . | quote }}
+    app.kubernetes.io/part-of: flux
     app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
     control-plane: controller
     helm.sh/chart: {{ include "chart" . | quote }}
@@ -308,6 +320,7 @@ metadata:
     app.kubernetes.io/instance: {{ .Release.Name | quote }}
     app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
     app.kubernetes.io/name: {{ include "name" . | quote }}
+    app.kubernetes.io/part-of: flux
     app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
     control-plane: controller
     helm.sh/chart: {{ include "chart" . | quote }}
@@ -335,6 +348,7 @@ metadata:
     app.kubernetes.io/instance: {{ .Release.Name | quote }}
     app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
     app.kubernetes.io/name: {{ include "name" . | quote }}
+    app.kubernetes.io/part-of: flux
     app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
     control-plane: controller
     helm.sh/chart: {{ include "chart" . | quote }}
@@ -373,7 +387,7 @@ spec:
               valueFrom:
                 fieldRef:
                   fieldPath: metadata.namespace
-          image: '{{ .Values.images.registry }}/{{ .Values.images.helmController.image }}:v0.11.2'
+          image: '{{ .Values.images.registry }}/{{ .Values.images.helmController.image }}:v0.12.1'
           imagePullPolicy: IfNotPresent
           livenessProbe:
             httpGet:
@@ -417,6 +431,7 @@ metadata:
     app.kubernetes.io/instance: {{ .Release.Name | quote }}
     app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
     app.kubernetes.io/name: {{ include "name" . | quote }}
+    app.kubernetes.io/part-of: flux
     app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
     control-plane: controller
     helm.sh/chart: {{ include "chart" . | quote }}
@@ -455,7 +470,7 @@ spec:
               valueFrom:
                 fieldRef:
                   fieldPath: metadata.namespace
-          image: '{{ .Values.images.registry }}/{{ .Values.images.imageAutomationController.image }}:v0.14.1'
+          image: '{{ .Values.images.registry }}/{{ .Values.images.imageAutomationController.image }}:v0.15.0'
           imagePullPolicy: IfNotPresent
           livenessProbe:
             httpGet:
@@ -501,6 +516,7 @@ metadata:
     app.kubernetes.io/instance: {{ .Release.Name | quote }}
     app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
     app.kubernetes.io/name: {{ include "name" . | quote }}
+    app.kubernetes.io/part-of: flux
     app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
     control-plane: controller
     helm.sh/chart: {{ include "chart" . | quote }}
@@ -539,7 +555,7 @@ spec:
               valueFrom:
                 fieldRef:
                   fieldPath: metadata.namespace
-          image: '{{ .Values.images.registry }}/{{ .Values.images.imageReflectorController.image }}:v0.11.1'
+          image: '{{ .Values.images.registry }}/{{ .Values.images.imageReflectorController.image }}:v0.13.0'
           imagePullPolicy: IfNotPresent
           livenessProbe:
             httpGet:
@@ -589,6 +605,7 @@ metadata:
     app.kubernetes.io/instance: {{ .Release.Name | quote }}
     app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
     app.kubernetes.io/name: {{ include "name" . | quote }}
+    app.kubernetes.io/part-of: flux
     app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
     control-plane: controller
     helm.sh/chart: {{ include "chart" . | quote }}
@@ -627,7 +644,7 @@ spec:
               valueFrom:
                 fieldRef:
                   fieldPath: metadata.namespace
-          image: '{{ .Values.images.registry }}/{{ .Values.images.kustomizeController.image }}:v0.14.1'
+          image: '{{ .Values.images.registry }}/{{ .Values.images.kustomizeController.image }}:v0.16.0'
           imagePullPolicy: IfNotPresent
           livenessProbe:
             httpGet:
@@ -673,6 +690,7 @@ metadata:
     app.kubernetes.io/instance: {{ .Release.Name | quote }}
     app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
     app.kubernetes.io/name: {{ include "name" . | quote }}
+    app.kubernetes.io/part-of: flux
     app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
     control-plane: controller
     helm.sh/chart: {{ include "chart" . | quote }}
@@ -710,7 +728,7 @@ spec:
               valueFrom:
                 fieldRef:
                   fieldPath: metadata.namespace
-          image: '{{ .Values.images.registry }}/{{ .Values.images.notificationController.image }}:v0.16.0'
+          image: '{{ .Values.images.registry }}/{{ .Values.images.notificationController.image }}:v0.18.0'
           imagePullPolicy: IfNotPresent
           livenessProbe:
             httpGet:
@@ -758,6 +776,7 @@ metadata:
     app.kubernetes.io/instance: {{ .Release.Name | quote }}
     app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
     app.kubernetes.io/name: {{ include "name" . | quote }}
+    app.kubernetes.io/part-of: flux
     app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
     control-plane: controller
     helm.sh/chart: {{ include "chart" . | quote }}
@@ -800,7 +819,7 @@ spec:
               valueFrom:
                 fieldRef:
                   fieldPath: metadata.namespace
-          image: '{{ .Values.images.registry }}/{{ .Values.images.sourceController.image }}:v0.15.4'
+          image: '{{ .Values.images.registry }}/{{ .Values.images.sourceController.image }}:v0.16.0'
           imagePullPolicy: IfNotPresent
           livenessProbe:
             httpGet:
@@ -851,6 +870,7 @@ metadata:
     app.kubernetes.io/instance: {{ .Release.Name | quote }}
     app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
     app.kubernetes.io/name: {{ include "name" . | quote }}
+    app.kubernetes.io/part-of: flux
     app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
     helm.sh/chart: {{ include "chart" . | quote }}
   name: allow-egress
@@ -873,6 +893,7 @@ metadata:
     app.kubernetes.io/instance: {{ .Release.Name | quote }}
     app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
     app.kubernetes.io/name: {{ include "name" . | quote }}
+    app.kubernetes.io/part-of: flux
     app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
     helm.sh/chart: {{ include "chart" . | quote }}
   name: allow-scraping
@@ -895,6 +916,7 @@ metadata:
     app.kubernetes.io/instance: {{ .Release.Name | quote }}
     app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
     app.kubernetes.io/name: {{ include "name" . | quote }}
+    app.kubernetes.io/part-of: flux
     app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
     helm.sh/chart: {{ include "chart" . | quote }}
   name: allow-webhooks
