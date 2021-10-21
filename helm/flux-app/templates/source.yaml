@@ -34,7 +34,9 @@ type: Opaque
 data:
   username: "{{ .credentials.username | b64enc }}"
   password: "{{ .credentials.password | b64enc }}"
-  token: "{{ .credentials.password | b64enc }}"
+  identity: "{{ .credentials.ssh.identity | b64enc }}"
+  identity.pub: "{{ .credentials.ssh.identityPub | b64enc }}"
+  known_hosts: "{{ .credentials.ssh.knownHosts | b64enc }}"
 ---
 apiVersion: notification.toolkit.fluxcd.io/v1beta1
 kind: Provider
