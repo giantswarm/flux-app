@@ -35,12 +35,10 @@ data:
   ## HTTP authentication to the repository (using a github token). Used by GitRepository.
   username: "{{ .credentials.username | default "" | b64enc }}"
   password: "{{ .credentials.password | default "" | b64enc }}"
-  {{- if .credentials.ssh }}
   ## SSH authentication to the repository (using a github deploy key). Used by GitRepository.
-  identity: "{{ .credentials.ssh.identity | default "" | b64enc }}"
-  identity.pub: "{{ .credentials.ssh.identityPub | default "" | b64enc }}"
-  known_hosts: "{{ .credentials.ssh.knownHosts | default "" | b64enc }}"
-  {{- end }}
+  identity: "{{ .credentials.identity | default "" | b64enc }}"
+  identity.pub: "{{ .credentials.identityPub | default "" | b64enc }}"
+  known_hosts: "{{ .credentials.knownHosts | default "" | b64enc }}"
   ## Webhook token to be used by the receiver. Used by Receiver.
   token: "{{ .credentials.token | default "" | b64enc }}"
 ---

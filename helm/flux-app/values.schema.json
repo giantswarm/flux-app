@@ -92,19 +92,51 @@
             "minLength": 1
           },
           "credentials": {
-            "type": "object",
-            "required": ["username", "password"],
-            "properties": {
-              "username": {
-                "type": "string",
-                "minLength": 1
+            "anyOf": [
+              {
+                "type": "object",
+                "required": ["username", "password"],
+                "properties": {
+                  "username": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "password": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "token": {
+                    "type": "string"
+                  }
+                },
+                "additionalProperties": false
               },
-              "password": {
-                "type": "string",
-                "minLength": 1
+              {
+                "type": "object",
+                "required": ["identity", "identityPub", "knownHosts"],
+                "properties": {
+                  "identity": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "identityPub": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "knownHosts": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "password": {
+                    "type": "string"
+                  },
+                  "token": {
+                    "type": "string"
+                  }
+                },
+                "additionalProperties": false
               }
-            },
-            "additionalProperties": false
+            ]
           },
           "interval": {
             "type": "string",
