@@ -32,11 +32,17 @@ metadata:
   namespace: "{{ $.Release.Namespace }}"
 type: Opaque
 data:
-  username: "{{ .credentials.username | b64enc }}"
-  password: "{{ .credentials.password | b64enc }}"
-  identity: "{{ .credentials.ssh.identity | b64enc }}"
-  identity.pub: "{{ .credentials.ssh.identityPub | b64enc }}"
-  known_hosts: "{{ .credentials.ssh.knownHosts | b64enc }}"
+  ## HTTP authentication to the repository (using a github token). Used by GitRepository.
+  username: "{{ .credentials.username | default "" | b64enc }}"
+  password: "{{ .credentials.password | default "" | b64enc }}"
+  {{- if .credentials.ssh }}
+  ## SSH authentication to the repository (using a github deploy key). Used by GitRepository.
+  identity: "{{ .credentials.ssh.identity | default "" | b64enc }}"
+  identity.pub: "{{ .credentials.ssh.identityPub | default "" | b64enc }}"
+  known_hosts: "{{ .credentials.ssh.knownHosts | default "" | b64enc }}"
+  {{- end }}
+  ## Webhook token to be used by the receiver. Used by Receiver.
+  token: "{{ .credentials.token | default "" | b64enc }}"
 ---
 apiVersion: notification.toolkit.fluxcd.io/v1beta1
 kind: Provider
