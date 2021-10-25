@@ -7,10 +7,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-### Changed
-
-- Allow configurability of the controller resources.
-
 ## [0.5.0] - 2021-10-20
 
 - Bump upstream flux toolkit version to 0.19.0

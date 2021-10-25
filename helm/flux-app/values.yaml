@@ -31,50 +31,6 @@ crds:
       memory: "128Mi"
       cpu: "500m"
 
-resources:
-  helmController:
-    limits:
-      cpu: 1000m
-      memory: 1Gi
-    requests:
-      cpu: 100m
-      memory: 64Mi
-  imageAutomationController:
-    limits:
-      cpu: 1000m
-      memory: 1Gi
-    requests:
-      cpu: 100m
-      memory: 64Mi
-  imageReflectorController:
-    limits:
-      cpu: 1000m
-      memory: 1Gi
-    requests:
-      cpu: 100m
-      memory: 64Mi
-  kustomizeController:
-    limits:
-      cpu: 1000m
-      memory: 1Gi
-    requests:
-      cpu: 100m
-      memory: 64Mi
-  notificationController:
-    limits:
-      cpu: 1000m
-      memory: 1Gi
-    requests:
-      cpu: 100m
-      memory: 64Mi
-  sourceController:
-    limits:
-      cpu: 1000m
-      memory: 1Gi
-    requests:
-      cpu: 100m
-      memory: 64Mi
-
 # allows to change the persistentVolumeClaim request sizes
 volumes:
   helmController:
