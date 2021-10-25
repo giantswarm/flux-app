@@ -404,13 +404,7 @@ spec:
             httpGet:
               path: /readyz
               port: healthz
-          resources:
-            limits:
-              cpu: 1000m
-              memory: 1Gi
-            requests:
-              cpu: 100m
-              memory: 64Mi
+          resources: {{- toYaml .Values.resources.helmController | nindent 12 }}
           securityContext:
             allowPrivilegeEscalation: false
             readOnlyRootFilesystem: true
@@ -487,13 +481,7 @@ spec:
             httpGet:
               path: /readyz
               port: healthz
-          resources:
-            limits:
-              cpu: 1000m
-              memory: 1Gi
-            requests:
-              cpu: 100m
-              memory: 64Mi
+          resources: {{- toYaml .Values.resources.imageAutomationController | nindent 12 }}
           securityContext:
             allowPrivilegeEscalation: false
             readOnlyRootFilesystem: true
@@ -572,13 +560,7 @@ spec:
             httpGet:
               path: /readyz
               port: healthz
-          resources:
-            limits:
-              cpu: 1000m
-              memory: 1Gi
-            requests:
-              cpu: 100m
-              memory: 64Mi
+          resources: {{- toYaml .Values.resources.imageReflectorController | nindent 12 }}
           securityContext:
             allowPrivilegeEscalation: false
             readOnlyRootFilesystem: true
@@ -661,13 +643,7 @@ spec:
             httpGet:
               path: /readyz
               port: healthz
-          resources:
-            limits:
-              cpu: 1000m
-              memory: 1Gi
-            requests:
-              cpu: 100m
-              memory: 64Mi
+          resources: {{- toYaml .Values.resources.kustomizeController | nindent 12 }}
           securityContext:
             allowPrivilegeEscalation: false
             readOnlyRootFilesystem: true
@@ -749,13 +725,7 @@ spec:
             httpGet:
               path: /readyz
               port: healthz
-          resources:
-            limits:
-              cpu: 1000m
-              memory: 1Gi
-            requests:
-              cpu: 100m
-              memory: 64Mi
+          resources: {{- toYaml .Values.resources.notificationController | nindent 12 }}
           securityContext:
             allowPrivilegeEscalation: false
             readOnlyRootFilesystem: true
@@ -837,13 +807,7 @@ spec:
             httpGet:
               path: /
               port: http
-          resources:
-            limits:
-              cpu: 1000m
-              memory: 1Gi
-            requests:
-              cpu: 50m
-              memory: 64Mi
+          resources: {{- toYaml .Values.resources.sourceController | nindent 12 }}
           securityContext:
             allowPrivilegeEscalation: false
             readOnlyRootFilesystem: true
