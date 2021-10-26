@@ -75,6 +75,9 @@ resources:
       cpu: 50m
       memory: 64Mi
 
+verticalPodAutoscaler:
+  enabled: false
+
 # allows to change the persistentVolumeClaim request sizes
 volumes:
   helmController:
