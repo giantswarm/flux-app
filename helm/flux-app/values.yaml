@@ -75,6 +75,7 @@ resources:
       cpu: 50m
       memory: 64Mi
 
+# allows VPA to be used if its installed in the cluster
 verticalPodAutoscaler:
   enabled: false
 
