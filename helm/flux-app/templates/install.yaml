@@ -827,6 +827,30 @@ spec:
         - emptyDir: {}
           name: tmp
 ---
+apiVersion: autoscaling.k8s.io/v1
+kind: VerticalPodAutoscaler
+metadata:
+  labels:
+    app.kubernetes.io/instance: {{ .Release.Name | quote }}
+    app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
+    app.kubernetes.io/name: {{ include "name" . | quote }}
+    app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
+    helm.sh/chart: {{ include "chart" . | quote }}
+  name: helm-controller
+  namespace: {{ .Release.Namespace }}
+spec:
+  resourcePolicy:
+    containerPolicies:
+      - containerName: manager
+        controlledValues: RequestsAndLimits
+        mode: Auto
+  targetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: helm-controller
+  updatePolicy:
+    updateMode: Auto
+---
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
