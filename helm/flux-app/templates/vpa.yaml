@@ -11,11 +11,7 @@ spec:
     containerPolicies:
     - containerName: manager
       controlledValues: RequestsAndLimits
-      minAllowed:
-        cpu: {{ .Values.resources.helmController.requests.cpu }}
-        memory: {{ .Values.resources.helmController.requests.memory }}
       maxAllowed:
-        cpu: {{ .Values.resources.helmController.limits.cpu }}
         memory: {{ .Values.resources.helmController.limits.memory }}
       mode: Auto
   targetRef:

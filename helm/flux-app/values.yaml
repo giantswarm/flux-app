@@ -35,6 +35,7 @@ resources:
   helmController:
     limits:
       cpu: 1000m
+      # Set max allowed memory limit for VPA due to high memory usage.
       memory: 1Gi
     requests:
       cpu: 100m
