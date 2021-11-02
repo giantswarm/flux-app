@@ -11,6 +11,8 @@ spec:
     containerPolicies:
     - containerName: manager
       controlledValues: RequestsAndLimits
+      maxAllowed:
+        memory: {{ .Values.resources.helmController.limits.memory }}
       mode: Auto
   targetRef:
     apiVersion: apps/v1
