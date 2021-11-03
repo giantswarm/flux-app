@@ -29,6 +29,12 @@ resources:
 - ./additional-resources/metrics-service.yaml
 
 patches:
+- path: ./patches/allow-scraping-networkpolicy-patch.yaml
+  target:
+    group: networking.k8s.io
+    version: v1
+    kind: NetworkPolicy
+    name: allow-scraping
 - path: ./patches/helm-controller-deploy-patch.yaml
   target:
     group: apps

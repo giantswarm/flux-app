@@ -1,0 +1,6 @@
+- op: add
+  path: /spec/egress
+  value: [{}]
+- op: replace
+  path: /spec/policyTypes
+  value: ["Egress", "Ingress"]
