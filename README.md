@@ -1,6 +1,6 @@
 [![CircleCI](https://circleci.com/gh/giantswarm/flux-app.svg?style=shield)](https://circleci.com/gh/giantswarm/flux-app)
 
-# flux chart
+# Flux Helm Chart
 
 Giant Swarm offers a flux Managed App which can be installed in tenant clusters.
 Here we define the flux chart with its templates and default configuration.
@@ -106,3 +106,7 @@ To change the encrypted file, one must have all public keys in their keychain. T
 ### Hints
 
 - When encrypting secrets with SOPS, it's possible to use a 'common' gpg key which is only used for decryption on the cluster. Just add the key id to the `.sops.yaml` file and update the keys used as described in the section above. Now only the private key of the 'common' key needs to be present on the cluster.
+
+## Contributing
+
+Please refer to the [contributing guide](https://github.com/giantswarm/flux-app/blob/master/CONTRIBUTING.md).
