@@ -7,6 +7,7 @@ metadata:
     app.kubernetes.io/name: '{{ include "name" . | quote }}'
     app.kubernetes.io/part-of: flux
     app.kubernetes.io/version: '{{ .Chart.AppVersion | quote }}'
+    giantswarm.io/service_type: managed
     helm.sh/chart: '{{ include "chart" . | quote }}'
   name: helm-controller
   namespace: '{{ .Release.Namespace }}'
@@ -20,6 +21,7 @@ metadata:
     app.kubernetes.io/name: '{{ include "name" . | quote }}'
     app.kubernetes.io/part-of: flux
     app.kubernetes.io/version: '{{ .Chart.AppVersion | quote }}'
+    giantswarm.io/service_type: managed
     helm.sh/chart: '{{ include "chart" . | quote }}'
   name: image-automation-controller
   namespace: '{{ .Release.Namespace }}'
@@ -33,6 +35,7 @@ metadata:
     app.kubernetes.io/name: '{{ include "name" . | quote }}'
     app.kubernetes.io/part-of: flux
     app.kubernetes.io/version: '{{ .Chart.AppVersion | quote }}'
+    giantswarm.io/service_type: managed
     helm.sh/chart: '{{ include "chart" . | quote }}'
   name: image-reflector-controller
   namespace: '{{ .Release.Namespace }}'
@@ -46,6 +49,7 @@ metadata:
     app.kubernetes.io/name: '{{ include "name" . | quote }}'
     app.kubernetes.io/part-of: flux
     app.kubernetes.io/version: '{{ .Chart.AppVersion | quote }}'
+    giantswarm.io/service_type: managed
     helm.sh/chart: '{{ include "chart" . | quote }}'
   name: kustomize-controller
   namespace: '{{ .Release.Namespace }}'
@@ -59,6 +63,7 @@ metadata:
     app.kubernetes.io/name: '{{ include "name" . | quote }}'
     app.kubernetes.io/part-of: flux
     app.kubernetes.io/version: '{{ .Chart.AppVersion | quote }}'
+    giantswarm.io/service_type: managed
     helm.sh/chart: '{{ include "chart" . | quote }}'
   name: notification-controller
   namespace: '{{ .Release.Namespace }}'
@@ -72,6 +77,7 @@ metadata:
     app.kubernetes.io/name: '{{ include "name" . | quote }}'
     app.kubernetes.io/part-of: flux
     app.kubernetes.io/version: '{{ .Chart.AppVersion | quote }}'
+    giantswarm.io/service_type: managed
     helm.sh/chart: '{{ include "chart" . | quote }}'
   name: source-controller
   namespace: '{{ .Release.Namespace }}'
@@ -84,6 +90,7 @@ metadata:
     app.kubernetes.io/managed-by: '{{ .Release.Service | quote }}'
     app.kubernetes.io/name: '{{ include "name" . | quote }}'
     app.kubernetes.io/version: '{{ .Chart.AppVersion | quote }}'
+    giantswarm.io/service_type: managed
     helm.sh/chart: '{{ include "chart" . | quote }}'
   name: '{{ printf "%s-pvc-psp" (include "name" .) | quote }}'
 spec:
@@ -116,6 +123,7 @@ metadata:
     app.kubernetes.io/name: '{{ include "name" . | quote }}'
     app.kubernetes.io/part-of: flux
     app.kubernetes.io/version: '{{ .Chart.AppVersion | quote }}'
+    giantswarm.io/service_type: managed
     helm.sh/chart: '{{ include "chart" . | quote }}'
   name: crd-controller
 rules:
@@ -208,6 +216,7 @@ metadata:
     app.kubernetes.io/name: '{{ include "name" . | quote }}'
     app.kubernetes.io/part-of: flux
     app.kubernetes.io/version: '{{ .Chart.AppVersion | quote }}'
+    giantswarm.io/service_type: managed
     helm.sh/chart: '{{ include "chart" . | quote }}'
   name: cluster-reconciler
 roleRef:
@@ -231,6 +240,7 @@ metadata:
     app.kubernetes.io/name: '{{ include "name" . | quote }}'
     app.kubernetes.io/part-of: flux
     app.kubernetes.io/version: '{{ .Chart.AppVersion | quote }}'
+    giantswarm.io/service_type: managed
     helm.sh/chart: '{{ include "chart" . | quote }}'
   name: crd-controller
 roleRef:
@@ -267,6 +277,7 @@ metadata:
     app.kubernetes.io/part-of: flux
     app.kubernetes.io/version: '{{ .Chart.AppVersion | quote }}'
     control-plane: controller
+    giantswarm.io/service_type: managed
     helm.sh/chart: '{{ include "chart" . | quote }}'
   name: notification-controller
   namespace: '{{ .Release.Namespace }}'
@@ -282,6 +293,7 @@ spec:
     app.kubernetes.io/managed-by: '{{ .Release.Service | quote }}'
     app.kubernetes.io/name: '{{ include "name" . | quote }}'
     app.kubernetes.io/version: '{{ .Chart.AppVersion | quote }}'
+    giantswarm.io/service_type: managed
     helm.sh/chart: '{{ include "chart" . | quote }}'
   type: ClusterIP
 ---
@@ -295,6 +307,7 @@ metadata:
     app.kubernetes.io/part-of: flux
     app.kubernetes.io/version: '{{ .Chart.AppVersion | quote }}'
     control-plane: controller
+    giantswarm.io/service_type: managed
     helm.sh/chart: '{{ include "chart" . | quote }}'
   name: source-controller
   namespace: '{{ .Release.Namespace }}'
@@ -310,6 +323,7 @@ spec:
     app.kubernetes.io/managed-by: '{{ .Release.Service | quote }}'
     app.kubernetes.io/name: '{{ include "name" . | quote }}'
     app.kubernetes.io/version: '{{ .Chart.AppVersion | quote }}'
+    giantswarm.io/service_type: managed
     helm.sh/chart: '{{ include "chart" . | quote }}'
   type: ClusterIP
 ---
@@ -323,6 +337,7 @@ metadata:
     app.kubernetes.io/part-of: flux
     app.kubernetes.io/version: '{{ .Chart.AppVersion | quote }}'
     control-plane: controller
+    giantswarm.io/service_type: managed
     helm.sh/chart: '{{ include "chart" . | quote }}'
   name: webhook-receiver
   namespace: '{{ .Release.Namespace }}'
@@ -338,6 +353,7 @@ spec:
     app.kubernetes.io/managed-by: '{{ .Release.Service | quote }}'
     app.kubernetes.io/name: '{{ include "name" . | quote }}'
     app.kubernetes.io/version: '{{ .Chart.AppVersion | quote }}'
+    giantswarm.io/service_type: managed
     helm.sh/chart: '{{ include "chart" . | quote }}'
   type: ClusterIP
 ---
@@ -353,6 +369,7 @@ metadata:
     app.kubernetes.io/name: '{{ include "name" . | quote }}'
     app.kubernetes.io/version: '{{ .Chart.AppVersion | quote }}'
     giantswarm.io/monitoring: "true"
+    giantswarm.io/service_type: managed
     helm.sh/chart: '{{ include "chart" . | quote }}'
   name: '{{ .Release.Name  }}-monitoring'
   namespace: '{{ .Release.Namespace }}'
@@ -367,6 +384,7 @@ spec:
     app.kubernetes.io/managed-by: '{{ .Release.Service | quote }}'
     app.kubernetes.io/name: '{{ include "name" . | quote }}'
     app.kubernetes.io/version: '{{ .Chart.AppVersion | quote }}'
+    giantswarm.io/service_type: managed
     helm.sh/chart: '{{ include "chart" . | quote }}'
 ---
 apiVersion: apps/v1
@@ -379,6 +397,7 @@ metadata:
     app.kubernetes.io/part-of: flux
     app.kubernetes.io/version: '{{ .Chart.AppVersion | quote }}'
     control-plane: controller
+    giantswarm.io/service_type: managed
     helm.sh/chart: '{{ include "chart" . | quote }}'
   name: helm-controller
   namespace: '{{ .Release.Namespace }}'
@@ -401,6 +420,7 @@ spec:
         app.kubernetes.io/managed-by: '{{ .Release.Service | quote }}'
         app.kubernetes.io/name: '{{ include "name" . | quote }}'
         app.kubernetes.io/version: '{{ .Chart.AppVersion | quote }}'
+        giantswarm.io/service_type: managed
         helm.sh/chart: '{{ include "chart" . | quote }}'
     spec:
       containers:
@@ -456,6 +476,7 @@ metadata:
     app.kubernetes.io/part-of: flux
     app.kubernetes.io/version: '{{ .Chart.AppVersion | quote }}'
     control-plane: controller
+    giantswarm.io/service_type: managed
     helm.sh/chart: '{{ include "chart" . | quote }}'
   name: image-automation-controller
   namespace: '{{ .Release.Namespace }}'
@@ -478,6 +499,7 @@ spec:
         app.kubernetes.io/managed-by: '{{ .Release.Service | quote }}'
         app.kubernetes.io/name: '{{ include "name" . | quote }}'
         app.kubernetes.io/version: '{{ .Chart.AppVersion | quote }}'
+        giantswarm.io/service_type: managed
         helm.sh/chart: '{{ include "chart" . | quote }}'
     spec:
       containers:
@@ -535,6 +557,7 @@ metadata:
     app.kubernetes.io/part-of: flux
     app.kubernetes.io/version: '{{ .Chart.AppVersion | quote }}'
     control-plane: controller
+    giantswarm.io/service_type: managed
     helm.sh/chart: '{{ include "chart" . | quote }}'
   name: image-reflector-controller
   namespace: '{{ .Release.Namespace }}'
@@ -557,6 +580,7 @@ spec:
         app.kubernetes.io/managed-by: '{{ .Release.Service | quote }}'
         app.kubernetes.io/name: '{{ include "name" . | quote }}'
         app.kubernetes.io/version: '{{ .Chart.AppVersion | quote }}'
+        giantswarm.io/service_type: managed
         helm.sh/chart: '{{ include "chart" . | quote }}'
     spec:
       containers:
@@ -618,6 +642,7 @@ metadata:
     app.kubernetes.io/part-of: flux
     app.kubernetes.io/version: '{{ .Chart.AppVersion | quote }}'
     control-plane: controller
+    giantswarm.io/service_type: managed
     helm.sh/chart: '{{ include "chart" . | quote }}'
   name: kustomize-controller
   namespace: '{{ .Release.Namespace }}'
@@ -640,6 +665,7 @@ spec:
         app.kubernetes.io/managed-by: '{{ .Release.Service | quote }}'
         app.kubernetes.io/name: '{{ include "name" . | quote }}'
         app.kubernetes.io/version: '{{ .Chart.AppVersion | quote }}'
+        giantswarm.io/service_type: managed
         helm.sh/chart: '{{ include "chart" . | quote }}'
     spec:
       containers:
@@ -697,6 +723,7 @@ metadata:
     app.kubernetes.io/part-of: flux
     app.kubernetes.io/version: '{{ .Chart.AppVersion | quote }}'
     control-plane: controller
+    giantswarm.io/service_type: managed
     helm.sh/chart: '{{ include "chart" . | quote }}'
   name: notification-controller
   namespace: '{{ .Release.Namespace }}'
@@ -719,6 +746,7 @@ spec:
         app.kubernetes.io/managed-by: '{{ .Release.Service | quote }}'
         app.kubernetes.io/name: '{{ include "name" . | quote }}'
         app.kubernetes.io/version: '{{ .Chart.AppVersion | quote }}'
+        giantswarm.io/service_type: managed
         helm.sh/chart: '{{ include "chart" . | quote }}'
     spec:
       containers:
@@ -777,6 +805,7 @@ metadata:
     app.kubernetes.io/part-of: flux
     app.kubernetes.io/version: '{{ .Chart.AppVersion | quote }}'
     control-plane: controller
+    giantswarm.io/service_type: managed
     helm.sh/chart: '{{ include "chart" . | quote }}'
   name: source-controller
   namespace: '{{ .Release.Namespace }}'
@@ -801,6 +830,7 @@ spec:
         app.kubernetes.io/managed-by: '{{ .Release.Service | quote }}'
         app.kubernetes.io/name: '{{ include "name" . | quote }}'
         app.kubernetes.io/version: '{{ .Chart.AppVersion | quote }}'
+        giantswarm.io/service_type: managed
         helm.sh/chart: '{{ include "chart" . | quote }}'
     spec:
       containers:
@@ -864,6 +894,7 @@ metadata:
     app.kubernetes.io/name: '{{ include "name" . | quote }}'
     app.kubernetes.io/part-of: flux
     app.kubernetes.io/version: '{{ .Chart.AppVersion | quote }}'
+    giantswarm.io/service_type: managed
     helm.sh/chart: '{{ include "chart" . | quote }}'
   name: allow-egress
   namespace: '{{ .Release.Namespace }}'
@@ -887,6 +918,7 @@ metadata:
     app.kubernetes.io/name: '{{ include "name" . | quote }}'
     app.kubernetes.io/part-of: flux
     app.kubernetes.io/version: '{{ .Chart.AppVersion | quote }}'
+    giantswarm.io/service_type: managed
     helm.sh/chart: '{{ include "chart" . | quote }}'
   name: allow-scraping
   namespace: '{{ .Release.Namespace }}'
@@ -915,6 +947,7 @@ metadata:
     app.kubernetes.io/name: '{{ include "name" . | quote }}'
     app.kubernetes.io/part-of: flux
     app.kubernetes.io/version: '{{ .Chart.AppVersion | quote }}'
+    giantswarm.io/service_type: managed
     helm.sh/chart: '{{ include "chart" . | quote }}'
   name: allow-webhooks
   namespace: '{{ .Release.Namespace }}'
