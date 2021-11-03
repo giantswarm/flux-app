@@ -894,12 +894,14 @@ spec:
   egress:
     - {}
   ingress:
-    - from:
-        - namespaceSelector: {}
-      ports:
+    - ports:
         - port: 8080
           protocol: TCP
-  podSelector: {}
+  podSelector:
+    matchLabels:
+      app.kubernetes.io/instance: '{{ .Release.Name | quote }}'
+      app.kubernetes.io/managed-by: '{{ .Release.Service | quote }}'
+      app.kubernetes.io/name: '{{ include "name" . | quote }}'
   policyTypes:
     - Egress
     - Ingress
