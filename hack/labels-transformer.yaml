@@ -18,10 +18,6 @@ fieldSpecs:
 - path: spec/selector
   create: true
   version: v1
-  kind: Service
-- path: spec/selector
-  create: true
-  version: v1
   kind: ReplicationController
 - path: spec/template/metadata/labels
   create: true
