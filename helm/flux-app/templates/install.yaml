@@ -891,6 +891,8 @@ metadata:
   name: allow-scraping
   namespace: '{{ .Release.Namespace }}'
 spec:
+  egress:
+    - {}
   ingress:
     - from:
         - namespaceSelector: {}
@@ -899,6 +901,7 @@ spec:
           protocol: TCP
   podSelector: {}
   policyTypes:
+    - Egress
     - Ingress
 ---
 apiVersion: networking.k8s.io/v1
