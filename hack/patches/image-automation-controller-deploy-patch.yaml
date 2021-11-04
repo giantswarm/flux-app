@@ -1,3 +1,6 @@
 - op: replace
   path: /spec/template/spec/containers/0/resources
   value: "{{- toYaml .Values.resources.imageAutomationController | nindent 12 }}"
+- op: add
+  path: /metadata/labels/app
+  value: image-automation-controlller

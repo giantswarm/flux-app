@@ -1,3 +1,6 @@
 - op: replace
   path: /spec/template/spec/containers/0/resources
   value: "{{- toYaml .Values.resources.notificationController | nindent 12 }}"
+- op: add
+  path: /metadata/labels/app
+  value: notification-controller
