@@ -379,6 +379,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
+    app: helm-controller
     app.kubernetes.io/instance: '{{ .Release.Name }}'
     app.kubernetes.io/managed-by: '{{ .Release.Service }}'
     app.kubernetes.io/name: '{{ include "name" . }}'
@@ -458,6 +459,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
+    app: image-automation-controlller
     app.kubernetes.io/instance: '{{ .Release.Name }}'
     app.kubernetes.io/managed-by: '{{ .Release.Service }}'
     app.kubernetes.io/name: '{{ include "name" . }}'
@@ -539,6 +541,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
+    app: image-reflector-controller
     app.kubernetes.io/instance: '{{ .Release.Name }}'
     app.kubernetes.io/managed-by: '{{ .Release.Service }}'
     app.kubernetes.io/name: '{{ include "name" . }}'
@@ -624,6 +627,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
+    app: kustomize-controller
     app.kubernetes.io/instance: '{{ .Release.Name }}'
     app.kubernetes.io/managed-by: '{{ .Release.Service }}'
     app.kubernetes.io/name: '{{ include "name" . }}'
@@ -705,6 +709,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
+    app: notification-controller
     app.kubernetes.io/instance: '{{ .Release.Name }}'
     app.kubernetes.io/managed-by: '{{ .Release.Service }}'
     app.kubernetes.io/name: '{{ include "name" . }}'
@@ -787,6 +792,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
+    app: source-controller
     app.kubernetes.io/instance: '{{ .Release.Name }}'
     app.kubernetes.io/managed-by: '{{ .Release.Service }}'
     app.kubernetes.io/name: '{{ include "name" . }}'
