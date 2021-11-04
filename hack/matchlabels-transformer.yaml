@@ -88,5 +88,6 @@ fieldSpecs:
   group: networking.k8s.io
   kind: NetworkPolicy
 - path: spec/selector
-  create: false
+  create: true
   kind: Service
+  version: v1
