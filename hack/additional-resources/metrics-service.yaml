@@ -17,4 +17,4 @@ spec:
   ports:
     - protocol: TCP
       port: 8080
-      targetPort: http-prom
+      targetPort: '{{ .Values.upstreamMetricsPort }}'

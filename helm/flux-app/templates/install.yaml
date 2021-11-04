@@ -369,7 +369,7 @@ spec:
   ports:
     - port: 8080
       protocol: TCP
-      targetPort: http-prom
+      targetPort: '{{ .Values.upstreamMetricsPort }}'
   selector:
     app.kubernetes.io/instance: '{{ .Release.Name }}'
     app.kubernetes.io/managed-by: '{{ .Release.Service }}'
