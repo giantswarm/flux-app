@@ -1,6 +1,12 @@
 - op: replace
   path: /spec/template/spec/containers/0/resources
-  value: "{{- toYaml .Values.resources.helmController | nindent 12 }}"
+  value:
+    limits:
+      cpu: "{{ .Values.resources.helmController.limits.cpu }}"
+      memory: "{{ .Values.resources.helmController.limits.memory }}"
+    requests:
+      cpu: "{{ .Values.resources.helmController.requests.cpu }}"
+      memory: "{{ .Values.resources.helmController.requests.memory }}"
 - op: add
   path: /metadata/labels/app
   value: helm-controller
