@@ -1,6 +1,6 @@
 [![CircleCI](https://circleci.com/gh/giantswarm/flux-app.svg?style=shield)](https://circleci.com/gh/giantswarm/flux-app)
 
-# flux chart
+# Flux Helm Chart
 
 Giant Swarm offers a flux Managed App which can be installed in tenant clusters.
 Here we define the flux chart with its templates and default configuration.
@@ -107,26 +107,6 @@ To change the encrypted file, one must have all public keys in their keychain. T
 
 - When encrypting secrets with SOPS, it's possible to use a 'common' gpg key which is only used for decryption on the cluster. Just add the key id to the `.sops.yaml` file and update the keys used as described in the section above. Now only the private key of the 'common' key needs to be present on the cluster.
 
-## Update from upstream
+## Contributing
 
-Updating from upstream requires `kustomize` (https://github.com/kubernetes-sigs/kustomize), `yq` (https://github.com/mikefarah/yq) and `skopeo` (https://github.com/containers/skopeo).
-
-### Make container images available
-
-- Look for images in the `install.yaml` in the upstream release. Add any images not already retagged to [retagger](https://github.com/giantswarm/retagger)
-- You can use `skopeo` to find the right sha digests
-
-     skopeo inspect --format "{{.Digest}}" --override-arch=amd64 --override-os=linux docker://docker.io/fluxcd/kustomize-controller:v0.16.0
-
-### Update helm template
-
-- Prepare CRD
-  - Comment out the `transformers` in the `hack/kustomization.yaml` file
-  - Execute `kubectl kustomize hack | yq eval-all 'select(.kind == "CustomResourceDefinition")' - > helm/flux-app/crds/crds.yaml`
-  - Execute `./hack/split-crds.sh` to move each `kind: CustomResourceDefinition` resource into its own file
-  - Delete `helm/flux-app/crds/crds.yaml`
-- Prepare resources
-  - Restore the `transformers` in `hack/kustomization.yaml`
-  - Execute `kubectl kustomize hack | yq eval-all 'select((.kind == "CustomResourceDefinition" | not) and (.kind == "Namespace" | not))' - > helm/flux-app/templates/install.yaml`
-  - Execute `sed -i -e "/image:/b;s/'{{/{{/g" -e "/image:/b;s/}}'/}}/g" helm/flux-app/templates/install.yaml` to search and replace `'{{` with `{{` and `}}'` with `}}` in `helm/flux-app/templates/install.yaml`. But not in lines containing `image:`
-- Bump the `appVersion` in `helm/flux-app/Chart.yaml`
+Please refer to the [contributing guide](https://github.com/giantswarm/flux-app/blob/master/CONTRIBUTING.md).
