@@ -13,6 +13,8 @@ keywords:
 - gitops
 - flux
 name: flux-app
+restrictions:
+  clusterSingleton: true
 sources:
 - https://github.com/fluxcd/flux2
 type: application
