@@ -67,6 +67,7 @@ spec:
                   enum:
                     - generic
                     - aws
+                    - gcp
                   type: string
                 region:
                   description: The bucket region.
