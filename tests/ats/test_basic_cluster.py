@@ -1,17 +1,14 @@
 import logging
-from contextlib import contextmanager
-from typing import Dict, List
+from typing import List
 
 import pykube
 import pytest
 from pytest_helm_charts.fixtures import Cluster
-from pytest_helm_charts.utils import wait_for_deployments_to_run
+
+# noinspection PyUnresolvedReferences
+from fixtures import flux_deployments  # noqa: F104
 
 logger = logging.getLogger(__name__)
-
-namespace_name = "default"
-
-timeout: int = 360
 
 
 @pytest.mark.smoke
@@ -27,44 +24,11 @@ def test_api_working(kube_cluster: Cluster) -> None:
     assert len(pykube.Node.objects(kube_cluster.kube_client)) >= 1
 
 
-@pytest.mark.smoke
-def test_cluster_info(
-    kube_cluster: Cluster, cluster_type: str, chart_extra_info: Dict[str, str]
-) -> None:
-    """Example shows how you can access additional information about the cluster the tests are running on"""
-    logger.info(f"Running on cluster type {cluster_type}")
-    key = "external_cluster_type"
-    if key in chart_extra_info:
-        logger.info(f"{key} is {chart_extra_info[key]}")
-    assert kube_cluster.kube_client is not None
-    assert cluster_type != ""
-
-
-# scope "module" means this is run only once, for the first test case requesting! It might be tricky
-# if you want to assert this multiple times
-@pytest.fixture(scope="module")
-def app_deployment(kube_cluster: Cluster) -> List[pykube.Deployment]:
-    deployments = wait_for_deployments_to_run(
-        kube_cluster.kube_client,
-        [
-            "helm-controller",
-            "image-automation-controller",
-            "image-reflector-controller",
-            "kustomize-controller",
-            "notification-controller",
-            "source-controller",
-        ],
-        namespace_name,
-        timeout,
-    )
-    return deployments
-
-
 # when we start the tests on circleci, we have to wait for pods to be available, hence
 # this additional delay and retries
 @pytest.mark.smoke
 @pytest.mark.flaky(reruns=5, reruns_delay=10)
-def test_pods_available(kube_cluster: Cluster, app_deployment: List[pykube.Deployment]):
-    for d in app_deployment:
+def test_pods_available(kube_cluster: Cluster, flux_deployments: List[pykube.Deployment]):
+    for d in flux_deployments:
         assert int(d.obj["status"]["readyReplicas"]) > 0
         logger.info(f"Deployment '{d.name}' is ready")

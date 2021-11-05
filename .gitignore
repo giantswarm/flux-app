@@ -1,5 +1,6 @@
 # app-build-suite artifacts
 build
 test_results_*.xml
-*.kube.config
-
+*kube.config
+**/.idea/
+*.tgz
