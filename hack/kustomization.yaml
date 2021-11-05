@@ -26,8 +26,15 @@ images:
 resources:
 - https://github.com/fluxcd/flux2/releases/download/v0.21.0/install.yaml
 - ./additional-resources/pvc-psp.yaml
+- ./additional-resources/metrics-service.yaml
 
 patches:
+- path: ./patches/allow-scraping-networkpolicy-patch.yaml
+  target:
+    group: networking.k8s.io
+    version: v1
+    kind: NetworkPolicy
+    name: allow-scraping
 - path: ./patches/helm-controller-deploy-patch.yaml
   target:
     group: apps

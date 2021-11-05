@@ -1,3 +1,12 @@
 - op: replace
   path: /spec/template/spec/containers/0/resources
-  value: "{{- toYaml .Values.resources.sourceController | nindent 12 }}"
+  value:
+    limits:
+      cpu: "{{ .Values.resources.sourceController.limits.cpu }}"
+      memory: "{{ .Values.resources.sourceController.limits.memory }}"
+    requests:
+      cpu: "{{ .Values.resources.sourceController.requests.cpu }}"
+      memory: "{{ .Values.resources.sourceController.requests.memory }}"
+- op: add
+  path: /metadata/labels/app
+  value: source-controller
