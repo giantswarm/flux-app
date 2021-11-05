@@ -3,11 +3,11 @@ from pykube.objects import NamespacedAPIObject
 
 class GitRepositoryCR(NamespacedAPIObject):
     version = "source.toolkit.fluxcd.io/v1beta1"
-    endpoint = "gitrepos"
+    endpoint = "gitrepositories"
     kind = "GitRepository"
 
 
 class KustomizationCR(NamespacedAPIObject):
-    version = "source.toolkit.fluxcd.io/v1beta1"
+    version = "kustomize.toolkit.fluxcd.io/v1beta1"
     endpoint = "kustomizations"
     kind = "Kustomization"

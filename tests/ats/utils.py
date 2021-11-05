@@ -11,6 +11,8 @@ def get_git_repository_obj(kube_client: HTTPClient, name: str, namespace: str, i
                            ignore_pattern: Optional[str] = None,
                            ) -> GitRepositoryCR:
     cr = {
+        "apiVersion": GitRepositoryCR.version,
+        "kind": GitRepositoryCR.kind,
         "metadata": {
             "name": name,
             "namespace": namespace,
@@ -32,17 +34,18 @@ def get_git_repository_obj(kube_client: HTTPClient, name: str, namespace: str, i
     return GitRepositoryCR(kube_client, cr)
 
 
-def get_kustomize_obj(kube_client: HTTPClient, name: str, namespace: str, service_account_name: str,
+def get_kustomize_obj(kube_client: HTTPClient, name: str, namespace: str,
                       prune: bool, interval: str, repo_path: str, git_repository_name: str,
-                      timeout: str
+                      timeout: str, service_account_name: Optional[str] = None
                       ) -> KustomizationCR:
     cr = {
+        "apiVersion": KustomizationCR.version,
+        "kind": KustomizationCR.kind,
         "metadata": {
             "name": name,
             "namespace": namespace,
         },
         "spec": {
-            "serviceAccountName": service_account_name,
             "prune": prune,
             "interval": interval,
             "path": repo_path,
@@ -53,4 +56,6 @@ def get_kustomize_obj(kube_client: HTTPClient, name: str, namespace: str, servic
             "timeout": timeout
         }
     }
+    if service_account_name:
+        cr["spec"]["serviceAccountName"] = service_account_name
     return KustomizationCR(kube_client, cr)
