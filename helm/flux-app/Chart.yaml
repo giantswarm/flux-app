@@ -1,10 +1,21 @@
-apiVersion: v1
-appVersion: 0.19.0
-description: A Helm chart for flux
+apiVersion: v2
+appVersion: 0.21.0
+annotations:
+  application.giantswarm.io/team: "honeybadger"
+description: |
+  Flux is a collection of tools for keeping Kubernetes clusters in sync
+  with sources of configuration (like Git repositories), and automating
+  updates to configuration when there is new code to deploy.
 engine: gotpl
 home: https://github.com/giantswarm/flux-app
 icon: https://s.giantswarm.io/app-icons/flux/1/dark.svg
+keywords:
+- gitops
+- flux
 name: flux-app
+restrictions:
+  clusterSingleton: true
 sources:
 - https://github.com/fluxcd/flux2
+type: application
 version: 0.0.0
