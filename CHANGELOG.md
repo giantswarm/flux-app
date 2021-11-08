@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Add Prometheus service discovery labels to flux-app
+
+### Changed
+
 - Bump upstream flux toolkit version to 0.21.0
 
 ## [0.6.1] - 2021-11-02
