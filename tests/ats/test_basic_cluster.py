@@ -4,14 +4,16 @@ from typing import List
 import pykube
 import pytest
 from pytest_helm_charts.fixtures import Cluster
-
 from pytest_helm_charts.giantswarm_app_platform.catalog import CatalogFactoryFunc
+from pytest_helm_charts.utils import wait_for_deployments_to_run
 
 # noinspection PyUnresolvedReferences
 from fixtures import flux_deployments  # noqa: F104
 from utils import get_git_repository_obj, get_kustomize_obj
 
 logger = logging.getLogger(__name__)
+
+APP_DEPLOYMENT_TIMEOUT_SEC = 180
 
 
 @pytest.mark.smoke
@@ -54,6 +56,14 @@ def test_kustomization_works(kube_cluster: Cluster, flux_deployments: List[pykub
     # TODO: wait for kustomization to show up
 
     # now we wait for the app to run
+    app_namespace = "hello-world"
+    app_svc_name = "hello-world-service"
+    app_deploy_name = "hello-world"
+    app_svc_port = 8080
+    wait_for_deployments_to_run(kube_cluster.kube_client, [app_deploy_name], app_namespace, APP_DEPLOYMENT_TIMEOUT_SEC)
+    app_svc: pykube.Service = pykube.Service.objects(kube_cluster.kube_client, namespace=app_namespace).get(name=app_svc_name)
+    response = app_svc.proxy_http_get("/", app_svc_port)
+    assert response.status_code == 200
 
     ks.delete()
     git_repo.delete()
