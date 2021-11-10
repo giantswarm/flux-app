@@ -1,5 +1,5 @@
 import logging
-from typing import Optional
+from typing import Optional, Any
 
 from pykube import HTTPClient
 from pytest_helm_charts.utils import wait_for_namespaced_objects_condition
@@ -19,7 +19,7 @@ def get_git_repository_obj(
     secret_ref_name: Optional[str] = None,
     ignore_pattern: Optional[str] = None,
 ) -> GitRepositoryCR:
-    cr = {
+    cr: dict[str, Any] = {
         "apiVersion": GitRepositoryCR.version,
         "kind": GitRepositoryCR.kind,
         "metadata": {
@@ -43,7 +43,7 @@ def get_git_repository_obj(
     return GitRepositoryCR(kube_client, cr)
 
 
-def get_kustomize_obj(
+def get_kustomization_obj(
     kube_client: HTTPClient,
     name: str,
     namespace: str,
@@ -54,7 +54,7 @@ def get_kustomize_obj(
     timeout: str,
     service_account_name: Optional[str] = None,
 ) -> KustomizationCR:
-    cr = {
+    cr: dict[str, Any] = {
         "apiVersion": KustomizationCR.version,
         "kind": KustomizationCR.kind,
         "metadata": {
@@ -77,11 +77,11 @@ def get_kustomize_obj(
     return KustomizationCR(kube_client, cr)
 
 
-def _flux_cr_ready(gitrepo: NamespacedFluxCR) -> bool:
-    has_conditions = "status" in gitrepo.obj and "conditions" in gitrepo.obj["status"]
+def _flux_cr_ready(flux_obj: NamespacedFluxCR) -> bool:
+    has_conditions = "status" in flux_obj.obj and "conditions" in flux_obj.obj["status"]
     if not has_conditions:
         return False
-    conditions_count = len(gitrepo.obj["status"]["conditions"])
+    conditions_count = len(flux_obj.obj["status"]["conditions"])
     if conditions_count == 0:
         return False
     if conditions_count > 1:
@@ -89,7 +89,7 @@ def _flux_cr_ready(gitrepo: NamespacedFluxCR) -> bool:
             f"Found '{conditions_count}' status conditions when expecting just 1. Using only"
             f" the first one on the list."
         )
-    condition = gitrepo.obj["status"]["conditions"][0]
+    condition = flux_obj.obj["status"]["conditions"][0]
     return condition["type"] == "Ready" and condition["status"] == "True"
 
 
