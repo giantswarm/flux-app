@@ -8,9 +8,6 @@ class NamespacedFluxCR(NamespacedAPIObject, abc.ABC):
     pass
 
 
-# T = TypeVar("T", bound=NamespacedFluxCR, covariant=True)
-
-
 class GitRepositoryCR(NamespacedFluxCR):
     version = "source.toolkit.fluxcd.io/v1beta1"
     endpoint = "gitrepositories"

@@ -6,7 +6,8 @@ from pytest_helm_charts.clusters import Cluster
 from pytest_helm_charts.utils import wait_for_deployments_to_run
 
 from custom_resources import NamespacedFluxCR
-from fixtures_helpers import KustomizationFactoryFunc, kustomization_factory_func
+from fixtures_helpers import KustomizationFactoryFunc, kustomization_factory_func, GitRepositoryFactoryFunc, \
+    git_repository_factory_func
 
 FLUX_NAMESPACE_NAME = "default"
 FLUX_DEPLOYMENT_TIMEOUT: int = 180
@@ -51,3 +52,8 @@ def _flux_factory(
 @pytest.fixture(scope="module")
 def kustomization_factory(kube_cluster: Cluster) -> Iterable[KustomizationFactoryFunc]:
     return _flux_factory(kube_cluster, kustomization_factory_func)
+
+
+@pytest.fixture(scope="module")
+def git_repository_factory(kube_cluster: Cluster) -> Iterable[GitRepositoryFactoryFunc]:
+    return _flux_factory(kube_cluster, git_repository_factory_func)

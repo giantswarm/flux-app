@@ -8,12 +8,8 @@ from pytest_helm_charts.giantswarm_app_platform.catalog import CatalogFactoryFun
 from pytest_helm_charts.utils import wait_for_deployments_to_run
 
 # noinspection PyUnresolvedReferences
-from fixtures import flux_deployments, kustomization_factory  # noqa: F401
-from fixtures_helpers import KustomizationFactoryFunc, FLUX_CR_READY_TIMEOUT_SEC
-from utils import (
-    get_git_repository_obj,
-    wait_for_git_repositories_to_be_ready,
-)
+from fixtures import flux_deployments, kustomization_factory, git_repository_factory  # noqa: F401
+from fixtures_helpers import KustomizationFactoryFunc, GitRepositoryFactoryFunc
 
 logger = logging.getLogger(__name__)
 
@@ -47,6 +43,7 @@ def test_kustomization_works(
     kube_cluster: Cluster,
     flux_deployments: List[pykube.Deployment],
     catalog_factory: CatalogFactoryFunc,
+    git_repository_factory: GitRepositoryFactoryFunc,
     kustomization_factory: KustomizationFactoryFunc,
 ) -> None:
     namespace = "default"
@@ -55,24 +52,16 @@ def test_kustomization_works(
     )
 
     git_repo_cr_name = "flux-app-tests"
-    # todo: turn into fixture
-    git_repo = get_git_repository_obj(
-        kube_cluster.kube_client,
+    git_repository_factory(
         git_repo_cr_name,
         namespace,
         "1m",
         "https://github.com/giantswarm/flux-app-tests",
         "feature/init-with-data",
-        ignore_pattern="tests/test_cases/**/result",
+        None,
+        "tests/test_cases/**/result"
     )
-    git_repo.create()
-    wait_for_git_repositories_to_be_ready(
-        kube_cluster.kube_client,
-        [git_repo_cr_name],
-        namespace,
-        FLUX_CR_READY_TIMEOUT_SEC,
-        missing_ok=True,
-    )
+
     test_name = "simple-app-cr-delivery"
     kustomization_factory(
         test_name,
@@ -99,7 +88,6 @@ def test_kustomization_works(
     app_svc: pykube.Service = pykube.Service.objects(
         kube_cluster.kube_client, namespace=app_namespace
     ).get(name=app_svc_name)
+
     response = app_svc.proxy_http_get("/", app_svc_port)
     assert response.status_code == 200
-
-    git_repo.delete()
