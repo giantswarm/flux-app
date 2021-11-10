@@ -2,90 +2,97 @@ apiVersion: v1
 kind: ServiceAccount
 metadata:
   labels:
-    app.kubernetes.io/instance: {{ .Release.Name | quote }}
-    app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
-    app.kubernetes.io/name: {{ include "name" . | quote }}
+    app.kubernetes.io/instance: '{{ .Release.Name }}'
+    app.kubernetes.io/managed-by: '{{ .Release.Service }}'
+    app.kubernetes.io/name: '{{ include "name" . }}'
     app.kubernetes.io/part-of: flux
-    app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
-    helm.sh/chart: {{ include "chart" . | quote }}
+    app.kubernetes.io/version: '{{ .Chart.AppVersion }}'
+    giantswarm.io/service_type: managed
+    helm.sh/chart: '{{ include "chart" . }}'
   name: helm-controller
-  namespace: {{ .Release.Namespace }}
+  namespace: '{{ .Release.Namespace }}'
 ---
 apiVersion: v1
 kind: ServiceAccount
 metadata:
   labels:
-    app.kubernetes.io/instance: {{ .Release.Name | quote }}
-    app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
-    app.kubernetes.io/name: {{ include "name" . | quote }}
+    app.kubernetes.io/instance: '{{ .Release.Name }}'
+    app.kubernetes.io/managed-by: '{{ .Release.Service }}'
+    app.kubernetes.io/name: '{{ include "name" . }}'
     app.kubernetes.io/part-of: flux
-    app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
-    helm.sh/chart: {{ include "chart" . | quote }}
+    app.kubernetes.io/version: '{{ .Chart.AppVersion }}'
+    giantswarm.io/service_type: managed
+    helm.sh/chart: '{{ include "chart" . }}'
   name: image-automation-controller
-  namespace: {{ .Release.Namespace }}
+  namespace: '{{ .Release.Namespace }}'
 ---
 apiVersion: v1
 kind: ServiceAccount
 metadata:
   labels:
-    app.kubernetes.io/instance: {{ .Release.Name | quote }}
-    app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
-    app.kubernetes.io/name: {{ include "name" . | quote }}
+    app.kubernetes.io/instance: '{{ .Release.Name }}'
+    app.kubernetes.io/managed-by: '{{ .Release.Service }}'
+    app.kubernetes.io/name: '{{ include "name" . }}'
     app.kubernetes.io/part-of: flux
-    app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
-    helm.sh/chart: {{ include "chart" . | quote }}
+    app.kubernetes.io/version: '{{ .Chart.AppVersion }}'
+    giantswarm.io/service_type: managed
+    helm.sh/chart: '{{ include "chart" . }}'
   name: image-reflector-controller
-  namespace: {{ .Release.Namespace }}
+  namespace: '{{ .Release.Namespace }}'
 ---
 apiVersion: v1
 kind: ServiceAccount
 metadata:
   labels:
-    app.kubernetes.io/instance: {{ .Release.Name | quote }}
-    app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
-    app.kubernetes.io/name: {{ include "name" . | quote }}
+    app.kubernetes.io/instance: '{{ .Release.Name }}'
+    app.kubernetes.io/managed-by: '{{ .Release.Service }}'
+    app.kubernetes.io/name: '{{ include "name" . }}'
     app.kubernetes.io/part-of: flux
-    app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
-    helm.sh/chart: {{ include "chart" . | quote }}
+    app.kubernetes.io/version: '{{ .Chart.AppVersion }}'
+    giantswarm.io/service_type: managed
+    helm.sh/chart: '{{ include "chart" . }}'
   name: kustomize-controller
-  namespace: {{ .Release.Namespace }}
+  namespace: '{{ .Release.Namespace }}'
 ---
 apiVersion: v1
 kind: ServiceAccount
 metadata:
   labels:
-    app.kubernetes.io/instance: {{ .Release.Name | quote }}
-    app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
-    app.kubernetes.io/name: {{ include "name" . | quote }}
+    app.kubernetes.io/instance: '{{ .Release.Name }}'
+    app.kubernetes.io/managed-by: '{{ .Release.Service }}'
+    app.kubernetes.io/name: '{{ include "name" . }}'
     app.kubernetes.io/part-of: flux
-    app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
-    helm.sh/chart: {{ include "chart" . | quote }}
+    app.kubernetes.io/version: '{{ .Chart.AppVersion }}'
+    giantswarm.io/service_type: managed
+    helm.sh/chart: '{{ include "chart" . }}'
   name: notification-controller
-  namespace: {{ .Release.Namespace }}
+  namespace: '{{ .Release.Namespace }}'
 ---
 apiVersion: v1
 kind: ServiceAccount
 metadata:
   labels:
-    app.kubernetes.io/instance: {{ .Release.Name | quote }}
-    app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
-    app.kubernetes.io/name: {{ include "name" . | quote }}
+    app.kubernetes.io/instance: '{{ .Release.Name }}'
+    app.kubernetes.io/managed-by: '{{ .Release.Service }}'
+    app.kubernetes.io/name: '{{ include "name" . }}'
     app.kubernetes.io/part-of: flux
-    app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
-    helm.sh/chart: {{ include "chart" . | quote }}
+    app.kubernetes.io/version: '{{ .Chart.AppVersion }}'
+    giantswarm.io/service_type: managed
+    helm.sh/chart: '{{ include "chart" . }}'
   name: source-controller
-  namespace: {{ .Release.Namespace }}
+  namespace: '{{ .Release.Namespace }}'
 ---
 apiVersion: policy/v1beta1
 kind: PodSecurityPolicy
 metadata:
   labels:
-    app.kubernetes.io/instance: {{ .Release.Name | quote }}
-    app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
-    app.kubernetes.io/name: {{ include "name" . | quote }}
-    app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
-    helm.sh/chart: {{ include "chart" . | quote }}
-  name: {{ printf "%s-pvc-psp" (include "name" .) | quote }}
+    app.kubernetes.io/instance: '{{ .Release.Name }}'
+    app.kubernetes.io/managed-by: '{{ .Release.Service }}'
+    app.kubernetes.io/name: '{{ include "name" . }}'
+    app.kubernetes.io/version: '{{ .Chart.AppVersion }}'
+    giantswarm.io/service_type: managed
+    helm.sh/chart: '{{ include "chart" . }}'
+  name: '{{ printf "%s-pvc-psp" (include "name" .) }}'
 spec:
   allowPrivilegeEscalation: false
   fsGroup:
@@ -111,12 +118,13 @@ apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
 metadata:
   labels:
-    app.kubernetes.io/instance: {{ .Release.Name | quote }}
-    app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
-    app.kubernetes.io/name: {{ include "name" . | quote }}
+    app.kubernetes.io/instance: '{{ .Release.Name }}'
+    app.kubernetes.io/managed-by: '{{ .Release.Service }}'
+    app.kubernetes.io/name: '{{ include "name" . }}'
     app.kubernetes.io/part-of: flux
-    app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
-    helm.sh/chart: {{ include "chart" . | quote }}
+    app.kubernetes.io/version: '{{ .Chart.AppVersion }}'
+    giantswarm.io/service_type: managed
+    helm.sh/chart: '{{ include "chart" . }}'
   name: crd-controller
 rules:
   - apiGroups:
@@ -193,7 +201,7 @@ rules:
   - apiGroups:
       - policy
     resourceNames:
-      - {{ printf "%s-pvc-psp" (include "name" .) | quote }}
+      - '{{ printf "%s-pvc-psp" (include "name" .) | quote }}'
     resources:
       - podsecuritypolicies
     verbs:
@@ -203,12 +211,13 @@ apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
 metadata:
   labels:
-    app.kubernetes.io/instance: {{ .Release.Name | quote }}
-    app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
-    app.kubernetes.io/name: {{ include "name" . | quote }}
+    app.kubernetes.io/instance: '{{ .Release.Name }}'
+    app.kubernetes.io/managed-by: '{{ .Release.Service }}'
+    app.kubernetes.io/name: '{{ include "name" . }}'
     app.kubernetes.io/part-of: flux
-    app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
-    helm.sh/chart: {{ include "chart" . | quote }}
+    app.kubernetes.io/version: '{{ .Chart.AppVersion }}'
+    giantswarm.io/service_type: managed
+    helm.sh/chart: '{{ include "chart" . }}'
   name: cluster-reconciler
 roleRef:
   apiGroup: rbac.authorization.k8s.io
@@ -217,21 +226,22 @@ roleRef:
 subjects:
   - kind: ServiceAccount
     name: kustomize-controller
-    namespace: {{ .Release.Namespace }}
+    namespace: '{{ .Release.Namespace }}'
   - kind: ServiceAccount
     name: helm-controller
-    namespace: {{ .Release.Namespace }}
+    namespace: '{{ .Release.Namespace }}'
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
 metadata:
   labels:
-    app.kubernetes.io/instance: {{ .Release.Name | quote }}
-    app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
-    app.kubernetes.io/name: {{ include "name" . | quote }}
+    app.kubernetes.io/instance: '{{ .Release.Name }}'
+    app.kubernetes.io/managed-by: '{{ .Release.Service }}'
+    app.kubernetes.io/name: '{{ include "name" . }}'
     app.kubernetes.io/part-of: flux
-    app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
-    helm.sh/chart: {{ include "chart" . | quote }}
+    app.kubernetes.io/version: '{{ .Chart.AppVersion }}'
+    giantswarm.io/service_type: managed
+    helm.sh/chart: '{{ include "chart" . }}'
   name: crd-controller
 roleRef:
   apiGroup: rbac.authorization.k8s.io
@@ -240,36 +250,37 @@ roleRef:
 subjects:
   - kind: ServiceAccount
     name: kustomize-controller
-    namespace: {{ .Release.Namespace }}
+    namespace: '{{ .Release.Namespace }}'
   - kind: ServiceAccount
     name: helm-controller
-    namespace: {{ .Release.Namespace }}
+    namespace: '{{ .Release.Namespace }}'
   - kind: ServiceAccount
     name: source-controller
-    namespace: {{ .Release.Namespace }}
+    namespace: '{{ .Release.Namespace }}'
   - kind: ServiceAccount
     name: notification-controller
-    namespace: {{ .Release.Namespace }}
+    namespace: '{{ .Release.Namespace }}'
   - kind: ServiceAccount
     name: image-reflector-controller
-    namespace: {{ .Release.Namespace }}
+    namespace: '{{ .Release.Namespace }}'
   - kind: ServiceAccount
     name: image-automation-controller
-    namespace: {{ .Release.Namespace }}
+    namespace: '{{ .Release.Namespace }}'
 ---
 apiVersion: v1
 kind: Service
 metadata:
   labels:
-    app.kubernetes.io/instance: {{ .Release.Name | quote }}
-    app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
-    app.kubernetes.io/name: {{ include "name" . | quote }}
+    app.kubernetes.io/instance: '{{ .Release.Name }}'
+    app.kubernetes.io/managed-by: '{{ .Release.Service }}'
+    app.kubernetes.io/name: '{{ include "name" . }}'
     app.kubernetes.io/part-of: flux
-    app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
+    app.kubernetes.io/version: '{{ .Chart.AppVersion }}'
     control-plane: controller
-    helm.sh/chart: {{ include "chart" . | quote }}
+    giantswarm.io/service_type: managed
+    helm.sh/chart: '{{ include "chart" . }}'
   name: notification-controller
-  namespace: {{ .Release.Namespace }}
+  namespace: '{{ .Release.Namespace }}'
 spec:
   ports:
     - name: http
@@ -278,26 +289,25 @@ spec:
       targetPort: http
   selector:
     app: notification-controller
-    app.kubernetes.io/instance: {{ .Release.Name | quote }}
-    app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
-    app.kubernetes.io/name: {{ include "name" . | quote }}
-    app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
-    helm.sh/chart: {{ include "chart" . | quote }}
+    app.kubernetes.io/instance: '{{ .Release.Name }}'
+    app.kubernetes.io/managed-by: '{{ .Release.Service }}'
+    app.kubernetes.io/name: '{{ include "name" . }}'
   type: ClusterIP
 ---
 apiVersion: v1
 kind: Service
 metadata:
   labels:
-    app.kubernetes.io/instance: {{ .Release.Name | quote }}
-    app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
-    app.kubernetes.io/name: {{ include "name" . | quote }}
+    app.kubernetes.io/instance: '{{ .Release.Name }}'
+    app.kubernetes.io/managed-by: '{{ .Release.Service }}'
+    app.kubernetes.io/name: '{{ include "name" . }}'
     app.kubernetes.io/part-of: flux
-    app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
+    app.kubernetes.io/version: '{{ .Chart.AppVersion }}'
     control-plane: controller
-    helm.sh/chart: {{ include "chart" . | quote }}
+    giantswarm.io/service_type: managed
+    helm.sh/chart: '{{ include "chart" . }}'
   name: source-controller
-  namespace: {{ .Release.Namespace }}
+  namespace: '{{ .Release.Namespace }}'
 spec:
   ports:
     - name: http
@@ -306,26 +316,25 @@ spec:
       targetPort: http
   selector:
     app: source-controller
-    app.kubernetes.io/instance: {{ .Release.Name | quote }}
-    app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
-    app.kubernetes.io/name: {{ include "name" . | quote }}
-    app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
-    helm.sh/chart: {{ include "chart" . | quote }}
+    app.kubernetes.io/instance: '{{ .Release.Name }}'
+    app.kubernetes.io/managed-by: '{{ .Release.Service }}'
+    app.kubernetes.io/name: '{{ include "name" . }}'
   type: ClusterIP
 ---
 apiVersion: v1
 kind: Service
 metadata:
   labels:
-    app.kubernetes.io/instance: {{ .Release.Name | quote }}
-    app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
-    app.kubernetes.io/name: {{ include "name" . | quote }}
+    app.kubernetes.io/instance: '{{ .Release.Name }}'
+    app.kubernetes.io/managed-by: '{{ .Release.Service }}'
+    app.kubernetes.io/name: '{{ include "name" . }}'
     app.kubernetes.io/part-of: flux
-    app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
+    app.kubernetes.io/version: '{{ .Chart.AppVersion }}'
     control-plane: controller
-    helm.sh/chart: {{ include "chart" . | quote }}
+    giantswarm.io/service_type: managed
+    helm.sh/chart: '{{ include "chart" . }}'
   name: webhook-receiver
-  namespace: {{ .Release.Namespace }}
+  namespace: '{{ .Release.Namespace }}'
 spec:
   ports:
     - name: http
@@ -334,34 +343,61 @@ spec:
       targetPort: http-webhook
   selector:
     app: notification-controller
-    app.kubernetes.io/instance: {{ .Release.Name | quote }}
-    app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
-    app.kubernetes.io/name: {{ include "name" . | quote }}
-    app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
-    helm.sh/chart: {{ include "chart" . | quote }}
+    app.kubernetes.io/instance: '{{ .Release.Name }}'
+    app.kubernetes.io/managed-by: '{{ .Release.Service }}'
+    app.kubernetes.io/name: '{{ include "name" . }}'
   type: ClusterIP
+---
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    giantswarm.io/monitoring-path: /metrics
+    giantswarm.io/monitoring-port: "8080"
+  labels:
+    app.kubernetes.io/instance: '{{ .Release.Name }}'
+    app.kubernetes.io/managed-by: '{{ .Release.Service }}'
+    app.kubernetes.io/name: '{{ include "name" . }}'
+    app.kubernetes.io/version: '{{ .Chart.AppVersion }}'
+    giantswarm.io/monitoring: "true"
+    giantswarm.io/service_type: managed
+    helm.sh/chart: '{{ include "chart" . }}'
+  name: '{{ .Release.Name  }}-monitoring'
+  namespace: '{{ .Release.Namespace }}'
+spec:
+  clusterIP: None
+  ports:
+    - port: 8080
+      protocol: TCP
+      targetPort: '{{ .Values.upstreamMetricsPort }}'
+  selector:
+    app.kubernetes.io/instance: '{{ .Release.Name }}'
+    app.kubernetes.io/managed-by: '{{ .Release.Service }}'
+    app.kubernetes.io/name: '{{ include "name" . }}'
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    app.kubernetes.io/instance: {{ .Release.Name | quote }}
-    app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
-    app.kubernetes.io/name: {{ include "name" . | quote }}
+    app: helm-controller
+    app.kubernetes.io/instance: '{{ .Release.Name }}'
+    app.kubernetes.io/managed-by: '{{ .Release.Service }}'
+    app.kubernetes.io/name: '{{ include "name" . }}'
     app.kubernetes.io/part-of: flux
-    app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
+    app.kubernetes.io/version: '{{ .Chart.AppVersion }}'
     control-plane: controller
-    helm.sh/chart: {{ include "chart" . | quote }}
+    giantswarm.io/service_type: managed
+    helm.sh/chart: '{{ include "chart" . }}'
   name: helm-controller
-  namespace: {{ .Release.Namespace }}
+  namespace: '{{ .Release.Namespace }}'
 spec:
   replicas: 1
   selector:
     matchLabels:
       app: helm-controller
-      app.kubernetes.io/instance: {{ .Release.Name | quote }}
-      app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
-      app.kubernetes.io/name: {{ include "name" . | quote }}
+      app.kubernetes.io/instance: '{{ .Release.Name }}'
+      app.kubernetes.io/managed-by: '{{ .Release.Service }}'
+      app.kubernetes.io/name: '{{ include "name" . }}'
   template:
     metadata:
       annotations:
@@ -369,11 +405,12 @@ spec:
         prometheus.io/scrape: "true"
       labels:
         app: helm-controller
-        app.kubernetes.io/instance: {{ .Release.Name | quote }}
-        app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
-        app.kubernetes.io/name: {{ include "name" . | quote }}
-        app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
-        helm.sh/chart: {{ include "chart" . | quote }}
+        app.kubernetes.io/instance: '{{ .Release.Name }}'
+        app.kubernetes.io/managed-by: '{{ .Release.Service }}'
+        app.kubernetes.io/name: '{{ include "name" . }}'
+        app.kubernetes.io/version: '{{ .Chart.AppVersion }}'
+        giantswarm.io/service_type: managed
+        helm.sh/chart: '{{ include "chart" . }}'
     spec:
       containers:
         - args:
@@ -404,7 +441,13 @@ spec:
             httpGet:
               path: /readyz
               port: healthz
-          resources: {{- toYaml .Values.resources.helmController | nindent 12 }}
+          resources:
+            limits:
+              cpu: '{{ .Values.resources.helmController.limits.cpu }}'
+              memory: '{{ .Values.resources.helmController.limits.memory }}'
+            requests:
+              cpu: '{{ .Values.resources.helmController.requests.cpu }}'
+              memory: '{{ .Values.resources.helmController.requests.memory }}'
           securityContext:
             allowPrivilegeEscalation: false
             readOnlyRootFilesystem: true
@@ -422,23 +465,25 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    app.kubernetes.io/instance: {{ .Release.Name | quote }}
-    app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
-    app.kubernetes.io/name: {{ include "name" . | quote }}
+    app: image-automation-controlller
+    app.kubernetes.io/instance: '{{ .Release.Name }}'
+    app.kubernetes.io/managed-by: '{{ .Release.Service }}'
+    app.kubernetes.io/name: '{{ include "name" . }}'
     app.kubernetes.io/part-of: flux
-    app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
+    app.kubernetes.io/version: '{{ .Chart.AppVersion }}'
     control-plane: controller
-    helm.sh/chart: {{ include "chart" . | quote }}
+    giantswarm.io/service_type: managed
+    helm.sh/chart: '{{ include "chart" . }}'
   name: image-automation-controller
-  namespace: {{ .Release.Namespace }}
+  namespace: '{{ .Release.Namespace }}'
 spec:
   replicas: 1
   selector:
     matchLabels:
       app: image-automation-controller
-      app.kubernetes.io/instance: {{ .Release.Name | quote }}
-      app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
-      app.kubernetes.io/name: {{ include "name" . | quote }}
+      app.kubernetes.io/instance: '{{ .Release.Name }}'
+      app.kubernetes.io/managed-by: '{{ .Release.Service }}'
+      app.kubernetes.io/name: '{{ include "name" . }}'
   template:
     metadata:
       annotations:
@@ -446,11 +491,12 @@ spec:
         prometheus.io/scrape: "true"
       labels:
         app: image-automation-controller
-        app.kubernetes.io/instance: {{ .Release.Name | quote }}
-        app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
-        app.kubernetes.io/name: {{ include "name" . | quote }}
-        app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
-        helm.sh/chart: {{ include "chart" . | quote }}
+        app.kubernetes.io/instance: '{{ .Release.Name }}'
+        app.kubernetes.io/managed-by: '{{ .Release.Service }}'
+        app.kubernetes.io/name: '{{ include "name" . }}'
+        app.kubernetes.io/version: '{{ .Chart.AppVersion }}'
+        giantswarm.io/service_type: managed
+        helm.sh/chart: '{{ include "chart" . }}'
     spec:
       containers:
         - args:
@@ -481,7 +527,13 @@ spec:
             httpGet:
               path: /readyz
               port: healthz
-          resources: {{- toYaml .Values.resources.imageAutomationController | nindent 12 }}
+          resources:
+            limits:
+              cpu: '{{ .Values.resources.imageAutomationController.limits.cpu }}'
+              memory: '{{ .Values.resources.imageAutomationController.limits.memory }}'
+            requests:
+              cpu: '{{ .Values.resources.imageAutomationController.requests.cpu }}'
+              memory: '{{ .Values.resources.imageAutomationController.requests.memory }}'
           securityContext:
             allowPrivilegeEscalation: false
             readOnlyRootFilesystem: true
@@ -501,23 +553,25 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    app.kubernetes.io/instance: {{ .Release.Name | quote }}
-    app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
-    app.kubernetes.io/name: {{ include "name" . | quote }}
+    app: image-reflector-controller
+    app.kubernetes.io/instance: '{{ .Release.Name }}'
+    app.kubernetes.io/managed-by: '{{ .Release.Service }}'
+    app.kubernetes.io/name: '{{ include "name" . }}'
     app.kubernetes.io/part-of: flux
-    app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
+    app.kubernetes.io/version: '{{ .Chart.AppVersion }}'
     control-plane: controller
-    helm.sh/chart: {{ include "chart" . | quote }}
+    giantswarm.io/service_type: managed
+    helm.sh/chart: '{{ include "chart" . }}'
   name: image-reflector-controller
-  namespace: {{ .Release.Namespace }}
+  namespace: '{{ .Release.Namespace }}'
 spec:
   replicas: 1
   selector:
     matchLabels:
       app: image-reflector-controller
-      app.kubernetes.io/instance: {{ .Release.Name | quote }}
-      app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
-      app.kubernetes.io/name: {{ include "name" . | quote }}
+      app.kubernetes.io/instance: '{{ .Release.Name }}'
+      app.kubernetes.io/managed-by: '{{ .Release.Service }}'
+      app.kubernetes.io/name: '{{ include "name" . }}'
   template:
     metadata:
       annotations:
@@ -525,11 +579,12 @@ spec:
         prometheus.io/scrape: "true"
       labels:
         app: image-reflector-controller
-        app.kubernetes.io/instance: {{ .Release.Name | quote }}
-        app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
-        app.kubernetes.io/name: {{ include "name" . | quote }}
-        app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
-        helm.sh/chart: {{ include "chart" . | quote }}
+        app.kubernetes.io/instance: '{{ .Release.Name }}'
+        app.kubernetes.io/managed-by: '{{ .Release.Service }}'
+        app.kubernetes.io/name: '{{ include "name" . }}'
+        app.kubernetes.io/version: '{{ .Chart.AppVersion }}'
+        giantswarm.io/service_type: managed
+        helm.sh/chart: '{{ include "chart" . }}'
     spec:
       containers:
         - args:
@@ -560,7 +615,13 @@ spec:
             httpGet:
               path: /readyz
               port: healthz
-          resources: {{- toYaml .Values.resources.imageReflectorController | nindent 12 }}
+          resources:
+            limits:
+              cpu: '{{ .Values.resources.imageReflectorController.limits.cpu }}'
+              memory: '{{ .Values.resources.imageReflectorController.limits.memory }}'
+            requests:
+              cpu: '{{ .Values.resources.imageReflectorController.requests.cpu }}'
+              memory: '{{ .Values.resources.imageReflectorController.requests.memory }}'
           securityContext:
             allowPrivilegeEscalation: false
             readOnlyRootFilesystem: true
@@ -584,23 +645,25 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    app.kubernetes.io/instance: {{ .Release.Name | quote }}
-    app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
-    app.kubernetes.io/name: {{ include "name" . | quote }}
+    app: kustomize-controller
+    app.kubernetes.io/instance: '{{ .Release.Name }}'
+    app.kubernetes.io/managed-by: '{{ .Release.Service }}'
+    app.kubernetes.io/name: '{{ include "name" . }}'
     app.kubernetes.io/part-of: flux
-    app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
+    app.kubernetes.io/version: '{{ .Chart.AppVersion }}'
     control-plane: controller
-    helm.sh/chart: {{ include "chart" . | quote }}
+    giantswarm.io/service_type: managed
+    helm.sh/chart: '{{ include "chart" . }}'
   name: kustomize-controller
-  namespace: {{ .Release.Namespace }}
+  namespace: '{{ .Release.Namespace }}'
 spec:
   replicas: 1
   selector:
     matchLabels:
       app: kustomize-controller
-      app.kubernetes.io/instance: {{ .Release.Name | quote }}
-      app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
-      app.kubernetes.io/name: {{ include "name" . | quote }}
+      app.kubernetes.io/instance: '{{ .Release.Name }}'
+      app.kubernetes.io/managed-by: '{{ .Release.Service }}'
+      app.kubernetes.io/name: '{{ include "name" . }}'
   template:
     metadata:
       annotations:
@@ -608,11 +671,12 @@ spec:
         prometheus.io/scrape: "true"
       labels:
         app: kustomize-controller
-        app.kubernetes.io/instance: {{ .Release.Name | quote }}
-        app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
-        app.kubernetes.io/name: {{ include "name" . | quote }}
-        app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
-        helm.sh/chart: {{ include "chart" . | quote }}
+        app.kubernetes.io/instance: '{{ .Release.Name }}'
+        app.kubernetes.io/managed-by: '{{ .Release.Service }}'
+        app.kubernetes.io/name: '{{ include "name" . }}'
+        app.kubernetes.io/version: '{{ .Chart.AppVersion }}'
+        giantswarm.io/service_type: managed
+        helm.sh/chart: '{{ include "chart" . }}'
     spec:
       containers:
         - args:
@@ -643,7 +707,13 @@ spec:
             httpGet:
               path: /readyz
               port: healthz
-          resources: {{- toYaml .Values.resources.kustomizeController | nindent 12 }}
+          resources:
+            limits:
+              cpu: '{{ .Values.resources.kustomizeController.limits.cpu }}'
+              memory: '{{ .Values.resources.kustomizeController.limits.memory }}'
+            requests:
+              cpu: '{{ .Values.resources.kustomizeController.requests.cpu }}'
+              memory: '{{ .Values.resources.kustomizeController.requests.memory }}'
           securityContext:
             allowPrivilegeEscalation: false
             readOnlyRootFilesystem: true
@@ -663,23 +733,25 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    app.kubernetes.io/instance: {{ .Release.Name | quote }}
-    app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
-    app.kubernetes.io/name: {{ include "name" . | quote }}
+    app: notification-controller
+    app.kubernetes.io/instance: '{{ .Release.Name }}'
+    app.kubernetes.io/managed-by: '{{ .Release.Service }}'
+    app.kubernetes.io/name: '{{ include "name" . }}'
     app.kubernetes.io/part-of: flux
-    app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
+    app.kubernetes.io/version: '{{ .Chart.AppVersion }}'
     control-plane: controller
-    helm.sh/chart: {{ include "chart" . | quote }}
+    giantswarm.io/service_type: managed
+    helm.sh/chart: '{{ include "chart" . }}'
   name: notification-controller
-  namespace: {{ .Release.Namespace }}
+  namespace: '{{ .Release.Namespace }}'
 spec:
   replicas: 1
   selector:
     matchLabels:
       app: notification-controller
-      app.kubernetes.io/instance: {{ .Release.Name | quote }}
-      app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
-      app.kubernetes.io/name: {{ include "name" . | quote }}
+      app.kubernetes.io/instance: '{{ .Release.Name }}'
+      app.kubernetes.io/managed-by: '{{ .Release.Service }}'
+      app.kubernetes.io/name: '{{ include "name" . }}'
   template:
     metadata:
       annotations:
@@ -687,11 +759,12 @@ spec:
         prometheus.io/scrape: "true"
       labels:
         app: notification-controller
-        app.kubernetes.io/instance: {{ .Release.Name | quote }}
-        app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
-        app.kubernetes.io/name: {{ include "name" . | quote }}
-        app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
-        helm.sh/chart: {{ include "chart" . | quote }}
+        app.kubernetes.io/instance: '{{ .Release.Name }}'
+        app.kubernetes.io/managed-by: '{{ .Release.Service }}'
+        app.kubernetes.io/name: '{{ include "name" . }}'
+        app.kubernetes.io/version: '{{ .Chart.AppVersion }}'
+        giantswarm.io/service_type: managed
+        helm.sh/chart: '{{ include "chart" . }}'
     spec:
       containers:
         - args:
@@ -725,7 +798,13 @@ spec:
             httpGet:
               path: /readyz
               port: healthz
-          resources: {{- toYaml .Values.resources.notificationController | nindent 12 }}
+          resources:
+            limits:
+              cpu: '{{ .Values.resources.notificationController.limits.cpu }}'
+              memory: '{{ .Values.resources.notificationController.limits.memory }}'
+            requests:
+              cpu: '{{ .Values.resources.notificationController.requests.cpu }}'
+              memory: '{{ .Values.resources.notificationController.requests.memory }}'
           securityContext:
             allowPrivilegeEscalation: false
             readOnlyRootFilesystem: true
@@ -743,23 +822,25 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    app.kubernetes.io/instance: {{ .Release.Name | quote }}
-    app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
-    app.kubernetes.io/name: {{ include "name" . | quote }}
+    app: source-controller
+    app.kubernetes.io/instance: '{{ .Release.Name }}'
+    app.kubernetes.io/managed-by: '{{ .Release.Service }}'
+    app.kubernetes.io/name: '{{ include "name" . }}'
     app.kubernetes.io/part-of: flux
-    app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
+    app.kubernetes.io/version: '{{ .Chart.AppVersion }}'
     control-plane: controller
-    helm.sh/chart: {{ include "chart" . | quote }}
+    giantswarm.io/service_type: managed
+    helm.sh/chart: '{{ include "chart" . }}'
   name: source-controller
-  namespace: {{ .Release.Namespace }}
+  namespace: '{{ .Release.Namespace }}'
 spec:
   replicas: 1
   selector:
     matchLabels:
       app: source-controller
-      app.kubernetes.io/instance: {{ .Release.Name | quote }}
-      app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
-      app.kubernetes.io/name: {{ include "name" . | quote }}
+      app.kubernetes.io/instance: '{{ .Release.Name }}'
+      app.kubernetes.io/managed-by: '{{ .Release.Service }}'
+      app.kubernetes.io/name: '{{ include "name" . }}'
   strategy:
     type: Recreate
   template:
@@ -769,11 +850,12 @@ spec:
         prometheus.io/scrape: "true"
       labels:
         app: source-controller
-        app.kubernetes.io/instance: {{ .Release.Name | quote }}
-        app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
-        app.kubernetes.io/name: {{ include "name" . | quote }}
-        app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
-        helm.sh/chart: {{ include "chart" . | quote }}
+        app.kubernetes.io/instance: '{{ .Release.Name }}'
+        app.kubernetes.io/managed-by: '{{ .Release.Service }}'
+        app.kubernetes.io/name: '{{ include "name" . }}'
+        app.kubernetes.io/version: '{{ .Chart.AppVersion }}'
+        giantswarm.io/service_type: managed
+        helm.sh/chart: '{{ include "chart" . }}'
     spec:
       containers:
         - args:
@@ -807,7 +889,13 @@ spec:
             httpGet:
               path: /
               port: http
-          resources: {{- toYaml .Values.resources.sourceController | nindent 12 }}
+          resources:
+            limits:
+              cpu: '{{ .Values.resources.sourceController.limits.cpu }}'
+              memory: '{{ .Values.resources.sourceController.limits.memory }}'
+            requests:
+              cpu: '{{ .Values.resources.sourceController.requests.cpu }}'
+              memory: '{{ .Values.resources.sourceController.requests.memory }}'
           securityContext:
             allowPrivilegeEscalation: false
             readOnlyRootFilesystem: true
@@ -831,14 +919,15 @@ apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
   labels:
-    app.kubernetes.io/instance: {{ .Release.Name | quote }}
-    app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
-    app.kubernetes.io/name: {{ include "name" . | quote }}
+    app.kubernetes.io/instance: '{{ .Release.Name }}'
+    app.kubernetes.io/managed-by: '{{ .Release.Service }}'
+    app.kubernetes.io/name: '{{ include "name" . }}'
     app.kubernetes.io/part-of: flux
-    app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
-    helm.sh/chart: {{ include "chart" . | quote }}
+    app.kubernetes.io/version: '{{ .Chart.AppVersion }}'
+    giantswarm.io/service_type: managed
+    helm.sh/chart: '{{ include "chart" . }}'
   name: allow-egress
-  namespace: {{ .Release.Namespace }}
+  namespace: '{{ .Release.Namespace }}'
 spec:
   egress:
     - {}
@@ -854,37 +943,44 @@ apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
   labels:
-    app.kubernetes.io/instance: {{ .Release.Name | quote }}
-    app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
-    app.kubernetes.io/name: {{ include "name" . | quote }}
+    app.kubernetes.io/instance: '{{ .Release.Name }}'
+    app.kubernetes.io/managed-by: '{{ .Release.Service }}'
+    app.kubernetes.io/name: '{{ include "name" . }}'
     app.kubernetes.io/part-of: flux
-    app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
-    helm.sh/chart: {{ include "chart" . | quote }}
+    app.kubernetes.io/version: '{{ .Chart.AppVersion }}'
+    giantswarm.io/service_type: managed
+    helm.sh/chart: '{{ include "chart" . }}'
   name: allow-scraping
-  namespace: {{ .Release.Namespace }}
+  namespace: '{{ .Release.Namespace }}'
 spec:
+  egress:
+    - {}
   ingress:
-    - from:
-        - namespaceSelector: {}
-      ports:
+    - ports:
         - port: 8080
           protocol: TCP
-  podSelector: {}
+  podSelector:
+    matchLabels:
+      app.kubernetes.io/instance: '{{ .Release.Name }}'
+      app.kubernetes.io/managed-by: '{{ .Release.Service }}'
+      app.kubernetes.io/name: '{{ include "name" . }}'
   policyTypes:
+    - Egress
     - Ingress
 ---
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
   labels:
-    app.kubernetes.io/instance: {{ .Release.Name | quote }}
-    app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
-    app.kubernetes.io/name: {{ include "name" . | quote }}
+    app.kubernetes.io/instance: '{{ .Release.Name }}'
+    app.kubernetes.io/managed-by: '{{ .Release.Service }}'
+    app.kubernetes.io/name: '{{ include "name" . }}'
     app.kubernetes.io/part-of: flux
-    app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
-    helm.sh/chart: {{ include "chart" . | quote }}
+    app.kubernetes.io/version: '{{ .Chart.AppVersion }}'
+    giantswarm.io/service_type: managed
+    helm.sh/chart: '{{ include "chart" . }}'
   name: allow-webhooks
-  namespace: {{ .Release.Namespace }}
+  namespace: '{{ .Release.Namespace }}'
 spec:
   ingress:
     - from:
@@ -892,8 +988,8 @@ spec:
   podSelector:
     matchLabels:
       app: notification-controller
-      app.kubernetes.io/instance: {{ .Release.Name | quote }}
-      app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
-      app.kubernetes.io/name: {{ include "name" . | quote }}
+      app.kubernetes.io/instance: '{{ .Release.Name }}'
+      app.kubernetes.io/managed-by: '{{ .Release.Service }}'
+      app.kubernetes.io/name: '{{ include "name" . }}'
   policyTypes:
     - Ingress

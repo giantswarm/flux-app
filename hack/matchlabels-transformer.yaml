@@ -3,9 +3,9 @@ kind: LabelTransformer
 metadata:
   name: matchlabels-transformer
 labels:
-  app.kubernetes.io/name: '{{ include "name" . | quote }}'
-  app.kubernetes.io/instance: "{{ .Release.Name | quote }}"
-  app.kubernetes.io/managed-by: "{{ .Release.Service | quote }}"
+  app.kubernetes.io/name: '{{ include "name" . }}'
+  app.kubernetes.io/instance: '{{ .Release.Name }}'
+  app.kubernetes.io/managed-by: '{{ .Release.Service }}'
 # fieldSpecs from https://github.com/kubernetes-sigs/kustomize/blob/a3bf3ba/api/konfig/builtinpluginconsts/commonlabels.go
 # but omits only `matchLabels`. Also check labels-transformer.yaml
 # update if neccessary!
@@ -87,3 +87,7 @@ fieldSpecs:
   create: false
   group: networking.k8s.io
   kind: NetworkPolicy
+- path: spec/selector
+  create: true
+  kind: Service
+  version: v1

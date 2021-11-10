@@ -1,7 +1,7 @@
 apiVersion: policy/v1beta1
 kind: PodSecurityPolicy
 metadata:
-  name: '{{ printf "%s-pvc-psp" (include "name" .) | quote }}'
+  name: '{{ printf "%s-pvc-psp" (include "name" .) }}'
 spec:
   allowPrivilegeEscalation: false
   privileged: false
