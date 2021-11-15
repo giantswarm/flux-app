@@ -51,9 +51,11 @@ def _flux_factory(
 
 @pytest.fixture(scope="module")
 def kustomization_factory(kube_cluster: Cluster) -> Iterable[KustomizationFactoryFunc]:
-    return _flux_factory(kube_cluster, kustomization_factory_func)
+    for f in _flux_factory(kube_cluster, kustomization_factory_func):
+        yield f
 
 
 @pytest.fixture(scope="module")
 def git_repository_factory(kube_cluster: Cluster) -> Iterable[GitRepositoryFactoryFunc]:
-    return _flux_factory(kube_cluster, git_repository_factory_func)
+    for f in _flux_factory(kube_cluster, git_repository_factory_func):
+        yield f
