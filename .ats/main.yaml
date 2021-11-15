@@ -1,2 +1,4 @@
-skip-steps: [functional, upgrade]
+skip-steps: [upgrade]
 smoke-tests-cluster-type: kind
+functional-tests-cluster-type: kind
+upgrade-tests-cluster-type: kind
