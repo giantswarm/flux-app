@@ -39,12 +39,15 @@ def test_pods_available(
 
 
 @pytest.mark.functional
+@pytest.mark.upgrade
+@pytest.mark.parametrize("test_name", ["simple-app-cr-delivery", "simple-chart-release"])
 def test_kustomization_works(
     kube_cluster: Cluster,
     flux_deployments: List[pykube.Deployment],
     catalog_factory: CatalogFactoryFunc,
     git_repository_factory: GitRepositoryFactoryFunc,
     kustomization_factory: KustomizationFactoryFunc,
+    test_name: str,
 ) -> None:
     namespace = "default"
     catalog_factory(
@@ -62,7 +65,6 @@ def test_kustomization_works(
         "tests/test_cases/**/result"
     )
 
-    test_name = "simple-app-cr-delivery"
     kustomization_factory(
         test_name,
         namespace,
