@@ -4,3 +4,5 @@ test_results_*.xml
 *kube.config
 **/.idea/
 *.tgz
+tests/ats/.python-version
+**/*.tgz-meta/
