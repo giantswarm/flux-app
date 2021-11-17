@@ -1,10 +1,13 @@
 import logging
+from time import sleep
 from typing import List
 
 import pykube
 import pytest
+from pykube.exceptions import HTTPError
 from pytest_helm_charts.fixtures import Cluster
 from pytest_helm_charts.giantswarm_app_platform.catalog import CatalogFactoryFunc
+from pytest_helm_charts.giantswarm_app_platform.custom_resources import CatalogCR
 from pytest_helm_charts.utils import wait_for_deployments_to_run
 
 # noinspection PyUnresolvedReferences
@@ -50,6 +53,20 @@ def test_kustomization_works(
     test_name: str,
 ) -> None:
     namespace = "default"
+    # TODO: this is a work-around for a problem in the upstream lib; fix it there and remove code here
+    while True:
+        try:
+            catalog_factory(
+                "giantswarm", namespace, "https://giantswarm.github.io/giantswarm-catalog/"
+            )
+            break
+        except HTTPError as e:
+            if str(e).find("object is being deleted") > -1:
+                logger.debug("The catalog is being deleted, need to wait a bit")
+                sleep(1)
+            else:
+                raise
+    # end of work-around
     catalog_factory(
         "giantswarm", namespace, "https://giantswarm.github.io/giantswarm-catalog/"
     )
