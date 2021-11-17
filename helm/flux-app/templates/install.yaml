@@ -201,7 +201,7 @@ rules:
   - apiGroups:
       - policy
     resourceNames:
-      - '{{ printf "%s-pvc-psp" (include "name" .) | quote }}'
+      - '{{ printf "%s-pvc-psp" (include "name" .) }}'
     resources:
       - podsecuritypolicies
     verbs:
