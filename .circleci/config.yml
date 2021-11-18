@@ -28,3 +28,18 @@ workflows:
                 - master
           requires:
             - "package and push flux-app chart"
+
+      - hold:
+          type: approval
+          requires:
+           - "execute chart tests - smoke and functional"
+      - deploy:
+          name: execute chart tests - upgrade
+          additional_app-test-suite_flags: "--skip-steps smoke functional"
+          filters:
+            # Do not trigger the job on merge to master.
+            branches:
+              ignore:
+                - master
+          requires:
+            - hold
