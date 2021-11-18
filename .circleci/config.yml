@@ -33,14 +33,15 @@ workflows:
           type: approval
           requires:
            - "execute chart tests - smoke and functional"
+          filters:
+            branches:
+              only: /master#release#.*/
 
       - architect/run-tests-with-ats:
           name: execute chart tests - upgrade
           additional_app-test-suite_flags: "--skip-steps smoke functional"
           filters:
-            # Do not trigger the job on merge to master.
             branches:
-              ignore:
-                - master
+              only: /master#release#.*/
           requires:
             - hold
