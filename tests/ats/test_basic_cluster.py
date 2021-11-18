@@ -34,7 +34,7 @@ def test_api_working(kube_cluster: Cluster) -> None:
 
 @pytest.mark.smoke
 def test_pods_available(
-    kube_cluster: Cluster, flux_deployments: List[pykube.Deployment]
+    kube_cluster: Cluster, :recwarnflux_deployments: List[pykube.Deployment]
 ) -> None:
     for d in flux_deployments:
         assert int(d.obj["status"]["readyReplicas"]) > 0
@@ -52,6 +52,11 @@ def test_kustomization_works(
     kustomization_factory: KustomizationFactoryFunc,
     test_name: str,
 ) -> None:
+    """
+    This test checks if it is possible to deploy a Kustomization with GitRepository as a source.
+    For upgrade test, the workflow is executed twice, so for both the stable and under-test versions
+    a full cycle is executed (app is deployed and then destroyed).
+    """
     namespace = "default"
     # TODO: this is a work-around for a problem in the upstream lib; fix it there and remove code here
     while True:
