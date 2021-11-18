@@ -29,14 +29,6 @@ workflows:
           requires:
             - "package and push flux-app chart"
 
-      - hold:
-          type: approval
-          requires:
-           - "execute chart tests - smoke and functional"
-          filters:
-            branches:
-              only: /master#release#.*/
-
       - architect/run-tests-with-ats:
           name: execute chart tests - upgrade
           additional_app-test-suite_flags: "--skip-steps smoke functional"
@@ -44,4 +36,4 @@ workflows:
             branches:
               only: /master#release#.*/
           requires:
-            - hold
+            - "execute chart tests - smoke and functional"
