@@ -19,7 +19,8 @@ workflows:
               only: /^v.*/
 
       - architect/run-tests-with-ats:
-          name: execute chart tests
+        name: execute chart tests - smoke and functional
+          additional_app-test-suite_flags: "--steps smoke functional"
           filters:
             # Do not trigger the job on merge to master.
             branches:
