@@ -58,7 +58,7 @@ def test_kustomization_works(
     a full cycle is executed (app is deployed and then destroyed).
     """
     namespace = "default"
-    # TODO: this is a work-around for a problem in the upstream lib; fix it there and remove code here
+    # TODO: this is a work-around for a problem in the upstream lib (pytest-helm-charts); fix it there and remove code here
     while True:
         try:
             catalog_factory(
