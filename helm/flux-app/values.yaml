@@ -86,23 +86,23 @@ verticalPodAutoscaler:
 volumes:
   helmController:
     temp:
-      size: 100Mi
+      size: '100Mi'
   imageAutomationController:
     temp:
-      size: 100Mi
+      size: '100Mi'
   imageReflectorController:
     temp:
-      size: 100Mi
+      size: '100Mi'
     data:
-      size: 100Mi
+      size: '100Mi'
   kustomizeController:
     temp:
-      size: 100Mi
+      size: '100Mi'
   notificationController:
     temp:
-      size: 100Mi
+      size: '100Mi'
   sourceController:
     temp:
-      size: 100Mi
+      size: '100Mi'
     data:
-      size: 500Mi
+      size: '500Mi'
