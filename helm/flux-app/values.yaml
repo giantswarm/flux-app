@@ -105,4 +105,4 @@ volumes:
     temp:
       size: 100Mi
     data:
-      size: 100Mi
+      size: 500Mi
