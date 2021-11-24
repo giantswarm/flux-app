@@ -7,6 +7,15 @@
     requests:
       cpu: "{{ .Values.resources.sourceController.requests.cpu }}"
       memory: "{{ .Values.resources.sourceController.requests.memory }}"
+- op: replace
+  path: /spec/template/spec/volumes
+  value:
+    - name: data
+      persistentVolumeClaim:
+        claimName: '{{ include "controllerVolumeName" (merge (dict "volumeName" "source-controller-data") .) | quote }}'
+    - name: tmp
+      persistentVolumeClaim:
+        claimName: '{{ include "controllerVolumeName" (merge (dict "volumeName" "source-controller-temp") .) | quote }}'
 - op: add
   path: /metadata/labels/app
   value: source-controller
