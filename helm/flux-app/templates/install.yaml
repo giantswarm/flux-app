@@ -394,6 +394,7 @@ spec:
   resources:
     requests:
       storage: '{{ .Values.volumes.sourceController.data.size }}'
+  storageClassName: ""
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
@@ -413,6 +414,7 @@ spec:
   resources:
     requests:
       storage: '{{ .Values.volumes.sourceController.temp.size }}'
+  storageClassName: ""
 ---
 apiVersion: apps/v1
 kind: Deployment
