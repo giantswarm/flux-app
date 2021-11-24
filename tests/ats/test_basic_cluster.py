@@ -1,17 +1,22 @@
 import logging
-from contextlib import contextmanager
-from typing import Dict, List
+from time import sleep
+from typing import List
 
 import pykube
 import pytest
+from pykube.exceptions import HTTPError
 from pytest_helm_charts.fixtures import Cluster
+from pytest_helm_charts.giantswarm_app_platform.catalog import CatalogFactoryFunc
+from pytest_helm_charts.giantswarm_app_platform.custom_resources import CatalogCR
 from pytest_helm_charts.utils import wait_for_deployments_to_run
+
+# noinspection PyUnresolvedReferences
+from fixtures import flux_deployments, kustomization_factory, git_repository_factory  # noqa: F401
+from fixtures_helpers import KustomizationFactoryFunc, GitRepositoryFactoryFunc
 
 logger = logging.getLogger(__name__)
 
-namespace_name = "default"
-
-timeout: int = 360
+APP_DEPLOYMENT_TIMEOUT_SEC = 180
 
 
 @pytest.mark.smoke
@@ -28,43 +33,85 @@ def test_api_working(kube_cluster: Cluster) -> None:
 
 
 @pytest.mark.smoke
-def test_cluster_info(
-    kube_cluster: Cluster, cluster_type: str, chart_extra_info: Dict[str, str]
+def test_pods_available(
+    kube_cluster: Cluster, flux_deployments: List[pykube.Deployment]
 ) -> None:
-    """Example shows how you can access additional information about the cluster the tests are running on"""
-    logger.info(f"Running on cluster type {cluster_type}")
-    key = "external_cluster_type"
-    if key in chart_extra_info:
-        logger.info(f"{key} is {chart_extra_info[key]}")
-    assert kube_cluster.kube_client is not None
-    assert cluster_type != ""
-
-
-# scope "module" means this is run only once, for the first test case requesting! It might be tricky
-# if you want to assert this multiple times
-@pytest.fixture(scope="module")
-def app_deployment(kube_cluster: Cluster) -> List[pykube.Deployment]:
-    deployments = wait_for_deployments_to_run(
-        kube_cluster.kube_client,
-        [
-            "helm-controller",
-            "image-automation-controller",
-            "image-reflector-controller",
-            "kustomize-controller",
-            "notification-controller",
-            "source-controller",
-        ],
-        namespace_name,
-        timeout,
-    )
-    return deployments
-
-
-# when we start the tests on circleci, we have to wait for pods to be available, hence
-# this additional delay and retries
-@pytest.mark.smoke
-@pytest.mark.flaky(reruns=5, reruns_delay=10)
-def test_pods_available(kube_cluster: Cluster, app_deployment: List[pykube.Deployment]):
-    for d in app_deployment:
+    for d in flux_deployments:
         assert int(d.obj["status"]["readyReplicas"]) > 0
         logger.info(f"Deployment '{d.name}' is ready")
+
+
+@pytest.mark.functional
+@pytest.mark.upgrade
+@pytest.mark.parametrize("test_name", ["simple-app-cr-delivery", "simple-chart-release"])
+def test_kustomization_works(
+    kube_cluster: Cluster,
+    flux_deployments: List[pykube.Deployment],
+    catalog_factory: CatalogFactoryFunc,
+    git_repository_factory: GitRepositoryFactoryFunc,
+    kustomization_factory: KustomizationFactoryFunc,
+    test_name: str,
+) -> None:
+    """
+    This test checks if it is possible to deploy a Kustomization with GitRepository as a source.
+    For upgrade test, the workflow is executed twice, so for both the stable and under-test versions
+    a full cycle is executed (app is deployed and then destroyed).
+    """
+    namespace = "default"
+    # TODO: this is a work-around for a problem in the upstream lib (pytest-helm-charts); fix it there and remove code here
+    while True:
+        try:
+            catalog_factory(
+                "giantswarm", namespace, "https://giantswarm.github.io/giantswarm-catalog/"
+            )
+            break
+        except HTTPError as e:
+            if str(e).find("object is being deleted") > -1:
+                logger.debug("The catalog is being deleted, need to wait a bit")
+                sleep(1)
+            else:
+                raise
+    # end of work-around
+    catalog_factory(
+        "giantswarm", namespace, "https://giantswarm.github.io/giantswarm-catalog/"
+    )
+
+    git_repo_cr_name = "flux-app-tests"
+    git_repository_factory(
+        git_repo_cr_name,
+        namespace,
+        "1m",
+        "https://github.com/giantswarm/flux-app-tests",
+        "feature/init-with-data",
+        None,
+        "tests/test_cases/**/result"
+    )
+
+    kustomization_factory(
+        test_name,
+        namespace,
+        True,
+        "1m",
+        f"./tests/test_cases/{test_name}",
+        git_repo_cr_name,
+        "2m",
+        None,
+    )
+
+    # now we wait for the app to be deployed by flux and to run
+    app_namespace = "hello-world"
+    app_svc_name = "hello-world-service"
+    app_deploy_name = "hello-world"
+    app_svc_port = 8080
+    wait_for_deployments_to_run(
+        kube_cluster.kube_client,
+        [app_deploy_name],
+        app_namespace,
+        APP_DEPLOYMENT_TIMEOUT_SEC,
+    )
+    app_svc: pykube.Service = pykube.Service.objects(
+        kube_cluster.kube_client, namespace=app_namespace
+    ).get(name=app_svc_name)
+
+    response = app_svc.proxy_http_get("/", app_svc_port)
+    assert response.status_code == 200

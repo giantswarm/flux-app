@@ -19,7 +19,8 @@ workflows:
               only: /^v.*/
 
       - architect/run-tests-with-ats:
-          name: execute chart tests
+          name: execute chart tests - smoke and functional
+          additional_app-test-suite_flags: "--skip-steps upgrade"
           filters:
             # Do not trigger the job on merge to master.
             branches:
@@ -27,3 +28,12 @@ workflows:
                 - master
           requires:
             - "package and push flux-app chart"
+
+      - architect/run-tests-with-ats:
+          name: execute chart tests - upgrade
+          additional_app-test-suite_flags: "--skip-steps smoke functional"
+          filters:
+            branches:
+              only: /master#release#.*/
+          requires:
+            - "execute chart tests - smoke and functional"
