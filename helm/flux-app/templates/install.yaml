@@ -393,7 +393,7 @@ spec:
     - ReadWriteOnce
   resources:
     requests:
-      storage: '{{ .Values.volumes.sourceController.data.size | quote }}'
+      storage: '{{ .Values.volumes.sourceController.data.size }}'
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
@@ -412,7 +412,7 @@ spec:
     - ReadWriteOnce
   resources:
     requests:
-      storage: '{{ .Values.volumes.sourceController.temp.size | quote }}'
+      storage: '{{ .Values.volumes.sourceController.temp.size }}'
 ---
 apiVersion: apps/v1
 kind: Deployment
