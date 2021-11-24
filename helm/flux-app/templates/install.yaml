@@ -113,6 +113,7 @@ spec:
   volumes:
     - emptyDir
     - secret
+    - persistentVolumeClaim
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
@@ -374,6 +375,44 @@ spec:
     app.kubernetes.io/instance: '{{ .Release.Name }}'
     app.kubernetes.io/managed-by: '{{ .Release.Service }}'
     app.kubernetes.io/name: '{{ include "name" . }}'
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  labels:
+    app.kubernetes.io/instance: '{{ .Release.Name }}'
+    app.kubernetes.io/managed-by: '{{ .Release.Service }}'
+    app.kubernetes.io/name: '{{ include "name" . }}'
+    app.kubernetes.io/version: '{{ .Chart.AppVersion }}'
+    giantswarm.io/service_type: managed
+    helm.sh/chart: '{{ include "chart" . }}'
+  name: '{{ include "controllerVolumeName" (merge (dict "volumeName" "source-controller-data") .) | quote }}'
+  namespace: '{{ .Release.Namespace }}'
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: '{{ .Values.volumes.sourceController.data.size | quote }}'
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  labels:
+    app.kubernetes.io/instance: '{{ .Release.Name }}'
+    app.kubernetes.io/managed-by: '{{ .Release.Service }}'
+    app.kubernetes.io/name: '{{ include "name" . }}'
+    app.kubernetes.io/version: '{{ .Chart.AppVersion }}'
+    giantswarm.io/service_type: managed
+    helm.sh/chart: '{{ include "chart" . }}'
+  name: '{{ include "controllerVolumeName" (merge (dict "volumeName" "source-controller-temp") .) | quote }}'
+  namespace: '{{ .Release.Namespace }}'
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: '{{ .Values.volumes.sourceController.temp.size | quote }}'
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -910,10 +949,12 @@ spec:
       serviceAccountName: source-controller
       terminationGracePeriodSeconds: 10
       volumes:
-        - emptyDir: {}
-          name: data
-        - emptyDir: {}
-          name: tmp
+        - name: data
+          persistentVolumeClaim:
+            claimName: '{{ include "controllerVolumeName" (merge (dict "volumeName" "source-controller-data") .) | quote }}'
+        - name: tmp
+          persistentVolumeClaim:
+            claimName: '{{ include "controllerVolumeName" (merge (dict "volumeName" "source-controller-temp") .) | quote }}'
 ---
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
