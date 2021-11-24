@@ -386,7 +386,7 @@ metadata:
     app.kubernetes.io/version: '{{ .Chart.AppVersion }}'
     giantswarm.io/service_type: managed
     helm.sh/chart: '{{ include "chart" . }}'
-  name: '{{ include "controllerVolumeName" (merge (dict "volumeName" "source-controller-data") .) | quote }}'
+  name: '{{ include "controllerVolumeName" (merge (dict "volumeName" "source-controller-data") .) }}'
   namespace: '{{ .Release.Namespace }}'
 spec:
   accessModes:
@@ -406,7 +406,7 @@ metadata:
     app.kubernetes.io/version: '{{ .Chart.AppVersion }}'
     giantswarm.io/service_type: managed
     helm.sh/chart: '{{ include "chart" . }}'
-  name: '{{ include "controllerVolumeName" (merge (dict "volumeName" "source-controller-temp") .) | quote }}'
+  name: '{{ include "controllerVolumeName" (merge (dict "volumeName" "source-controller-temp") .) }}'
   namespace: '{{ .Release.Namespace }}'
 spec:
   accessModes:
