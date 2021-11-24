@@ -7,7 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-- added functional and upgrade tests
+### Added
+
+- Add functional and upgrade tests
+
+### Changed
+
+- Attach PVC to source-controller for artifact persistence
 
 ## [0.7.1] - 2021-11-17
 
