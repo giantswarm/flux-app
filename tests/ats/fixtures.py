@@ -7,8 +7,12 @@ from pytest_helm_charts.clusters import Cluster
 from pytest_helm_charts.utils import wait_for_deployments_to_run
 
 from custom_resources import NamespacedFluxCR, KustomizationCR, GitRepositoryCR
-from fixtures_helpers import KustomizationFactoryFunc, kustomization_factory_func, GitRepositoryFactoryFunc, \
-    git_repository_factory_func
+from fixtures_helpers import (
+    KustomizationFactoryFunc,
+    kustomization_factory_func,
+    GitRepositoryFactoryFunc,
+    git_repository_factory_func,
+)
 
 FLUX_NAMESPACE_NAME = "default"
 FLUX_DEPLOYMENT_TIMEOUT: int = 180
@@ -40,7 +44,7 @@ MetaFactoryFunc = Callable[[pykube.HTTPClient, list[T]], FactoryFunc]
 
 
 def _flux_factory(
-        kube_cluster: Cluster, meta_func: MetaFactoryFunc, obj_type: Type[T]
+    kube_cluster: Cluster, meta_func: MetaFactoryFunc, obj_type: Type[T]
 ) -> Iterable[FactoryFunc]:
     created_objects: list[T] = []
 
@@ -53,7 +57,9 @@ def _flux_factory(
     while any_exists:
         any_exists = False
         for o in created_objects:
-            if getattr(obj_type, "objects")(kube_cluster.kube_client, namespace=o.namespace).get_or_none(name=o.name):
+            if getattr(obj_type, "objects")(
+                kube_cluster.kube_client, namespace=o.namespace
+            ).get_or_none(name=o.name):
                 any_exists = True
                 sleep(0.1)
                 break

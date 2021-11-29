@@ -3,55 +3,62 @@ from typing import Optional, Protocol
 from pykube import HTTPClient
 
 from custom_resources import KustomizationCR, GitRepositoryCR, HelmRepositoryCR
-from utils import get_kustomization_obj, wait_for_kustomizations_to_be_ready, get_git_repository_obj, \
-    wait_for_git_repositories_to_be_ready
+from utils import (
+    get_kustomization_obj,
+    wait_for_kustomizations_to_be_ready,
+    get_git_repository_obj,
+    wait_for_git_repositories_to_be_ready,
+)
 
 FLUX_CR_READY_TIMEOUT_SEC = 30
 
 
 class KustomizationFactoryFunc(Protocol):
     def __call__(
-            self,
-            name: str,
-            namespace: str,
-            prune: bool,
-            interval: str,
-            repo_path: str,
-            git_repository_name: str,
-            timeout: str,
-            service_account_name: Optional[str] = None,
-    ) -> KustomizationCR: ...
+        self,
+        name: str,
+        namespace: str,
+        prune: bool,
+        interval: str,
+        repo_path: str,
+        git_repository_name: str,
+        timeout: str,
+        service_account_name: Optional[str] = None,
+    ) -> KustomizationCR:
+        ...
 
 
 class GitRepositoryFactoryFunc(Protocol):
     def __call__(
-            self,
-            name: str,
-            namespace: str,
-            interval: str,
-            repo_url: str,
-            repo_branch: str = "master",
-            secret_ref_name: Optional[str] = None,
-            ignore_pattern: Optional[str] = None,
-    ) -> GitRepositoryCR: ...
+        self,
+        name: str,
+        namespace: str,
+        interval: str,
+        repo_url: str,
+        repo_branch: str = "master",
+        secret_ref_name: Optional[str] = None,
+        ignore_pattern: Optional[str] = None,
+    ) -> GitRepositoryCR:
+        ...
 
 
 class HelmRepositoryFactoryFunc(Protocol):
     def __call__(
-            self,
-            name: str,
-            namespace: str,
-            interval: str,
-            repo_url: str,
-            secret_ref_name: Optional[str] = None,
-            timeout: Optional[str] = None,
-            suspend: bool = False,
-            pass_credentials: bool = False,
-    ) -> HelmRepositoryCR: ...
+        self,
+        name: str,
+        namespace: str,
+        interval: str,
+        repo_url: str,
+        secret_ref_name: Optional[str] = None,
+        timeout: Optional[str] = None,
+        suspend: bool = False,
+        pass_credentials: bool = False,
+    ) -> HelmRepositoryCR:
+        ...
 
 
 def kustomization_factory_func(
-        kube_client: HTTPClient, created_kustomizations: list[KustomizationCR]
+    kube_client: HTTPClient, created_kustomizations: list[KustomizationCR]
 ) -> KustomizationFactoryFunc:
     """Return a factory object, that can be used to create a new Kustomization CRs"""
 
@@ -107,18 +114,18 @@ def kustomization_factory_func(
 
 
 def git_repository_factory_func(
-        kube_client: HTTPClient, created_git_repositories: list[GitRepositoryCR]
+    kube_client: HTTPClient, created_git_repositories: list[GitRepositoryCR]
 ) -> GitRepositoryFactoryFunc:
     """Return a factory object, that can be used to create a new GitRepository CRs"""
 
     def _git_repository_factory(
-            name: str,
-            namespace: str,
-            interval: str,
-            repo_url: str,
-            repo_branch: str = "master",
-            secret_ref_name: Optional[str] = None,
-            ignore_pattern: Optional[str] = None,
+        name: str,
+        namespace: str,
+        interval: str,
+        repo_url: str,
+        repo_branch: str = "master",
+        secret_ref_name: Optional[str] = None,
+        ignore_pattern: Optional[str] = None,
     ) -> GitRepositoryCR:
         """A factory function used to create Flux GitRepository.
         Args:
@@ -150,7 +157,7 @@ def git_repository_factory_func(
             repo_url,
             repo_branch,
             secret_ref_name,
-            ignore_pattern
+            ignore_pattern,
         )
         created_git_repositories.append(git_repository)
         git_repository.create()
@@ -163,19 +170,19 @@ def git_repository_factory_func(
 
 
 def helm_repository_factory_func(
-        kube_client: HTTPClient, created_helm_repositories: list[HelmRepositoryCR]
+    kube_client: HTTPClient, created_helm_repositories: list[HelmRepositoryCR]
 ) -> HelmRepositoryFactoryFunc:
     """Return a factory object, that can be used to create a new HelmRepository CRs"""
 
     def _helm_repository_factory(
-            name: str,
-            namespace: str,
-            interval: str,
-            repo_url: str,
-            secret_ref_name: Optional[str] = None,
-            timeout: Optional[str] = None,
-            suspend: bool = False,
-            pass_credentials: bool = False,
+        name: str,
+        namespace: str,
+        interval: str,
+        repo_url: str,
+        secret_ref_name: Optional[str] = None,
+        timeout: Optional[str] = None,
+        suspend: bool = False,
+        pass_credentials: bool = False,
     ) -> HelmRepositoryCR:
         """A factory function used to create Flux HelmRepository.
         Args:
@@ -208,7 +215,7 @@ def helm_repository_factory_func(
             secret_ref_name,
             timeout,
             suspend,
-            pass_credentials
+            pass_credentials,
         )
         created_helm_repositories.append(helm_repository)
         helm_repository.create()

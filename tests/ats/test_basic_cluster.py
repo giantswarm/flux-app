@@ -11,7 +11,11 @@ from pytest_helm_charts.giantswarm_app_platform.custom_resources import CatalogC
 from pytest_helm_charts.utils import wait_for_deployments_to_run
 
 # noinspection PyUnresolvedReferences
-from fixtures import flux_deployments, kustomization_factory, git_repository_factory  # noqa: F401
+from fixtures import (
+    flux_deployments,
+    kustomization_factory,
+    git_repository_factory,
+)  # noqa: F401
 from fixtures_helpers import KustomizationFactoryFunc, GitRepositoryFactoryFunc
 
 logger = logging.getLogger(__name__)
@@ -43,7 +47,9 @@ def test_pods_available(
 
 @pytest.mark.functional
 @pytest.mark.upgrade
-@pytest.mark.parametrize("test_name", ["simple-app-cr-delivery", "simple-chart-release"])
+@pytest.mark.parametrize(
+    "test_name", ["simple-app-cr-delivery", "simple-chart-release"]
+)
 def test_kustomization_works(
     kube_cluster: Cluster,
     flux_deployments: List[pykube.Deployment],
@@ -62,7 +68,9 @@ def test_kustomization_works(
     while True:
         try:
             catalog_factory(
-                "giantswarm", namespace, "https://giantswarm.github.io/giantswarm-catalog/"
+                "giantswarm",
+                namespace,
+                "https://giantswarm.github.io/giantswarm-catalog/",
             )
             break
         except HTTPError as e:
@@ -84,7 +92,7 @@ def test_kustomization_works(
         "https://github.com/giantswarm/flux-app-tests",
         "feature/init-with-data",
         None,
-        "tests/test_cases/**/result"
+        "tests/test_cases/**/result",
     )
 
     kustomization_factory(

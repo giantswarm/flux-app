@@ -4,7 +4,12 @@ from typing import Optional, Any
 from pykube import HTTPClient
 from pytest_helm_charts.utils import wait_for_namespaced_objects_condition
 
-from custom_resources import GitRepositoryCR, KustomizationCR, NamespacedFluxCR, HelmRepositoryCR
+from custom_resources import (
+    GitRepositoryCR,
+    KustomizationCR,
+    NamespacedFluxCR,
+    HelmRepositoryCR,
+)
 
 logger = logging.getLogger(__name__)
 
@@ -78,15 +83,15 @@ def get_kustomization_obj(
 
 
 def get_helm_repository_obj(
-        kube_client: HTTPClient,
-        name: str,
-        namespace: str,
-        interval: str,
-        repo_url: str,
-        secret_ref_name: Optional[str] = None,
-        timeout: Optional[str] = None,
-        suspend: bool = False,
-        pass_credentials: bool = False,
+    kube_client: HTTPClient,
+    name: str,
+    namespace: str,
+    interval: str,
+    repo_url: str,
+    secret_ref_name: Optional[str] = None,
+    timeout: Optional[str] = None,
+    suspend: bool = False,
+    pass_credentials: bool = False,
 ) -> HelmRepositoryCR:
     cr: dict[str, Any] = {
         "apiVersion": HelmRepositoryCR.version,
@@ -166,11 +171,11 @@ def wait_for_kustomizations_to_be_ready(
 
 
 def wait_for_helm_repositories_to_be_ready(
-        kube_client: HTTPClient,
-        helm_repo_names: list[str],
-        helm_repo_namespace: str,
-        timeout_sec: int,
-        missing_ok: bool = False,
+    kube_client: HTTPClient,
+    helm_repo_names: list[str],
+    helm_repo_namespace: str,
+    timeout_sec: int,
+    missing_ok: bool = False,
 ) -> list[GitRepositoryCR]:
     helm_repos = wait_for_namespaced_objects_condition(
         kube_client,
