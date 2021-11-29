@@ -4,7 +4,7 @@ from typing import Optional, Any
 from pykube import HTTPClient
 from pytest_helm_charts.utils import wait_for_namespaced_objects_condition
 
-from custom_resources import GitRepositoryCR, KustomizationCR, NamespacedFluxCR
+from custom_resources import GitRepositoryCR, KustomizationCR, NamespacedFluxCR, HelmRepositoryCR
 
 logger = logging.getLogger(__name__)
 
@@ -77,6 +77,40 @@ def get_kustomization_obj(
     return KustomizationCR(kube_client, cr)
 
 
+def get_helm_repository_obj(
+        kube_client: HTTPClient,
+        name: str,
+        namespace: str,
+        interval: str,
+        repo_url: str,
+        secret_ref_name: Optional[str] = None,
+        timeout: Optional[str] = None,
+        suspend: bool = False,
+        pass_credentials: bool = False,
+) -> HelmRepositoryCR:
+    cr: dict[str, Any] = {
+        "apiVersion": HelmRepositoryCR.version,
+        "kind": HelmRepositoryCR.kind,
+        "metadata": {
+            "name": name,
+            "namespace": namespace,
+        },
+        "spec": {
+            "url": repo_url,
+            "passCredentials": pass_credentials,
+            "interval": interval,
+            "suspend": suspend,
+        },
+    }
+    if secret_ref_name:
+        cr["spec"]["secretRef"] = {
+            "name": secret_ref_name,
+        }
+    if timeout:
+        cr["spec"]["timeout"] = timeout
+    return HelmRepositoryCR(kube_client, cr)
+
+
 def _flux_cr_ready(flux_obj: NamespacedFluxCR) -> bool:
     has_conditions = "status" in flux_obj.obj and "conditions" in flux_obj.obj["status"]
     if not has_conditions:
@@ -129,3 +163,22 @@ def wait_for_kustomizations_to_be_ready(
         missing_ok,
     )
     return kustomizations
+
+
+def wait_for_helm_repositories_to_be_ready(
+        kube_client: HTTPClient,
+        helm_repo_names: list[str],
+        helm_repo_namespace: str,
+        timeout_sec: int,
+        missing_ok: bool = False,
+) -> list[GitRepositoryCR]:
+    helm_repos = wait_for_namespaced_objects_condition(
+        kube_client,
+        HelmRepositoryCR,
+        helm_repo_names,
+        helm_repo_namespace,
+        _flux_cr_ready,
+        timeout_sec,
+        missing_ok,
+    )
+    return helm_repos
