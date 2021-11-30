@@ -1,5 +1,5 @@
 import logging
-from typing import Optional, Any
+from typing import Optional, Any, TypedDict
 
 from pykube import HTTPClient
 from pytest_helm_charts.utils import wait_for_namespaced_objects_condition
@@ -8,7 +8,7 @@ from custom_resources import (
     GitRepositoryCR,
     KustomizationCR,
     NamespacedFluxCR,
-    HelmRepositoryCR,
+    HelmRepositoryCR, HelmReleaseCR,
 )
 
 logger = logging.getLogger(__name__)
@@ -114,6 +114,73 @@ def get_helm_repository_obj(
     if timeout:
         cr["spec"]["timeout"] = timeout
     return HelmRepositoryCR(kube_client, cr)
+
+
+class CrossNamespaceObjectReference(TypedDict, total=False):
+    apiVersion: Optional[str]
+    kind: str
+    name: str
+    namespace: Optional[str]
+
+
+class ChartTemplate(TypedDict, total=False):
+    chart: str
+    version: Optional[str]
+    sourceRef: CrossNamespaceObjectReference
+    valuesFiles: list[str]
+
+
+class ValuesReference(TypedDict, total=False):
+    kind: str
+    name: str
+    valuesKey: Optional[str]
+    targetPath: Optional[str]
+    optional: Optional[bool]
+
+
+def get_helm_release_obj(
+        kube_client: HTTPClient,
+        name: str,
+        namespace: str,
+        chart: ChartTemplate,
+        interval: str,
+        suspend: bool = False,
+        release_name: Optional[str] = None,
+        target_namespace: Optional[str] = None,
+        depends_on: Optional[list[CrossNamespaceObjectReference]] = None,
+        timeout: Optional[str] = None,
+        values_from: Optional[list[ValuesReference]] = None,
+        values: Optional[dict] = None,
+        service_account_name: Optional[str] = None,
+) -> HelmReleaseCR:
+    cr: dict[str, Any] = {
+        "apiVersion": HelmRepositoryCR.version,
+        "kind": HelmRepositoryCR.kind,
+        "metadata": {
+            "name": name,
+            "namespace": namespace,
+        },
+        "spec": {
+            "chart": chart,
+            "interval": interval,
+            "suspend": suspend,
+        },
+    }
+    if release_name:
+        cr["spec"]["releaseName"] = release_name
+    if target_namespace:
+        cr["spec"]["targetNamespace"] = target_namespace
+    if depends_on:
+        cr["spec"]["dependsOn"] = depends_on
+    if timeout:
+        cr["spec"]["timeout"] = timeout
+    if values_from:
+        cr["spec"]["valuesFrom"] = values_from
+    if values:
+        cr["spec"]["values"] = values
+    if service_account_name:
+        cr["spec"]["serviceAccountName"] = service_account_name
+    return HelmReleaseCR(kube_client, cr)
 
 
 def _flux_cr_ready(flux_obj: NamespacedFluxCR) -> bool:

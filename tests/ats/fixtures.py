@@ -6,12 +6,12 @@ import pytest
 from pytest_helm_charts.clusters import Cluster
 from pytest_helm_charts.utils import wait_for_deployments_to_run
 
-from custom_resources import NamespacedFluxCR, KustomizationCR, GitRepositoryCR
+from custom_resources import NamespacedFluxCR, KustomizationCR, GitRepositoryCR, HelmRepositoryCR
 from fixtures_helpers import (
     KustomizationFactoryFunc,
     kustomization_factory_func,
     GitRepositoryFactoryFunc,
-    git_repository_factory_func,
+    git_repository_factory_func, HelmRepositoryFactoryFunc, helm_repository_factory_func,
 )
 
 FLUX_NAMESPACE_NAME = "default"
@@ -44,7 +44,7 @@ MetaFactoryFunc = Callable[[pykube.HTTPClient, list[T]], FactoryFunc]
 
 
 def _flux_factory(
-    kube_cluster: Cluster, meta_func: MetaFactoryFunc, obj_type: Type[T]
+        kube_cluster: Cluster, meta_func: MetaFactoryFunc, obj_type: Type[T]
 ) -> Iterable[FactoryFunc]:
     created_objects: list[T] = []
 
@@ -58,7 +58,7 @@ def _flux_factory(
         any_exists = False
         for o in created_objects:
             if getattr(obj_type, "objects")(
-                kube_cluster.kube_client, namespace=o.namespace
+                    kube_cluster.kube_client, namespace=o.namespace
             ).get_or_none(name=o.name):
                 any_exists = True
                 sleep(0.1)
@@ -74,4 +74,10 @@ def kustomization_factory(kube_cluster: Cluster) -> Iterable[KustomizationFactor
 @pytest.fixture(scope="module")
 def git_repository_factory(kube_cluster: Cluster) -> Iterable[GitRepositoryFactoryFunc]:
     for f in _flux_factory(kube_cluster, git_repository_factory_func, GitRepositoryCR):
+        yield f
+
+
+@pytest.fixture(scope="module")
+def helm_repository_factory(kube_cluster: Cluster) -> Iterable[HelmRepositoryFactoryFunc]:
+    for f in _flux_factory(kube_cluster, helm_repository_factory_func, HelmRepositoryCR):
         yield f
