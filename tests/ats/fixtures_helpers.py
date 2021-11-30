@@ -8,6 +8,8 @@ from utils import (
     wait_for_kustomizations_to_be_ready,
     get_git_repository_obj,
     wait_for_git_repositories_to_be_ready,
+    wait_for_helm_repositories_to_be_ready,
+    get_helm_repository_obj,
 )
 
 FLUX_CR_READY_TIMEOUT_SEC = 30

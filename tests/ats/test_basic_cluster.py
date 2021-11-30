@@ -7,15 +7,14 @@ import pytest
 from pykube.exceptions import HTTPError
 from pytest_helm_charts.fixtures import Cluster
 from pytest_helm_charts.giantswarm_app_platform.catalog import CatalogFactoryFunc
-from pytest_helm_charts.giantswarm_app_platform.custom_resources import CatalogCR
 from pytest_helm_charts.utils import wait_for_deployments_to_run
 
 # noinspection PyUnresolvedReferences
-from fixtures import (
+from fixtures import (  # noqa: F401
     flux_deployments,
     kustomization_factory,
     git_repository_factory,
-)  # noqa: F401
+)
 from fixtures_helpers import KustomizationFactoryFunc, GitRepositoryFactoryFunc
 
 logger = logging.getLogger(__name__)
@@ -38,7 +37,7 @@ def test_api_working(kube_cluster: Cluster) -> None:
 
 @pytest.mark.smoke
 def test_pods_available(
-    kube_cluster: Cluster, flux_deployments: List[pykube.Deployment]
+    kube_cluster: Cluster, flux_deployments: List[pykube.Deployment]  # noqa: F811
 ) -> None:
     for d in flux_deployments:
         assert int(d.obj["status"]["readyReplicas"]) > 0
@@ -52,10 +51,10 @@ def test_pods_available(
 )
 def test_kustomization_works(
     kube_cluster: Cluster,
-    flux_deployments: List[pykube.Deployment],
+    flux_deployments: List[pykube.Deployment],  # noqa: F811
     catalog_factory: CatalogFactoryFunc,
-    git_repository_factory: GitRepositoryFactoryFunc,
-    kustomization_factory: KustomizationFactoryFunc,
+    git_repository_factory: GitRepositoryFactoryFunc,  # noqa: F811
+    kustomization_factory: KustomizationFactoryFunc,  # noqa: F811
     test_name: str,
 ) -> None:
     """
@@ -64,7 +63,8 @@ def test_kustomization_works(
     a full cycle is executed (app is deployed and then destroyed).
     """
     namespace = "default"
-    # TODO: this is a work-around for a problem in the upstream lib (pytest-helm-charts); fix it there and remove code here
+    # TODO: this is a work-around for a problem in the upstream lib (pytest-helm-charts);
+    #  fix it there and remove code here
     while True:
         try:
             catalog_factory(
