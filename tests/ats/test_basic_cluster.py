@@ -15,7 +15,8 @@ from fixtures import (  # noqa: F401
     kustomization_factory,
     git_repository_factory,
 )
-from fixtures_helpers import KustomizationFactoryFunc, GitRepositoryFactoryFunc
+from fixtures_helpers import KustomizationFactoryFunc, GitRepositoryFactoryFunc, HelmReleaseFactoryFunc, \
+    HelmRepositoryFactoryFunc
 
 logger = logging.getLogger(__name__)
 
@@ -44,8 +45,8 @@ def test_pods_available(
         logger.info(f"Deployment '{d.name}' is ready")
 
 
-@pytest.mark.functional
-@pytest.mark.upgrade
+# @pytest.mark.functional
+# @pytest.mark.upgrade
 @pytest.mark.parametrize(
     "test_name", ["simple-app-cr-delivery", "simple-chart-release"]
 )
@@ -103,8 +104,45 @@ def test_kustomization_works(
         f"./tests/test_cases/{test_name}",
         git_repo_cr_name,
         "2m",
-        None,
     )
+
+    # now we wait for the app to be deployed by flux and to run
+    app_namespace = "hello-world"
+    app_svc_name = "hello-world-service"
+    app_deploy_name = "hello-world"
+    app_svc_port = 8080
+    wait_for_deployments_to_run(
+        kube_cluster.kube_client,
+        [app_deploy_name],
+        app_namespace,
+        APP_DEPLOYMENT_TIMEOUT_SEC,
+    )
+    app_svc: pykube.Service = pykube.Service.objects(
+        kube_cluster.kube_client, namespace=app_namespace
+    ).get(name=app_svc_name)
+
+    response = app_svc.proxy_http_get("/", app_svc_port)
+    assert response.status_code == 200
+
+
+@pytest.mark.functional
+@pytest.mark.upgrade
+def test_helm_works(
+        kube_cluster: Cluster,
+        flux_deployments: List[pykube.Deployment],  # noqa: F811
+        helm_repository_factory: HelmRepositoryFactoryFunc,  # noqa: F811
+        helm_release_factory: HelmReleaseFactoryFunc,  # noqa: F811
+) -> None:
+    """
+    This test checks if it is possible to deploy a HelmRelease with HelmRepository as a source.
+    For upgrade test, the workflow is executed twice, so for both the stable and under-test versions
+    a full cycle is executed (app is deployed and then destroyed).
+    """
+    namespace = "default"
+
+    helm_repository_factory("giantswarm", namespace, "1m", "https://giantswarm.github.io/giantswarm-catalog")
+    helm_release_factory("hello-world", namespace, chart={"chart": "hello-world-app", "version": "0.1.0"},
+                         interval="1m")
 
     # now we wait for the app to be deployed by flux and to run
     app_namespace = "hello-world"

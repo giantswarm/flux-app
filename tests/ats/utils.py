@@ -185,7 +185,7 @@ def get_helm_release_obj(
             "namespace": namespace,
         },
         "spec": {
-            "chart": chart,
+            "chart": {"spec": chart},
             "interval": interval,
             "suspend": suspend,
         },
