@@ -6,3 +6,4 @@ test_results_*.xml
 *.tgz
 tests/ats/.python-version
 **/*.tgz-meta/
+**/__pycache__/

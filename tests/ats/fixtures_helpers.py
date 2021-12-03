@@ -140,8 +140,8 @@ def git_repository_factory_func(
     ) -> GitRepositoryCR:
         """A factory function used to create Flux GitRepository.
         Args:
-            name: name of the created Kustomization CR.
-            namespace: namespace to create the Kustomization CR in.
+            name: name of the created GitRepository CR.
+            namespace: namespace to create the GitRepository CR in.
             interval: the interval at which to check for repository updates.
             repo_url: the repository URL, can be a HTTP/S or SSH address.
             repo_branch: branch of the repo to use.

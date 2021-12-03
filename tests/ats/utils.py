@@ -1,5 +1,6 @@
 import logging
-from typing import Optional, Any, TypedDict
+from dataclasses import dataclass, field, asdict
+from typing import Optional, Any
 
 from pykube import HTTPClient
 from pytest_helm_charts.utils import wait_for_namespaced_objects_condition
@@ -16,16 +17,16 @@ logger = logging.getLogger(__name__)
 
 
 def get_git_repository_obj(
-    kube_client: HTTPClient,
-    name: str,
-    namespace: str,
-    interval: str,
-    repo_url: str,
-    repo_branch: str = "master",
-    secret_ref_name: Optional[str] = None,
-    ignore_pattern: Optional[str] = None,
-    extra_metadata: Optional[dict] = None,
-    extra_spec: Optional[dict] = None,
+        kube_client: HTTPClient,
+        name: str,
+        namespace: str,
+        interval: str,
+        repo_url: str,
+        repo_branch: str = "master",
+        secret_ref_name: Optional[str] = None,
+        ignore_pattern: Optional[str] = None,
+        extra_metadata: Optional[dict] = None,
+        extra_spec: Optional[dict] = None,
 ) -> GitRepositoryCR:
     cr: dict[str, Any] = {
         "apiVersion": GitRepositoryCR.version,
@@ -57,17 +58,17 @@ def get_git_repository_obj(
 
 
 def get_kustomization_obj(
-    kube_client: HTTPClient,
-    name: str,
-    namespace: str,
-    prune: bool,
-    interval: str,
-    repo_path: str,
-    git_repository_name: str,
-    timeout: str,
-    service_account_name: Optional[str] = None,
-    extra_metadata: Optional[dict] = None,
-    extra_spec: Optional[dict] = None,
+        kube_client: HTTPClient,
+        name: str,
+        namespace: str,
+        prune: bool,
+        interval: str,
+        repo_path: str,
+        git_repository_name: str,
+        timeout: str,
+        service_account_name: Optional[str] = None,
+        extra_metadata: Optional[dict] = None,
+        extra_spec: Optional[dict] = None,
 ) -> KustomizationCR:
     cr: dict[str, Any] = {
         "apiVersion": KustomizationCR.version,
@@ -98,17 +99,17 @@ def get_kustomization_obj(
 
 
 def get_helm_repository_obj(
-    kube_client: HTTPClient,
-    name: str,
-    namespace: str,
-    interval: str,
-    repo_url: str,
-    secret_ref_name: Optional[str] = None,
-    timeout: Optional[str] = None,
-    suspend: bool = False,
-    pass_credentials: bool = False,
-    extra_metadata: Optional[dict] = None,
-    extra_spec: Optional[dict] = None,
+        kube_client: HTTPClient,
+        name: str,
+        namespace: str,
+        interval: str,
+        repo_url: str,
+        secret_ref_name: Optional[str] = None,
+        timeout: Optional[str] = None,
+        suspend: bool = False,
+        pass_credentials: bool = False,
+        extra_metadata: Optional[dict] = None,
+        extra_spec: Optional[dict] = None,
 ) -> HelmRepositoryCR:
     cr: dict[str, Any] = {
         "apiVersion": HelmRepositoryCR.version,
@@ -138,44 +139,47 @@ def get_helm_repository_obj(
     return HelmRepositoryCR(kube_client, cr)
 
 
-class CrossNamespaceObjectReference(TypedDict, total=False):
-    apiVersion: Optional[str]
+@dataclass
+class CrossNamespaceObjectReference:
     kind: str
     name: str
-    namespace: Optional[str]
+    apiVersion: Optional[str] = None
+    namespace: Optional[str] = None
 
 
-class ChartTemplate(TypedDict, total=False):
+@dataclass
+class ChartTemplate:
     chart: str
-    version: Optional[str]
     sourceRef: CrossNamespaceObjectReference
-    valuesFiles: list[str]
+    version: Optional[str] = None
+    valuesFiles: list[str] = field(default_factory=list)
 
 
-class ValuesReference(TypedDict, total=False):
+@dataclass
+class ValuesReference:
     kind: str
     name: str
-    valuesKey: Optional[str]
-    targetPath: Optional[str]
-    optional: Optional[bool]
+    valuesKey: Optional[str] = None
+    targetPath: Optional[str] = None
+    optional: Optional[bool] = None
 
 
 def get_helm_release_obj(
-    kube_client: HTTPClient,
-    name: str,
-    namespace: str,
-    chart: ChartTemplate,
-    interval: str,
-    suspend: bool = False,
-    release_name: Optional[str] = None,
-    target_namespace: Optional[str] = None,
-    depends_on: Optional[list[CrossNamespaceObjectReference]] = None,
-    timeout: Optional[str] = None,
-    values_from: Optional[list[ValuesReference]] = None,
-    values: Optional[dict] = None,
-    service_account_name: Optional[str] = None,
-    extra_metadata: Optional[dict] = None,
-    extra_spec: Optional[dict] = None,
+        kube_client: HTTPClient,
+        name: str,
+        namespace: str,
+        chart: ChartTemplate,
+        interval: str,
+        suspend: bool = False,
+        release_name: Optional[str] = None,
+        target_namespace: Optional[str] = None,
+        depends_on: Optional[list[CrossNamespaceObjectReference]] = None,
+        timeout: Optional[str] = None,
+        values_from: Optional[list[ValuesReference]] = None,
+        values: Optional[dict] = None,
+        service_account_name: Optional[str] = None,
+        extra_metadata: Optional[dict] = None,
+        extra_spec: Optional[dict] = None,
 ) -> HelmReleaseCR:
     cr: dict[str, Any] = {
         "apiVersion": HelmReleaseCR.version,
@@ -185,7 +189,7 @@ def get_helm_release_obj(
             "namespace": namespace,
         },
         "spec": {
-            "chart": {"spec": chart},
+            "chart": {"spec": asdict(chart)},
             "interval": interval,
             "suspend": suspend,
         },
@@ -195,11 +199,11 @@ def get_helm_release_obj(
     if target_namespace:
         cr["spec"]["targetNamespace"] = target_namespace
     if depends_on:
-        cr["spec"]["dependsOn"] = depends_on
+        cr["spec"]["dependsOn"] = [asdict(d) for d in depends_on]
     if timeout:
         cr["spec"]["timeout"] = timeout
     if values_from:
-        cr["spec"]["valuesFrom"] = values_from
+        cr["spec"]["valuesFrom"] = [asdict(v) for v in values_from]
     if values:
         cr["spec"]["values"] = values
     if service_account_name:
@@ -229,11 +233,11 @@ def _flux_cr_ready(flux_obj: NamespacedFluxCR) -> bool:
 
 
 def wait_for_git_repositories_to_be_ready(
-    kube_client: HTTPClient,
-    git_repo_names: list[str],
-    git_repo_namespace: str,
-    timeout_sec: int,
-    missing_ok: bool = False,
+        kube_client: HTTPClient,
+        git_repo_names: list[str],
+        git_repo_namespace: str,
+        timeout_sec: int,
+        missing_ok: bool = False,
 ) -> list[GitRepositoryCR]:
     objects = wait_for_namespaced_objects_condition(
         kube_client,
@@ -248,11 +252,11 @@ def wait_for_git_repositories_to_be_ready(
 
 
 def wait_for_kustomizations_to_be_ready(
-    kube_client: HTTPClient,
-    kustomization_names: list[str],
-    kustomization_namespace: str,
-    timeout_sec: int,
-    missing_ok: bool = False,
+        kube_client: HTTPClient,
+        kustomization_names: list[str],
+        kustomization_namespace: str,
+        timeout_sec: int,
+        missing_ok: bool = False,
 ) -> list[KustomizationCR]:
     objects = wait_for_namespaced_objects_condition(
         kube_client,
@@ -267,11 +271,11 @@ def wait_for_kustomizations_to_be_ready(
 
 
 def wait_for_helm_repositories_to_be_ready(
-    kube_client: HTTPClient,
-    helm_repo_names: list[str],
-    helm_repo_namespace: str,
-    timeout_sec: int,
-    missing_ok: bool = False,
+        kube_client: HTTPClient,
+        helm_repo_names: list[str],
+        helm_repo_namespace: str,
+        timeout_sec: int,
+        missing_ok: bool = False,
 ) -> list[GitRepositoryCR]:
     objects = wait_for_namespaced_objects_condition(
         kube_client,
@@ -286,11 +290,11 @@ def wait_for_helm_repositories_to_be_ready(
 
 
 def wait_for_helm_releases_to_be_ready(
-    kube_client: HTTPClient,
-    helm_release_names: list[str],
-    helm_release_namespace: str,
-    timeout_sec: int,
-    missing_ok: bool = False,
+        kube_client: HTTPClient,
+        helm_release_names: list[str],
+        helm_release_namespace: str,
+        timeout_sec: int,
+        missing_ok: bool = False,
 ) -> list[HelmReleaseCR]:
     objects = wait_for_namespaced_objects_condition(
         kube_client,
