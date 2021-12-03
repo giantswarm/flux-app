@@ -178,8 +178,8 @@ def get_helm_release_obj(
     extra_spec: Optional[dict] = None,
 ) -> HelmReleaseCR:
     cr: dict[str, Any] = {
-        "apiVersion": HelmRepositoryCR.version,
-        "kind": HelmRepositoryCR.kind,
+        "apiVersion": HelmReleaseCR.version,
+        "kind": HelmReleaseCR.kind,
         "metadata": {
             "name": name,
             "namespace": namespace,

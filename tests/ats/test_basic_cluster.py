@@ -40,7 +40,7 @@ def test_api_working(kube_cluster: Cluster) -> None:
 
 @pytest.mark.smoke
 def test_pods_available(
-    kube_cluster: Cluster, flux_deployments: List[pykube.Deployment]  # noqa: F811
+        kube_cluster: Cluster, flux_deployments: List[pykube.Deployment]  # noqa: F811
 ) -> None:
     for d in flux_deployments:
         assert int(d.obj["status"]["readyReplicas"]) > 0
@@ -53,12 +53,12 @@ def test_pods_available(
     "test_name", ["simple-app-cr-delivery", "simple-chart-release"]
 )
 def test_kustomization_works(
-    kube_cluster: Cluster,
-    flux_deployments: List[pykube.Deployment],  # noqa: F811
-    catalog_factory: CatalogFactoryFunc,
-    git_repository_factory: GitRepositoryFactoryFunc,  # noqa: F811
-    kustomization_factory: KustomizationFactoryFunc,  # noqa: F811
-    test_name: str,
+        kube_cluster: Cluster,
+        flux_deployments: List[pykube.Deployment],  # noqa: F811
+        catalog_factory: CatalogFactoryFunc,
+        git_repository_factory: GitRepositoryFactoryFunc,  # noqa: F811
+        kustomization_factory: KustomizationFactoryFunc,  # noqa: F811
+        test_name: str,
 ) -> None:
     """
     This test checks if it is possible to deploy a Kustomization with GitRepository as a source.
@@ -141,25 +141,35 @@ def test_helm_works(
     a full cycle is executed (app is deployed and then destroyed).
     """
     namespace = "default"
+    app_namespace = "default"
 
-    helm_repository_factory("giantswarm", namespace, "1m", "https://giantswarm.github.io/giantswarm-catalog")
-#    helm_release_factory("hello-world", namespace, chart={"chart": "hello-world-app", "version": "0.1.0"},
-#                         interval="1m")
-#
-#    # now we wait for the app to be deployed by flux and to run
-#    app_namespace = "hello-world"
-#    app_svc_name = "hello-world-service"
-#    app_deploy_name = "hello-world"
-#    app_svc_port = 8080
-#    wait_for_deployments_to_run(
-#        kube_cluster.kube_client,
-#        [app_deploy_name],
-#        app_namespace,
-#        APP_DEPLOYMENT_TIMEOUT_SEC,
-#    )
-#    app_svc: pykube.Service = pykube.Service.objects(
-#        kube_cluster.kube_client, namespace=app_namespace
-#    ).get(name=app_svc_name)
-#
-#    response = app_svc.proxy_http_get("/", app_svc_port)
-#    assert response.status_code == 200
+    helm_registry_name = "giantswarm"
+    helm_repository_factory(helm_registry_name, namespace, "1m", "https://giantswarm.github.io/giantswarm-catalog")
+    helm_release_factory("hello-world", app_namespace,
+                         chart={
+                             "chart": "hello-world-app",
+                             "version": "0.1.0",
+                             "sourceRef": {
+                                 "kind": "HelmRepository",
+                                 "name": helm_registry_name,
+                                 "namespace": namespace,
+                             },
+                         },
+                         interval="1m")
+
+    # now we wait for the app to be deployed by flux and to run
+    app_svc_name = "hello-world-service"
+    app_deploy_name = "hello-world"
+    app_svc_port = 8080
+    wait_for_deployments_to_run(
+        kube_cluster.kube_client,
+        [app_deploy_name],
+        app_namespace,
+        APP_DEPLOYMENT_TIMEOUT_SEC,
+    )
+    app_svc: pykube.Service = pykube.Service.objects(
+        kube_cluster.kube_client, namespace=app_namespace
+    ).get(name=app_svc_name)
+
+    response = app_svc.proxy_http_get("/", app_svc_port)
+    assert response.status_code == 200
