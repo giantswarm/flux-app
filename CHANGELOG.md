@@ -13,7 +13,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
-- Bump upstream flux toolkit version to 0.24.0
+- Bump upstream flux toolkit version to 0.24.0 includes helm-controller fix to
+reduce memory usage by downgrading Helm from 3.7.1 to 3.6.3
 
 ## [0.7.1] - 2021-11-17
 
