@@ -3,20 +3,21 @@ from typing import List
 
 import pykube
 import pytest
-from pytest_helm_charts.fixtures import Cluster, NamespaceFactoryFunc, namespace_factory  # noqa: F401
 
 # noinspection PyUnresolvedReferences
-from fixtures import (  # noqa: F401
+from pytest_helm_charts.flux.fixtures import (  # noqa: F401
     flux_deployments,
     kustomization_factory,
     git_repository_factory,
     helm_repository_factory,
     helm_release_factory
 )
-from fixtures_helpers import HelmReleaseFactoryFunc, \
-    HelmRepositoryFactoryFunc
+from pytest_helm_charts.api.fixtures import NamespaceFactoryFunc
+from pytest_helm_charts.clusters import Cluster
+from pytest_helm_charts.flux.helm_release import HelmReleaseFactoryFunc, ChartTemplate, CrossNamespaceObjectReference
+from pytest_helm_charts.flux.helm_repository import HelmRepositoryFactoryFunc
+
 from helpers import assert_hello_world_is_running
-from utils import ChartTemplate, CrossNamespaceObjectReference
 
 logger = logging.getLogger(__name__)
 

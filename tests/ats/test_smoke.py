@@ -3,16 +3,9 @@ from typing import List
 
 import pykube
 import pytest
-from pytest_helm_charts.fixtures import Cluster, NamespaceFactoryFunc, namespace_factory  # noqa: F401
 
-# noinspection PyUnresolvedReferences
-from fixtures import (  # noqa: F401
-    flux_deployments,
-    kustomization_factory,
-    git_repository_factory,
-    helm_repository_factory,
-    helm_release_factory
-)
+from pytest_helm_charts.flux.fixtures import flux_deployments  # noqa: F401
+from pytest_helm_charts.clusters import Cluster
 
 logger = logging.getLogger(__name__)
 
