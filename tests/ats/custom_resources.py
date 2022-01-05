@@ -15,6 +15,6 @@ class GitRepositoryCR(NamespacedFluxCR):
 
 
 class KustomizationCR(NamespacedFluxCR):
-    version = "kustomize.toolkit.fluxcd.io/v1beta1"
+    version = "kustomize.toolkit.fluxcd.io/v1beta2"
     endpoint = "kustomizations"
     kind = "Kustomization"
