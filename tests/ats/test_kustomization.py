@@ -3,6 +3,8 @@ from typing import List
 
 import pykube
 import pytest
+from pytest_helm_charts.api.fixtures import namespace_factory  # noqa: F401
+from pytest_helm_charts.api.fixtures import NamespaceFactoryFunc
 from pytest_helm_charts.clusters import Cluster
 from pytest_helm_charts.flux.git_repository import GitRepositoryFactoryFunc
 from pytest_helm_charts.flux.kustomization import KustomizationFactoryFunc
@@ -23,7 +25,8 @@ logger = logging.getLogger(__name__)
 @pytest.mark.functional
 @pytest.mark.upgrade
 @pytest.mark.parametrize(
-    "test_name", ["simple-app-cr-delivery", "simple-chart-release"]
+    "test_name", ["simple-chart-release"]
+    # "test_name", ["simple-app-cr-delivery", "simple-chart-release"]
 )
 def test_kustomization_works(
         kube_cluster: Cluster,
@@ -31,6 +34,7 @@ def test_kustomization_works(
         catalog_factory: CatalogFactoryFunc,
         git_repository_factory: GitRepositoryFactoryFunc,  # noqa: F811
         kustomization_factory: KustomizationFactoryFunc,  # noqa: F811
+        namespace_factory: NamespaceFactoryFunc,
         test_name: str,
 ) -> None:
     """
@@ -49,10 +53,14 @@ def test_kustomization_works(
         namespace,
         "1m",
         "https://github.com/giantswarm/flux-app-tests",
-        "feature/init-with-data",
+        "main",
         ignore_pattern="tests/test_cases/**/result",
     )
 
+    # TODO: remove after final 0.7.0 release of phc
+    deploy_namespace = "hello-world"
+    namespace_factory(deploy_namespace)
+    # todo end
     kustomization_factory(
         test_name,
         namespace,
