@@ -25,8 +25,7 @@ logger = logging.getLogger(__name__)
 @pytest.mark.functional
 @pytest.mark.upgrade
 @pytest.mark.parametrize(
-    "test_name", ["simple-chart-release"]
-    # "test_name", ["simple-app-cr-delivery", "simple-chart-release"]
+    "test_name", ["simple-app-cr-delivery", "simple-chart-release"]
 )
 def test_kustomization_works(
         kube_cluster: Cluster,
