@@ -27,7 +27,7 @@ def test_api_working(kube_cluster: Cluster) -> None:
 
 @pytest.mark.smoke
 def test_pods_available(
-        kube_cluster: Cluster, flux_deployments: List[pykube.Deployment]  # noqa: F811
+    kube_cluster: Cluster, flux_deployments: List[pykube.Deployment]  # noqa: F811
 ) -> None:
     for d in flux_deployments:
         assert int(d.obj["status"]["readyReplicas"]) > 0

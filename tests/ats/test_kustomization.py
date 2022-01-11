@@ -3,8 +3,8 @@ from typing import List
 
 import pykube
 import pytest
-from pytest_helm_charts.api.fixtures import namespace_factory  # noqa: F401
-from pytest_helm_charts.api.fixtures import NamespaceFactoryFunc
+from pytest_helm_charts.k8s.fixtures import namespace_factory  # noqa: F401
+from pytest_helm_charts.k8s.fixtures import NamespaceFactoryFunc
 from pytest_helm_charts.clusters import Cluster
 from pytest_helm_charts.flux.git_repository import GitRepositoryFactoryFunc
 from pytest_helm_charts.flux.kustomization import KustomizationFactoryFunc
@@ -15,7 +15,7 @@ from pytest_helm_charts.flux.fixtures import (  # noqa: F401
     kustomization_factory,
     git_repository_factory,
     helm_repository_factory,
-    helm_release_factory
+    helm_release_factory,
 )
 from helpers import assert_hello_world_is_running
 
@@ -28,13 +28,13 @@ logger = logging.getLogger(__name__)
     "test_name", ["simple-app-cr-delivery", "simple-chart-release"]
 )
 def test_kustomization_works(
-        kube_cluster: Cluster,
-        flux_deployments: List[pykube.Deployment],  # noqa: F811
-        catalog_factory: CatalogFactoryFunc,
-        git_repository_factory: GitRepositoryFactoryFunc,  # noqa: F811
-        kustomization_factory: KustomizationFactoryFunc,  # noqa: F811
-        namespace_factory: NamespaceFactoryFunc,
-        test_name: str,
+    kube_cluster: Cluster,
+    flux_deployments: List[pykube.Deployment],  # noqa: F811
+    catalog_factory: CatalogFactoryFunc,
+    git_repository_factory: GitRepositoryFactoryFunc,  # noqa: F811
+    kustomization_factory: KustomizationFactoryFunc,  # noqa: F811
+    namespace_factory: NamespaceFactoryFunc,  # noqa: F811
+    test_name: str,
 ) -> None:
     """
     This test checks if it is possible to deploy a Kustomization with GitRepository as a source.
