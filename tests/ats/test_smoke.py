@@ -4,7 +4,6 @@ from typing import List
 import pykube
 import pytest
 
-from pytest_helm_charts.flux.fixtures import flux_deployments  # noqa: F401
 from pytest_helm_charts.clusters import Cluster
 
 logger = logging.getLogger(__name__)
@@ -27,7 +26,7 @@ def test_api_working(kube_cluster: Cluster) -> None:
 
 @pytest.mark.smoke
 def test_pods_available(
-    kube_cluster: Cluster, flux_deployments: List[pykube.Deployment]  # noqa: F811
+    kube_cluster: Cluster, flux_deployments: List[pykube.Deployment]
 ) -> None:
     for d in flux_deployments:
         assert int(d.obj["status"]["readyReplicas"]) > 0

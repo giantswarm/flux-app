@@ -1,6 +1,6 @@
 import pykube
 from pykube import HTTPClient
-from pytest_helm_charts.api.deployment import wait_for_deployments_to_run
+from pytest_helm_charts.k8s.deployment import wait_for_deployments_to_run
 
 APP_DEPLOYMENT_TIMEOUT_SEC = 180
 
