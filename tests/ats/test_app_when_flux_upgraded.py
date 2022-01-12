@@ -22,7 +22,8 @@ from pytest_helm_charts.giantswarm_app_platform.catalog import (
 from helpers import assert_hello_world_is_running
 
 
-tmp_file_name = "/tmp/pytest-helm-charts-flux-app-upgrade-test-generation.txt"
+# this file doesn't have to be protected and needs to have a constant name
+tmp_file_name = "/tmp/pytest-helm-charts-flux-app-upgrade-test-generation.txt"  # nosec
 
 
 @pytest.mark.upgrade
@@ -84,12 +85,19 @@ def delete_deployment(
     deployment_name: str,
 ):
     # assert app is running as expected
-    assert_hello_world_is_running(kube_cluster.kube_client, app_namespace,
-                                  app_deploy_name="hello-world-flux-app-upgrade-test",
-                                  app_svc_name="hello-world-flux-app-upgrade-test-service")
+    assert_hello_world_is_running(
+        kube_cluster.kube_client,
+        app_namespace,
+        app_deploy_name="hello-world-flux-app-upgrade-test",
+        app_svc_name="hello-world-flux-app-upgrade-test-service",
+    )
     if not exists(tmp_file_name):
-        pytest.fail(f"The expected tmp file with Deployment generation info not found at path: '{tmp_file_name}'")
-    deployment_generation = get_deployment_generation(kube_cluster, deployment_name, app_namespace)
+        pytest.fail(
+            f"The expected tmp file with Deployment generation info not found at path: '{tmp_file_name}'"
+        )
+    deployment_generation = get_deployment_generation(
+        kube_cluster, deployment_name, app_namespace
+    )
     with open(tmp_file_name, "r") as f:
         expected_generation = f.read()
     assert deployment_generation == expected_generation
@@ -162,10 +170,15 @@ def deploy_as_kustomization(
         kube_cluster.kube_client, [kustomization_name], namespace, 60, missing_ok=True
     )
     # check if deployed successfully
-    assert_hello_world_is_running(kube_cluster.kube_client, app_deploy_namespace,
-                                  app_deploy_name="hello-world-flux-app-upgrade-test",
-                                  app_svc_name="hello-world-flux-app-upgrade-test-service")
-    deployment_generation = get_deployment_generation(kube_cluster, deployment_name, app_deploy_namespace)
+    assert_hello_world_is_running(
+        kube_cluster.kube_client,
+        app_deploy_namespace,
+        app_deploy_name="hello-world-flux-app-upgrade-test",
+        app_svc_name="hello-world-flux-app-upgrade-test-service",
+    )
+    deployment_generation = get_deployment_generation(
+        kube_cluster, deployment_name, app_deploy_namespace
+    )
     try:
         with open(tmp_file_name, "w") as f:
             f.write(deployment_generation)
@@ -174,6 +187,9 @@ def deploy_as_kustomization(
 
 
 def get_deployment_generation(kube_cluster, deployment_name, namespace) -> str:
-    hello_deployment: Deployment = Deployment.objects(kube_cluster.kube_client).filter(namespace=namespace).get_by_name(
-        deployment_name)
+    hello_deployment: Deployment = (
+        Deployment.objects(kube_cluster.kube_client)
+        .filter(namespace=namespace)
+        .get_by_name(deployment_name)
+    )
     return str(hello_deployment.obj["status"]["observedGeneration"])
