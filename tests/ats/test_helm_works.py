@@ -4,14 +4,6 @@ from typing import List
 import pykube
 import pytest
 
-# noinspection PyUnresolvedReferences
-from pytest_helm_charts.flux.fixtures import (  # noqa: F401
-    flux_deployments,
-    kustomization_factory,
-    git_repository_factory,
-    helm_repository_factory,
-    helm_release_factory,
-)
 from pytest_helm_charts.k8s.fixtures import NamespaceFactoryFunc
 from pytest_helm_charts.clusters import Cluster
 from pytest_helm_charts.flux.helm_release import (
@@ -32,10 +24,10 @@ APP_DEPLOYMENT_TIMEOUT_SEC = 180
 @pytest.mark.upgrade
 def test_helm_works(
     kube_cluster: Cluster,
-    flux_deployments: List[pykube.Deployment],  # noqa: F811
-    namespace_factory: NamespaceFactoryFunc,  # noqa: F811
-    helm_repository_factory: HelmRepositoryFactoryFunc,  # noqa: F811
-    helm_release_factory: HelmReleaseFactoryFunc,  # noqa: F811
+    flux_deployments: List[pykube.Deployment],
+    namespace_factory: NamespaceFactoryFunc,
+    helm_repository_factory: HelmRepositoryFactoryFunc,
+    helm_release_factory: HelmReleaseFactoryFunc,
 ) -> None:
     """
     This test checks if it is possible to deploy a HelmRelease with HelmRepository as a source.
