@@ -1,3 +1,4 @@
+import os
 from os.path import exists
 from typing import Dict
 
@@ -100,6 +101,7 @@ def delete_deployment(
     )
     with open(tmp_file_name, "r") as f:
         expected_generation = f.read()
+    os.remove(tmp_file_name)
     assert deployment_generation == expected_generation
 
     # delete the app deployment
