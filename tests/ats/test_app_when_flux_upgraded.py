@@ -1,8 +1,9 @@
+from os.path import exists
 from typing import Dict
 
 import pytest
+from pykube import Deployment
 from pytest_helm_charts.clusters import Cluster
-from pytest_helm_charts.fixtures import test_extra_info  # noqa: F401
 from pytest_helm_charts.flux.git_repository import (
     make_git_repository_obj,
     wait_for_git_repositories_to_be_ready,
@@ -21,9 +22,12 @@ from pytest_helm_charts.giantswarm_app_platform.catalog import (
 from helpers import assert_hello_world_is_running
 
 
+tmp_file_name = "/tmp/pytest-helm-charts-flux-app-upgrade-test-generation.txt"
+
+
 @pytest.mark.upgrade
 def test_app_unchanged_when_flux_upgraded(
-    kube_cluster: Cluster, test_extra_info: Dict[str, str]  # noqa: F811
+    kube_cluster: Cluster, test_extra_info: Dict[str, str]
 ) -> None:
     upgrade_stage_key = "ats_upgrade_test_stage"
     if upgrade_stage_key not in test_extra_info:
@@ -33,10 +37,13 @@ def test_app_unchanged_when_flux_upgraded(
     upgrade_stage = test_extra_info[upgrade_stage_key]
 
     namespace = "default"
-    catalog_name = "giantswarm"
-    git_repo_name = "flux-app-tests"
-    kustomization_name = "simple-app-cr-delivery"
-    app_deploy_namespace = "hello-world"
+    suffix = "-flux-app-upgrade-test"
+    catalog_name = "giantswarm" + suffix
+    git_repo_name = "flux-app-tests" + suffix
+    test_dir_name = "simple-app-cr-upgrade"
+    kustomization_name = test_dir_name + suffix
+    app_deploy_namespace = "hello-world" + suffix
+    deployment_name = "hello-world-flux-app-upgrade-test"
 
     # we can't use fixture factories here, as they are automatically cleaned up at the end of test (the latest)
     if upgrade_stage == "pre_upgrade":
@@ -48,6 +55,8 @@ def test_app_unchanged_when_flux_upgraded(
             git_repo_name,
             kustomization_name,
             namespace,
+            test_dir_name,
+            deployment_name,
         )
 
     elif upgrade_stage == "post_upgrade":
@@ -59,6 +68,7 @@ def test_app_unchanged_when_flux_upgraded(
             kustomization_name,
             namespace,
             app_deploy_namespace,
+            deployment_name,
         )
     else:
         pytest.fail(f"Unknown value '{upgrade_stage}' given as '{upgrade_stage_key}'")
@@ -71,9 +81,18 @@ def delete_deployment(
     kustomization_name: str,
     namespace: str,
     app_namespace: str,
+    deployment_name: str,
 ):
     # assert app is running as expected
-    assert_hello_world_is_running(kube_cluster.kube_client, app_namespace)
+    assert_hello_world_is_running(kube_cluster.kube_client, app_namespace,
+                                  app_deploy_name="hello-world-flux-app-upgrade-test",
+                                  app_svc_name="hello-world-flux-app-upgrade-test-service")
+    if not exists(tmp_file_name):
+        pytest.fail(f"The expected tmp file with Deployment generation info not found at path: '{tmp_file_name}'")
+    deployment_generation = get_deployment_generation(kube_cluster, deployment_name, app_namespace)
+    with open(tmp_file_name, "r") as f:
+        expected_generation = f.read()
+    assert deployment_generation == expected_generation
 
     # delete the app deployment
     kustomization: KustomizationCR = (
@@ -103,6 +122,8 @@ def deploy_as_kustomization(
     git_repo_name: str,
     kustomization_name: str,
     namespace: str,
+    test_dir_name: str,
+    deployment_name: str,
 ):
     catalog = make_catalog_obj(
         kube_cluster.kube_client,
@@ -131,7 +152,7 @@ def deploy_as_kustomization(
         namespace,
         True,
         "1m",
-        f"./tests/test_cases/{kustomization_name}",
+        f"./tests/test_cases/{test_dir_name}",
         git_repo_name,
         "2m",
         "kustomize-controller",
@@ -141,4 +162,18 @@ def deploy_as_kustomization(
         kube_cluster.kube_client, [kustomization_name], namespace, 60, missing_ok=True
     )
     # check if deployed successfully
-    assert_hello_world_is_running(kube_cluster.kube_client, app_deploy_namespace)
+    assert_hello_world_is_running(kube_cluster.kube_client, app_deploy_namespace,
+                                  app_deploy_name="hello-world-flux-app-upgrade-test",
+                                  app_svc_name="hello-world-flux-app-upgrade-test-service")
+    deployment_generation = get_deployment_generation(kube_cluster, deployment_name, app_deploy_namespace)
+    try:
+        with open(tmp_file_name, "w") as f:
+            f.write(deployment_generation)
+    except Exception as e:
+        print(e)
+
+
+def get_deployment_generation(kube_cluster, deployment_name, namespace) -> str:
+    hello_deployment: Deployment = Deployment.objects(kube_cluster.kube_client).filter(namespace=namespace).get_by_name(
+        deployment_name)
+    return str(hello_deployment.obj["status"]["observedGeneration"])

@@ -12,7 +12,7 @@ from pytest_helm_charts.giantswarm_app_platform.catalog import CatalogFactoryFun
 
 from pytest_helm_charts.flux.fixtures import (  # noqa: F401
     flux_deployments,
-    kustomization_factory,
+    kustomization_factory_function_scope,
     git_repository_factory,
     helm_repository_factory,
     helm_release_factory,
@@ -32,7 +32,7 @@ def test_kustomization_works(
     flux_deployments: List[pykube.Deployment],  # noqa: F811
     catalog_factory: CatalogFactoryFunc,
     git_repository_factory: GitRepositoryFactoryFunc,  # noqa: F811
-    kustomization_factory: KustomizationFactoryFunc,  # noqa: F811
+    kustomization_factory_function_scope: KustomizationFactoryFunc,  # noqa: F811
     namespace_factory: NamespaceFactoryFunc,  # noqa: F811
     test_name: str,
 ) -> None:
@@ -56,11 +56,7 @@ def test_kustomization_works(
         ignore_pattern="tests/test_cases/**/result",
     )
 
-    # TODO: remove after final 0.7.0 release of phc
-    deploy_namespace = "hello-world"
-    namespace_factory(deploy_namespace)
-    # todo end
-    kustomization_factory(
+    kustomization_factory_function_scope(
         test_name,
         namespace,
         True,
