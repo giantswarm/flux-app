@@ -22,7 +22,7 @@ APP_DEPLOYMENT_TIMEOUT_SEC = 180
 
 @pytest.mark.functional
 @pytest.mark.upgrade
-def test_helm_works(
+def test_helm_release_works(
     kube_cluster: Cluster,
     flux_deployments: List[pykube.Deployment],
     namespace_factory: NamespaceFactoryFunc,
