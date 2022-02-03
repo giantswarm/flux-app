@@ -33,7 +33,7 @@ workflows:
           name: execute chart tests - upgrade
           additional_app-test-suite_flags: "--skip-steps smoke functional"
           app-test-suite_version: "v0.2.3-beta.1"
-          app-test-suite_container_tag:: "0.2.3-beta.1"
+          app-test-suite_container_tag: "0.2.3-beta.1"
           filters:
             branches:
               only: /master#release#.*/
