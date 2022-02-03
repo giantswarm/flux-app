@@ -30,6 +30,12 @@ kustomizations:
 - name: my-kustomization
   source_name: my-git-source
   path: ./the-path
+  postBuild:
+    substitute:
+      environment: "my-env"
+    substituteFrom:
+      - kind: ConfigMap
+        name: my-env-vars
   prune: false
   interval: 10m0s
 ```
