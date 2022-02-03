@@ -9,6 +9,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [0.9.0] - 2022-02-03
 
+### Added
+
+- Added support for variable substitution.
+
 ## [0.8.0] - 2021-12-07
 
 ### Added
