@@ -25,7 +25,7 @@
       "additionalProperties": false
     }
   },
-  "required": ["images", "sources", "kustomizations", "volumes"],
+  "required": ["images", "sources", "kustomizations", "volumes", "clusterDomain"],
   "properties": {
     "images": {
       "type": "object",
@@ -315,6 +315,9 @@
         }
       },
       "additionalProperties": false
+    },
+    "clusterDomain": {
+      "type": "string"
     }
   },
   "additionalProperties": true

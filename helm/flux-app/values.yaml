@@ -122,3 +122,7 @@ volumes:
       size: 100Mi
     data:
       size: 100Mi
+
+# Kubernetes clusterDomain as specified in Kubelet config file
+clusterDomain: "cluster.local"
+
