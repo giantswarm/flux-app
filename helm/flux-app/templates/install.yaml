@@ -362,7 +362,7 @@ metadata:
     giantswarm.io/monitoring: "true"
     giantswarm.io/service_type: managed
     helm.sh/chart: {{ include "chart" . }}
-  name: {{ .Release.Name  }}-monitoring'
+  name: {{ .Release.Name  }}-monitoring
   namespace: {{ .Release.Namespace }}
 spec:
   clusterIP: None
