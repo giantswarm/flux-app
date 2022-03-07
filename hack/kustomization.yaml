@@ -5,8 +5,8 @@ namespace: "{{ .Release.Namespace }}"
 
 transformers:
 # comment labels and matchlabels transformers out for crds
-- ./labels-transformer.yaml
-- ./matchlabels-transformer.yaml
+ - ./labels-transformer.yaml
+ - ./matchlabels-transformer.yaml
 
 images:
 - name: fluxcd/helm-controller
@@ -24,7 +24,7 @@ images:
 
 
 resources:
-- https://github.com/fluxcd/flux2/releases/download/v0.24.0/install.yaml
+- https://github.com/fluxcd/flux2/releases/download/v0.27.3/install.yaml
 - ./additional-resources/pvc-psp.yaml
 - ./additional-resources/metrics-service.yaml
 
