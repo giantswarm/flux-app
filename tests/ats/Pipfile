@@ -4,7 +4,7 @@ url = "https://pypi.org/simple"
 verify_ssl = true
 
 [packages]
-pytest-helm-charts = ">=0.7.0-beta.2"
+pytest-helm-charts = ">=0.7.0"
 pytest = ">=6.1.2"
 pykube-ng = ">=20.10.0"
 pytest-rerunfailures = "*"
