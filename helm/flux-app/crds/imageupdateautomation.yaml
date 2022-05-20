@@ -5,8 +5,13 @@ metadata:
     controller-gen.kubebuilder.io/version: v0.7.0
   creationTimestamp: null
   labels:
-    app.kubernetes.io/instance: flux-system
+    app.kubernetes.io/instance: '{{ .Release.Name }}'
+    app.kubernetes.io/managed-by: '{{ .Release.Service }}'
+    app.kubernetes.io/name: '{{ include "name" . }}'
     app.kubernetes.io/part-of: flux
+    app.kubernetes.io/version: '{{ .Chart.AppVersion }}'
+    giantswarm.io/service_type: managed
+    helm.sh/chart: '{{ include "chart" . }}'
   name: imageupdateautomations.image.toolkit.fluxcd.io
 spec:
   group: image.toolkit.fluxcd.io
@@ -47,7 +52,7 @@ spec:
                       description: GitRepositoryRef refers to the resource giving access details to a git repository to update files in.
                       properties:
                         name:
-                          description: Name of the referent
+                          description: Name of the referent.
                           type: string
                       required:
                         - name
@@ -75,7 +80,7 @@ spec:
                           description: SecretRef holds the name to a secret that contains a 'git.asc' key corresponding to the ASCII Armored file containing the GPG signing keypair as the value. It must be in the same namespace as the ImageUpdateAutomation.
                           properties:
                             name:
-                              description: Name of the referent
+                              description: Name of the referent.
                               type: string
                           required:
                             - name
@@ -173,7 +178,7 @@ spec:
                   format: date-time
                   type: string
                 lastHandledReconcileAt:
-                  description: LastHandledReconcileAt holds the value of the most recent reconcile request value, so a change can be detected.
+                  description: LastHandledReconcileAt holds the value of the most recent reconcile request value, so a change of the annotation value can be detected.
                   type: string
                 lastPushCommit:
                   description: LastPushCommit records the SHA1 of the last commit made by the controller, for this automation object
@@ -261,7 +266,7 @@ spec:
                               description: SecretRef holds the name to a secret that contains a 'git.asc' key corresponding to the ASCII Armored file containing the GPG signing keypair as the value. It must be in the same namespace as the ImageUpdateAutomation.
                               properties:
                                 name:
-                                  description: Name of the referent
+                                  description: Name of the referent.
                                   type: string
                               required:
                                 - name
@@ -379,7 +384,7 @@ spec:
                   format: date-time
                   type: string
                 lastHandledReconcileAt:
-                  description: LastHandledReconcileAt holds the value of the most recent reconcile request value, so a change can be detected.
+                  description: LastHandledReconcileAt holds the value of the most recent reconcile request value, so a change of the annotation value can be detected.
                   type: string
                 lastPushCommit:
                   description: LastPushCommit records the SHA1 of the last commit made by the controller, for this automation object
@@ -427,16 +432,16 @@ spec:
                           description: Reference gives a branch, tag or commit to clone from the Git repository.
                           properties:
                             branch:
-                              description: The Git branch to checkout, defaults to master.
+                              description: "Branch to check out, defaults to 'master' if no other field is defined. \n When GitRepositorySpec.GitImplementation is set to 'go-git', a shallow clone of the specified branch is performed."
                               type: string
                             commit:
-                              description: The Git commit SHA to checkout, if specified Tag filters will be ignored.
+                              description: "Commit SHA to check out, takes precedence over all reference fields. \n When GitRepositorySpec.GitImplementation is set to 'go-git', this can be combined with Branch to shallow clone the branch, in which the commit is expected to exist."
                               type: string
                             semver:
-                              description: The Git tag semver expression, takes precedence over Tag.
+                              description: SemVer tag expression to check out, takes precedence over Tag.
                               type: string
                             tag:
-                              description: The Git tag to checkout, takes precedence over Branch.
+                              description: Tag to check out, takes precedence over Branch.
                               type: string
                           type: object
                       required:
@@ -467,7 +472,7 @@ spec:
                               description: SecretRef holds the name to a secret that contains a 'git.asc' key corresponding to the ASCII Armored file containing the GPG signing keypair as the value. It must be in the same namespace as the ImageUpdateAutomation.
                               properties:
                                 name:
-                                  description: Name of the referent
+                                  description: Name of the referent.
                                   type: string
                               required:
                                 - name
@@ -590,7 +595,7 @@ spec:
                   format: date-time
                   type: string
                 lastHandledReconcileAt:
-                  description: LastHandledReconcileAt holds the value of the most recent reconcile request value, so a change can be detected.
+                  description: LastHandledReconcileAt holds the value of the most recent reconcile request value, so a change of the annotation value can be detected.
                   type: string
                 lastPushCommit:
                   description: LastPushCommit records the SHA1 of the last commit made by the controller, for this automation object

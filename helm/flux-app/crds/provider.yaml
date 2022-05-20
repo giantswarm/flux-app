@@ -5,8 +5,13 @@ metadata:
     controller-gen.kubebuilder.io/version: v0.7.0
   creationTimestamp: null
   labels:
-    app.kubernetes.io/instance: flux-system
+    app.kubernetes.io/instance: '{{ .Release.Name }}'
+    app.kubernetes.io/managed-by: '{{ .Release.Service }}'
+    app.kubernetes.io/name: '{{ include "name" . }}'
     app.kubernetes.io/part-of: flux
+    app.kubernetes.io/version: '{{ .Chart.AppVersion }}'
+    giantswarm.io/service_type: managed
+    helm.sh/chart: '{{ include "chart" . }}'
   name: providers.notification.toolkit.fluxcd.io
 spec:
   group: notification.toolkit.fluxcd.io
@@ -18,15 +23,15 @@ spec:
   scope: Namespaced
   versions:
     - additionalPrinterColumns:
+        - jsonPath: .metadata.creationTimestamp
+          name: Age
+          type: date
         - jsonPath: .status.conditions[?(@.type=="Ready")].status
           name: Ready
           type: string
         - jsonPath: .status.conditions[?(@.type=="Ready")].message
           name: Status
           type: string
-        - jsonPath: .metadata.creationTimestamp
-          name: Age
-          type: date
       name: v1beta1
       schema:
         openAPIV3Schema:
@@ -51,7 +56,7 @@ spec:
                   description: CertSecretRef can be given the name of a secret containing a PEM-encoded CA certificate (`caFile`)
                   properties:
                     name:
-                      description: Name of the referent
+                      description: Name of the referent.
                       type: string
                   required:
                     - name
@@ -67,7 +72,7 @@ spec:
                   description: Secret reference containing the provider webhook URL using "address" as data key
                   properties:
                     name:
-                      description: Name of the referent
+                      description: Name of the referent.
                       type: string
                   required:
                     - name
