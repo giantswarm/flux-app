@@ -22,7 +22,7 @@ metadata:
     role: {{ include "crdInstallSelector" . | quote }}
 data:
   content: |
-{{ .Files.Get $path | indent 4 }}
+{{ tpl (.Files.Get $path) . | indent 4 }}
     {{- end }}
   {{- end }}
 {{- end }}
