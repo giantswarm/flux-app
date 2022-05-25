@@ -2,7 +2,7 @@
 apiVersion: batch/v1
 kind: Job
 metadata:
-  generateName: {{ include "crdInstall" . }}
+  name: {{ include "crdInstall" . }}-{{ .Chart.AppVersion }}
   namespace: {{ .Release.Namespace | quote }}
   annotations:
     # create hook dependencies in the right order
