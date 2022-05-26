@@ -2,7 +2,7 @@
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: {{ include "crdInstall" . }}
+  name: {{ include "crdInstallJob" . }}
   namespace: {{ .Release.Namespace | quote }}
   annotations:
     # create hook dependencies in the right order
@@ -42,7 +42,7 @@ spec:
         securityContext:
           readOnlyRootFilesystem: true
         volumeMounts:
-{{- range $path, $_ := .Files.Glob "crds/**" }}
+{{- range $path, $_ := .Files.Glob "crd-base/**" }}
         - name: {{ $path | base | trimSuffix ".yaml" }}
           mountPath: /data/{{ $path | base }}
           subPath: {{ $path | base }}
@@ -50,7 +50,7 @@ spec:
         resources: {{- toYaml .Values.crds.resources | nindent 10 }}
       volumes:
 {{ $currentScope := . }}
-{{- range $path, $_ := .Files.Glob "crds/**" }}
+{{- range $path, $_ := .Files.Glob "crd-base/**" }}
     {{- with $currentScope }}
       - name: {{ $path | base | trimSuffix ".yaml" }}
         configMap:

@@ -5,8 +5,13 @@ metadata:
     controller-gen.kubebuilder.io/version: v0.7.0
   creationTimestamp: null
   labels:
-    app.kubernetes.io/instance: flux-system
+    app.kubernetes.io/instance: '{{ .Release.Name }}'
+    app.kubernetes.io/managed-by: '{{ .Release.Service }}'
+    app.kubernetes.io/name: '{{ include "name" . }}'
     app.kubernetes.io/part-of: flux
+    app.kubernetes.io/version: '{{ .Chart.AppVersion }}'
+    giantswarm.io/service_type: managed
+    helm.sh/chart: '{{ include "chart" . }}'
   name: imagerepositories.image.toolkit.fluxcd.io
 spec:
   group: image.toolkit.fluxcd.io
@@ -44,7 +49,7 @@ spec:
                   description: "CertSecretRef can be given the name of a secret containing either or both of \n  - a PEM-encoded client certificate (`certFile`) and private  key (`keyFile`);  - a PEM-encoded CA certificate (`caFile`) \n  and whichever are supplied, will be used for connecting to the  registry. The client cert and key are useful if you are  authenticating with a certificate; the CA cert is useful if  you are using a self-signed server certificate."
                   properties:
                     name:
-                      description: Name of the referent
+                      description: Name of the referent.
                       type: string
                   required:
                     - name
@@ -59,7 +64,7 @@ spec:
                   description: SecretRef can be given the name of a secret containing credentials to use for the image registry. The secret should be created with `kubectl create secret docker-registry`, or the equivalent.
                   properties:
                     name:
-                      description: Name of the referent
+                      description: Name of the referent.
                       type: string
                   required:
                     - name
@@ -121,7 +126,7 @@ spec:
                     type: object
                   type: array
                 lastHandledReconcileAt:
-                  description: LastHandledReconcileAt holds the value of the most recent reconcile request value, so a change can be detected.
+                  description: LastHandledReconcileAt holds the value of the most recent reconcile request value, so a change of the annotation value can be detected.
                   type: string
                 lastScanResult:
                   description: LastScanResult contains the number of fetched tags.
@@ -171,7 +176,7 @@ spec:
                   description: "CertSecretRef can be given the name of a secret containing either or both of \n  - a PEM-encoded client certificate (`certFile`) and private  key (`keyFile`);  - a PEM-encoded CA certificate (`caFile`) \n  and whichever are supplied, will be used for connecting to the  registry. The client cert and key are useful if you are  authenticating with a certificate; the CA cert is useful if  you are using a self-signed server certificate."
                   properties:
                     name:
-                      description: Name of the referent
+                      description: Name of the referent.
                       type: string
                   required:
                     - name
@@ -186,7 +191,7 @@ spec:
                   description: SecretRef can be given the name of a secret containing credentials to use for the image registry. The secret should be created with `kubectl create secret docker-registry`, or the equivalent.
                   properties:
                     name:
-                      description: Name of the referent
+                      description: Name of the referent.
                       type: string
                   required:
                     - name
@@ -248,7 +253,7 @@ spec:
                     type: object
                   type: array
                 lastHandledReconcileAt:
-                  description: LastHandledReconcileAt holds the value of the most recent reconcile request value, so a change can be detected.
+                  description: LastHandledReconcileAt holds the value of the most recent reconcile request value, so a change of the annotation value can be detected.
                   type: string
                 lastScanResult:
                   description: LastScanResult contains the number of fetched tags.
@@ -316,7 +321,7 @@ spec:
                   description: "CertSecretRef can be given the name of a secret containing either or both of \n  - a PEM-encoded client certificate (`certFile`) and private  key (`keyFile`);  - a PEM-encoded CA certificate (`caFile`) \n  and whichever are supplied, will be used for connecting to the  registry. The client cert and key are useful if you are  authenticating with a certificate; the CA cert is useful if  you are using a self-signed server certificate."
                   properties:
                     name:
-                      description: Name of the referent
+                      description: Name of the referent.
                       type: string
                   required:
                     - name
@@ -331,11 +336,14 @@ spec:
                   description: SecretRef can be given the name of a secret containing credentials to use for the image registry. The secret should be created with `kubectl create secret docker-registry`, or the equivalent.
                   properties:
                     name:
-                      description: Name of the referent
+                      description: Name of the referent.
                       type: string
                   required:
                     - name
                   type: object
+                serviceAccountName:
+                  description: ServiceAccountName is the name of the Kubernetes ServiceAccount used to authenticate the image pull if the service account has attached pull secrets.
+                  type: string
                 suspend:
                   description: This flag tells the controller to suspend subsequent image scans. It does not apply to already started scans. Defaults to false.
                   type: boolean
@@ -395,7 +403,7 @@ spec:
                     type: object
                   type: array
                 lastHandledReconcileAt:
-                  description: LastHandledReconcileAt holds the value of the most recent reconcile request value, so a change can be detected.
+                  description: LastHandledReconcileAt holds the value of the most recent reconcile request value, so a change of the annotation value can be detected.
                   type: string
                 lastScanResult:
                   description: LastScanResult contains the number of fetched tags.
