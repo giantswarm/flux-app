@@ -12,8 +12,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 
 - Bump upstream flux toolkit version to v0.30.2.
-  This upgrade upgrades Flux workloads and resource definitions from v0.27.3 to
-  v0.30.2. The two upstream releases in between ([Flux v0.28.0] and
+  This app version upgrades Flux workloads and resource definitions from
+  v0.27.3 to v0.30.2. The two upstream releases in between ([Flux v0.28.0] and
   [Flux v0.29.0]) contain potentially breaking changes, the main difference
   being graduating custom resource API versions. Please read linked upstream
   changelogs and [Flux Source v1beta2 API upgrade] document before performing
