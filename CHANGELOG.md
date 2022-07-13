@@ -7,6 +7,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.12.0] - 2022-07-13
+
+### Changed
+
+- Bump upstream flux toolkit version to v0.31.3.
+  Breaking changes: Flux is no longer compatible with kubeconfigs using
+  `client.authentication.k8s.io/v1alpha1`, this version was deprecated and
+  removed in Kubernetes 1.24.
+  More details in [Flux v0.31.0] release notes.
+
 ## [0.11.0] - 2022-05-26
 
 ### Changed
@@ -112,7 +122,8 @@ reduce memory usage by downgrading Helm from 3.7.1 to 3.6.3
 
 - Initial release containing flux toolkit 0.5.9
 
-[Unreleased]: https://github.com/giantswarm/flux-app/compare/v0.11.0...HEAD
+[Unreleased]: https://github.com/giantswarm/flux-app/compare/v0.12.0...HEAD
+[0.12.0]: https://github.com/giantswarm/flux-app/compare/v0.11.0...v0.12.0
 [0.11.0]: https://github.com/giantswarm/flux-app/compare/v0.10.1...v0.11.0
 [0.10.1]: https://github.com/giantswarm/flux-app/compare/v0.10.0...v0.10.1
 [0.10.0]: https://github.com/giantswarm/flux-app/compare/v0.9.0...v0.10.0
@@ -132,4 +143,5 @@ reduce memory usage by downgrading Helm from 3.7.1 to 3.6.3
 
 [Flux v0.28.0]: https://github.com/fluxcd/flux2/releases/tag/v0.28.0
 [Flux v0.29.0]: https://github.com/fluxcd/flux2/releases/tag/v0.29.0
+[Flux v0.31.0]: https://github.com/fluxcd/flux2/releases/tag/v0.31.0
 [Flux Source v1beta2 API upgrade]: https://github.com/fluxcd/flux2/discussions/2567

@@ -10,12 +10,12 @@ engine: gotpl
 home: https://github.com/giantswarm/flux-app
 icon: https://s.giantswarm.io/app-icons/flux/1/dark.svg
 keywords:
-- gitops
-- flux
+  - gitops
+  - flux
 name: flux-app
 restrictions:
   clusterSingleton: true
 sources:
-- https://github.com/fluxcd/flux2
+  - https://github.com/fluxcd/flux2
 type: application
-version: 0.0.0
+version: 0.12.0
