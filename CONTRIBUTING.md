@@ -13,9 +13,9 @@ Updating from upstream requires `kustomize` (https://github.com/kubernetes-sigs/
 
 - Prepare CRD
   - Comment out the `transformers` in the `hack/kustomization.yaml` file
-  - Execute `kubectl kustomize hack | yq eval-all 'select(.kind == "CustomResourceDefinition")' - > helm/flux-app/crds/crds.yaml`
+  - Execute `kubectl kustomize hack | yq eval-all 'select(.kind == "CustomResourceDefinition")' - > helm/flux-app/crd-base/crds.yaml`
   - Execute `./hack/split-crds.sh` to move each `kind: CustomResourceDefinition` resource into its own file
-  - Delete `helm/flux-app/crds/crds.yaml`
+  - Delete `helm/flux-app/crd-base/crds.yaml`
 - Prepare resources
   - Restore the `transformers` in `hack/kustomization.yaml`
   - Execute `kubectl kustomize hack | yq eval-all 'select((.kind == "CustomResourceDefinition" | not) and (.kind == "Namespace" | not))' - > helm/flux-app/templates/install.yaml`
