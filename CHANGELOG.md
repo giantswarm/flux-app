@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- Replaced Job based CRD installation with native Helm 3 CRD installation
+
+### Removed
+
+- Removed templated labels from CRDs because Helm 3 does not support templating the CRDs with the native way of installation
+
 ## [0.12.0] - 2022-07-13
 
 ### Changed
