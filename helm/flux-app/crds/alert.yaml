@@ -5,21 +5,21 @@ metadata:
     controller-gen.kubebuilder.io/version: v0.7.0
   creationTimestamp: null
   labels:
-    app.kubernetes.io/instance: '{{ .Release.Name }}'
-    app.kubernetes.io/managed-by: '{{ .Release.Service }}'
-    app.kubernetes.io/name: '{{ include "name" . }}'
+#    app.kubernetes.io/instance: '{{ .Release.Name }}'
+#    app.kubernetes.io/managed-by: '{{ .Release.Service }}'
+#    app.kubernetes.io/name: '{{ include "name" . }}'
     app.kubernetes.io/part-of: flux
-    app.kubernetes.io/version: '{{ .Chart.AppVersion }}'
+#    app.kubernetes.io/version: '{{ .Chart.AppVersion }}'
     giantswarm.io/service_type: managed
-    helm.sh/chart: '{{ include "chart" . }}'
-  name: providers.notification.toolkit.fluxcd.io
+#    helm.sh/chart: '{{ include "chart" . }}'
+  name: alerts.notification.toolkit.fluxcd.io
 spec:
   group: notification.toolkit.fluxcd.io
   names:
-    kind: Provider
-    listKind: ProviderList
-    plural: providers
-    singular: provider
+    kind: Alert
+    listKind: AlertList
+    plural: alerts
+    singular: alert
   scope: Namespaced
   versions:
     - additionalPrinterColumns:
@@ -35,7 +35,7 @@ spec:
       name: v1beta1
       schema:
         openAPIV3Schema:
-          description: Provider is the Schema for the providers API
+          description: Alert is the Schema for the alerts API
           properties:
             apiVersion:
               description: 'APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
@@ -46,74 +46,83 @@ spec:
             metadata:
               type: object
             spec:
-              description: ProviderSpec defines the desired state of Provider
+              description: AlertSpec defines an alerting rule for events involving a list of objects
               properties:
-                address:
-                  description: HTTP/S webhook address of this provider
-                  pattern: ^(http|https)://
-                  type: string
-                certSecretRef:
-                  description: CertSecretRef can be given the name of a secret containing a PEM-encoded CA certificate (`caFile`)
-                  properties:
-                    name:
-                      description: Name of the referent.
-                      type: string
-                  required:
-                    - name
-                  type: object
-                channel:
-                  description: Alert channel for this provider
-                  type: string
-                proxy:
-                  description: HTTP/S address of the proxy
-                  pattern: ^(http|https)://
-                  type: string
-                secretRef:
-                  description: Secret reference containing the provider webhook URL using "address" as data key
-                  properties:
-                    name:
-                      description: Name of the referent.
-                      type: string
-                  required:
-                    - name
-                  type: object
-                suspend:
-                  description: This flag tells the controller to suspend subsequent events handling. Defaults to false.
-                  type: boolean
-                type:
-                  description: Type of provider
+                eventSeverity:
+                  default: info
+                  description: Filter events based on severity, defaults to ('info'). If set to 'info' no events will be filtered.
                   enum:
-                    - slack
-                    - discord
-                    - msteams
-                    - rocket
-                    - generic
-                    - github
-                    - gitlab
-                    - bitbucket
-                    - azuredevops
-                    - googlechat
-                    - webex
-                    - sentry
-                    - azureeventhub
-                    - telegram
-                    - lark
-                    - matrix
-                    - opsgenie
-                    - alertmanager
-                    - grafana
-                    - githubdispatch
+                    - info
+                    - error
                   type: string
-                username:
-                  description: Bot username for this provider
+                eventSources:
+                  description: Filter events based on the involved objects.
+                  items:
+                    description: CrossNamespaceObjectReference contains enough information to let you locate the typed referenced object at cluster level
+                    properties:
+                      apiVersion:
+                        description: API version of the referent
+                        type: string
+                      kind:
+                        description: Kind of the referent
+                        enum:
+                          - Bucket
+                          - GitRepository
+                          - Kustomization
+                          - HelmRelease
+                          - HelmChart
+                          - HelmRepository
+                          - ImageRepository
+                          - ImagePolicy
+                          - ImageUpdateAutomation
+                        type: string
+                      matchLabels:
+                        additionalProperties:
+                          type: string
+                        description: MatchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels map is equivalent to an element of matchExpressions, whose key field is "key", the operator is "In", and the values array contains only "value". The requirements are ANDed.
+                        type: object
+                      name:
+                        description: Name of the referent
+                        maxLength: 53
+                        minLength: 1
+                        type: string
+                      namespace:
+                        description: Namespace of the referent
+                        maxLength: 53
+                        minLength: 1
+                        type: string
+                    required:
+                      - name
+                    type: object
+                  type: array
+                exclusionList:
+                  description: A list of Golang regular expressions to be used for excluding messages.
+                  items:
+                    type: string
+                  type: array
+                providerRef:
+                  description: Send events using this provider.
+                  properties:
+                    name:
+                      description: Name of the referent.
+                      type: string
+                  required:
+                    - name
+                  type: object
+                summary:
+                  description: Short description of the impact and affected cluster.
                   type: string
+                suspend:
+                  description: This flag tells the controller to suspend subsequent events dispatching. Defaults to false.
+                  type: boolean
               required:
-                - type
+                - eventSources
+                - providerRef
               type: object
             status:
               default:
                 observedGeneration: -1
-              description: ProviderStatus defines the observed state of Provider
+              description: AlertStatus defines the observed state of Alert
               properties:
                 conditions:
                   items:
@@ -159,7 +168,7 @@ spec:
                     type: object
                   type: array
                 observedGeneration:
-                  description: ObservedGeneration is the last reconciled generation.
+                  description: ObservedGeneration is the last observed generation.
                   format: int64
                   type: integer
               type: object
