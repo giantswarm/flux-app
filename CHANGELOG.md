@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.13.0] - 2022-08-01
+
 ### Changed
 
 - Replaced Job based CRD installation with native Helm 3 CRD installation
@@ -130,7 +132,8 @@ reduce memory usage by downgrading Helm from 3.7.1 to 3.6.3
 
 - Initial release containing flux toolkit 0.5.9
 
-[Unreleased]: https://github.com/giantswarm/flux-app/compare/v0.12.0...HEAD
+[Unreleased]: https://github.com/giantswarm/flux-app/compare/v0.13.0...HEAD
+[0.13.0]: https://github.com/giantswarm/flux-app/compare/v0.12.0...v0.13.0
 [0.12.0]: https://github.com/giantswarm/flux-app/compare/v0.11.0...v0.12.0
 [0.11.0]: https://github.com/giantswarm/flux-app/compare/v0.10.1...v0.11.0
 [0.10.1]: https://github.com/giantswarm/flux-app/compare/v0.10.0...v0.10.1
