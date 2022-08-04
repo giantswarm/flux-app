@@ -5,23 +5,37 @@ metadata:
     controller-gen.kubebuilder.io/version: v0.7.0
   creationTimestamp: null
   labels:
+    app.kubernetes.io/instance: '{{ .Release.Name }}'
+    app.kubernetes.io/managed-by: '{{ .Release.Service }}'
+    app.kubernetes.io/name: '{{ include "name" . }}'
     app.kubernetes.io/part-of: flux
+    app.kubernetes.io/version: '{{ .Chart.AppVersion }}'
     giantswarm.io/service_type: managed
-  name: helmrepositories.source.toolkit.fluxcd.io
+    helm.sh/chart: '{{ include "chart" . }}'
+  name: helmcharts.source.toolkit.fluxcd.io
 spec:
   group: source.toolkit.fluxcd.io
   names:
-    kind: HelmRepository
-    listKind: HelmRepositoryList
-    plural: helmrepositories
+    kind: HelmChart
+    listKind: HelmChartList
+    plural: helmcharts
     shortNames:
-      - helmrepo
-    singular: helmrepository
+      - hc
+    singular: helmchart
   scope: Namespaced
   versions:
     - additionalPrinterColumns:
-        - jsonPath: .spec.url
-          name: URL
+        - jsonPath: .spec.chart
+          name: Chart
+          type: string
+        - jsonPath: .spec.version
+          name: Version
+          type: string
+        - jsonPath: .spec.sourceRef.kind
+          name: Source Kind
+          type: string
+        - jsonPath: .spec.sourceRef.name
+          name: Source Name
           type: string
         - jsonPath: .status.conditions[?(@.type=="Ready")].status
           name: Ready
@@ -35,7 +49,7 @@ spec:
       name: v1beta1
       schema:
         openAPIV3Schema:
-          description: HelmRepository is the Schema for the helmrepositories API
+          description: HelmChart is the Schema for the helmcharts API
           properties:
             apiVersion:
               description: 'APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
@@ -46,7 +60,7 @@ spec:
             metadata:
               type: object
             spec:
-              description: HelmRepositorySpec defines the reference to a Helm repository.
+              description: HelmChartSpec defines the desired state of a Helm chart.
               properties:
                 accessFrom:
                   description: AccessFrom defines an Access Control List for allowing cross-namespace references to this object.
@@ -66,42 +80,66 @@ spec:
                   required:
                     - namespaceSelectors
                   type: object
-                interval:
-                  description: The interval at which to check the upstream for updates.
+                chart:
+                  description: The name or path the Helm chart is available at in the SourceRef.
                   type: string
-                passCredentials:
-                  description: PassCredentials allows the credentials from the SecretRef to be passed on to a host that does not match the host as defined in URL. This may be required if the host of the advertised chart URLs in the index differ from the defined URL. Enabling this should be done with caution, as it can potentially result in credentials getting stolen in a MITM-attack.
-                  type: boolean
-                secretRef:
-                  description: The name of the secret containing authentication credentials for the Helm repository. For HTTP/S basic auth the secret must contain username and password fields. For TLS the secret must contain a certFile and keyFile, and/or caCert fields.
+                interval:
+                  description: The interval at which to check the Source for updates.
+                  type: string
+                reconcileStrategy:
+                  default: ChartVersion
+                  description: Determines what enables the creation of a new artifact. Valid values are ('ChartVersion', 'Revision'). See the documentation of the values for an explanation on their behavior. Defaults to ChartVersion when omitted.
+                  enum:
+                    - ChartVersion
+                    - Revision
+                  type: string
+                sourceRef:
+                  description: The reference to the Source the chart is available at.
                   properties:
+                    apiVersion:
+                      description: APIVersion of the referent.
+                      type: string
+                    kind:
+                      description: Kind of the referent, valid values are ('HelmRepository', 'GitRepository', 'Bucket').
+                      enum:
+                        - HelmRepository
+                        - GitRepository
+                        - Bucket
+                      type: string
                     name:
                       description: Name of the referent.
                       type: string
                   required:
+                    - kind
                     - name
                   type: object
                 suspend:
                   description: This flag tells the controller to suspend the reconciliation of this source.
                   type: boolean
-                timeout:
-                  default: 60s
-                  description: The timeout of index downloading, defaults to 60s.
+                valuesFile:
+                  description: Alternative values file to use as the default chart values, expected to be a relative path in the SourceRef. Deprecated in favor of ValuesFiles, for backwards compatibility the file defined here is merged before the ValuesFiles items. Ignored when omitted.
                   type: string
-                url:
-                  description: The Helm repository URL, a valid URL contains at least a protocol and host.
+                valuesFiles:
+                  description: Alternative list of values files to use as the chart values (values.yaml is not included by default), expected to be a relative path in the SourceRef. Values files are merged in the order of this list with the last file overriding the first. Ignored when omitted.
+                  items:
+                    type: string
+                  type: array
+                version:
+                  default: '*'
+                  description: The chart version semver expression, ignored for charts from GitRepository and Bucket sources. Defaults to latest when omitted.
                   type: string
               required:
+                - chart
                 - interval
-                - url
+                - sourceRef
               type: object
             status:
               default:
                 observedGeneration: -1
-              description: HelmRepositoryStatus defines the observed state of the HelmRepository.
+              description: HelmChartStatus defines the observed state of the HelmChart.
               properties:
                 artifact:
-                  description: Artifact represents the output of the last successful repository sync.
+                  description: Artifact represents the output of the last successful chart sync.
                   properties:
                     checksum:
                       description: Checksum is the SHA256 checksum of the artifact.
@@ -124,7 +162,7 @@ spec:
                     - url
                   type: object
                 conditions:
-                  description: Conditions holds the conditions for the HelmRepository.
+                  description: Conditions holds the conditions for the HelmChart.
                   items:
                     description: "Condition contains details for one aspect of the current state of this API Resource. --- This struct is intended for direct use as an array at the field path .status.conditions.  For example, type FooStatus struct{     // Represents the observations of a foo's current state.     // Known .status.conditions.type are: \"Available\", \"Progressing\", and \"Degraded\"     // +patchMergeKey=type     // +patchStrategy=merge     // +listType=map     // +listMapKey=type     Conditions []metav1.Condition `json:\"conditions,omitempty\" patchStrategy:\"merge\" patchMergeKey:\"type\" protobuf:\"bytes,1,rep,name=conditions\"` \n     // other fields }"
                     properties:
@@ -175,7 +213,7 @@ spec:
                   format: int64
                   type: integer
                 url:
-                  description: URL is the download link for the last index fetched.
+                  description: URL is the download link for the last chart pulled.
                   type: string
               type: object
           type: object
@@ -184,8 +222,17 @@ spec:
       subresources:
         status: {}
     - additionalPrinterColumns:
-        - jsonPath: .spec.url
-          name: URL
+        - jsonPath: .spec.chart
+          name: Chart
+          type: string
+        - jsonPath: .spec.version
+          name: Version
+          type: string
+        - jsonPath: .spec.sourceRef.kind
+          name: Source Kind
+          type: string
+        - jsonPath: .spec.sourceRef.name
+          name: Source Name
           type: string
         - jsonPath: .metadata.creationTimestamp
           name: Age
@@ -199,7 +246,7 @@ spec:
       name: v1beta2
       schema:
         openAPIV3Schema:
-          description: HelmRepository is the Schema for the helmrepositories API.
+          description: HelmChart is the Schema for the helmcharts API.
           properties:
             apiVersion:
               description: 'APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
@@ -210,7 +257,7 @@ spec:
             metadata:
               type: object
             spec:
-              description: HelmRepositorySpec specifies the required configuration to produce an Artifact for a Helm repository index YAML.
+              description: HelmChartSpec specifies the desired state of a Helm chart.
               properties:
                 accessFrom:
                   description: 'AccessFrom specifies an Access Control List for allowing cross-namespace references to this object. NOTE: Not implemented, provisional as of https://github.com/fluxcd/flux2/pull/2092'
@@ -230,48 +277,66 @@ spec:
                   required:
                     - namespaceSelectors
                   type: object
-                interval:
-                  description: Interval at which to check the URL for updates.
+                chart:
+                  description: Chart is the name or path the Helm chart is available at in the SourceRef.
                   type: string
-                passCredentials:
-                  description: PassCredentials allows the credentials from the SecretRef to be passed on to a host that does not match the host as defined in URL. This may be required if the host of the advertised chart URLs in the index differ from the defined URL. Enabling this should be done with caution, as it can potentially result in credentials getting stolen in a MITM-attack.
-                  type: boolean
-                secretRef:
-                  description: SecretRef specifies the Secret containing authentication credentials for the HelmRepository. For HTTP/S basic auth the secret must contain 'username' and 'password' fields. For TLS the secret must contain a 'certFile' and 'keyFile', and/or 'caCert' fields.
+                interval:
+                  description: Interval is the interval at which to check the Source for updates.
+                  type: string
+                reconcileStrategy:
+                  default: ChartVersion
+                  description: ReconcileStrategy determines what enables the creation of a new artifact. Valid values are ('ChartVersion', 'Revision'). See the documentation of the values for an explanation on their behavior. Defaults to ChartVersion when omitted.
+                  enum:
+                    - ChartVersion
+                    - Revision
+                  type: string
+                sourceRef:
+                  description: SourceRef is the reference to the Source the chart is available at.
                   properties:
+                    apiVersion:
+                      description: APIVersion of the referent.
+                      type: string
+                    kind:
+                      description: Kind of the referent, valid values are ('HelmRepository', 'GitRepository', 'Bucket').
+                      enum:
+                        - HelmRepository
+                        - GitRepository
+                        - Bucket
+                      type: string
                     name:
                       description: Name of the referent.
                       type: string
                   required:
+                    - kind
                     - name
                   type: object
                 suspend:
-                  description: Suspend tells the controller to suspend the reconciliation of this HelmRepository.
+                  description: Suspend tells the controller to suspend the reconciliation of this source.
                   type: boolean
-                timeout:
-                  default: 60s
-                  description: Timeout of the index fetch operation, defaults to 60s.
+                valuesFile:
+                  description: ValuesFile is an alternative values file to use as the default chart values, expected to be a relative path in the SourceRef. Deprecated in favor of ValuesFiles, for backwards compatibility the file specified here is merged before the ValuesFiles items. Ignored when omitted.
                   type: string
-                type:
-                  description: Type of the HelmRepository. When this field is set to  "oci", the URL field value must be prefixed with "oci://".
-                  enum:
-                    - default
-                    - oci
-                  type: string
-                url:
-                  description: URL of the Helm repository, a valid URL contains at least a protocol and host.
+                valuesFiles:
+                  description: ValuesFiles is an alternative list of values files to use as the chart values (values.yaml is not included by default), expected to be a relative path in the SourceRef. Values files are merged in the order of this list with the last file overriding the first. Ignored when omitted.
+                  items:
+                    type: string
+                  type: array
+                version:
+                  default: '*'
+                  description: Version is the chart version semver expression, ignored for charts from GitRepository and Bucket sources. Defaults to latest when omitted.
                   type: string
               required:
+                - chart
                 - interval
-                - url
+                - sourceRef
               type: object
             status:
               default:
                 observedGeneration: -1
-              description: HelmRepositoryStatus records the observed state of the HelmRepository.
+              description: HelmChartStatus records the observed state of the HelmChart.
               properties:
                 artifact:
-                  description: Artifact represents the last successful HelmRepository reconciliation.
+                  description: Artifact represents the output of the last successful reconciliation.
                   properties:
                     checksum:
                       description: Checksum is the SHA256 checksum of the Artifact file.
@@ -298,7 +363,7 @@ spec:
                     - url
                   type: object
                 conditions:
-                  description: Conditions holds the conditions for the HelmRepository.
+                  description: Conditions holds the conditions for the HelmChart.
                   items:
                     description: "Condition contains details for one aspect of the current state of this API Resource. --- This struct is intended for direct use as an array at the field path .status.conditions.  For example, type FooStatus struct{     // Represents the observations of a foo's current state.     // Known .status.conditions.type are: \"Available\", \"Progressing\", and \"Degraded\"     // +patchMergeKey=type     // +patchStrategy=merge     // +listType=map     // +listMapKey=type     Conditions []metav1.Condition `json:\"conditions,omitempty\" patchStrategy:\"merge\" patchMergeKey:\"type\" protobuf:\"bytes,1,rep,name=conditions\"` \n     // other fields }"
                     properties:
@@ -344,12 +409,18 @@ spec:
                 lastHandledReconcileAt:
                   description: LastHandledReconcileAt holds the value of the most recent reconcile request value, so a change of the annotation value can be detected.
                   type: string
+                observedChartName:
+                  description: ObservedChartName is the last observed chart name as specified by the resolved chart reference.
+                  type: string
                 observedGeneration:
-                  description: ObservedGeneration is the last observed generation of the HelmRepository object.
+                  description: ObservedGeneration is the last observed generation of the HelmChart object.
                   format: int64
                   type: integer
+                observedSourceArtifactRevision:
+                  description: ObservedSourceArtifactRevision is the last observed Artifact.Revision of the HelmChartSpec.SourceRef.
+                  type: string
                 url:
-                  description: URL is the dynamic fetch link for the latest Artifact. It is provided on a "best effort" basis, and using the precise HelmRepositoryStatus.Artifact data is recommended.
+                  description: URL is the dynamic fetch link for the latest Artifact. It is provided on a "best effort" basis, and using the precise BucketStatus.Artifact data is recommended.
                   type: string
               type: object
           type: object

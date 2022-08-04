@@ -5,32 +5,26 @@ metadata:
     controller-gen.kubebuilder.io/version: v0.7.0
   creationTimestamp: null
   labels:
+    app.kubernetes.io/instance: '{{ .Release.Name }}'
+    app.kubernetes.io/managed-by: '{{ .Release.Service }}'
+    app.kubernetes.io/name: '{{ include "name" . }}'
     app.kubernetes.io/part-of: flux
+    app.kubernetes.io/version: '{{ .Chart.AppVersion }}'
     giantswarm.io/service_type: managed
-  name: helmcharts.source.toolkit.fluxcd.io
+    helm.sh/chart: '{{ include "chart" . }}'
+  name: buckets.source.toolkit.fluxcd.io
 spec:
   group: source.toolkit.fluxcd.io
   names:
-    kind: HelmChart
-    listKind: HelmChartList
-    plural: helmcharts
-    shortNames:
-      - hc
-    singular: helmchart
+    kind: Bucket
+    listKind: BucketList
+    plural: buckets
+    singular: bucket
   scope: Namespaced
   versions:
     - additionalPrinterColumns:
-        - jsonPath: .spec.chart
-          name: Chart
-          type: string
-        - jsonPath: .spec.version
-          name: Version
-          type: string
-        - jsonPath: .spec.sourceRef.kind
-          name: Source Kind
-          type: string
-        - jsonPath: .spec.sourceRef.name
-          name: Source Name
+        - jsonPath: .spec.endpoint
+          name: Endpoint
           type: string
         - jsonPath: .status.conditions[?(@.type=="Ready")].status
           name: Ready
@@ -44,7 +38,7 @@ spec:
       name: v1beta1
       schema:
         openAPIV3Schema:
-          description: HelmChart is the Schema for the helmcharts API
+          description: Bucket is the Schema for the buckets API
           properties:
             apiVersion:
               description: 'APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
@@ -55,7 +49,7 @@ spec:
             metadata:
               type: object
             spec:
-              description: HelmChartSpec defines the desired state of a Helm chart.
+              description: BucketSpec defines the desired state of an S3 compatible bucket
               properties:
                 accessFrom:
                   description: AccessFrom defines an Access Control List for allowing cross-namespace references to this object.
@@ -75,66 +69,60 @@ spec:
                   required:
                     - namespaceSelectors
                   type: object
-                chart:
-                  description: The name or path the Helm chart is available at in the SourceRef.
+                bucketName:
+                  description: The bucket name.
                   type: string
+                endpoint:
+                  description: The bucket endpoint address.
+                  type: string
+                ignore:
+                  description: Ignore overrides the set of excluded patterns in the .sourceignore format (which is the same as .gitignore). If not provided, a default will be used, consult the documentation for your version to find out what those are.
+                  type: string
+                insecure:
+                  description: Insecure allows connecting to a non-TLS S3 HTTP endpoint.
+                  type: boolean
                 interval:
-                  description: The interval at which to check the Source for updates.
+                  description: The interval at which to check for bucket updates.
                   type: string
-                reconcileStrategy:
-                  default: ChartVersion
-                  description: Determines what enables the creation of a new artifact. Valid values are ('ChartVersion', 'Revision'). See the documentation of the values for an explanation on their behavior. Defaults to ChartVersion when omitted.
+                provider:
+                  default: generic
+                  description: The S3 compatible storage provider name, default ('generic').
                   enum:
-                    - ChartVersion
-                    - Revision
+                    - generic
+                    - aws
+                    - gcp
                   type: string
-                sourceRef:
-                  description: The reference to the Source the chart is available at.
+                region:
+                  description: The bucket region.
+                  type: string
+                secretRef:
+                  description: The name of the secret containing authentication credentials for the Bucket.
                   properties:
-                    apiVersion:
-                      description: APIVersion of the referent.
-                      type: string
-                    kind:
-                      description: Kind of the referent, valid values are ('HelmRepository', 'GitRepository', 'Bucket').
-                      enum:
-                        - HelmRepository
-                        - GitRepository
-                        - Bucket
-                      type: string
                     name:
                       description: Name of the referent.
                       type: string
                   required:
-                    - kind
                     - name
                   type: object
                 suspend:
                   description: This flag tells the controller to suspend the reconciliation of this source.
                   type: boolean
-                valuesFile:
-                  description: Alternative values file to use as the default chart values, expected to be a relative path in the SourceRef. Deprecated in favor of ValuesFiles, for backwards compatibility the file defined here is merged before the ValuesFiles items. Ignored when omitted.
-                  type: string
-                valuesFiles:
-                  description: Alternative list of values files to use as the chart values (values.yaml is not included by default), expected to be a relative path in the SourceRef. Values files are merged in the order of this list with the last file overriding the first. Ignored when omitted.
-                  items:
-                    type: string
-                  type: array
-                version:
-                  default: '*'
-                  description: The chart version semver expression, ignored for charts from GitRepository and Bucket sources. Defaults to latest when omitted.
+                timeout:
+                  default: 60s
+                  description: The timeout for download operations, defaults to 60s.
                   type: string
               required:
-                - chart
+                - bucketName
+                - endpoint
                 - interval
-                - sourceRef
               type: object
             status:
               default:
                 observedGeneration: -1
-              description: HelmChartStatus defines the observed state of the HelmChart.
+              description: BucketStatus defines the observed state of a bucket
               properties:
                 artifact:
-                  description: Artifact represents the output of the last successful chart sync.
+                  description: Artifact represents the output of the last successful Bucket sync.
                   properties:
                     checksum:
                       description: Checksum is the SHA256 checksum of the artifact.
@@ -157,7 +145,7 @@ spec:
                     - url
                   type: object
                 conditions:
-                  description: Conditions holds the conditions for the HelmChart.
+                  description: Conditions holds the conditions for the Bucket.
                   items:
                     description: "Condition contains details for one aspect of the current state of this API Resource. --- This struct is intended for direct use as an array at the field path .status.conditions.  For example, type FooStatus struct{     // Represents the observations of a foo's current state.     // Known .status.conditions.type are: \"Available\", \"Progressing\", and \"Degraded\"     // +patchMergeKey=type     // +patchStrategy=merge     // +listType=map     // +listMapKey=type     Conditions []metav1.Condition `json:\"conditions,omitempty\" patchStrategy:\"merge\" patchMergeKey:\"type\" protobuf:\"bytes,1,rep,name=conditions\"` \n     // other fields }"
                     properties:
@@ -208,7 +196,7 @@ spec:
                   format: int64
                   type: integer
                 url:
-                  description: URL is the download link for the last chart pulled.
+                  description: URL is the download link for the artifact output of the last Bucket sync.
                   type: string
               type: object
           type: object
@@ -217,17 +205,8 @@ spec:
       subresources:
         status: {}
     - additionalPrinterColumns:
-        - jsonPath: .spec.chart
-          name: Chart
-          type: string
-        - jsonPath: .spec.version
-          name: Version
-          type: string
-        - jsonPath: .spec.sourceRef.kind
-          name: Source Kind
-          type: string
-        - jsonPath: .spec.sourceRef.name
-          name: Source Name
+        - jsonPath: .spec.endpoint
+          name: Endpoint
           type: string
         - jsonPath: .metadata.creationTimestamp
           name: Age
@@ -241,7 +220,7 @@ spec:
       name: v1beta2
       schema:
         openAPIV3Schema:
-          description: HelmChart is the Schema for the helmcharts API.
+          description: Bucket is the Schema for the buckets API.
           properties:
             apiVersion:
               description: 'APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
@@ -252,7 +231,7 @@ spec:
             metadata:
               type: object
             spec:
-              description: HelmChartSpec specifies the desired state of a Helm chart.
+              description: BucketSpec specifies the required configuration to produce an Artifact for an object storage bucket.
               properties:
                 accessFrom:
                   description: 'AccessFrom specifies an Access Control List for allowing cross-namespace references to this object. NOTE: Not implemented, provisional as of https://github.com/fluxcd/flux2/pull/2092'
@@ -272,66 +251,61 @@ spec:
                   required:
                     - namespaceSelectors
                   type: object
-                chart:
-                  description: Chart is the name or path the Helm chart is available at in the SourceRef.
+                bucketName:
+                  description: BucketName is the name of the object storage bucket.
                   type: string
+                endpoint:
+                  description: Endpoint is the object storage address the BucketName is located at.
+                  type: string
+                ignore:
+                  description: Ignore overrides the set of excluded patterns in the .sourceignore format (which is the same as .gitignore). If not provided, a default will be used, consult the documentation for your version to find out what those are.
+                  type: string
+                insecure:
+                  description: Insecure allows connecting to a non-TLS HTTP Endpoint.
+                  type: boolean
                 interval:
-                  description: Interval is the interval at which to check the Source for updates.
+                  description: Interval at which to check the Endpoint for updates.
                   type: string
-                reconcileStrategy:
-                  default: ChartVersion
-                  description: ReconcileStrategy determines what enables the creation of a new artifact. Valid values are ('ChartVersion', 'Revision'). See the documentation of the values for an explanation on their behavior. Defaults to ChartVersion when omitted.
+                provider:
+                  default: generic
+                  description: Provider of the object storage bucket. Defaults to 'generic', which expects an S3 (API) compatible object storage.
                   enum:
-                    - ChartVersion
-                    - Revision
+                    - generic
+                    - aws
+                    - gcp
+                    - azure
                   type: string
-                sourceRef:
-                  description: SourceRef is the reference to the Source the chart is available at.
+                region:
+                  description: Region of the Endpoint where the BucketName is located in.
+                  type: string
+                secretRef:
+                  description: SecretRef specifies the Secret containing authentication credentials for the Bucket.
                   properties:
-                    apiVersion:
-                      description: APIVersion of the referent.
-                      type: string
-                    kind:
-                      description: Kind of the referent, valid values are ('HelmRepository', 'GitRepository', 'Bucket').
-                      enum:
-                        - HelmRepository
-                        - GitRepository
-                        - Bucket
-                      type: string
                     name:
                       description: Name of the referent.
                       type: string
                   required:
-                    - kind
                     - name
                   type: object
                 suspend:
-                  description: Suspend tells the controller to suspend the reconciliation of this source.
+                  description: Suspend tells the controller to suspend the reconciliation of this Bucket.
                   type: boolean
-                valuesFile:
-                  description: ValuesFile is an alternative values file to use as the default chart values, expected to be a relative path in the SourceRef. Deprecated in favor of ValuesFiles, for backwards compatibility the file specified here is merged before the ValuesFiles items. Ignored when omitted.
-                  type: string
-                valuesFiles:
-                  description: ValuesFiles is an alternative list of values files to use as the chart values (values.yaml is not included by default), expected to be a relative path in the SourceRef. Values files are merged in the order of this list with the last file overriding the first. Ignored when omitted.
-                  items:
-                    type: string
-                  type: array
-                version:
-                  default: '*'
-                  description: Version is the chart version semver expression, ignored for charts from GitRepository and Bucket sources. Defaults to latest when omitted.
+                timeout:
+                  default: 60s
+                  description: Timeout for fetch operations, defaults to 60s.
                   type: string
               required:
-                - chart
+                - bucketName
+                - endpoint
                 - interval
-                - sourceRef
               type: object
             status:
               default:
                 observedGeneration: -1
-              description: HelmChartStatus records the observed state of the HelmChart.
+              description: BucketStatus records the observed state of a Bucket.
               properties:
                 artifact:
-                  description: Artifact represents the output of the last successful reconciliation.
+                  description: Artifact represents the last successful Bucket reconciliation.
                   properties:
                     checksum:
                       description: Checksum is the SHA256 checksum of the Artifact file.
@@ -358,7 +332,7 @@ spec:
                     - url
                   type: object
                 conditions:
-                  description: Conditions holds the conditions for the HelmChart.
+                  description: Conditions holds the conditions for the Bucket.
                   items:
                     description: "Condition contains details for one aspect of the current state of this API Resource. --- This struct is intended for direct use as an array at the field path .status.conditions.  For example, type FooStatus struct{     // Represents the observations of a foo's current state.     // Known .status.conditions.type are: \"Available\", \"Progressing\", and \"Degraded\"     // +patchMergeKey=type     // +patchStrategy=merge     // +listType=map     // +listMapKey=type     Conditions []metav1.Condition `json:\"conditions,omitempty\" patchStrategy:\"merge\" patchMergeKey:\"type\" protobuf:\"bytes,1,rep,name=conditions\"` \n     // other fields }"
                     properties:
@@ -404,16 +378,10 @@ spec:
                 lastHandledReconcileAt:
                   description: LastHandledReconcileAt holds the value of the most recent reconcile request value, so a change of the annotation value can be detected.
                   type: string
-                observedChartName:
-                  description: ObservedChartName is the last observed chart name as specified by the resolved chart reference.
-                  type: string
                 observedGeneration:
-                  description: ObservedGeneration is the last observed generation of the HelmChart object.
+                  description: ObservedGeneration is the last observed generation of the Bucket object.
                   format: int64
                   type: integer
-                observedSourceArtifactRevision:
-                  description: ObservedSourceArtifactRevision is the last observed Artifact.Revision of the HelmChartSpec.SourceRef.
-                  type: string
                 url:
                   description: URL is the dynamic fetch link for the latest Artifact. It is provided on a "best effort" basis, and using the precise BucketStatus.Artifact data is recommended.
                   type: string
