@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- Revert to job based CRD installation as of `v0.12.0`
+
 ## [0.13.0] - 2022-08-01
 
 ### Changed
