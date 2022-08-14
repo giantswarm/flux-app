@@ -1,0 +1,58 @@
+{{ $globalScope := . }}
+{{- range .Values.sources }}
+  {{- with $globalScope }}
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "crInstall" . }}-source-{{ .name }}
+  namespace: {{ .Release.Namespace | quote }}
+  annotations:
+    # create hook dependencies in the right order
+    # TODO
+    "helm.sh/hook-weight": "6"
+    foo: baz
+    {{- include "crInstallAnnotations" . | nindent 4 }}
+  labels:
+    app.kubernetes.io/component: {{ include "crInstall" . | quote }}
+    {{- include "labels.selector" . | nindent 4 }}
+    role: {{ include "crInstallSelector" . | quote }}
+  {{- end }}
+data:
+  content: |
+    ---
+    apiVersion: source.toolkit.fluxcd.io/v1beta1
+    kind: GitRepository
+    metadata:
+      name: "{{ .name }}"
+      namespace: "{{ $.Release.Namespace }}"
+    spec:
+      interval: "{{ .interval }}"
+      ref:
+        branch: "{{ .branch }}"
+      secretRef:
+        name: "{{ .name }}-credentials"
+      url: "{{ .url }}"
+    ---
+    apiVersion: v1
+    kind: Secret
+    metadata:
+      name: "{{ .name }}-credentials"
+      namespace: "{{ $.Release.Namespace }}"
+    type: Opaque
+    data:
+      username: "{{ .credentials.username | b64enc }}"
+      password: "{{ .credentials.password | b64enc }}"
+      token: "{{ .credentials.password | b64enc }}"
+    ---
+    apiVersion: notification.toolkit.fluxcd.io/v1beta1
+    kind: Provider
+    metadata:
+      name: "{{ .name }}-github-notification-provider"
+      namespace: "{{ $.Release.Namespace }}"
+    spec:
+      type: {{ .provider }}
+      address: "{{ .url | trimSuffix ".git" }}"
+      secretRef:
+        name: "{{ .name }}-credentials"
+{{- end }}

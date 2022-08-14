@@ -31,6 +31,12 @@ app.kubernetes.io/name: {{ include "name" . | quote }}
 app.kubernetes.io/instance: {{ .Release.Name | quote }}
 {{- end -}}
 
+{{/*
+CRD Installation
+
+Flux CRDs are installed first by a job.
+*/}}
+
 {{- define "crdInstall" -}}
 {{- printf "%s-%s" ( include "name" . ) "crd-install" | replace "+" "_" | trimSuffix "-" -}}
 {{- end -}}
@@ -47,6 +53,30 @@ app.kubernetes.io/instance: {{ .Release.Name | quote }}
 {{/* Create a label which can be used to select any orphaned crd-install hook resources */}}
 {{- define "crdInstallSelector" -}}
 {{- printf "%s" "crd-install-hook" -}}
+{{- end -}}
+
+{{/*
+CR Installation
+
+Flux CRs are installed after Flux CRDs by a job.
+*/}}
+
+{{- define "crInstall" -}}
+{{- printf "%s-%s" ( include "name" . ) "cr-install" | replace "+" "_" | trimSuffix "-" -}}
+{{- end -}}
+
+{{- define "crInstallJob" -}}
+{{- printf "%s-%s-%s" ( include "name" . ) "cr-install" .Chart.AppVersion | replace "+" "_" | replace "." "-" | trimSuffix "-" | trunc 63 -}}
+{{- end -}}
+
+{{- define "crInstallAnnotations" -}}
+"helm.sh/hook": "pre-install,pre-upgrade"
+"helm.sh/hook-delete-policy": "before-hook-creation,hook-succeeded,hook-failed"
+{{- end -}}
+
+{{/* Create a label which can be used to select any orphaned cr-install hook resources */}}
+{{- define "crInstallSelector" -}}
+{{- printf "%s" "cr-install-hook" -}}
 {{- end -}}
 
 {{/* Usage:

@@ -1,0 +1,59 @@
+{{ $globalScope := . }}
+{{- range .Values.kustomizations }}
+  {{- with $globalScope }}
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "crInstall" . }}-kustomization-{{ .name }}
+  namespace: {{ .Release.Namespace | quote }}
+  annotations:
+    # create hook dependencies in the right order
+    # TODO
+    "helm.sh/hook-weight": "7"
+    {{- include "crInstallAnnotations" . | nindent 4 }}
+  labels:
+    app.kubernetes.io/component: {{ include "crInstall" . | quote }}
+    {{- include "labels.selector" . | nindent 4 }}
+    role: {{ include "crInstallSelector" . | quote }}
+  {{- end }}
+data:
+  content: |
+    ---
+    apiVersion: kustomize.toolkit.fluxcd.io/v1beta2
+    kind: Kustomization
+    metadata:
+      name: "{{ .name }}"
+      namespace: "{{ $.Release.Namespace }}"
+    spec:
+      interval: "{{ .interval }}"
+      path: "{{ .path }}"
+      {{- if .postBuild }}
+    postBuild:
+      {{- .postBuild | toYaml | nindent 6 }}
+      {{- end }}
+    prune: {{ .prune }}
+    sourceRef:
+      kind: GitRepository
+      name: "{{ .source_name }}"
+      {{- if $.Values.sopsEncryption.enabled }}
+    decryption:
+      provider: sops
+      secretRef:
+        name: "{{ $.Release.Name }}-sops-gpg"
+      {{- end }}
+    ---
+    apiVersion: notification.toolkit.fluxcd.io/v1beta1
+    kind: Alert
+    metadata:
+      name: "{{ .name }}-github-alert"
+      namespace: "{{ $.Release.Namespace }}"
+    spec:
+      providerRef:
+        name: "{{ .source_name }}-github-notification-provider"
+      eventSeverity: info
+      eventSources:
+        - kind: Kustomization
+          name: "{{ .name }}"
+          namespace: "{{ $.Release.Namespace }}"
+{{- end }}

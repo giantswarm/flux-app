@@ -1,88 +1,90 @@
-{{- if .Values.sopsEncryption.enabled }}
-apiVersion: v1
-data:
-{{- range $index, $key := .Values.sopsEncryption.encryptionKeys }}
-  "sops-{{ $index }}.asc": "{{ $key | b64enc }}"
-{{- end }}
-kind: Secret
-metadata:
-  name: "{{ .Release.Name }}-sops-gpg"
-  namespace: "{{ .Release.Namespace }}"
----
-{{- end }}
-{{- range .Values.sources }}
----
-apiVersion: source.toolkit.fluxcd.io/v1beta1
-kind: GitRepository
-metadata:
-  name: "{{ .name }}"
-  namespace: "{{ $.Release.Namespace }}"
-spec:
-  interval: "{{ .interval }}"
-  ref:
-    branch: "{{ .branch }}"
-  secretRef:
-    name: "{{ .name }}-credentials"
-  url: "{{ .url }}"
----
-apiVersion: v1
-kind: Secret
-metadata:
-  name: "{{ .name }}-credentials"
-  namespace: "{{ $.Release.Namespace }}"
-type: Opaque
-data:
-  username: "{{ .credentials.username | b64enc }}"
-  password: "{{ .credentials.password | b64enc }}"
-  token: "{{ .credentials.password | b64enc }}"
----
-apiVersion: notification.toolkit.fluxcd.io/v1beta1
-kind: Provider
-metadata:
-  name: "{{ .name }}-github-notification-provider"
-  namespace: "{{ $.Release.Namespace }}"
-spec:
-  type: {{ .provider }}
-  address: "{{ .url | trimSuffix ".git" }}"
-  secretRef:
-    name: "{{ .name }}-credentials"
-{{- end }}
-{{- range .Values.kustomizations }}
----
-apiVersion: kustomize.toolkit.fluxcd.io/v1beta2
-kind: Kustomization
-metadata:
-  name: "{{ .name }}"
-  namespace: "{{ $.Release.Namespace }}"
-spec:
-  interval: "{{ .interval }}"
-  path: "{{ .path }}"
-{{- if .postBuild }}
-  postBuild:
-{{- .postBuild | toYaml | nindent 4 }}
-{{- end }}
-  prune: {{ .prune }}
-  sourceRef:
-    kind: GitRepository
-    name: "{{ .source_name }}"
-{{- if $.Values.sopsEncryption.enabled }}
-  decryption:
-    provider: sops
-    secretRef:
-      name: "{{ $.Release.Name }}-sops-gpg"
-{{- end }}
----
-apiVersion: notification.toolkit.fluxcd.io/v1beta1
-kind: Alert
-metadata:
-  name: "{{ .name }}-github-alert"
-  namespace: "{{ $.Release.Namespace }}"
-spec:
-  providerRef:
-    name: "{{ .source_name }}-github-notification-provider"
-  eventSeverity: info
-  eventSources:
-    - kind: Kustomization
-      name: "{{ .name }}"
-      namespace: "{{ $.Release.Namespace }}"
-{{- end }}
+{{/*{{- if .Values.sopsEncryption.enabled }}*/}}
+{{/*apiVersion: v1*/}}
+{{/*data:*/}}
+{{/*{{- range $index, $key := .Values.sopsEncryption.encryptionKeys }}*/}}
+{{/*  "sops-{{ $index }}.asc": "{{ $key | b64enc }}"*/}}
+{{/*{{- end }}*/}}
+{{/*kind: Secret*/}}
+{{/*metadata:*/}}
+{{/*  name: "{{ .Release.Name }}-sops-gpg"*/}}
+{{/*  namespace: "{{ .Release.Namespace }}"*/}}
+{{/*---*/}}
+{{/*{{- end }}*/}}
+
+{{/*{{- range .Values.sources }}*/}}
+{{/*---*/}}
+{{/*apiVersion: source.toolkit.fluxcd.io/v1beta1*/}}
+{{/*kind: GitRepository*/}}
+{{/*metadata:*/}}
+{{/*  name: "{{ .name }}"*/}}
+{{/*  namespace: "{{ $.Release.Namespace }}"*/}}
+{{/*spec:*/}}
+{{/*  interval: "{{ .interval }}"*/}}
+{{/*  ref:*/}}
+{{/*    branch: "{{ .branch }}"*/}}
+{{/*  secretRef:*/}}
+{{/*    name: "{{ .name }}-credentials"*/}}
+{{/*  url: "{{ .url }}"*/}}
+{{/*---*/}}
+{{/*apiVersion: v1*/}}
+{{/*kind: Secret*/}}
+{{/*metadata:*/}}
+{{/*  name: "{{ .name }}-credentials"*/}}
+{{/*  namespace: "{{ $.Release.Namespace }}"*/}}
+{{/*type: Opaque*/}}
+{{/*data:*/}}
+{{/*  username: "{{ .credentials.username | b64enc }}"*/}}
+{{/*  password: "{{ .credentials.password | b64enc }}"*/}}
+{{/*  token: "{{ .credentials.password | b64enc }}"*/}}
+{{/*---*/}}
+{{/*apiVersion: notification.toolkit.fluxcd.io/v1beta1*/}}
+{{/*kind: Provider*/}}
+{{/*metadata:*/}}
+{{/*  name: "{{ .name }}-github-notification-provider"*/}}
+{{/*  namespace: "{{ $.Release.Namespace }}"*/}}
+{{/*spec:*/}}
+{{/*  type: {{ .provider }}*/}}
+{{/*  address: "{{ .url | trimSuffix ".git" }}"*/}}
+{{/*  secretRef:*/}}
+{{/*    name: "{{ .name }}-credentials"*/}}
+{{/*{{- end }}*/}}
+
+{{/*{{- range .Values.kustomizations }}*/}}
+{{/*---*/}}
+{{/*apiVersion: kustomize.toolkit.fluxcd.io/v1beta2*/}}
+{{/*kind: Kustomization*/}}
+{{/*metadata:*/}}
+{{/*  name: "{{ .name }}"*/}}
+{{/*  namespace: "{{ $.Release.Namespace }}"*/}}
+{{/*spec:*/}}
+{{/*  interval: "{{ .interval }}"*/}}
+{{/*  path: "{{ .path }}"*/}}
+{{/*{{- if .postBuild }}*/}}
+{{/*  postBuild:*/}}
+{{/*{{- .postBuild | toYaml | nindent 4 }}*/}}
+{{/*{{- end }}*/}}
+{{/*  prune: {{ .prune }}*/}}
+{{/*  sourceRef:*/}}
+{{/*    kind: GitRepository*/}}
+{{/*    name: "{{ .source_name }}"*/}}
+{{/*{{- if $.Values.sopsEncryption.enabled }}*/}}
+{{/*  decryption:*/}}
+{{/*    provider: sops*/}}
+{{/*    secretRef:*/}}
+{{/*      name: "{{ $.Release.Name }}-sops-gpg"*/}}
+{{/*{{- end }}*/}}
+{{/*---*/}}
+{{/*apiVersion: notification.toolkit.fluxcd.io/v1beta1*/}}
+{{/*kind: Alert*/}}
+{{/*metadata:*/}}
+{{/*  name: "{{ .name }}-github-alert"*/}}
+{{/*  namespace: "{{ $.Release.Namespace }}"*/}}
+{{/*spec:*/}}
+{{/*  providerRef:*/}}
+{{/*    name: "{{ .source_name }}-github-notification-provider"*/}}
+{{/*  eventSeverity: info*/}}
+{{/*  eventSources:*/}}
+{{/*    - kind: Kustomization*/}}
+{{/*      name: "{{ .name }}"*/}}
+{{/*      namespace: "{{ $.Release.Namespace }}"*/}}
+{{/*{{- end }}*/}}

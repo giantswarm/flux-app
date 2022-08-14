@@ -1,0 +1,21 @@
+{{- if .Values.sopsEncryption.enabled }}
+apiVersion: v1
+data:
+{{- range $index, $key := .Values.sopsEncryption.encryptionKeys }}
+  "sops-{{ $index }}.asc": "{{ $key | b64enc }}"
+{{- end }}
+kind: Secret
+metadata:
+  name: "{{ .Release.Name }}-sops-gpg"
+  namespace: "{{ .Release.Namespace }}"
+  annotations:
+    # create hook dependencies in the right order
+    # TODO
+    "helm.sh/hook-weight": "5"
+      {{- include "crdInstallAnnotations" . | nindent 4 }}
+  labels:
+    app.kubernetes.io/component: {{ include "crInstall" . | quote }}
+    {{- include "labels.selector" . | nindent 4 }}
+    role: {{ include "crInstallSelector" . | quote }}
+---
+{{- end }}
