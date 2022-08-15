@@ -7,6 +7,21 @@ Here we define the flux chart with its templates and default configuration.
 
 It can be used to install [flux2](https://github.com/fluxcd/flux2) toolkit.
 
+## Installation notes
+
+If you want to install the Flux CRDs - `crds.install` value, enabled by default - and your Flux CRs as well,
+then you need to install the App in 2 steps. First install without the CRs so Helm can create the Flux CRDs
+for you. Then in a following apply of the App add your Flux CRs - `sources` and `kustomizations` values.
+
+The reason for this is how Helm manages CRDs and validation of manifests before it applies them to the cluster.
+You cannot install CRDs and CRs using those CRDs in the same run as Helm will fail to validate the manifests against
+the API. It is possible with the [Helm 3 native way of installing CRDs](https://helm.sh/docs/chart_best_practices/custom_resource_definitions/)
+but that does not support updating them in the future. Therefore, we install the CRDs using a Job which solves
+upgrading the CRDs but does not solve installing them at the same time with CRs using those CRDs. In theory the CRs
+could be installed with a separate Job as well but then those resources are not managed by Helm and would require
+and another Job upon uninstallation to get cleaned up but this adds a lot a complexity and the risk of deleting
+resources that were not intended to be deleted by the post install hook of the CR clean-up.
+
 ## Values & Secrets
 
 This chart allows to add flux `GitRepository` and `Kustomization` CRs through `values.yaml`
