@@ -28,7 +28,7 @@ data:
       path: "{{ .path }}"
       {{- if .postBuild }}
       postBuild:
-        {{- .postBuild | toYaml | nindent 6 }}
+        {{- .postBuild | toYaml | nindent 8 }}
       {{- end }}
       prune: {{ .prune }}
       sourceRef:

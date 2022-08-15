@@ -53,9 +53,6 @@ rules:
   - Secret
   verbs:
   - create
-  - delete
-  - get
-  - patch
 # Required by Kustomizations
 - apiGroups:
   - kustomize.toolkit.fluxcd.io/v1beta2
