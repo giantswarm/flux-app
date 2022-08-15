@@ -29,6 +29,7 @@ data:
         branch: "{{ .branch }}"
       secretRef:
         name: "{{ .name }}-credentials"
+        namespace: "{{ $globalScope.Release.Namespace }}"
       url: "{{ .url }}"
     ---
     apiVersion: v1
