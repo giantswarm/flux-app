@@ -1,22 +1,20 @@
 {{ $globalScope := . }}
 {{- range .Values.kustomizations }}
-  {{- with $globalScope }}
 ---
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: {{ include "crInstall" . }}-kustomization-{{ .name }}
-  namespace: {{ .Release.Namespace | quote }}
+  name: {{ include "crInstall" $globalScope }}-kustomization-{{ .name }}
+  namespace: {{ $globalScope.Release.Namespace | quote }}
   annotations:
     # create hook dependencies in the right order
     # TODO
     "helm.sh/hook-weight": "7"
-    {{- include "crInstallAnnotations" . | nindent 4 }}
+    {{- include "crInstallAnnotations" $globalScope | nindent 4 }}
   labels:
-    app.kubernetes.io/component: {{ include "crInstall" . | quote }}
-    {{- include "labels.selector" . | nindent 4 }}
-    role: {{ include "crInstallSelector" . | quote }}
-  {{- end }}
+    app.kubernetes.io/component: {{ include "crInstall" $globalScope | quote }}
+    {{- include "labels.selector" $globalScope | nindent 4 }}
+    role: {{ include "crInstallSelector" $globalScope | quote }}
 data:
   content: |
     ---
@@ -24,7 +22,7 @@ data:
     kind: Kustomization
     metadata:
       name: "{{ .name }}"
-      namespace: "{{ $.Release.Namespace }}"
+      namespace: "{{ $globalScope.Release.Namespace }}"
     spec:
       interval: "{{ .interval }}"
       path: "{{ .path }}"
@@ -36,18 +34,18 @@ data:
     sourceRef:
       kind: GitRepository
       name: "{{ .source_name }}"
-      {{- if $.Values.sopsEncryption.enabled }}
+      {{- if $globalScope.Values.sopsEncryption.enabled }}
     decryption:
       provider: sops
       secretRef:
-        name: "{{ $.Release.Name }}-sops-gpg"
+        name: "{{ $globalScope.Release.Name }}-sops-gpg"
       {{- end }}
     ---
     apiVersion: notification.toolkit.fluxcd.io/v1beta1
     kind: Alert
     metadata:
       name: "{{ .name }}-github-alert"
-      namespace: "{{ $.Release.Namespace }}"
+      namespace: "{{ $globalScope.Release.Namespace }}"
     spec:
       providerRef:
         name: "{{ .source_name }}-github-notification-provider"
@@ -55,5 +53,5 @@ data:
       eventSources:
         - kind: Kustomization
           name: "{{ .name }}"
-          namespace: "{{ $.Release.Namespace }}"
+          namespace: "{{ $globalScope.Release.Namespace }}"
 {{- end }}

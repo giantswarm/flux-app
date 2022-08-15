@@ -13,7 +13,20 @@ images:
   imageReflectorController:
     image: giantswarm/fluxcd-image-reflector-controller
 
-# only GitRepository for now
+# Sources - only GitRepository for now
+#
+# Source Example
+#
+# sources:
+#   - branch: main
+#     interval: 30s
+#     kind: GitRepository
+#     name: my-git-source
+#     provider: github
+#     url: https://github.com/abc/my-git-repository
+#     credentials:
+#       username: abc
+#       password: xyz
 sources: []
 
 # Kustomizations Example

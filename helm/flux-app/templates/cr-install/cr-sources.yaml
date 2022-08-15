@@ -1,23 +1,20 @@
 {{ $globalScope := . }}
 {{- range .Values.sources }}
-  {{- with $globalScope }}
 ---
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: {{ include "crInstall" . }}-source-{{ .name }}
-  namespace: {{ .Release.Namespace | quote }}
+  name: {{ include "crInstall" $globalScope }}-source-{{ .name }}
+  namespace: {{ $globalScope.Release.Namespace | quote }}
   annotations:
     # create hook dependencies in the right order
     # TODO
     "helm.sh/hook-weight": "6"
-    foo: baz
-    {{- include "crInstallAnnotations" . | nindent 4 }}
+    {{- include "crInstallAnnotations" $globalScope | nindent 4 }}
   labels:
-    app.kubernetes.io/component: {{ include "crInstall" . | quote }}
-    {{- include "labels.selector" . | nindent 4 }}
-    role: {{ include "crInstallSelector" . | quote }}
-  {{- end }}
+    app.kubernetes.io/component: {{ include "crInstall" $globalScope | quote }}
+    {{- include "labels.selector" $globalScope | nindent 4 }}
+    role: {{ include "crInstallSelector" $globalScope | quote }}
 data:
   content: |
     ---
@@ -25,7 +22,7 @@ data:
     kind: GitRepository
     metadata:
       name: "{{ .name }}"
-      namespace: "{{ $.Release.Namespace }}"
+      namespace: "{{ $globalScope.Release.Namespace }}"
     spec:
       interval: "{{ .interval }}"
       ref:
@@ -38,7 +35,7 @@ data:
     kind: Secret
     metadata:
       name: "{{ .name }}-credentials"
-      namespace: "{{ $.Release.Namespace }}"
+      namespace: "{{ $globalScope.Release.Namespace }}"
     type: Opaque
     data:
       username: "{{ .credentials.username | b64enc }}"
@@ -49,7 +46,7 @@ data:
     kind: Provider
     metadata:
       name: "{{ .name }}-github-notification-provider"
-      namespace: "{{ $.Release.Namespace }}"
+      namespace: "{{ $globalScope.Release.Namespace }}"
     spec:
       type: {{ .provider }}
       address: "{{ .url | trimSuffix ".git" }}"
