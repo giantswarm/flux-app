@@ -61,7 +61,7 @@ spec:
           name: {{ include "crInstall" $globalScope }}-source-{{ .name }}
           items:
           - key: content
-            path: "kustomizations.{{ .name }}.yaml"
+            path: "sources.{{ .name }}.yaml"
 {{- end }}
 {{- range .Values.kustomizations }}
       - name: {{ include "crInstall" $globalScope }}-kustomization-{{ .name }}
