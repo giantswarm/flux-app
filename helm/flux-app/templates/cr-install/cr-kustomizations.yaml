@@ -27,18 +27,18 @@ data:
       interval: "{{ .interval }}"
       path: "{{ .path }}"
       {{- if .postBuild }}
-    postBuild:
-      {{- .postBuild | toYaml | nindent 6 }}
+      postBuild:
+        {{- .postBuild | toYaml | nindent 6 }}
       {{- end }}
-    prune: {{ .prune }}
-    sourceRef:
-      kind: GitRepository
-      name: "{{ .source_name }}"
+      prune: {{ .prune }}
+      sourceRef:
+        kind: GitRepository
+        name: "{{ .source_name }}"
       {{- if $globalScope.Values.sopsEncryption.enabled }}
-    decryption:
-      provider: sops
-      secretRef:
-        name: "{{ $globalScope.Release.Name }}-sops-gpg"
+      decryption:
+        provider: sops
+        secretRef:
+          name: "{{ $globalScope.Release.Name }}-sops-gpg"
       {{- end }}
     ---
     apiVersion: notification.toolkit.fluxcd.io/v1beta1
@@ -51,7 +51,7 @@ data:
         name: "{{ .source_name }}-github-notification-provider"
       eventSeverity: info
       eventSources:
-        - kind: Kustomization
-          name: "{{ .name }}"
-          namespace: "{{ $globalScope.Release.Namespace }}"
+      - kind: Kustomization
+        name: "{{ .name }}"
+        namespace: "{{ $globalScope.Release.Namespace }}"
 {{- end }}
