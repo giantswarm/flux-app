@@ -19,7 +19,7 @@
       "properties": {
         "size": {
           "type": "string",
-          "pattern": "^([+-]?[0-9.]+)([eEinumkKMGTP]*[-+]?[0-9]*)$"
+          "pattern": "^([+-]?[\\d.]+)([eEinumkKMGTP]*[-+]?\\d*)$"
         }
       },
       "additionalProperties": false
