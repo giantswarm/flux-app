@@ -30,7 +30,7 @@ rules:
   - use
 # Required by Sources
 - apiGroups:
-  - source.toolkit.fluxcd.io/v1beta1
+  - source.toolkit.fluxcd.io
   resources:
   - gitrepositories
   verbs:
@@ -40,7 +40,7 @@ rules:
   - get
   - patch
 - apiGroups:
-  - notification.toolkit.fluxcd.io/v1beta1
+  - notification.toolkit.fluxcd.io
   resources:
   - providers
   verbs:
@@ -57,7 +57,7 @@ rules:
   - create
 # Required by Kustomizations
 - apiGroups:
-  - kustomize.toolkit.fluxcd.io/v1beta2
+  - kustomize.toolkit.fluxcd.io
   resources:
   - kustomizations
   verbs:
@@ -67,7 +67,7 @@ rules:
   - get
   - patch
 - apiGroups:
-  - notification.toolkit.fluxcd.io/v1beta1
+  - notification.toolkit.fluxcd.io
   resources:
   - alerts
   verbs:
