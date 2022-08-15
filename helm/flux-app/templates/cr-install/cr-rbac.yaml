@@ -1,0 +1,100 @@
+{{- if .Values.crds.install }}
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: {{ include "crInstall" . }}
+  namespace: {{ .Release.Namespace | quote }}
+  annotations:
+    # create hook dependencies in the right order
+    "helm.sh/hook-weight": "2"
+    {{- include "crInstallAnnotations" . | nindent 4 }}
+  labels:
+    app.kubernetes.io/component: {{ include "crInstall" . | quote }}
+    {{- include "labels.selector" . | nindent 4 }}
+    role: {{ include "crInstallSelector" . | quote }}
+rules:
+- apiGroups:
+  - ""
+  resources:
+  - jobs
+  verbs:
+  - create
+  - delete
+- apiGroups:
+  - policy
+  resources:
+  - podsecuritypolicies
+  resourceNames:
+  - {{ include "crInstall" . }}
+  verbs:
+  - use
+# Required by Sources
+- apiGroups:
+  - source.toolkit.fluxcd.io/v1beta1
+  resources:
+  - GitRepository
+  verbs:
+  - create
+  - delete
+  - get
+  - patch
+- apiGroups:
+  - notification.toolkit.fluxcd.io/v1beta1
+  resources:
+  - Provider
+  verbs:
+  - create
+  - delete
+  - get
+  - patch
+- apiGroups:
+  - v1
+  resources:
+  - Secret
+  verbs:
+  - create
+  - delete
+  - get
+  - patch
+# Required by Kustomizations
+- apiGroups:
+  - kustomize.toolkit.fluxcd.io/v1beta2
+  resources:
+  - Kustomization
+  verbs:
+  - create
+  - delete
+  - get
+  - patch
+- apiGroups:
+  - notification.toolkit.fluxcd.io/v1beta1
+  resources:
+  - Alert
+  verbs:
+  - create
+  - delete
+  - get
+  - patch
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: {{ include "crInstall" . }}
+  namespace: {{ .Release.Namespace | quote }}
+  annotations:
+    # create hook dependencies in the right order
+    "helm.sh/hook-weight": "3"
+    {{- include "crInstallAnnotations" . | nindent 4 }}
+  labels:
+    app.kubernetes.io/component: {{ include "crInstall" . | quote }}
+    {{- include "labels.common" . | nindent 4 }}
+    role: {{ include "crInstallSelector" . | quote }}
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: {{ include "crInstall" . }}
+subjects:
+  - kind: ServiceAccount
+    name: {{ include "crInstall" . }}
+    namespace: {{ .Release.Namespace | quote }}
+{{- end }}
