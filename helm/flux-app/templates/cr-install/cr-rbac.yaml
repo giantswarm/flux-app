@@ -50,11 +50,15 @@ rules:
   - get
   - patch
 - apiGroups:
-  - v1
+  - ""
   resources:
-  - Secret
+  - secrets
   verbs:
   - create
+  - delete
+  - list
+  - get
+  - patch
 # Required by Kustomizations
 - apiGroups:
   - kustomize.toolkit.fluxcd.io
