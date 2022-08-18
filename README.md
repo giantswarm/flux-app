@@ -7,7 +7,7 @@ Here we define the flux chart with its templates and default configuration.
 
 It can be used to install [flux2](https://github.com/fluxcd/flux2) toolkit.
 
-## Installation notes
+## Important installation notes
 
 If you want to install the Flux CRDs - `crds.install` value, enabled by default - and your Flux CRs as well,
 then you need to install the App in 2 steps. First install without the CRs so Helm can create the Flux CRDs
