@@ -9,6 +9,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [0.14.0] - 2022-08-18
 
+### Added
+
+- Add installation note to README.md (also visible in e.g. Happa) about limitations of installing FluxCRDs and CRs at the same time
+
 ### Changed
 
 - Revert to job based CRD installation as of `v0.12.0`
