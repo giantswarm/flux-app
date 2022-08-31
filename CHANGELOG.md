@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- Bump upstream flux toolkit version to from `v0.31.3` to `v0.33.0`.
+  This upgrade comes with no breaking changes.
+  Flux now supports distributing Kubernetes manifests, Kustomize overlays and Terraform code as OCI artifacts. For more information please see the [Flux OCI documentation].
+  More details in [Flux v0.32.0] and [Flux v0.33.0] release notes.
+
 ## [0.14.0] - 2022-08-18
 
 ### Added
@@ -166,4 +173,8 @@ reduce memory usage by downgrading Helm from 3.7.1 to 3.6.3
 [Flux v0.28.0]: https://github.com/fluxcd/flux2/releases/tag/v0.28.0
 [Flux v0.29.0]: https://github.com/fluxcd/flux2/releases/tag/v0.29.0
 [Flux v0.31.0]: https://github.com/fluxcd/flux2/releases/tag/v0.31.0
+[Flux v0.32.0]: https://github.com/fluxcd/flux2/releases/tag/v0.33.0
+[Flux v0.33.0]: https://github.com/fluxcd/flux2/releases/tag/v0.33.0
+
 [Flux Source v1beta2 API upgrade]: https://github.com/fluxcd/flux2/discussions/2567
+[Flux OCI documentation]: https://fluxcd.io/flux/cheatsheets/oci-artifacts/
