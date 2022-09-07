@@ -9,6 +9,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [0.15.1] - 2022-09-07
 
+### Changed
+
+- Make docs more clear on how to set up encryption
+
 ## [0.15.0] - 2022-08-31
 
 ### Changed
