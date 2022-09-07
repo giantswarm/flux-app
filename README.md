@@ -60,60 +60,63 @@ kustomizations:
 Since your configuration will sometimes contain sensitive data, flux provides several mechanisms to store and handle that data securely.
 This chart is able to install a gpg secret key for usage with sops. The public key from that same secret can then be used to encrypt the sensitive parts of your configuration, while flux will be able to decrypt it when pulling the configuration.
 
-For this to work, export your secret key using `gpg --export-secret-keys --armor <your-gpg-key-id>`. Then specify it in your values.yaml like this (its possible to specify multiple keys):
+For this to work, export your secret key using `gpg --export-secret-keys --armor <your-gpg-key-id>`.
 
 ```
 sopsEncryption:
   enabled: true
   encryptionKeys:
     - |
-      <output of gpg --export-secret-keys \
-          --armor <your-gpg-key-id>>
+      <output of gpg --export-secret-keys --armor <your-gpg-key-id>>
     - |
-      <output of gpg --export-secret-keys \
-          --armor <your-other-gpg-key-id>>
+      <output of gpg --export-secret-keys --armor <your-other-gpg-key-id>>
 ```
 
-Then encrypt your secrets using the method described below (`In your Git repository create Secrets as usual`).
+This is the SOPS configuration part for `flux-app`. Now we need to set it up as a [user secret for App Platform](https://docs.giantswarm.io/app-platform/app-configuration/#example-secret).
 
-Original documentation: [https://toolkit.fluxcd.io/guides/mozilla-sops/](https://toolkit.fluxcd.io/guides/mozilla-sops/)
+Take the above piece of configuration and base64 encode it and save it in a file called let's say `user-secret.yaml`.
 
-### TL;DR manually:
+```yaml
+apiVersion: v1
+kind: Secret
+metadata:
+  name: sops-gpg
+  namespace: my-namespace
+data:
+  values: "<<BASE64_ENCODED_CONFIGURATION_WITH_SECRETS>>"
+```
 
-- Install [sops](https://github.com/mozilla/sops/releases)
-- Create a Secret containing your public and private keypair
+Then encrypt your secrets using SOPS.
 
-      gpg --export-secret-keys \
-        --armor <your-gpg-key-id> |
-      kubectl create secret generic sops-gpg \
-        --namespace=<your-flux-namespace> \
-        --from-file=sops.asc=/dev/stdin
+```shell
+sops --encrypt \
+     --pgp=<your-gpg-key-id> \
+     --encrypted-regex '^(data|stringData)$' \
+     --in-place user-secret.yaml
+```
 
-- In your Git repository create Secrets as usual, but encrypt them using `sops`
+Finally, you should reference the secret in your App CR:
 
-      kubectl -n default create secret generic basic-auth \
-        --from-literal=user=admin \
-        --from-literal=password=change-me \
-        --dry-run=client \
-        -o yaml > basic-auth.yaml
+```yaml
 
-      sops --encrypt \
-        --pgp=<your-gpg-key-id> \
-        --encrypted-regex '^(data|stringData)$' \
-        --in-place basic-auth.yaml
+apiVersion: application.giantswarm.io/v1alpha1
+kind: App
+metadata:
+  labels:
+    app.kubernetes.io/name: flux-app
+  name: flux-app
+  namespace: my-namespace
+spec:
+  # ...
+  userConfig:
+    secret:
+      name: sops-gpg
+      namespace: my-namespace
+```
 
-- Your Kustomization should reference the `sops-gpg` secret for decryption
+The App configuration layers will be merged together by the App Platform. You can read more about layer, merging order and example [here](https://docs.giantswarm.io/app-platform/app-configuration/).
 
-      apiVersion: kustomize.toolkit.fluxcd.io/v1beta2
-      kind: Kustomization
-      metadata:
-        name: my-kustomization
-        namespace: my-namespace
-      spec:
-        ...stuff not relevant for this example...
-        decryption:
-          provider: sops
-          secretRef: sops-gpg
+You can read more about managing secrets with Flux [here](https://toolkit.fluxcd.io/guides/mozilla-sops/).
 
 ### Add additional keys to the encrypted secret
 
