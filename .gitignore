@@ -1,5 +1,9 @@
 # app-build-suite artifacts
 build
 test_results_*.xml
-*.kube.config
-
+*kube.config
+**/.idea/
+*.tgz
+tests/ats/.python-version
+**/*.tgz-meta/
+**/__pycache__/

@@ -1,0 +1,15 @@
+- op: replace
+  path: /spec/template/spec/containers/0/resources
+  value:
+    limits:
+      cpu: "{{ .Values.resources.imageReflectorController.limits.cpu }}"
+      memory: "{{ .Values.resources.imageReflectorController.limits.memory }}"
+    requests:
+      cpu: "{{ .Values.resources.imageReflectorController.requests.cpu }}"
+      memory: "{{ .Values.resources.imageReflectorController.requests.memory }}"
+- op: add
+  path: /metadata/labels/app
+  value: image-reflector-controller
+- op: replace
+  path: /spec/template/spec/containers/0/args/0
+  value: --events-addr=http://notification-controller.{{ .Release.Namespace }}.svc.cluster.local./

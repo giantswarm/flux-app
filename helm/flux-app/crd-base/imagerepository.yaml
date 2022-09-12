@@ -2,11 +2,16 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.5.0
+    controller-gen.kubebuilder.io/version: v0.7.0
   creationTimestamp: null
   labels:
-    app.kubernetes.io/instance: flux-system
+    app.kubernetes.io/instance: '{{ .Release.Name }}'
+    app.kubernetes.io/managed-by: '{{ .Release.Service }}'
+    app.kubernetes.io/name: '{{ include "name" . }}'
     app.kubernetes.io/part-of: flux
+    app.kubernetes.io/version: '{{ .Chart.AppVersion }}'
+    giantswarm.io/service_type: managed
+    helm.sh/chart: '{{ include "chart" . }}'
   name: imagerepositories.image.toolkit.fluxcd.io
 spec:
   group: image.toolkit.fluxcd.io
@@ -44,7 +49,7 @@ spec:
                   description: "CertSecretRef can be given the name of a secret containing either or both of \n  - a PEM-encoded client certificate (`certFile`) and private  key (`keyFile`);  - a PEM-encoded CA certificate (`caFile`) \n  and whichever are supplied, will be used for connecting to the  registry. The client cert and key are useful if you are  authenticating with a certificate; the CA cert is useful if  you are using a self-signed server certificate."
                   properties:
                     name:
-                      description: Name of the referent
+                      description: Name of the referent.
                       type: string
                   required:
                     - name
@@ -59,7 +64,7 @@ spec:
                   description: SecretRef can be given the name of a secret containing credentials to use for the image registry. The secret should be created with `kubectl create secret docker-registry`, or the equivalent.
                   properties:
                     name:
-                      description: Name of the referent
+                      description: Name of the referent.
                       type: string
                   required:
                     - name
@@ -79,7 +84,7 @@ spec:
                   type: string
                 conditions:
                   items:
-                    description: "Condition contains details for one aspect of the current state of this API Resource. --- This struct is intended for direct use as an array at the field path .status.conditions.  For example, type FooStatus struct{     // Represents the observations of a foo's current state.     // Known .status.conditions.type are: \"Available\", \"Progressing\", and \"Degraded\"     // +patchMergeKey=type     // +patchStrategy=merge     // +listType=map     // +listMapKey=type     Conditions []metav1.Condition `json:\"conditions,omitempty\" patchStrategy:\"merge\" patchMergeKey:\"type\" protobuf:\"bytes,1,rep,name=conditions\"` \n     // other fields }"
+                    description: "Condition contains details for one aspect of the current state of this API Resource. --- This struct is intended for direct use as an array at the field path .status.conditions.  For example, \n \ttype FooStatus struct{ \t    // Represents the observations of a foo's current state. \t    // Known .status.conditions.type are: \"Available\", \"Progressing\", and \"Degraded\" \t    // +patchMergeKey=type \t    // +patchStrategy=merge \t    // +listType=map \t    // +listMapKey=type \t    Conditions []metav1.Condition `json:\"conditions,omitempty\" patchStrategy:\"merge\" patchMergeKey:\"type\" protobuf:\"bytes,1,rep,name=conditions\"` \n \t    // other fields \t}"
                     properties:
                       lastTransitionTime:
                         description: lastTransitionTime is the last time the condition transitioned from one status to another. This should be when the underlying condition changed.  If that is not known, then using the time when the API field changed is acceptable.
@@ -121,7 +126,7 @@ spec:
                     type: object
                   type: array
                 lastHandledReconcileAt:
-                  description: LastHandledReconcileAt holds the value of the most recent reconcile request value, so a change can be detected.
+                  description: LastHandledReconcileAt holds the value of the most recent reconcile request value, so a change of the annotation value can be detected.
                   type: string
                 lastScanResult:
                   description: LastScanResult contains the number of fetched tags.
@@ -171,7 +176,7 @@ spec:
                   description: "CertSecretRef can be given the name of a secret containing either or both of \n  - a PEM-encoded client certificate (`certFile`) and private  key (`keyFile`);  - a PEM-encoded CA certificate (`caFile`) \n  and whichever are supplied, will be used for connecting to the  registry. The client cert and key are useful if you are  authenticating with a certificate; the CA cert is useful if  you are using a self-signed server certificate."
                   properties:
                     name:
-                      description: Name of the referent
+                      description: Name of the referent.
                       type: string
                   required:
                     - name
@@ -186,7 +191,7 @@ spec:
                   description: SecretRef can be given the name of a secret containing credentials to use for the image registry. The secret should be created with `kubectl create secret docker-registry`, or the equivalent.
                   properties:
                     name:
-                      description: Name of the referent
+                      description: Name of the referent.
                       type: string
                   required:
                     - name
@@ -206,7 +211,7 @@ spec:
                   type: string
                 conditions:
                   items:
-                    description: "Condition contains details for one aspect of the current state of this API Resource. --- This struct is intended for direct use as an array at the field path .status.conditions.  For example, type FooStatus struct{     // Represents the observations of a foo's current state.     // Known .status.conditions.type are: \"Available\", \"Progressing\", and \"Degraded\"     // +patchMergeKey=type     // +patchStrategy=merge     // +listType=map     // +listMapKey=type     Conditions []metav1.Condition `json:\"conditions,omitempty\" patchStrategy:\"merge\" patchMergeKey:\"type\" protobuf:\"bytes,1,rep,name=conditions\"` \n     // other fields }"
+                    description: "Condition contains details for one aspect of the current state of this API Resource. --- This struct is intended for direct use as an array at the field path .status.conditions.  For example, \n \ttype FooStatus struct{ \t    // Represents the observations of a foo's current state. \t    // Known .status.conditions.type are: \"Available\", \"Progressing\", and \"Degraded\" \t    // +patchMergeKey=type \t    // +patchStrategy=merge \t    // +listType=map \t    // +listMapKey=type \t    Conditions []metav1.Condition `json:\"conditions,omitempty\" patchStrategy:\"merge\" patchMergeKey:\"type\" protobuf:\"bytes,1,rep,name=conditions\"` \n \t    // other fields \t}"
                     properties:
                       lastTransitionTime:
                         description: lastTransitionTime is the last time the condition transitioned from one status to another. This should be when the underlying condition changed.  If that is not known, then using the time when the API field changed is acceptable.
@@ -248,7 +253,7 @@ spec:
                     type: object
                   type: array
                 lastHandledReconcileAt:
-                  description: LastHandledReconcileAt holds the value of the most recent reconcile request value, so a change can be detected.
+                  description: LastHandledReconcileAt holds the value of the most recent reconcile request value, so a change of the annotation value can be detected.
                   type: string
                 lastScanResult:
                   description: LastScanResult contains the number of fetched tags.
@@ -298,24 +303,34 @@ spec:
                   description: AccessFrom defines an ACL for allowing cross-namespace references to the ImageRepository object based on the caller's namespace labels.
                   properties:
                     namespaceSelectors:
+                      description: NamespaceSelectors is the list of namespace selectors to which this ACL applies. Items in this list are evaluated using a logical OR operation.
                       items:
+                        description: NamespaceSelector selects the namespaces to which this ACL applies. An empty map of MatchLabels matches all namespaces in a cluster.
                         properties:
                           matchLabels:
                             additionalProperties:
                               type: string
+                            description: MatchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels map is equivalent to an element of matchExpressions, whose key field is "key", the operator is "In", and the values array contains only "value". The requirements are ANDed.
                             type: object
                         type: object
                       type: array
+                  required:
+                    - namespaceSelectors
                   type: object
                 certSecretRef:
                   description: "CertSecretRef can be given the name of a secret containing either or both of \n  - a PEM-encoded client certificate (`certFile`) and private  key (`keyFile`);  - a PEM-encoded CA certificate (`caFile`) \n  and whichever are supplied, will be used for connecting to the  registry. The client cert and key are useful if you are  authenticating with a certificate; the CA cert is useful if  you are using a self-signed server certificate."
                   properties:
                     name:
-                      description: Name of the referent
+                      description: Name of the referent.
                       type: string
                   required:
                     - name
                   type: object
+                exclusionList:
+                  description: ExclusionList is a list of regex strings used to exclude certain tags from being stored in the database.
+                  items:
+                    type: string
+                  type: array
                 image:
                   description: Image is the name of the image repository
                   type: string
@@ -326,11 +341,14 @@ spec:
                   description: SecretRef can be given the name of a secret containing credentials to use for the image registry. The secret should be created with `kubectl create secret docker-registry`, or the equivalent.
                   properties:
                     name:
-                      description: Name of the referent
+                      description: Name of the referent.
                       type: string
                   required:
                     - name
                   type: object
+                serviceAccountName:
+                  description: ServiceAccountName is the name of the Kubernetes ServiceAccount used to authenticate the image pull if the service account has attached pull secrets.
+                  type: string
                 suspend:
                   description: This flag tells the controller to suspend subsequent image scans. It does not apply to already started scans. Defaults to false.
                   type: boolean
@@ -339,6 +357,8 @@ spec:
                   type: string
               type: object
             status:
+              default:
+                observedGeneration: -1
               description: ImageRepositoryStatus defines the observed state of ImageRepository
               properties:
                 canonicalImageName:
@@ -346,7 +366,7 @@ spec:
                   type: string
                 conditions:
                   items:
-                    description: "Condition contains details for one aspect of the current state of this API Resource. --- This struct is intended for direct use as an array at the field path .status.conditions.  For example, type FooStatus struct{     // Represents the observations of a foo's current state.     // Known .status.conditions.type are: \"Available\", \"Progressing\", and \"Degraded\"     // +patchMergeKey=type     // +patchStrategy=merge     // +listType=map     // +listMapKey=type     Conditions []metav1.Condition `json:\"conditions,omitempty\" patchStrategy:\"merge\" patchMergeKey:\"type\" protobuf:\"bytes,1,rep,name=conditions\"` \n     // other fields }"
+                    description: "Condition contains details for one aspect of the current state of this API Resource. --- This struct is intended for direct use as an array at the field path .status.conditions.  For example, \n \ttype FooStatus struct{ \t    // Represents the observations of a foo's current state. \t    // Known .status.conditions.type are: \"Available\", \"Progressing\", and \"Degraded\" \t    // +patchMergeKey=type \t    // +patchStrategy=merge \t    // +listType=map \t    // +listMapKey=type \t    Conditions []metav1.Condition `json:\"conditions,omitempty\" patchStrategy:\"merge\" patchMergeKey:\"type\" protobuf:\"bytes,1,rep,name=conditions\"` \n \t    // other fields \t}"
                     properties:
                       lastTransitionTime:
                         description: lastTransitionTime is the last time the condition transitioned from one status to another. This should be when the underlying condition changed.  If that is not known, then using the time when the API field changed is acceptable.
@@ -388,7 +408,7 @@ spec:
                     type: object
                   type: array
                 lastHandledReconcileAt:
-                  description: LastHandledReconcileAt holds the value of the most recent reconcile request value, so a change can be detected.
+                  description: LastHandledReconcileAt holds the value of the most recent reconcile request value, so a change of the annotation value can be detected.
                   type: string
                 lastScanResult:
                   description: LastScanResult contains the number of fetched tags.

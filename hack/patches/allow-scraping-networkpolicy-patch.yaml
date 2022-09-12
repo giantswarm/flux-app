@@ -1,0 +1,11 @@
+- op: add
+  path: /spec/egress
+  value: [{}]
+- op: remove
+  path: /spec/ingress/0/from
+- op: add
+  path: /spec/podSelector
+  value: {matchLabels: {}}
+- op: replace
+  path: /spec/policyTypes
+  value: ["Egress", "Ingress"]

@@ -1,0 +1,12 @@
+- op: replace
+  path: /spec/template/spec/containers/0/resources
+  value:
+    limits:
+      cpu: "{{ .Values.resources.notificationController.limits.cpu }}"
+      memory: "{{ .Values.resources.notificationController.limits.memory }}"
+    requests:
+      cpu: "{{ .Values.resources.notificationController.requests.cpu }}"
+      memory: "{{ .Values.resources.notificationController.requests.memory }}"
+- op: add
+  path: /metadata/labels/app
+  value: notification-controller

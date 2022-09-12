@@ -19,6 +19,7 @@ Common labels
 {{- define "labels.common" -}}
 {{ include "labels.selector" . }}
 app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
+application.giantswarm.io/team: {{ index .Chart.Annotations "application.giantswarm.io/team" | quote }}
 helm.sh/chart: {{ include "chart" . | quote }}
 {{- end -}}
 
@@ -32,6 +33,10 @@ app.kubernetes.io/instance: {{ .Release.Name | quote }}
 
 {{- define "crdInstall" -}}
 {{- printf "%s-%s" ( include "name" . ) "crd-install" | replace "+" "_" | trimSuffix "-" -}}
+{{- end -}}
+
+{{- define "crdInstallJob" -}}
+{{- printf "%s-%s-%s" ( include "name" . ) "crd-install" .Chart.AppVersion | replace "+" "_" | replace "." "-" | trimSuffix "-" | trunc 63 -}}
 {{- end -}}
 
 {{- define "crdInstallAnnotations" -}}

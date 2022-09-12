@@ -1,6 +1,6 @@
 version: 2.1
 orbs:
-  architect: giantswarm/architect@4.6.0
+  architect: giantswarm/architect@4.24.0
 
 workflows:
   package-and-push-chart-on-tag:
@@ -17,9 +17,11 @@ workflows:
           filters:
             tags:
               only: /^v.*/
+          push_to_oci_registry: true
 
       - architect/run-tests-with-ats:
-          name: execute chart tests
+          name: execute chart tests - smoke and functional
+          additional_app-test-suite_flags: "--skip-steps upgrade"
           filters:
             # Do not trigger the job on merge to master.
             branches:
@@ -27,3 +29,14 @@ workflows:
                 - master
           requires:
             - "package and push flux-app chart"
+
+      - architect/run-tests-with-ats:
+          name: execute chart tests - upgrade
+          additional_app-test-suite_flags: "--skip-steps smoke functional"
+          app-test-suite_version: "v0.2.3-beta.1"
+          app-test-suite_container_tag: "0.2.3-beta.1"
+          filters:
+            branches:
+              only: /master#release#.*/
+          requires:
+            - "execute chart tests - smoke and functional"

@@ -15,6 +15,22 @@ images:
 
 # only GitRepository for now
 sources: []
+
+# Kustomizations Example
+#
+# kustomizations:
+# - name: my-kustomization
+#   source_name: my-git-source
+#   path: ./the-path
+#   postBuild:
+#     substitute:
+#       environment: "my-env"
+#     substituteFrom:
+#       - kind: ConfigMap
+#         name: my-env-vars
+#   prune: false
+#   interval: 10m0s
+#
 kustomizations: []
 
 sopsEncryption:
@@ -30,6 +46,57 @@ crds:
     limits:
       memory: "128Mi"
       cpu: "500m"
+
+resources:
+  helmController:
+    limits:
+      cpu: 1000m
+      # Set max allowed memory limit for VPA due to high memory usage.
+      memory: 1Gi
+    requests:
+      cpu: 100m
+      memory: 64Mi
+  imageAutomationController:
+    limits:
+      cpu: 1000m
+      memory: 1Gi
+    requests:
+      cpu: 100m
+      memory: 64Mi
+  imageReflectorController:
+    limits:
+      cpu: 1000m
+      memory: 1Gi
+    requests:
+      cpu: 100m
+      memory: 64Mi
+  kustomizeController:
+    limits:
+      cpu: 1000m
+      memory: 1Gi
+    requests:
+      cpu: 100m
+      memory: 64Mi
+  notificationController:
+    limits:
+      cpu: 1000m
+      memory: 1Gi
+    requests:
+      cpu: 100m
+      memory: 64Mi
+  sourceController:
+    limits:
+      cpu: 1000m
+      memory: 1Gi
+    requests:
+      cpu: 50m
+      memory: 64Mi
+
+upstreamMetricsPort: http-prom
+
+# allows VPA to be used if its installed in the cluster
+verticalPodAutoscaler:
+  enabled: false
 
 # allows to change the persistentVolumeClaim request sizes
 volumes:

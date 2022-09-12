@@ -4,10 +4,13 @@ url = "https://pypi.org/simple"
 verify_ssl = true
 
 [packages]
-pytest-helm-charts = ">=0.5.2"
+pytest-helm-charts = ">=0.7.0"
 pytest = ">=6.1.2"
 pykube-ng = ">=20.10.0"
 pytest-rerunfailures = "*"
 
 [requires]
-python_version = "3.8"
+python_version = "3.9"
+
+[dev-packages]
+pre-commit = "*"
