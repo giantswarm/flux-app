@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- Change default registry in helm chart to docker.io.
+
 ## [0.15.1] - 2022-09-07
 
 ### Changed
