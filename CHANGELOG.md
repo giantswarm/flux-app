@@ -9,6 +9,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- Bump upstream flux toolkit version to from `v0.33.0` to `v0.35.0`.
+  This upgrade comes with 1 breaking change from Flux [v0.34.0](https://github.com/fluxcd/flux2/releases/tag/v0.34.0), see: [fluxcd/flux2#3051](https://github.com/fluxcd/flux2/issues/3051).
 - Change default registry in helm chart to docker.io.
 
 ## [0.15.1] - 2022-09-07
