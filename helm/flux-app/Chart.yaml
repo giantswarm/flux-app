@@ -15,6 +15,7 @@ keywords:
 name: flux-app
 restrictions:
   clusterSingleton: true
+  requestInternalUpgrade: true
 sources:
   - https://github.com/fluxcd/flux2
 type: application
