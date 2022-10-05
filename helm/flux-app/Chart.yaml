@@ -2,6 +2,7 @@ apiVersion: v2
 appVersion: 0.35.0
 annotations:
   application.giantswarm.io/team: team-honeybadger
+  application.giantswarm.io/internal-upgrade: true
 description: |
   Flux is a collection of tools for keeping Kubernetes clusters in sync
   with sources of configuration (like Git repositories), and automating
@@ -15,7 +16,6 @@ keywords:
 name: flux-app
 restrictions:
   clusterSingleton: true
-  requestInternalUpgrade: true
 sources:
   - https://github.com/fluxcd/flux2
 type: application
