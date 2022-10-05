@@ -55,3 +55,23 @@ app.kubernetes.io/instance: {{ .Release.Name | quote }}
 {{- define "controllerVolumeName" -}}
 {{- printf "%s-controller-%s-volume" (include "name" .) .volumeName -}}
 {{- end -}}
+
+{{- define "appPlatform.twoStepInstall" -}}
+{{- $is_chart_operator := lookup "application.giantswarm.io/v1alpha1" "Chart" "giantswarm" "chart-operator" -}}
+{{- $is_chart_operator_bad := false }}
+{{- if $is_chart_operator }}
+{{- $is_chart_operator_bad = (semverCompare "< 2.30.0-0" $is_chart_operator.spec.version) }}
+{{- end }}
+
+{{- $is_this_chart_cr := lookup "application.giantswarm.io/v1alpha1" "Chart" "giantswarm" . -}}
+{{- $is_outside_app_platform := false }}
+{{- if $is_this_chart_cr }}
+{{- $is_outside_app_platform = true }}
+{{- end }}
+
+{{- if and $is_chart_operator_bad $is_outside_app_platform }}
+{{- print "unsupported: true" -}}
+{{- else -}}
+{{- print "unsupported: false" -}}
+{{- end -}}
+{{- end -}}
