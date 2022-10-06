@@ -58,18 +58,18 @@ app.kubernetes.io/instance: {{ .Release.Name | quote }}
 
 {{- define "appPlatform.twoStepInstall" -}}
 {{- $is_chart_operator := lookup "application.giantswarm.io/v1alpha1" "Chart" "giantswarm" "chart-operator" -}}
-{{- $is_chart_operator_bad := false }}
+{{- $is_chart_operator_bad := true }}
 {{- if $is_chart_operator }}
 {{- $is_chart_operator_bad = (semverCompare "< 2.26.0-0" $is_chart_operator.spec.version) }}
 {{- end }}
 
 {{- $is_this_chart_cr := lookup "application.giantswarm.io/v1alpha1" "Chart" "giantswarm" . -}}
-{{- $is_outside_app_platform := false }}
+{{- $is_outside_app_platform := true }}
 {{- if $is_this_chart_cr }}
-{{- $is_outside_app_platform = true }}
+{{- $is_outside_app_platform = false }}
 {{- end }}
 
-{{- if and $is_chart_operator_bad $is_outside_app_platform }}
+{{- if or $is_chart_operator_bad $is_outside_app_platform }}
 {{- print "unsupported: true" -}}
 {{- else -}}
 {{- print "unsupported: false" -}}
