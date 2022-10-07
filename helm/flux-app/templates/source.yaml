@@ -1,3 +1,4 @@
+{{- $two_step_upgrade := include "appPlatform.twoStepInstall" .Release.Name | fromYaml }}
 {{- if .Values.sopsEncryption.enabled }}
 apiVersion: v1
 data:
@@ -11,6 +12,8 @@ metadata:
 ---
 {{- end }}
 {{- range .Values.sources }}
+{{- $is_gitrepository_crd := (lookup "apiextensions.k8s.io/v1" "CustomResourceDefinition" "" "gitrepositories.source.toolkit.fluxcd.io") -}}
+{{- if or $two_step_upgrade.unsupported $is_gitrepository_crd }}
 ---
 apiVersion: source.toolkit.fluxcd.io/v1beta1
 kind: GitRepository
@@ -24,6 +27,7 @@ spec:
   secretRef:
     name: "{{ .name }}-credentials"
   url: "{{ .url }}"
+{{- end }}
 ---
 apiVersion: v1
 kind: Secret
@@ -35,6 +39,8 @@ data:
   username: "{{ .credentials.username | b64enc }}"
   password: "{{ .credentials.password | b64enc }}"
   token: "{{ .credentials.password | b64enc }}"
+{{- $is_provider_crd := (lookup "apiextensions.k8s.io/v1" "CustomResourceDefinition" "" "providers.notification.toolkit.fluxcd.io") -}}
+{{- if or $two_step_upgrade.unsupported $is_provider_crd }}
 ---
 apiVersion: notification.toolkit.fluxcd.io/v1beta1
 kind: Provider
@@ -47,7 +53,10 @@ spec:
   secretRef:
     name: "{{ .name }}-credentials"
 {{- end }}
+{{- end }}
 {{- range .Values.kustomizations }}
+{{- $is_kustomization_crd := (lookup "apiextensions.k8s.io/v1" "CustomResourceDefinition" "" "kustomizations.kustomize.toolkit.fluxcd.io") -}}
+{{- if or $two_step_upgrade.unsupported $is_kustomization_crd }}
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1beta2
 kind: Kustomization
@@ -71,6 +80,9 @@ spec:
     secretRef:
       name: "{{ $.Release.Name }}-sops-gpg"
 {{- end }}
+{{- end }}
+{{- $is_alert_crd := (lookup "apiextensions.k8s.io/v1" "CustomResourceDefinition" "" "alerts.notification.toolkit.fluxcd.io") -}}
+{{- if or $two_step_upgrade.unsupported $is_alert_crd }}
 ---
 apiVersion: notification.toolkit.fluxcd.io/v1beta1
 kind: Alert
@@ -85,4 +97,5 @@ spec:
     - kind: Kustomization
       name: "{{ .name }}"
       namespace: "{{ $.Release.Namespace }}"
+{{- end }}
 {{- end }}
