@@ -31,7 +31,7 @@ tmp_file_name = "/tmp/pytest-helm-charts-flux-app-upgrade-test-generation.txt"  
 def test_app_unchanged_when_flux_upgraded(
     kube_cluster: Cluster, test_extra_info: Dict[str, str]
 ) -> None:
-    upgrade_stage_key = "ats_upgrade_test_stage"
+    upgrade_stage_key = "upgrade_test_stage"
     if upgrade_stage_key not in test_extra_info:
         pytest.fail(
             f"'--test-extra-info' argument with key '{upgrade_stage_key}' required, but not given to pytest run"
