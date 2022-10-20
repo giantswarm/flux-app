@@ -22,8 +22,8 @@ workflows:
       - architect/run-tests-with-ats:
           name: execute chart tests - smoke and functional
           additional_app-test-suite_flags: "--skip-steps upgrade"
-          app-test-suite_version: "v0.2.8"
-          app-test-suite_container_tag: "0.2.8"
+          app-test-suite_version: "49052989d66bf74369bcee2749c691dd41a2b66c"
+          app-test-suite_container_tag: "0.2.8-49052989d66bf74369bcee2749c691dd41a2b66c"
           filters:
             # Do not trigger the job on merge to master.
             branches:
@@ -35,8 +35,8 @@ workflows:
       - architect/run-tests-with-ats:
           name: execute chart tests - upgrade
           additional_app-test-suite_flags: "--skip-steps smoke functional"
-          app-test-suite_version: "v0.2.8"
-          app-test-suite_container_tag: "0.2.8"
+          app-test-suite_version: "49052989d66bf74369bcee2749c691dd41a2b66c"
+          app-test-suite_container_tag: "0.2.8-49052989d66bf74369bcee2749c691dd41a2b66c"
           filters:
             branches:
               only: /master#release#.*/
