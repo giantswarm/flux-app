@@ -1,0 +1,30 @@
+name: 'Check if owners are properly set up'
+on: pull_request
+
+jobs:
+  check:
+    name: 'Validate owners are set in the repository'
+    runs-on: ubuntu-latest
+    steps:
+      - name: 'Checkout'
+        uses: actions/checkout@v3
+      - name: 'Check `application.giantswarm.io/team` annotation in Chart.yaml'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          missing_owners=false
+
+          echo "Looking for 'Chart.yaml' files under 'helm' directory..."
+
+          for match in find helm -type f -name "Chart.yaml"; do
+            if yq --exit-status=1 '.annotations."application.giantswarm.io/team"' ${match}; then
+              echo "Found 'application.giantswarm.io/team' annotation in ${match}..."
+            else
+              echo "Not found 'application.giantswarm.io/team' annotation in ${match}!"
+              missing_owners=true
+            fi
+          done
+          if ${missing_owners}; then
+            echo "There are missing owner references! Please check the errors above!"
+            exit 1
+          fi
