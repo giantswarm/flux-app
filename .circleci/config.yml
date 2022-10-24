@@ -5,9 +5,15 @@ orbs:
 workflows:
   package-and-push-chart-on-tag:
     jobs:
+      - raw-abs:
+          context: "architect"
+          executor: "app-build-suite"
+          steps:
+            - checkout
+            - run: python -m app_build_suite --chart-dir ./helm/flux-app --steps validate
       - architect/push-to-app-catalog:
           context: "architect"
-#          executor: "app-build-suite"
+          executor: "app-build-suite"
           name: "package and push flux-app chart"
           app_catalog: "giantswarm-catalog"
           app_catalog_test: "giantswarm-test-catalog"
