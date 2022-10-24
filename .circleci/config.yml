@@ -2,15 +2,19 @@ version: 2.1
 orbs:
   architect: giantswarm/architect@4.25.0
 
+jobs:
+  experiment-with-abs:
+    docker:
+      - entrypoint: /bin/bash
+        image: quay.io/giantswarm/app-build-suite:1.1.2-circleci
+    steps:
+      - checkout
+      - run: python -m app_build_suite --chart-dir ./helm/flux-app --steps validate
+
 workflows:
   package-and-push-chart-on-tag:
     jobs:
-      - raw-abs:
-          context: "architect"
-          executor: "app-build-suite"
-          steps:
-            - checkout
-            - run: python -m app_build_suite --chart-dir ./helm/flux-app --steps validate
+      - experiment-with-abs
       - architect/push-to-app-catalog:
           context: "architect"
           executor: "app-build-suite"
