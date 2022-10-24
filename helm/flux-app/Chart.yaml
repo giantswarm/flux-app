@@ -1,7 +1,6 @@
 apiVersion: v2
 appVersion: 0.35.0
 annotations:
-  application.giantswarm.io/team: team-honeybadger
   application.giantswarm.io/two-step-install: "true"
 description: |
   Flux is a collection of tools for keeping Kubernetes clusters in sync
