@@ -24,7 +24,7 @@ images:
 
 
 resources:
-- https://github.com/fluxcd/flux2/releases/download/v0.35.0/install.yaml
+- https://github.com/fluxcd/flux2/releases/download/v0.36.0/install.yaml
 - ./additional-resources/pvc-psp.yaml
 - ./additional-resources/metrics-service.yaml
 
