@@ -50,44 +50,44 @@ crds:
 resources:
   helmController:
     limits:
-      cpu: 1000m
+      cpu: 500m
       # Set max allowed memory limit for VPA due to high memory usage.
-      memory: 1Gi
+      memory: 256Mi
     requests:
       cpu: 100m
       memory: 64Mi
   imageAutomationController:
     limits:
-      cpu: 1000m
-      memory: 1Gi
+      cpu: 500m
+      memory: 256Mi
     requests:
       cpu: 100m
       memory: 64Mi
   imageReflectorController:
     limits:
-      cpu: 1000m
-      memory: 1Gi
+      cpu: 500m
+      memory: 256Mi
     requests:
       cpu: 100m
       memory: 64Mi
   kustomizeController:
     limits:
-      cpu: 1000m
-      memory: 1Gi
+      cpu: 500m
+      memory: 256Mi
     requests:
       cpu: 100m
       memory: 64Mi
   notificationController:
     limits:
-      cpu: 1000m
-      memory: 1Gi
+      cpu: 500m
+      memory: 256Mi
     requests:
       cpu: 100m
       memory: 64Mi
   sourceController:
     limits:
-      cpu: 1000m
-      memory: 1Gi
+      cpu: 500m
+      memory: 256Mi
     requests:
       cpu: 50m
       memory: 64Mi
