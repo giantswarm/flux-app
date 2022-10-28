@@ -7,11 +7,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Add a check if VPA capabilities exist in the first place.
+
 ### Changed
 
 - Upgrade ATS to `v0.2.9`
 - Bump upstream flux toolkit version to from `v0.35.0` to `v0.36.0`. There are
   no breaking changes.
+- Change resource requests & limits.
 
 ## [0.16.1] - 2022-10-11
 
