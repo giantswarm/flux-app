@@ -92,6 +92,7 @@ requests:
 limits:
 {{ toYaml .Values.resources.helmController.limits | indent 2 -}}
 {{- end -}}
+{{- end -}}
 
 {{- define "resources.imageAutomationController" -}}
 requests:
@@ -99,6 +100,7 @@ requests:
 {{ if eq (include "resource.vpa.enabled" .) "false" }}
 limits:
 {{ toYaml .Values.resources.imageAutomationController.limits | indent 2 -}}
+{{- end -}}
 {{- end -}}
 
 {{- define "resources.imageReflectorController" -}}
@@ -108,6 +110,7 @@ requests:
 limits:
 {{ toYaml .Values.resources.imageReflectorController.limits | indent 2 -}}
 {{- end -}}
+{{- end -}}
 
 {{- define "resources.kustomizeController" -}}
 requests:
@@ -115,6 +118,7 @@ requests:
 {{ if eq (include "resource.vpa.enabled" .) "false" }}
 limits:
 {{ toYaml .Values.resources.kustomizeController.limits | indent 2 -}}
+{{- end -}}
 {{- end -}}
 
 {{- define "resources.notificationController" -}}
@@ -124,6 +128,7 @@ requests:
 limits:
 {{ toYaml .Values.resources.notificationController.limits | indent 2 -}}
 {{- end -}}
+{{- end -}}
 
 {{- define "resources.sourceController" -}}
 requests:
@@ -131,4 +136,5 @@ requests:
 {{ if eq (include "resource.vpa.enabled" .) "false" }}
 limits:
 {{ toYaml .Values.resources.sourceController.limits | indent 2 -}}
+{{- end -}}
 {{- end -}}
