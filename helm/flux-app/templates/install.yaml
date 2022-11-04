@@ -462,7 +462,7 @@ spec:
               path: /readyz
               port: healthz
           resources:
-{{ include "resources.helmController" . | indent 10 }}
+{{ include "resources.helmController" . | indent 12 }}
           securityContext:
             allowPrivilegeEscalation: false
             readOnlyRootFilesystem: true
@@ -547,7 +547,7 @@ spec:
               path: /readyz
               port: healthz
           resources:
-{{ include "resources.imageAutomationController" . | indent 10 }}
+{{ include "resources.imageAutomationController" . | indent 12 }}
           securityContext:
             allowPrivilegeEscalation: false
             readOnlyRootFilesystem: true
@@ -632,7 +632,7 @@ spec:
               path: /readyz
               port: healthz
           resources:
-{{ include "resources.imageReflectorController" . | indent 10 }}
+{{ include "resources.imageReflectorController" . | indent 12 }}
           securityContext:
             allowPrivilegeEscalation: false
             readOnlyRootFilesystem: true
@@ -721,7 +721,7 @@ spec:
               path: /readyz
               port: healthz
           resources:
-{{ include "resources.kustomizeController" . | indent 10 }}
+{{ include "resources.kustomizeController" . | indent 12 }}
           securityContext:
             allowPrivilegeEscalation: false
             readOnlyRootFilesystem: true
@@ -811,7 +811,7 @@ spec:
               path: /readyz
               port: healthz
           resources:
-{{ include "resources.notificationController" . | indent 10 }}
+{{ include "resources.notificationController" . | indent 12 }}
           securityContext:
             allowPrivilegeEscalation: false
             readOnlyRootFilesystem: true
@@ -905,7 +905,7 @@ spec:
               path: /
               port: http
           resources:
-{{ include "resources.sourceController" . | indent 10 }}
+{{ include "resources.sourceController" . | indent 12 }}
           securityContext:
             allowPrivilegeEscalation: false
             readOnlyRootFilesystem: true
