@@ -77,9 +77,9 @@ app.kubernetes.io/instance: {{ .Release.Name | quote }}
 {{- end -}}
 
 
-{{*
+{{/*
 VPA settings for each controller
-*}}
+*/}}
 
 {{- define "resource.vpa.enabled" -}}
 {{- if and (.Capabilities.APIVersions.Has "autoscaling.k8s.io/v1") (.Values.verticalPodAutoscaler.enabled) }}true{{ else }}false{{ end }}
