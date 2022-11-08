@@ -32,6 +32,8 @@ spec:
     containerPolicies:
     - containerName: manager
       controlledValues: RequestsAndLimits
+      maxAllowed:
+        memory: {{ .Values.resources.imageAutomationController.limits.memory }}
       mode: Auto
   targetRef:
     apiVersion: apps/v1
@@ -52,6 +54,8 @@ spec:
     containerPolicies:
     - containerName: manager
       controlledValues: RequestsAndLimits
+      maxAllowed:
+        memory: {{ .Values.resources.imageReflectionController.limits.memory }}
       mode: Auto
   targetRef:
     apiVersion: apps/v1
@@ -72,6 +76,8 @@ spec:
     containerPolicies:
     - containerName: manager
       controlledValues: RequestsAndLimits
+      maxAllowed:
+        memory: {{ .Values.resources.kustomizeController.limits.memory }}
       mode: Auto
   targetRef:
     apiVersion: apps/v1
@@ -90,6 +96,8 @@ spec:
     containerPolicies:
     - containerName: manager
       controlledValues: RequestsAndLimits
+      maxAllowed:
+        memory: {{ .Values.resources.notificationController.limits.memory }}
       mode: Auto
   targetRef:
     apiVersion: apps/v1
@@ -110,6 +118,8 @@ spec:
     containerPolicies:
     - containerName: manager
       controlledValues: RequestsAndLimits
+      maxAllowed:
+        memory: {{ .Values.resources.sourceController.limits.memory }}
       mode: Auto
   targetRef:
     apiVersion: apps/v1

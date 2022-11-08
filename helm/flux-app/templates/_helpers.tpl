@@ -75,3 +75,66 @@ app.kubernetes.io/instance: {{ .Release.Name | quote }}
 {{- print "unsupported: false" -}}
 {{- end -}}
 {{- end -}}
+
+
+{{/*
+VPA settings for each controller
+*/}}
+
+{{- define "resource.vpa.enabled" -}}
+{{- if and (.Capabilities.APIVersions.Has "autoscaling.k8s.io/v1") (.Values.verticalPodAutoscaler.enabled) }}true{{ else }}false{{ end }}
+{{- end -}}
+
+{{- define "resources.helmController" -}}
+requests:
+{{ toYaml .Values.resources.helmController.requests | indent 2 -}}
+{{ if eq (include "resource.vpa.enabled" .) "false" }}
+limits:
+{{ toYaml .Values.resources.helmController.limits | indent 2 -}}
+{{- end -}}
+{{- end -}}
+
+{{- define "resources.imageAutomationController" -}}
+requests:
+{{ toYaml .Values.resources.imageAutomationController.requests | indent 2 -}}
+{{ if eq (include "resource.vpa.enabled" .) "false" }}
+limits:
+{{ toYaml .Values.resources.imageAutomationController.limits | indent 2 -}}
+{{- end -}}
+{{- end -}}
+
+{{- define "resources.imageReflectorController" -}}
+requests:
+{{ toYaml .Values.resources.imageReflectorController.requests | indent 2 -}}
+{{ if eq (include "resource.vpa.enabled" .) "false" }}
+limits:
+{{ toYaml .Values.resources.imageReflectorController.limits | indent 2 -}}
+{{- end -}}
+{{- end -}}
+
+{{- define "resources.kustomizeController" -}}
+requests:
+{{ toYaml .Values.resources.kustomizeController.requests | indent 2 -}}
+{{ if eq (include "resource.vpa.enabled" .) "false" }}
+limits:
+{{ toYaml .Values.resources.kustomizeController.limits | indent 2 -}}
+{{- end -}}
+{{- end -}}
+
+{{- define "resources.notificationController" -}}
+requests:
+{{ toYaml .Values.resources.notificationController.requests | indent 2 -}}
+{{ if eq (include "resource.vpa.enabled" .) "false" }}
+limits:
+{{ toYaml .Values.resources.notificationController.limits | indent 2 -}}
+{{- end -}}
+{{- end -}}
+
+{{- define "resources.sourceController" -}}
+requests:
+{{ toYaml .Values.resources.sourceController.requests | indent 2 -}}
+{{ if eq (include "resource.vpa.enabled" .) "false" }}
+limits:
+{{ toYaml .Values.resources.sourceController.limits | indent 2 -}}
+{{- end -}}
+{{- end -}}
