@@ -1,5 +1,4 @@
-{{ if .Capabilities.APIVersions.Has "autoscaling.k8s.io/v1" }}
-{{ if .Values.verticalPodAutoscaler.enabled }}
+{{ if eq (include "resource.vpa.enabled" .) "true" }}
 apiVersion: autoscaling.k8s.io/v1
 kind: VerticalPodAutoscaler
 metadata:
@@ -55,7 +54,7 @@ spec:
     - containerName: manager
       controlledValues: RequestsAndLimits
       maxAllowed:
-        memory: {{ .Values.resources.imageReflectionController.limits.memory }}
+        memory: {{ .Values.resources.imageReflectorController.limits.memory }}
       mode: Auto
   targetRef:
     apiVersion: apps/v1
@@ -127,5 +126,4 @@ spec:
     name: source-controller
   updatePolicy:
     updateMode: Auto
-{{ end }}
 {{ end }}

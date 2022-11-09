@@ -97,6 +97,8 @@ upstreamMetricsPort: http-prom
 # allows VPA to be used if its installed in the cluster
 verticalPodAutoscaler:
   enabled: false
+  # enables bypassing "autoscaling.k8s.io/v1" check; use with care
+  force: false
 
 # allows to change the persistentVolumeClaim request sizes
 volumes:
