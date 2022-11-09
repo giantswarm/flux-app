@@ -82,7 +82,7 @@ VPA settings for each controller
 */}}
 
 {{- define "resource.vpa.enabled" -}}
-{{- if and (.Capabilities.APIVersions.Has "autoscaling.k8s.io/v1") (.Values.verticalPodAutoscaler.enabled) }}true{{ else }}false{{ end }}
+{{- if and (or (.Capabilities.APIVersions.Has "autoscaling.k8s.io/v1") (.Values.verticalPodAutoscaler.force)) (.Values.verticalPodAutoscaler.enabled) }}true{{ else }}false{{ end }}
 {{- end -}}
 
 {{- define "resources.helmController" -}}

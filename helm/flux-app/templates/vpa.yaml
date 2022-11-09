@@ -1,5 +1,4 @@
-{{ if or (.Capabilities.APIVersions.Has "autoscaling.k8s.io/v1") (.Values.verticalPodAutoscaler.force) }}
-{{ if .Values.verticalPodAutoscaler.enabled }}
+{{ if eq (include "resource.vpa.enabled" .) "true" }}
 apiVersion: autoscaling.k8s.io/v1
 kind: VerticalPodAutoscaler
 metadata:
@@ -127,5 +126,4 @@ spec:
     name: source-controller
   updatePolicy:
     updateMode: Auto
-{{ end }}
 {{ end }}
