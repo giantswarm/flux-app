@@ -44,7 +44,7 @@ spec:
 apiVersion: autoscaling.k8s.io/v1
 kind: VerticalPodAutoscaler
 metadata:
-  name: image-reflection-controller
+  name: image-reflector-controller
   namespace: {{ .Release.Namespace }}
   labels:
     {{- include "labels.common" . | nindent 4 }}
@@ -59,7 +59,7 @@ spec:
   targetRef:
     apiVersion: apps/v1
     kind: Deployment
-    name: image-reflection-controller
+    name: image-reflector-controller
   updatePolicy:
     updateMode: Auto
 ---
