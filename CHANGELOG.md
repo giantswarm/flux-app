@@ -9,6 +9,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [0.18.2] - 2022-11-10
 
+### Fixed
+
+- Fixed a typo in `image-reflector-controller` VPA.
+
 ## [0.18.1] - 2022-11-09
 
 ### Added
