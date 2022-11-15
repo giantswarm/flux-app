@@ -25,7 +25,7 @@
       "additionalProperties": false
     }
   },
-  "required": ["images", "sources", "kustomizations", "volumes"],
+  "required": ["images", "cluster", "sources", "kustomizations", "volumes"],
   "properties": {
     "images": {
       "type": "object",
@@ -60,6 +60,18 @@
         },
         "imageReflectorController": {
           "$ref": "#/definitions/controllerImageProps"
+        }
+      },
+      "additionalProperties": false
+    },
+    "cluster": {
+      "type": "object",
+      "required": [
+        "domain"
+      ],
+      "properties": {
+        "domain": {
+          "type": "string"
         }
       },
       "additionalProperties": false

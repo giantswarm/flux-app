@@ -13,6 +13,10 @@ images:
   imageReflectorController:
     image: giantswarm/fluxcd-image-reflector-controller
 
+# allows to change cluster related configurations
+cluster:
+  domain: cluster.local
+
 # only GitRepository for now
 sources: []
 
