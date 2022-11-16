@@ -433,7 +433,7 @@ spec:
     spec:
       containers:
         - args:
-            - --events-addr=http://notification-controller.{{ .Release.Namespace }}.svc.cluster.local./
+            - --events-addr=http://notification-controller.{{ .Release.Namespace }}.svc.{{ .Values.cluster.domain }}./
             - --watch-all-namespaces
             - --log-level=info
             - --log-encoding=json
@@ -518,7 +518,7 @@ spec:
     spec:
       containers:
         - args:
-            - --events-addr=http://notification-controller.{{ .Release.Namespace }}.svc.cluster.local./
+            - --events-addr=http://notification-controller.{{ .Release.Namespace }}.svc.{{ .Values.cluster.domain }}./
             - --watch-all-namespaces
             - --log-level=info
             - --log-encoding=json
@@ -603,7 +603,7 @@ spec:
     spec:
       containers:
         - args:
-            - --events-addr=http://notification-controller.{{ .Release.Namespace }}.svc.cluster.local./
+            - --events-addr=http://notification-controller.{{ .Release.Namespace }}.svc.{{ .Values.cluster.domain }}./
             - --watch-all-namespaces
             - --log-level=info
             - --log-encoding=json
@@ -692,7 +692,7 @@ spec:
     spec:
       containers:
         - args:
-            - --events-addr=http://notification-controller.{{ .Release.Namespace }}.svc.cluster.local./
+            - --events-addr=http://notification-controller.{{ .Release.Namespace }}.svc.{{ .Values.cluster.domain }}./
             - --watch-all-namespaces
             - --log-level=info
             - --log-encoding=json
@@ -869,13 +869,13 @@ spec:
     spec:
       containers:
         - args:
-            - --events-addr=http://notification-controller.{{ .Release.Namespace }}.svc.cluster.local./
+            - --events-addr=http://notification-controller.{{ .Release.Namespace }}.svc.{{ .Values.cluster.domain }}./
             - --watch-all-namespaces
             - --log-level=info
             - --log-encoding=json
             - --enable-leader-election
             - --storage-path=/data
-            - --storage-adv-addr=source-controller.$(RUNTIME_NAMESPACE).svc.cluster.local.
+            - --storage-adv-addr=source-controller.$(RUNTIME_NAMESPACE).svc.{{ .Values.cluster.domain }}.
           env:
             - name: RUNTIME_NAMESPACE
               valueFrom:
