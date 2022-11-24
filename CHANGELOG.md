@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.19.0] - 2022-11-24
+
+- Add capability to annotate the kustomize-controller service account
+
 ### Added
 
 - Chart: Add `cluster.domain` to configure cluster domain.
@@ -204,7 +208,8 @@ reduce memory usage by downgrading Helm from 3.7.1 to 3.6.3
 
 - Initial release containing flux toolkit 0.5.9
 
-[Unreleased]: https://github.com/giantswarm/flux-app/compare/v0.18.2...HEAD
+[Unreleased]: https://github.com/giantswarm/flux-app/compare/v0.19.0...HEAD
+[0.19.0]: https://github.com/giantswarm/flux-app/compare/v0.18.2...v0.19.0
 [0.18.2]: https://github.com/giantswarm/flux-app/compare/v0.18.1...v0.18.2
 [0.18.1]: https://github.com/giantswarm/flux-app/compare/v0.18.0...v0.18.1
 [0.18.0]: https://github.com/giantswarm/flux-app/compare/v0.17.0...v0.18.0
