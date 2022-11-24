@@ -128,3 +128,9 @@ volumes:
       size: 100Mi
     data:
       size: 100Mi
+
+# Annotations to add on to the kustomize controller service account
+# Allows for adding custom annotations such as those required for use of
+# KMS keys.
+kustomizeServiceAccount:
+  annotations: {}

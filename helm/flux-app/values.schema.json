@@ -25,7 +25,7 @@
       "additionalProperties": false
     }
   },
-  "required": ["images", "cluster", "sources", "kustomizations", "volumes"],
+  "required": ["images", "cluster", "sources", "kustomizations", "volumes", "kustomizeServiceAccount"],
   "properties": {
     "images": {
       "type": "object",
@@ -338,6 +338,13 @@
         }
       },
       "additionalProperties": false
+    },
+    "kustomizeServiceAccount": {
+      "type": "object",
+      "required": ["annotations"],
+      "properties": {
+        "annotations": {"type": "object"}
+      }
     }
   },
   "additionalProperties": true
