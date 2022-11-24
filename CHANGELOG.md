@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+- Add capability to annotate the kustomize-controller service account
+
 ### Added
 
 - Chart: Add `cluster.domain` to configure cluster domain.
