@@ -55,6 +55,12 @@ metadata:
     app.kubernetes.io/version: {{ .Chart.AppVersion }}
     giantswarm.io/service_type: managed
     helm.sh/chart: {{ include "chart" . }}
+{{- if (.Values.kustomizeServiceAccount.annotations) }}
+  annotations:
+{{- range $k, $v := .Values.kustomizeServiceAccount.annotations }}
+    {{ $k }}: {{ $v }}
+{{- end -}}
+{{- end }}
   name: kustomize-controller
   namespace: {{ .Release.Namespace }}
 ---
