@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+- Add capability to attach custom labels and annotations to kustomize-contoller pod template
+
 ## [0.19.0] - 2022-11-24
 
 - Add capability to annotate the kustomize-controller service account
