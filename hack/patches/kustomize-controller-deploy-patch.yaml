@@ -13,3 +13,9 @@
 - op: replace
   path: /spec/template/spec/containers/0/args/0
   value: --events-addr=http://notification-controller.{{ .Release.Namespace }}.svc.{{ .Values.cluster.domain }}./
+- op: replace
+  path: /spec/template/metadata/annotations
+  value: '{{ include "podTemplateAnnotations.kustomizeController" . }}'
+- op: replace
+  path: /spec/template/metadata/labels
+  value: '{{ include "podTemplateLabels.kustomizeController" . }}'
