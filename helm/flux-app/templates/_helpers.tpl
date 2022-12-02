@@ -138,3 +138,29 @@ limits:
 {{ toYaml .Values.resources.sourceController.limits | indent 2 -}}
 {{- end -}}
 {{- end -}}
+
+{{ define "podTemplateAnnotations.kustomizeController" }}
+{{- printf "prometheus.io/port: \"8080\"" | nindent 8 -}}
+{{- printf "prometheus.io/scrape: \"true\"" | nindent 8 }}
+{{- if (.Values.kustomizeController.podTemplate.annotations) -}}
+{{- range $k, $v := .Values.kustomizeController.podTemplate.annotations }}
+{{- $k | nindent 8 }}: {{ $v }}
+{{- end -}}
+{{- end -}}
+{{- end -}}
+
+{{- define "podTemplateLabels.kustomizeController" -}}
+{{- printf "app: kustomize-controller" | nindent 8 -}}
+{{- printf "app.kubernetes.io/instance: %s" ( .Release.Name ) | nindent 8 }}
+{{- printf "app.kubernetes.io/managed-by: %s" ( .Release.Service ) | nindent 8 }}
+{{- printf "app.kubernetes.io/name: %s" ( include "name" . ) | nindent 8 }}
+{{- printf "app.kubernetes.io/version: %s" ( .Chart.AppVersion ) | nindent 8 }}
+{{- printf "giantswarm.io/service_type: managed" | nindent 8 }}
+{{- printf "helm.sh/chart: %s" ( include "chart" . ) | nindent 8 }}
+{{- if (.Values.kustomizeController.podTemplate.labels) -}}
+{{- range $k, $v := .Values.kustomizeController.podTemplate.labels }}
+{{- $k | nindent 8 }}: {{ $v }}
+{{- end -}}
+{{- end -}}
+{{- end -}}
+
