@@ -345,6 +345,20 @@
       "properties": {
         "annotations": {"type": "object"}
       }
+    },
+    "kustomizeController": {
+      "type": "object",
+      "required": ["podTemplate"],
+      "properties": {
+        "podTemplate": {
+          "type": "object",
+          "required": ["annotations", "labels"],
+          "properties": {
+            "annotations": {"type": "object"},
+            "labels": {"type": "object"}
+          }
+        }
+      }
     }
   },
   "additionalProperties": true
