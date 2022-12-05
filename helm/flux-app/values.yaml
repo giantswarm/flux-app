@@ -134,3 +134,9 @@ volumes:
 # KMS keys.
 kustomizeServiceAccount:
   annotations: {}
+
+# Provides the ability to add custom labels and annotations to
+kustomizeController:
+  podTemplate:
+    annotations: {}
+    labels: {}
