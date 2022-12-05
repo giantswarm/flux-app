@@ -26,4 +26,13 @@ Updating from upstream requires `kustomize` (https://github.com/kubernetes-sigs/
     - Please double-check that the container images have been replaced to something like `'{{ .Values.images.registry }}/{{ .Values.images.sourceController.image }}:v0.28.0'`
       If not then probably they updated the image source in upstream and you need to align the image rules in `hack/kustomization.yaml` under `images`. If so, please rerun the above command!
   - Execute `sed -i -e "/image:/b;s/'{{/{{/g" -e "/image:/b;s/}}'/}}/g" helm/flux-app/templates/install.yaml` to search and replace `'{{` with `{{` and `}}'` with `}}` in `helm/flux-app/templates/install.yaml`. But not in lines containing `image:`
+- IMPORTANT: there is a "hack" that needs manual intervention every time we upgrade `install.yaml`, see: https://github.com/giantswarm/flux-app/pull/161
+  ```gotemplate
+  {{- if (.Values.kustomizeServiceAccount.annotations) }}
+  annotations:
+  {{- range $k, $v := .Values.kustomizeServiceAccount.annotations }}
+    {{ $k }}: {{ $v }}
+  {{- end -}}
+  {{- end }}
+  ```
 - Bump the `appVersion` in `helm/flux-app/Chart.yaml`
