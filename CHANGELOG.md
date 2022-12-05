@@ -7,7 +7,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
 - Add capability to attach custom labels and annotations to kustomize-contoller pod template
+
+### Changed
+
+- Bump upstream flux toolkit version to from `v0.36.0` to `v0.37.0`.
+  - The interpretation of the `gitImplementation` field of `GitRepository` by `source-controller` and `image-automation-controller` has been deprecated, and will effectively always use `go-git`.
+  - `ImageUpdateAutomation` objects with a `.spec.PushBranch` specified will have the push branch refreshed automatically via force push.
+  - `ImagePolicy` CRD dropped version `v1alpha1`
+  - `ImageRepository` CRD dropped version `v1alpha1`
+  - `ImageUpdateAutomation` CRD dropped version `v1alpha1`
+- Increased memory limits for CRD install job as it was observed to frequently get OOM killed
 
 ## [0.19.0] - 2022-11-24
 
