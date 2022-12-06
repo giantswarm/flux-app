@@ -35,4 +35,9 @@ Updating from upstream requires `kustomize` (https://github.com/kubernetes-sigs/
   {{- end -}}
   {{- end }}
   ```
+- IMPORTANT: Another hack (see above) is to replace`.spec.template.metadata.labels` the with
+  ```gotemplate
+  {{ include "podTemplateLabels.kustomizeController" . }}
+  ```
+  Please also check if upstream changed the labels and update the definition in `helm/flux-app/templates/_helpers.tpl`
 - Bump the `appVersion` in `helm/flux-app/Chart.yaml`
