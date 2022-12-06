@@ -15,4 +15,4 @@
   value: --events-addr=http://notification-controller.{{ .Release.Namespace }}.svc.{{ .Values.cluster.domain }}./
 - op: replace
   path: /spec/template/spec/containers/0/args/6
-  value: --storage-adv-addr=source-controller.$(RUNTIME_NAMESPACE).svc.{{ .Values.cluster.domain }}
+  value: --storage-adv-addr=source-controller.$(RUNTIME_NAMESPACE).svc.{{ .Values.cluster.domain }}.
