@@ -16,6 +16,6 @@
 - op: replace
   path: /spec/template/metadata/annotations
   value: '{{ include "podTemplateAnnotations.kustomizeController" . }}'
-- op: replace
-  path: /spec/template/metadata/labels
-  value: '{{ include "podTemplateLabels.kustomizeController" . }}'
+#- op: replace
+#  path: /spec/template/metadata/labels
+#  value: '{{ include "podTemplateLabels.kustomizeController" . }}'

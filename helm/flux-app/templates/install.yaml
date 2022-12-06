@@ -897,7 +897,7 @@ spec:
             - --log-encoding=json
             - --enable-leader-election
             - --storage-path=/data
-            - --storage-adv-addr=source-controller.$(RUNTIME_NAMESPACE).{{ .Values.cluster.domain }}.
+            - --storage-adv-addr=source-controller.$(RUNTIME_NAMESPACE).svc.{{ .Values.cluster.domain }}
           env:
             - name: RUNTIME_NAMESPACE
               valueFrom:
