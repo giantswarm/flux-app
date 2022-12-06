@@ -1,12 +1,6 @@
 - op: replace
   path: /spec/template/spec/containers/0/resources
-  value:
-    limits:
-      cpu: "{{ .Values.resources.kustomizeController.limits.cpu }}"
-      memory: "{{ .Values.resources.kustomizeController.limits.memory }}"
-    requests:
-      cpu: "{{ .Values.resources.kustomizeController.requests.cpu }}"
-      memory: "{{ .Values.resources.kustomizeController.requests.memory }}"
+  value: GS_PLACEHOLDER_RESOURCES_KUSTOMIZE_CONTROLLER
 - op: add
   path: /metadata/labels/app
   value: kustomize-controller
@@ -16,6 +10,3 @@
 - op: replace
   path: /spec/template/metadata/annotations
   value: '{{ include "podTemplateAnnotations.kustomizeController" . }}'
-#- op: replace
-#  path: /spec/template/metadata/labels
-#  value: '{{ include "podTemplateLabels.kustomizeController" . }}'

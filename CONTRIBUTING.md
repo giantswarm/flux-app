@@ -22,10 +22,9 @@ Updating from upstream requires `kustomize` (https://github.com/kubernetes-sigs/
   - Execute `./hack/split-crds.sh` to move each `kind: CustomResourceDefinition` resource into its own file
   - Delete `helm/flux-app/crd-base/crds.yaml`
 - Prepare resources
-  - Execute `kubectl kustomize hack | yq eval-all 'select((.kind == "CustomResourceDefinition" | not) and (.kind == "Namespace" | not))' - > helm/flux-app/templates/install.yaml`
+  - Run `./hack/hack-resources.sh` from the root of the repository
     - Please double-check that the container images have been replaced to something like `'{{ .Values.images.registry }}/{{ .Values.images.sourceController.image }}:v0.28.0'`
-      If not then probably they updated the image source in upstream and you need to align the image rules in `hack/kustomization.yaml` under `images`. If so, please rerun the above command!
-  - Execute `sed -i -e "/image:/b;s/'{{/{{/g" -e "/image:/b;s/}}'/}}/g" helm/flux-app/templates/install.yaml` to search and replace `'{{` with `{{` and `}}'` with `}}` in `helm/flux-app/templates/install.yaml`. But not in lines containing `image:`
+      If not then probably they updated the image source in upstream, and you need to align the image rules in `hack/kustomization.yaml` under `images`. If so, please reset `install.yaml` and rerun the above command!
 - IMPORTANT: there is a "hack" that needs manual intervention every time we upgrade `install.yaml`, see: https://github.com/giantswarm/flux-app/pull/161
   ```gotemplate
   {{- if (.Values.kustomizeServiceAccount.annotations) }}

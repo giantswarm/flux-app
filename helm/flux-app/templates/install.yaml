@@ -467,13 +467,8 @@ spec:
             httpGet:
               path: /readyz
               port: healthz
-          resources:
-            limits:
-              cpu: {{ .Values.resources.helmController.limits.cpu }}
-              memory: {{ .Values.resources.helmController.limits.memory }}
-            requests:
-              cpu: {{ .Values.resources.helmController.requests.cpu }}
-              memory: {{ .Values.resources.helmController.requests.memory }}
+          resources: 
+{{ include "resources.helmController" . | indent 12 }}
           securityContext:
             allowPrivilegeEscalation: false
             readOnlyRootFilesystem: true
@@ -493,7 +488,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    app: image-automation-controlller
+    app: image-automation-controller
     app.kubernetes.io/component: image-automation-controller
     app.kubernetes.io/instance: {{ .Release.Name }}
     app.kubernetes.io/managed-by: {{ .Release.Service }}
@@ -557,13 +552,8 @@ spec:
             httpGet:
               path: /readyz
               port: healthz
-          resources:
-            limits:
-              cpu: {{ .Values.resources.imageAutomationController.limits.cpu }}
-              memory: {{ .Values.resources.imageAutomationController.limits.memory }}
-            requests:
-              cpu: {{ .Values.resources.imageAutomationController.requests.cpu }}
-              memory: {{ .Values.resources.imageAutomationController.requests.memory }}
+          resources: 
+{{ include "resources.imageAutomationController" . | indent 12 }}
           securityContext:
             allowPrivilegeEscalation: false
             readOnlyRootFilesystem: true
@@ -647,13 +637,8 @@ spec:
             httpGet:
               path: /readyz
               port: healthz
-          resources:
-            limits:
-              cpu: {{ .Values.resources.imageReflectorController.limits.cpu }}
-              memory: {{ .Values.resources.imageReflectorController.limits.memory }}
-            requests:
-              cpu: {{ .Values.resources.imageReflectorController.requests.cpu }}
-              memory: {{ .Values.resources.imageReflectorController.requests.memory }}
+          resources: 
+{{ include "resources.imageReflectorController" . | indent 12 }}
           securityContext:
             allowPrivilegeEscalation: false
             readOnlyRootFilesystem: true
@@ -732,13 +717,8 @@ spec:
             httpGet:
               path: /readyz
               port: healthz
-          resources:
-            limits:
-              cpu: {{ .Values.resources.kustomizeController.limits.cpu }}
-              memory: {{ .Values.resources.kustomizeController.limits.memory }}
-            requests:
-              cpu: {{ .Values.resources.kustomizeController.requests.cpu }}
-              memory: {{ .Values.resources.kustomizeController.requests.memory }}
+          resources: 
+{{ include "resources.kustomizeController" . | indent 12 }}
           securityContext:
             allowPrivilegeEscalation: false
             readOnlyRootFilesystem: true
@@ -827,13 +807,8 @@ spec:
             httpGet:
               path: /readyz
               port: healthz
-          resources:
-            limits:
-              cpu: {{ .Values.resources.notificationController.limits.cpu }}
-              memory: {{ .Values.resources.notificationController.limits.memory }}
-            requests:
-              cpu: {{ .Values.resources.notificationController.requests.cpu }}
-              memory: {{ .Values.resources.notificationController.requests.memory }}
+          resources: 
+{{ include "resources.notificationController" . | indent 12 }}
           securityContext:
             allowPrivilegeEscalation: false
             readOnlyRootFilesystem: true
@@ -926,13 +901,8 @@ spec:
             httpGet:
               path: /
               port: http
-          resources:
-            limits:
-              cpu: {{ .Values.resources.sourceController.limits.cpu }}
-              memory: {{ .Values.resources.sourceController.limits.memory }}
-            requests:
-              cpu: {{ .Values.resources.sourceController.requests.cpu }}
-              memory: {{ .Values.resources.sourceController.requests.memory }}
+          resources: 
+{{ include "resources.sourceController" . | indent 12 }}
           securityContext:
             allowPrivilegeEscalation: false
             readOnlyRootFilesystem: true
