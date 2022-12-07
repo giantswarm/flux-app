@@ -1,12 +1,6 @@
 - op: replace
   path: /spec/template/spec/containers/0/resources
-  value:
-    limits:
-      cpu: "{{ .Values.resources.helmController.limits.cpu }}"
-      memory: "{{ .Values.resources.helmController.limits.memory }}"
-    requests:
-      cpu: "{{ .Values.resources.helmController.requests.cpu }}"
-      memory: "{{ .Values.resources.helmController.requests.memory }}"
+  value: GS_PLACEHOLDER_RESOURCES_HELM_CONTROLLER
 - op: add
   path: /metadata/labels/app
   value: helm-controller

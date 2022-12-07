@@ -1,15 +1,9 @@
 - op: replace
   path: /spec/template/spec/containers/0/resources
-  value:
-    limits:
-      cpu: "{{ .Values.resources.imageAutomationController.limits.cpu }}"
-      memory: "{{ .Values.resources.imageAutomationController.limits.memory }}"
-    requests:
-      cpu: "{{ .Values.resources.imageAutomationController.requests.cpu }}"
-      memory: "{{ .Values.resources.imageAutomationController.requests.memory }}"
+  value: GS_PLACEHOLDER_RESOURCES_IMAGE_AUTOMATION_CONTROLLER
 - op: add
   path: /metadata/labels/app
-  value: image-automation-controlller
+  value: image-automation-controller
 - op: replace
   path: /spec/template/spec/containers/0/args/0
   value: --events-addr=http://notification-controller.{{ .Release.Namespace }}.svc.{{ .Values.cluster.domain }}./

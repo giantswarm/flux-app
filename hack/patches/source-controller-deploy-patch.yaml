@@ -1,15 +1,12 @@
 - op: replace
   path: /spec/template/spec/containers/0/resources
-  value:
-    limits:
-      cpu: "{{ .Values.resources.sourceController.limits.cpu }}"
-      memory: "{{ .Values.resources.sourceController.limits.memory }}"
-    requests:
-      cpu: "{{ .Values.resources.sourceController.requests.cpu }}"
-      memory: "{{ .Values.resources.sourceController.requests.memory }}"
+  value: GS_PLACEHOLDER_RESOURCES_SOURCE_CONTROLLER
 - op: add
   path: /metadata/labels/app
   value: source-controller
 - op: replace
   path: /spec/template/spec/containers/0/args/0
   value: --events-addr=http://notification-controller.{{ .Release.Namespace }}.svc.{{ .Values.cluster.domain }}./
+- op: replace
+  path: /spec/template/spec/containers/0/args/6
+  value: --storage-adv-addr=source-controller.$(RUNTIME_NAMESPACE).svc.{{ .Values.cluster.domain }}.
