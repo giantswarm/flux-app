@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+- Fixed quoting of pod template labels
+
 ## [0.20.0] - 2022-12-07
 
 ### Added
