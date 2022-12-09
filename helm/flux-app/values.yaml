@@ -139,4 +139,5 @@ kustomizeServiceAccount:
 kustomizeController:
   podTemplate:
     annotations: {}
-    labels: {}
+    labels:
+      test: true

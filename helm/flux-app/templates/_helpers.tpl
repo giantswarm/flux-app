@@ -159,7 +159,7 @@ limits:
 {{- printf "helm.sh/chart: %s" ( include "chart" . ) | nindent 8 }}
 {{- if (.Values.kustomizeController.podTemplate.labels) -}}
 {{- range $k, $v := .Values.kustomizeController.podTemplate.labels }}
-{{- $k | nindent 8 }}: {{ $v }}
+{{- $k | nindent 8 }}: {{ $v | quote }}
 {{- end -}}
 {{- end -}}
 {{- end -}}
