@@ -359,6 +359,19 @@
           }
         }
       }
+    },
+    "imageAutomationController": {
+      "type": "object",
+      "required": ["featureGatesToDisable"],
+      "properties": {
+        "featureGatesToDisable": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": ["GitForcePushBranch", "ForceGoGitImplementation"]
+          }
+        }
+      }
     }
   },
   "additionalProperties": true

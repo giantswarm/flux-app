@@ -164,3 +164,13 @@ limits:
 {{- end -}}
 {{- end -}}
 
+{{/*
+Generate feature gates argument
+*/}}
+{{- define "imageAutomationController.featureGates" -}}
+{{- $arg := "" }}
+{{- range $k := .Values.imageAutomationController.featureGatesToDisable -}}
+{{- $arg = (printf "%s%s=false," $arg $k) }}
+{{- end -}}
+{{- trimSuffix "," (printf $arg) }}
+{{- end -}}
