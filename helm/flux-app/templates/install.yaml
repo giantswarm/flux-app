@@ -467,7 +467,7 @@ spec:
             httpGet:
               path: /readyz
               port: healthz
-          resources: 
+          resources:
 {{ include "resources.helmController" . | indent 12 }}
           securityContext:
             allowPrivilegeEscalation: false
@@ -529,6 +529,7 @@ spec:
             - --log-level=info
             - --log-encoding=json
             - --enable-leader-election
+            - --feature-gates={{ include "imageAutomationController.featureGates" . }}
           env:
             - name: RUNTIME_NAMESPACE
               valueFrom:
@@ -552,7 +553,7 @@ spec:
             httpGet:
               path: /readyz
               port: healthz
-          resources: 
+          resources:
 {{ include "resources.imageAutomationController" . | indent 12 }}
           securityContext:
             allowPrivilegeEscalation: false
@@ -637,7 +638,7 @@ spec:
             httpGet:
               path: /readyz
               port: healthz
-          resources: 
+          resources:
 {{ include "resources.imageReflectorController" . | indent 12 }}
           securityContext:
             allowPrivilegeEscalation: false
@@ -717,7 +718,7 @@ spec:
             httpGet:
               path: /readyz
               port: healthz
-          resources: 
+          resources:
 {{ include "resources.kustomizeController" . | indent 12 }}
           securityContext:
             allowPrivilegeEscalation: false
@@ -807,7 +808,7 @@ spec:
             httpGet:
               path: /readyz
               port: healthz
-          resources: 
+          resources:
 {{ include "resources.notificationController" . | indent 12 }}
           securityContext:
             allowPrivilegeEscalation: false
@@ -901,7 +902,7 @@ spec:
             httpGet:
               path: /
               port: http
-          resources: 
+          resources:
 {{ include "resources.sourceController" . | indent 12 }}
           securityContext:
             allowPrivilegeEscalation: false

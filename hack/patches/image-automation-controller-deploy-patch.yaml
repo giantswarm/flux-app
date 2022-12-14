@@ -7,3 +7,6 @@
 - op: replace
   path: /spec/template/spec/containers/0/args/0
   value: --events-addr=http://notification-controller.{{ .Release.Namespace }}.svc.{{ .Values.cluster.domain }}./
+- op: add
+  path: /spec/template/spec/containers/0/args/-
+  value: --feature-gates={{ include "imageAutomationController.featureGates" . }}

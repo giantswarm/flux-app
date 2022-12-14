@@ -140,3 +140,13 @@ kustomizeController:
   podTemplate:
     annotations: {}
     labels: {}
+
+# Interface to provide extra configuration to the Image Automation Controller
+imageAutomationController:
+  # featureGates is the []string type, listing feature gates name to disable,
+  # which are otherwise enabled by default.
+  #
+  # featureGatesToDisable:
+  #   - GitForcePushBranch
+  #   - ForceGoGitImplementation
+  featureGatesToDisable: []
