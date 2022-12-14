@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Introduce interface for disabling feature gates.
+
 ## [0.20.1] - 2022-12-09
 
 - Fixed quoting of pod template labels
