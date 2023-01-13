@@ -174,3 +174,16 @@ Generate feature gates argument
 {{- end -}}
 {{- trimSuffix "," (printf $arg) }}
 {{- end -}}
+
+{{/*
+Generate Kustomize Controller SA's annotations
+*/}}
+{{- define "kustomizeControllerSA.annotations" -}}
+{{- if not (.Values.kustomizeServiceAccount.annotations) }}
+{{- printf "{}" }}
+{{- else }}
+{{- range $k, $v := .Values.kustomizeServiceAccount.annotations }}
+{{- $k | nindent 4 }}: {{ $v | quote }}
+{{- end -}}
+{{- end -}}
+{{- end }}
