@@ -15,7 +15,7 @@ images:
   newName: "{{ .Values.images.registry }}/{{ .Values.images.kustomizeController.image }}"
 - name: ghcr.io/fluxcd/source-controller
   newName: "{{ .Values.images.registry }}/{{ .Values.images.sourceController.image }}"
-- name: fluxcd/notification-controller
+- name: ghcr.io/fluxcd/notification-controller
   newName: "{{ .Values.images.registry }}/{{ .Values.images.notificationController.image }}"
 - name: ghcr.io/fluxcd/image-automation-controller
   newName: "{{ .Values.images.registry }}/{{ .Values.images.imageAutomationController.image }}"
@@ -24,7 +24,7 @@ images:
 
 
 resources:
-- https://github.com/fluxcd/flux2/releases/download/v0.37.0/install.yaml
+- https://github.com/fluxcd/flux2/releases/download/v0.38.3/install.yaml
 - ./additional-resources/pvc-psp.yaml
 - ./additional-resources/metrics-service.yaml
 
