@@ -1,4 +1,7 @@
-{{- $two_step_upgrade := include "appPlatform.twoStepInstall" .Release.Name | fromYaml }}
+{{- $two_step_upgrade := printf "unsupported: true" | fromYaml }}
+{{- if (.Capabilities.APIVersions.Has "application.giantswarm.io/v1alpha1") }}
+{{- $two_step_upgrade = include "appPlatform.twoStepInstall" .Release.Name | fromYaml }}
+{{- end }}
 {{- if .Values.sopsEncryption.enabled }}
 apiVersion: v1
 data:
