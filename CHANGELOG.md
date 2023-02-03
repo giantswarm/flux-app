@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.21.2] - 2023-02-03
+
 ### Fixed
 
 Fixed condition for internal upgrade.
@@ -246,7 +248,8 @@ reduce memory usage by downgrading Helm from 3.7.1 to 3.6.3
 
 - Initial release containing flux toolkit 0.5.9
 
-[Unreleased]: https://github.com/giantswarm/flux-app/compare/v0.21.1...HEAD
+[Unreleased]: https://github.com/giantswarm/flux-app/compare/v0.21.2...HEAD
+[0.21.2]: https://github.com/giantswarm/flux-app/compare/v0.21.1...v0.21.2
 [0.21.1]: https://github.com/giantswarm/flux-app/compare/v0.21.0...v0.21.1
 [0.21.0]: https://github.com/giantswarm/flux-app/compare/v0.20.2...v0.21.0
 [0.20.2]: https://github.com/giantswarm/flux-app/compare/v0.20.1...v0.20.2
