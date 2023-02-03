@@ -11,7 +11,11 @@ spec:
     containerPolicies:
     - containerName: manager
       controlledValues: RequestsAndLimits
+      minAllowed:
+        cpu: {{ .Values.resources.helmController.requests.cpu }}
+        memory: {{ .Values.resources.helmController.requests.memory }}
       maxAllowed:
+        cpu: {{ .Values.resources.helmController.limits.cpu }}
         memory: {{ .Values.resources.helmController.limits.memory }}
       mode: Auto
   targetRef:
@@ -31,7 +35,11 @@ spec:
     containerPolicies:
     - containerName: manager
       controlledValues: RequestsAndLimits
+      minAllowed:
+        cpu: {{ .Values.resources.imageAutomationController.requests.cpu }}
+        memory: {{ .Values.resources.imageAutomationController.requests.memory }}
       maxAllowed:
+        cpu: {{ .Values.resources.imageAutomationController.limits.cpu }}
         memory: {{ .Values.resources.imageAutomationController.limits.memory }}
       mode: Auto
   targetRef:
@@ -53,7 +61,11 @@ spec:
     containerPolicies:
     - containerName: manager
       controlledValues: RequestsAndLimits
+      minAllowed:
+        cpu: {{ .Values.resources.imageReflectorController.requests.cpu }}
+        memory: {{ .Values.resources.imageReflectorController.requests.memory }}
       maxAllowed:
+        cpu: {{ .Values.resources.imageReflectorController.limits.cpu }}
         memory: {{ .Values.resources.imageReflectorController.limits.memory }}
       mode: Auto
   targetRef:
@@ -75,7 +87,11 @@ spec:
     containerPolicies:
     - containerName: manager
       controlledValues: RequestsAndLimits
+      minAllowed:
+        cpu: {{ .Values.resources.kustomizeController.requests.cpu }}
+        memory: {{ .Values.resources.kustomizeController.requests.memory }}
       maxAllowed:
+        cpu: {{ .Values.resources.kustomizeController.limits.cpu }}
         memory: {{ .Values.resources.kustomizeController.limits.memory }}
       mode: Auto
   targetRef:
@@ -95,7 +111,11 @@ spec:
     containerPolicies:
     - containerName: manager
       controlledValues: RequestsAndLimits
+      minAllowed:
+        cpu: {{ .Values.resources.notificationController.requests.cpu }}
+        memory: {{ .Values.resources.notificationController.requests.memory }}
       maxAllowed:
+        cpu: {{ .Values.resources.notificationController.limits.cpu }}
         memory: {{ .Values.resources.notificationController.limits.memory }}
       mode: Auto
   targetRef:
@@ -117,7 +137,11 @@ spec:
     containerPolicies:
     - containerName: manager
       controlledValues: RequestsAndLimits
+      minAllowed:
+        cpu: {{ .Values.resources.sourceController.requests.cpu }}
+        memory: {{ .Values.resources.sourceController.requests.memory }}
       maxAllowed:
+        cpu: {{ .Values.resources.sourceController.limits.cpu }}
         memory: {{ .Values.resources.sourceController.limits.memory }}
       mode: Auto
   targetRef:
