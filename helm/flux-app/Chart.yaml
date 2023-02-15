@@ -1,5 +1,5 @@
 apiVersion: v2
-appVersion: 0.38.3
+appVersion: 0.39.0
 annotations:
   application.giantswarm.io/team: team-honeybadger
   application.giantswarm.io/two-step-install: "true"
