@@ -462,7 +462,7 @@ spec:
             httpGet:
               path: /readyz
               port: healthz
-          resources: 
+          resources:
 {{ include "resources.helmController" . | indent 12 }}
           securityContext:
             allowPrivilegeEscalation: false
@@ -475,6 +475,7 @@ spec:
         fsGroup: 1337
       serviceAccountName: helm-controller
       terminationGracePeriodSeconds: 600
+      priorityClassName: {{ include "priorityClass.name" . }}
       volumes:
         - emptyDir: {}
           name: temp
@@ -548,7 +549,7 @@ spec:
             httpGet:
               path: /readyz
               port: healthz
-          resources: 
+          resources:
 {{ include "resources.imageAutomationController" . | indent 12 }}
           securityContext:
             allowPrivilegeEscalation: false
@@ -561,6 +562,7 @@ spec:
         fsGroup: 1337
       serviceAccountName: image-automation-controller
       terminationGracePeriodSeconds: 10
+      priorityClassName: {{ include "priorityClass.name" . }}
       volumes:
         - emptyDir: {}
           name: temp
@@ -633,7 +635,7 @@ spec:
             httpGet:
               path: /readyz
               port: healthz
-          resources: 
+          resources:
 {{ include "resources.imageReflectorController" . | indent 12 }}
           securityContext:
             allowPrivilegeEscalation: false
@@ -648,6 +650,7 @@ spec:
         fsGroup: 1337
       serviceAccountName: image-reflector-controller
       terminationGracePeriodSeconds: 10
+      priorityClassName: {{ include "priorityClass.name" . }}
       volumes:
         - emptyDir: {}
           name: temp
@@ -713,7 +716,7 @@ spec:
             httpGet:
               path: /readyz
               port: healthz
-          resources: 
+          resources:
 {{ include "resources.kustomizeController" . | indent 12 }}
           securityContext:
             allowPrivilegeEscalation: false
@@ -726,6 +729,7 @@ spec:
         fsGroup: 1337
       serviceAccountName: kustomize-controller
       terminationGracePeriodSeconds: 60
+      priorityClassName: {{ include "priorityClass.name" . }}
       volumes:
         - emptyDir: {}
           name: temp
@@ -803,7 +807,7 @@ spec:
             httpGet:
               path: /readyz
               port: healthz
-          resources: 
+          resources:
 {{ include "resources.notificationController" . | indent 12 }}
           securityContext:
             allowPrivilegeEscalation: false
@@ -816,6 +820,7 @@ spec:
         fsGroup: 1337
       serviceAccountName: notification-controller
       terminationGracePeriodSeconds: 10
+      priorityClassName: {{ include "priorityClass.name" . }}
       volumes:
         - emptyDir: {}
           name: temp
@@ -897,7 +902,7 @@ spec:
             httpGet:
               path: /
               port: http
-          resources: 
+          resources:
 {{ include "resources.sourceController" . | indent 12 }}
           securityContext:
             allowPrivilegeEscalation: false
@@ -912,6 +917,7 @@ spec:
         fsGroup: 1337
       serviceAccountName: source-controller
       terminationGracePeriodSeconds: 10
+      priorityClassName: {{ include "priorityClass.name" . }}
       volumes:
         - emptyDir: {}
           name: data
