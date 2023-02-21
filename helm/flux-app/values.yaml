@@ -150,3 +150,7 @@ imageAutomationController:
   #   - GitForcePushBranch
   #   - ForceGoGitImplementation
   featureGatesToDisable: []
+
+priorityClass:
+  name: ""
+  value: 1000000000
