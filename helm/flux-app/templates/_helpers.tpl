@@ -187,3 +187,14 @@ Generate Kustomize Controller SA's annotations
 {{- end -}}
 {{- end -}}
 {{- end }}
+
+{{/*
+Define name of the PriorityClass.
+*/}}
+{{- define "priorityClass.name" -}}
+{{- if .Values.priorityClass.name }}
+{{- .Values.priorityClass.name | trunc 63 | trimSuffix "-" }}
+{{- else }}
+{{- printf "%s-%s" .Release.Namespace .Release.Name | trunc 63 | trimSuffix "-" }}
+{{- end }}
+{{- end }}
