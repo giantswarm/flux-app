@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Added `PriorityClass`.
+- Added `CiliumNetworkPolicy`.
+
 ## [0.21.2] - 2023-02-03
 
 ### Fixed
