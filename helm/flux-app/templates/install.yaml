@@ -92,6 +92,8 @@ metadata:
 apiVersion: policy/v1beta1
 kind: PodSecurityPolicy
 metadata:
+  annotations:
+    seccomp.security.alpha.kubernetes.io/allowedProfileNames: 'runtime/default'
   labels:
     app.kubernetes.io/instance: {{ .Release.Name }}
     app.kubernetes.io/managed-by: {{ .Release.Service }}
@@ -120,6 +122,10 @@ spec:
   volumes:
     - emptyDir
     - secret
+    - downwardAPI
+    - configMap
+    - persistentVolumeClaim
+    - projected
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
@@ -468,11 +474,17 @@ spec:
             allowPrivilegeEscalation: false
             readOnlyRootFilesystem: true
             runAsUser: 100
+            {{- with .Values.securityContext }}
+              {{- . | toYaml | nindent 12 }}
+            {{- end }}
           volumeMounts:
             - mountPath: /tmp
               name: temp
       securityContext:
         fsGroup: 1337
+        {{- with .Values.podSecurityContext }}
+          {{- . | toYaml | nindent 8 }}
+        {{- end }}
       serviceAccountName: helm-controller
       terminationGracePeriodSeconds: 600
       priorityClassName: {{ include "priorityClass.name" . }}
@@ -555,11 +567,17 @@ spec:
             allowPrivilegeEscalation: false
             readOnlyRootFilesystem: true
             runAsUser: 100
+            {{- with .Values.securityContext }}
+              {{- . | toYaml | nindent 12 }}
+            {{- end }}
           volumeMounts:
             - mountPath: /tmp
               name: temp
       securityContext:
         fsGroup: 1337
+        {{- with .Values.podSecurityContext }}
+          {{- . | toYaml | nindent 8 }}
+        {{- end }}
       serviceAccountName: image-automation-controller
       terminationGracePeriodSeconds: 10
       priorityClassName: {{ include "priorityClass.name" . }}
@@ -641,6 +659,9 @@ spec:
             allowPrivilegeEscalation: false
             readOnlyRootFilesystem: true
             runAsUser: 100
+            {{- with .Values.securityContext }}
+              {{- . | toYaml | nindent 12 }}
+            {{- end }}
           volumeMounts:
             - mountPath: /tmp
               name: temp
@@ -648,6 +669,9 @@ spec:
               name: data
       securityContext:
         fsGroup: 1337
+        {{- with .Values.podSecurityContext }}
+          {{- . | toYaml | nindent 8 }}
+        {{- end }}
       serviceAccountName: image-reflector-controller
       terminationGracePeriodSeconds: 10
       priorityClassName: {{ include "priorityClass.name" . }}
@@ -722,11 +746,17 @@ spec:
             allowPrivilegeEscalation: false
             readOnlyRootFilesystem: true
             runAsUser: 100
+            {{- with .Values.securityContext }}
+              {{- . | toYaml | nindent 12 }}
+            {{- end }}
           volumeMounts:
             - mountPath: /tmp
               name: temp
       securityContext:
         fsGroup: 1337
+        {{- with .Values.podSecurityContext }}
+          {{- . | toYaml | nindent 12 }}
+        {{- end }}
       serviceAccountName: kustomize-controller
       terminationGracePeriodSeconds: 60
       priorityClassName: {{ include "priorityClass.name" . }}
@@ -813,11 +843,17 @@ spec:
             allowPrivilegeEscalation: false
             readOnlyRootFilesystem: true
             runAsUser: 100
+            {{- with .Values.securityContext }}
+              {{- . | toYaml | nindent 12 }}
+            {{- end }}
           volumeMounts:
             - mountPath: /tmp
               name: temp
       securityContext:
         fsGroup: 1337
+        {{- with .Values.podSecurityContext }}
+          {{- . | toYaml | nindent 8 }}
+        {{- end }}
       serviceAccountName: notification-controller
       terminationGracePeriodSeconds: 10
       priorityClassName: {{ include "priorityClass.name" . }}
@@ -908,6 +944,9 @@ spec:
             allowPrivilegeEscalation: false
             readOnlyRootFilesystem: true
             runAsUser: 100
+            {{- with .Values.securityContext }}
+              {{- . | toYaml | nindent 12 }}
+            {{- end }}
           volumeMounts:
             - mountPath: /data
               name: data
@@ -915,6 +954,9 @@ spec:
               name: tmp
       securityContext:
         fsGroup: 1337
+        {{- with .Values.securityContext }}
+          {{- . | toYaml | nindent 8 }}
+        {{- end }}
       serviceAccountName: source-controller
       terminationGracePeriodSeconds: 10
       priorityClassName: {{ include "priorityClass.name" . }}
