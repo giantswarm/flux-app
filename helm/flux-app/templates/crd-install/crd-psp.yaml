@@ -4,6 +4,7 @@ kind: PodSecurityPolicy
 metadata:
   name: {{ include "crdInstall" . }}
   annotations:
+    seccomp.security.alpha.kubernetes.io/allowedProfileNames: 'runtime/default'
     # create hook dependencies in the right order
     "helm.sh/hook-weight": "-6"
     {{- include "crdInstallAnnotations" . | nindent 4 }}

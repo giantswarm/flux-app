@@ -16,6 +16,19 @@
                 "install": {
                     "type": "boolean"
                 },
+                "podSecurityContext": {
+                    "type": "object",
+                    "properties": {
+                        "seccompProfile": {
+                            "type": "object",
+                            "properties": {
+                                "type": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                },
                 "resources": {
                     "type": "object",
                     "properties": {
@@ -37,6 +50,19 @@
                                     "type": "string"
                                 },
                                 "memory": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                },
+                "securityContext": {
+                    "type": "object",
+                    "properties": {
+                        "seccompProfile": {
+                            "type": "object",
+                            "properties": {
+                                "type": {
                                     "type": "string"
                                 }
                             }
