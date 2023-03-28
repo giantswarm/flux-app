@@ -46,7 +46,7 @@ metadata:
 apiVersion: v1
 kind: ServiceAccount
 metadata:
-  annotations: {{ include "kustomizeControllerSA.annotations" . }}
+  annotations: {{ include "kustomizeControllerSA.annotations" . }} 
   labels:
     app.kubernetes.io/component: kustomize-controller
     app.kubernetes.io/instance: {{ .Release.Name }}
@@ -222,6 +222,65 @@ rules:
       - podsecuritypolicies
     verbs:
       - use
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  labels:
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+    app.kubernetes.io/name: {{ include "name" . }}
+    app.kubernetes.io/part-of: flux
+    app.kubernetes.io/version: {{ .Chart.AppVersion }}
+    giantswarm.io/service_type: managed
+    helm.sh/chart: {{ include "chart" . }}
+    rbac.authorization.k8s.io/aggregate-to-admin: "true"
+    rbac.authorization.k8s.io/aggregate-to-edit: "true"
+  name: flux-edit
+rules:
+  - apiGroups:
+      - notification.toolkit.fluxcd.io
+      - source.toolkit.fluxcd.io
+      - helm.toolkit.fluxcd.io
+      - image.toolkit.fluxcd.io
+      - kustomize.toolkit.fluxcd.io
+    resources:
+      - '*'
+    verbs:
+      - create
+      - delete
+      - deletecollection
+      - patch
+      - update
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  labels:
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+    app.kubernetes.io/name: {{ include "name" . }}
+    app.kubernetes.io/part-of: flux
+    app.kubernetes.io/version: {{ .Chart.AppVersion }}
+    giantswarm.io/service_type: managed
+    helm.sh/chart: {{ include "chart" . }}
+    rbac.authorization.k8s.io/aggregate-to-admin: "true"
+    rbac.authorization.k8s.io/aggregate-to-edit: "true"
+    rbac.authorization.k8s.io/aggregate-to-view: "true"
+  name: flux-view
+rules:
+  - apiGroups:
+      - notification.toolkit.fluxcd.io
+      - source.toolkit.fluxcd.io
+      - helm.toolkit.fluxcd.io
+      - image.toolkit.fluxcd.io
+      - kustomize.toolkit.fluxcd.io
+    resources:
+      - '*'
+    verbs:
+      - get
+      - list
+      - watch
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
@@ -444,7 +503,7 @@ spec:
               valueFrom:
                 fieldRef:
                   fieldPath: metadata.namespace
-          image: '{{ .Values.images.registry }}/{{ .Values.images.helmController.image }}:v0.29.0'
+          image: '{{ .Values.images.registry }}/{{ .Values.images.helmController.image }}:v0.31.2'
           imagePullPolicy: IfNotPresent
           livenessProbe:
             httpGet:
@@ -462,7 +521,7 @@ spec:
             httpGet:
               path: /readyz
               port: healthz
-          resources:
+          resources: 
 {{ include "resources.helmController" . | indent 12 }}
           securityContext:
             allowPrivilegeEscalation: false
@@ -471,11 +530,11 @@ spec:
           volumeMounts:
             - mountPath: /tmp
               name: temp
+      priorityClassName: {{ include "priorityClass.name" . }}
       securityContext:
         fsGroup: 1337
       serviceAccountName: helm-controller
       terminationGracePeriodSeconds: 600
-      priorityClassName: {{ include "priorityClass.name" . }}
       volumes:
         - emptyDir: {}
           name: temp
@@ -531,7 +590,7 @@ spec:
               valueFrom:
                 fieldRef:
                   fieldPath: metadata.namespace
-          image: '{{ .Values.images.registry }}/{{ .Values.images.imageAutomationController.image }}:v0.29.0'
+          image: '{{ .Values.images.registry }}/{{ .Values.images.imageAutomationController.image }}:v0.31.0'
           imagePullPolicy: IfNotPresent
           livenessProbe:
             httpGet:
@@ -549,7 +608,7 @@ spec:
             httpGet:
               path: /readyz
               port: healthz
-          resources:
+          resources: 
 {{ include "resources.imageAutomationController" . | indent 12 }}
           securityContext:
             allowPrivilegeEscalation: false
@@ -558,11 +617,11 @@ spec:
           volumeMounts:
             - mountPath: /tmp
               name: temp
+      priorityClassName: {{ include "priorityClass.name" . }}
       securityContext:
         fsGroup: 1337
       serviceAccountName: image-automation-controller
       terminationGracePeriodSeconds: 10
-      priorityClassName: {{ include "priorityClass.name" . }}
       volumes:
         - emptyDir: {}
           name: temp
@@ -617,7 +676,7 @@ spec:
               valueFrom:
                 fieldRef:
                   fieldPath: metadata.namespace
-          image: '{{ .Values.images.registry }}/{{ .Values.images.imageReflectorController.image }}:v0.24.0'
+          image: '{{ .Values.images.registry }}/{{ .Values.images.imageReflectorController.image }}:v0.26.1'
           imagePullPolicy: IfNotPresent
           livenessProbe:
             httpGet:
@@ -635,7 +694,7 @@ spec:
             httpGet:
               path: /readyz
               port: healthz
-          resources:
+          resources: 
 {{ include "resources.imageReflectorController" . | indent 12 }}
           securityContext:
             allowPrivilegeEscalation: false
@@ -646,11 +705,11 @@ spec:
               name: temp
             - mountPath: /data
               name: data
+      priorityClassName: {{ include "priorityClass.name" . }}
       securityContext:
         fsGroup: 1337
       serviceAccountName: image-reflector-controller
       terminationGracePeriodSeconds: 10
-      priorityClassName: {{ include "priorityClass.name" . }}
       volumes:
         - emptyDir: {}
           name: temp
@@ -684,7 +743,14 @@ spec:
   template:
     metadata:
       annotations: {{ include "podTemplateAnnotations.kustomizeController" . }}
-      labels: {{ include "podTemplateLabels.kustomizeController" . }}
+      labels:
+        app: kustomize-controller
+        app.kubernetes.io/instance: {{ .Release.Name }}
+        app.kubernetes.io/managed-by: {{ .Release.Service }}
+        app.kubernetes.io/name: {{ include "name" . }}
+        app.kubernetes.io/version: {{ .Chart.AppVersion }}
+        giantswarm.io/service_type: managed
+        helm.sh/chart: {{ include "chart" . }}
     spec:
       containers:
         - args:
@@ -698,7 +764,7 @@ spec:
               valueFrom:
                 fieldRef:
                   fieldPath: metadata.namespace
-          image: '{{ .Values.images.registry }}/{{ .Values.images.kustomizeController.image }}:v0.33.0'
+          image: '{{ .Values.images.registry }}/{{ .Values.images.kustomizeController.image }}:v0.35.1'
           imagePullPolicy: IfNotPresent
           livenessProbe:
             httpGet:
@@ -716,7 +782,7 @@ spec:
             httpGet:
               path: /readyz
               port: healthz
-          resources:
+          resources: 
 {{ include "resources.kustomizeController" . | indent 12 }}
           securityContext:
             allowPrivilegeEscalation: false
@@ -725,11 +791,11 @@ spec:
           volumeMounts:
             - mountPath: /tmp
               name: temp
+      priorityClassName: {{ include "priorityClass.name" . }}
       securityContext:
         fsGroup: 1337
       serviceAccountName: kustomize-controller
       terminationGracePeriodSeconds: 60
-      priorityClassName: {{ include "priorityClass.name" . }}
       volumes:
         - emptyDir: {}
           name: temp
@@ -783,7 +849,7 @@ spec:
               valueFrom:
                 fieldRef:
                   fieldPath: metadata.namespace
-          image: '{{ .Values.images.registry }}/{{ .Values.images.notificationController.image }}:v0.31.0'
+          image: '{{ .Values.images.registry }}/{{ .Values.images.notificationController.image }}:v0.33.0'
           imagePullPolicy: IfNotPresent
           livenessProbe:
             httpGet:
@@ -807,7 +873,7 @@ spec:
             httpGet:
               path: /readyz
               port: healthz
-          resources:
+          resources: 
 {{ include "resources.notificationController" . | indent 12 }}
           securityContext:
             allowPrivilegeEscalation: false
@@ -816,11 +882,11 @@ spec:
           volumeMounts:
             - mountPath: /tmp
               name: temp
+      priorityClassName: {{ include "priorityClass.name" . }}
       securityContext:
         fsGroup: 1337
       serviceAccountName: notification-controller
       terminationGracePeriodSeconds: 10
-      priorityClassName: {{ include "priorityClass.name" . }}
       volumes:
         - emptyDir: {}
           name: temp
@@ -881,7 +947,7 @@ spec:
                   fieldPath: metadata.namespace
             - name: TUF_ROOT
               value: /tmp/.sigstore
-          image: '{{ .Values.images.registry }}/{{ .Values.images.sourceController.image }}:v0.34.0'
+          image: '{{ .Values.images.registry }}/{{ .Values.images.sourceController.image }}:v0.36.1'
           imagePullPolicy: IfNotPresent
           livenessProbe:
             httpGet:
@@ -902,7 +968,7 @@ spec:
             httpGet:
               path: /
               port: http
-          resources:
+          resources: 
 {{ include "resources.sourceController" . | indent 12 }}
           securityContext:
             allowPrivilegeEscalation: false
@@ -913,11 +979,11 @@ spec:
               name: data
             - mountPath: /tmp
               name: tmp
+      priorityClassName: {{ include "priorityClass.name" . }}
       securityContext:
         fsGroup: 1337
       serviceAccountName: source-controller
       terminationGracePeriodSeconds: 10
-      priorityClassName: {{ include "priorityClass.name" . }}
       volumes:
         - emptyDir: {}
           name: data
