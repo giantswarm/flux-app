@@ -743,14 +743,7 @@ spec:
   template:
     metadata:
       annotations: {{ include "podTemplateAnnotations.kustomizeController" . }}
-      labels:
-        app: kustomize-controller
-        app.kubernetes.io/instance: {{ .Release.Name }}
-        app.kubernetes.io/managed-by: {{ .Release.Service }}
-        app.kubernetes.io/name: {{ include "name" . }}
-        app.kubernetes.io/version: {{ .Chart.AppVersion }}
-        giantswarm.io/service_type: managed
-        helm.sh/chart: {{ include "chart" . }}
+      labels: {{ include "podTemplateLabels.kustomizeController" . }}
     spec:
       containers:
         - args:
