@@ -224,6 +224,7 @@ rules:
       - podsecuritypolicies
     verbs:
       - use
+{{- if .Values.clusterRoles.install }}
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
@@ -283,6 +284,7 @@ rules:
       - get
       - list
       - watch
+{{- end }}
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding

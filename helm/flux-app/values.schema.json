@@ -10,6 +10,14 @@
                 }
             }
         },
+        "clusterRoles": {
+            "type": "object",
+            "properties": {
+                "install": {
+                    "type": "boolean"
+                }
+            }
+        },
         "crds": {
             "type": "object",
             "properties": {

@@ -17,6 +17,9 @@ images:
 cluster:
   domain: cluster.local
 
+clusterRoles:
+  install: true
+
 # only GitRepository for now
 sources: []
 
