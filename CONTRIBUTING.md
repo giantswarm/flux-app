@@ -25,14 +25,15 @@ Updating from upstream requires `kustomize` (https://github.com/kubernetes-sigs/
   - Run `./hack/hack-resources.sh` from the root of the repository
     - Please double-check that the container images have been replaced to something like `'{{ .Values.images.registry }}/{{ .Values.images.sourceController.image }}:v0.28.0'`
       If not then probably they updated the image source in upstream, and you need to align the image rules in `hack/kustomization.yaml` under `images`. If so, please reset `install.yaml` and rerun the above command!
-- IMPORTANT: there is a "hack" that needs manual intervention every time we upgrade `install.yaml`, see: https://github.com/giantswarm/flux-app/pull/161
+- IMPORTANT: there is a "hack" that needs manual intervention every time we upgrade `install.yaml`, see [issue](https://github.com/giantswarm/flux-app/pull/161).
+  Make sure there is our custom annotation on the `kustomize-controller` SA in `install.yaml`:
   ```gotemplate
-  {{- if (.Values.kustomizeServiceAccount.annotations) }}
-  annotations:
-  {{- range $k, $v := .Values.kustomizeServiceAccount.annotations }}
-    {{ $k }}: {{ $v }}
-  {{- end -}}
-  {{- end }}
+  kind: ServiceAccount
+  metadata:
+    --> annotations: {{ include "kustomizeControllerSA.annotations" . }} <--
+    labels:
+      app.kubernetes.io/component: kustomize-controller
+
   ```
 - IMPORTANT: Another hack (see above) is to replace`.spec.template.metadata.labels` the with
   ```gotemplate
