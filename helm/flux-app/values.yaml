@@ -17,6 +17,9 @@ images:
 cluster:
   domain: cluster.local
 
+clusterRoles:
+  install: true
+
 # only GitRepository for now
 sources: []
 
@@ -43,6 +46,17 @@ sopsEncryption:
 
 crds:
   install: true
+
+  # Add seccomp to pod security context
+  podSecurityContext:
+    seccompProfile:
+      type: RuntimeDefault
+
+  # Add seccomp to container security context
+  securityContext:
+    seccompProfile:
+      type: RuntimeDefault
+
   resources:
     requests:
       memory: "128Mi"
@@ -154,3 +168,13 @@ imageAutomationController:
 priorityClass:
   name: ""
   value: 1000000000
+
+# Add seccomp to pod security context
+podSecurityContext:
+  seccompProfile:
+    type: RuntimeDefault
+
+# Add seccomp to container security context
+securityContext:
+  seccompProfile:
+    type: RuntimeDefault

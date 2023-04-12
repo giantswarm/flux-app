@@ -1,378 +1,505 @@
 {
-  "$schema": "http://json-schema.org/draft-07/schema",
-  "type": "object",
-  "definitions": {
-    "controllerImageProps": {
-      "type": "object",
-      "required": ["image"],
-      "properties": {
-        "image": {
-          "type": "string",
-          "minLength": 1
-        }
-      },
-      "additionalProperties": false
-    },
-    "volumeProps": {
-      "type": "object",
-      "required": ["size"],
-      "properties": {
-        "size": {
-          "type": "string",
-          "pattern": "^([+-]?[0-9.]+)([eEinumkKMGTP]*[-+]?[0-9]*)$"
-        }
-      },
-      "additionalProperties": false
-    }
-  },
-  "required": ["images", "cluster", "sources", "kustomizations", "volumes", "kustomizeServiceAccount"],
-  "properties": {
-    "images": {
-      "type": "object",
-      "required": [
-        "registry",
-        "helmController",
-        "sourceController",
-        "kustomizeController",
-        "notificationController",
-        "imageAutomationController",
-        "imageReflectorController"
-      ],
-      "properties": {
-        "registry": {
-          "type": "string",
-          "minLength": 1
+    "$schema": "http://json-schema.org/schema#",
+    "type": "object",
+    "properties": {
+        "cluster": {
+            "type": "object",
+            "properties": {
+                "domain": {
+                    "type": "string"
+                }
+            }
         },
-        "helmController": {
-          "$ref": "#/definitions/controllerImageProps"
+        "clusterRoles": {
+            "type": "object",
+            "properties": {
+                "install": {
+                    "type": "boolean"
+                }
+            }
         },
-        "sourceController": {
-          "$ref": "#/definitions/controllerImageProps"
-        },
-        "notificationController": {
-          "$ref": "#/definitions/controllerImageProps"
-        },
-        "kustomizeController": {
-          "$ref": "#/definitions/controllerImageProps"
+        "crds": {
+            "type": "object",
+            "properties": {
+                "install": {
+                    "type": "boolean"
+                },
+                "podSecurityContext": {
+                    "type": "object",
+                    "properties": {
+                        "seccompProfile": {
+                            "type": "object",
+                            "properties": {
+                                "type": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                },
+                "resources": {
+                    "type": "object",
+                    "properties": {
+                        "limits": {
+                            "type": "object",
+                            "properties": {
+                                "cpu": {
+                                    "type": "string"
+                                },
+                                "memory": {
+                                    "type": "string"
+                                }
+                            }
+                        },
+                        "requests": {
+                            "type": "object",
+                            "properties": {
+                                "cpu": {
+                                    "type": "string"
+                                },
+                                "memory": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                },
+                "securityContext": {
+                    "type": "object",
+                    "properties": {
+                        "seccompProfile": {
+                            "type": "object",
+                            "properties": {
+                                "type": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         },
         "imageAutomationController": {
-          "$ref": "#/definitions/controllerImageProps"
-        },
-        "imageReflectorController": {
-          "$ref": "#/definitions/controllerImageProps"
-        }
-      },
-      "additionalProperties": false
-    },
-    "cluster": {
-      "type": "object",
-      "required": [
-        "domain"
-      ],
-      "properties": {
-        "domain": {
-          "type": "string"
-        }
-      },
-      "additionalProperties": true
-    },
-    "sources": {
-      "type": "array",
-      "additionalItems": false,
-      "items": {
-        "type": "object",
-        "required": [
-          "kind",
-          "name",
-          "url",
-          "credentials",
-          "interval",
-          "branch",
-          "provider"
-        ],
-        "properties": {
-          "kind": {
-            "type": "string",
-            "minLength": 1
-          },
-          "name": {
-            "type": "string",
-            "minLength": 1
-          },
-          "url": {
-            "type": "string",
-            "minLength": 1
-          },
-          "credentials": {
             "type": "object",
-            "required": ["username", "password"],
             "properties": {
-              "username": {
-                "type": "string",
-                "minLength": 1
-              },
-              "password": {
-                "type": "string",
-                "minLength": 1
-              }
-            },
-            "additionalProperties": false
-          },
-          "interval": {
-            "type": "string",
-            "minLength": 1
-          },
-          "provider": {
-            "type": "string",
-            "minLength": 1
-          },
-          "branch": {
-            "type": "string",
-            "minLength": 1
-          }
-        },
-        "additionalProperties": false
-      }
-    },
-    "kustomizations": {
-      "type": "array",
-      "additionalItems": false,
-      "items": {
-        "type": "object",
-        "required": ["name", "source_name", "path", "prune", "interval"],
-        "properties": {
-          "name": {
-            "type": "string",
-            "minLength": 1
-          },
-          "source_name": {
-            "type": "string",
-            "minLength": 1
-          },
-          "path": {
-            "type": "string",
-            "minLength": 1
-          },
-          "postBuild": {
-            "type": "object",
-            "additionalProperties": false,
-            "properties": {
-              "substitute": {
-                "type": "object"
-              },
-              "substituteFrom": {
-                "type": ["array"],
-                "additionalItems": false,
-                "items": {
-                  "type": "object",
-                  "additionalProperties": false,
-                  "required": [
-                    "kind",
-                    "name"
-                  ],
-                  "properties": {
-                    "kind": {
-                      "type": "string",
-                      "minLength": 1
-                    },
-                    "name": {
-                      "type": "string",
-                      "minLength": 1
-                    }
-                  }
+                "featureGatesToDisable": {
+                    "type": "array"
                 }
-              }
             }
-          },
-          "prune": {
-            "type": "boolean"
-          },
-          "interval": {
-            "type": "string",
-            "minLength": 1
-          }
         },
-        "additionalProperties": false
-      }
-    },
-    "crds": {
-      "type": "object",
-      "required": ["install"],
-      "properties": {
-        "install": {
-          "type": "boolean"
+        "images": {
+            "type": "object",
+            "properties": {
+                "helmController": {
+                    "type": "object",
+                    "properties": {
+                        "image": {
+                            "type": "string"
+                        }
+                    }
+                },
+                "imageAutomationController": {
+                    "type": "object",
+                    "properties": {
+                        "image": {
+                            "type": "string"
+                        }
+                    }
+                },
+                "imageReflectorController": {
+                    "type": "object",
+                    "properties": {
+                        "image": {
+                            "type": "string"
+                        }
+                    }
+                },
+                "kustomizeController": {
+                    "type": "object",
+                    "properties": {
+                        "image": {
+                            "type": "string"
+                        }
+                    }
+                },
+                "notificationController": {
+                    "type": "object",
+                    "properties": {
+                        "image": {
+                            "type": "string"
+                        }
+                    }
+                },
+                "registry": {
+                    "type": "string"
+                },
+                "sourceController": {
+                    "type": "object",
+                    "properties": {
+                        "image": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "kustomizations": {
+            "type": "array"
+        },
+        "kustomizeController": {
+            "type": "object",
+            "properties": {
+                "podTemplate": {
+                    "type": "object",
+                    "properties": {
+                        "annotations": {
+                            "type": "object"
+                        },
+                        "labels": {
+                            "type": "object"
+                        }
+                    }
+                }
+            }
+        },
+        "kustomizeServiceAccount": {
+            "type": "object",
+            "properties": {
+                "annotations": {
+                    "type": "object"
+                }
+            }
+        },
+        "podSecurityContext": {
+            "type": "object",
+            "properties": {
+                "seccompProfile": {
+                    "type": "object",
+                    "properties": {
+                        "type": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "priorityClass": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "value": {
+                    "type": "integer"
+                }
+            }
         },
         "resources": {
-          "type": "object",
-          "required": ["limits", "requests"],
-          "properties": {
-            "limits": {
-              "type": "object",
-              "required": ["cpu", "memory"],
-              "properties": {
-                "cpu": { "type": "string" },
-                "memory": { "type": "string" }
-              },
-              "additionalProperties": false
-            },
-            "requests": {
-              "type": "object",
-              "required": ["cpu", "memory"],
-              "properties": {
-                "cpu": { "type": "string" },
-                "memory": { "type": "string" }
-              },
-              "additionalProperties": false
+            "type": "object",
+            "properties": {
+                "helmController": {
+                    "type": "object",
+                    "properties": {
+                        "limits": {
+                            "type": "object",
+                            "properties": {
+                                "cpu": {
+                                    "type": "string"
+                                },
+                                "memory": {
+                                    "type": "string"
+                                }
+                            }
+                        },
+                        "requests": {
+                            "type": "object",
+                            "properties": {
+                                "cpu": {
+                                    "type": "string"
+                                },
+                                "memory": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                },
+                "imageAutomationController": {
+                    "type": "object",
+                    "properties": {
+                        "limits": {
+                            "type": "object",
+                            "properties": {
+                                "cpu": {
+                                    "type": "string"
+                                },
+                                "memory": {
+                                    "type": "string"
+                                }
+                            }
+                        },
+                        "requests": {
+                            "type": "object",
+                            "properties": {
+                                "cpu": {
+                                    "type": "string"
+                                },
+                                "memory": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                },
+                "imageReflectorController": {
+                    "type": "object",
+                    "properties": {
+                        "limits": {
+                            "type": "object",
+                            "properties": {
+                                "cpu": {
+                                    "type": "string"
+                                },
+                                "memory": {
+                                    "type": "string"
+                                }
+                            }
+                        },
+                        "requests": {
+                            "type": "object",
+                            "properties": {
+                                "cpu": {
+                                    "type": "string"
+                                },
+                                "memory": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                },
+                "kustomizeController": {
+                    "type": "object",
+                    "properties": {
+                        "limits": {
+                            "type": "object",
+                            "properties": {
+                                "cpu": {
+                                    "type": "string"
+                                },
+                                "memory": {
+                                    "type": "string"
+                                }
+                            }
+                        },
+                        "requests": {
+                            "type": "object",
+                            "properties": {
+                                "cpu": {
+                                    "type": "string"
+                                },
+                                "memory": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                },
+                "notificationController": {
+                    "type": "object",
+                    "properties": {
+                        "limits": {
+                            "type": "object",
+                            "properties": {
+                                "cpu": {
+                                    "type": "string"
+                                },
+                                "memory": {
+                                    "type": "string"
+                                }
+                            }
+                        },
+                        "requests": {
+                            "type": "object",
+                            "properties": {
+                                "cpu": {
+                                    "type": "string"
+                                },
+                                "memory": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                },
+                "sourceController": {
+                    "type": "object",
+                    "properties": {
+                        "limits": {
+                            "type": "object",
+                            "properties": {
+                                "cpu": {
+                                    "type": "string"
+                                },
+                                "memory": {
+                                    "type": "string"
+                                }
+                            }
+                        },
+                        "requests": {
+                            "type": "object",
+                            "properties": {
+                                "cpu": {
+                                    "type": "string"
+                                },
+                                "memory": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                }
             }
-          },
-          "additionalProperties": false
+        },
+        "securityContext": {
+            "type": "object",
+            "properties": {
+                "seccompProfile": {
+                    "type": "object",
+                    "properties": {
+                        "type": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "sopsEncryption": {
+            "type": "object",
+            "properties": {
+                "enabled": {
+                    "type": "boolean"
+                },
+                "encryptionKeys": {
+                    "type": "array"
+                }
+            }
+        },
+        "sources": {
+            "type": "array"
+        },
+        "upstreamMetricsPort": {
+            "type": "string"
+        },
+        "verticalPodAutoscaler": {
+            "type": "object",
+            "properties": {
+                "enabled": {
+                    "type": "boolean"
+                },
+                "force": {
+                    "type": "boolean"
+                }
+            }
+        },
+        "volumes": {
+            "type": "object",
+            "properties": {
+                "helmController": {
+                    "type": "object",
+                    "properties": {
+                        "temp": {
+                            "type": "object",
+                            "properties": {
+                                "size": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                },
+                "imageAutomationController": {
+                    "type": "object",
+                    "properties": {
+                        "temp": {
+                            "type": "object",
+                            "properties": {
+                                "size": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                },
+                "imageReflectorController": {
+                    "type": "object",
+                    "properties": {
+                        "data": {
+                            "type": "object",
+                            "properties": {
+                                "size": {
+                                    "type": "string"
+                                }
+                            }
+                        },
+                        "temp": {
+                            "type": "object",
+                            "properties": {
+                                "size": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                },
+                "kustomizeController": {
+                    "type": "object",
+                    "properties": {
+                        "temp": {
+                            "type": "object",
+                            "properties": {
+                                "size": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                },
+                "notificationController": {
+                    "type": "object",
+                    "properties": {
+                        "temp": {
+                            "type": "object",
+                            "properties": {
+                                "size": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                },
+                "sourceController": {
+                    "type": "object",
+                    "properties": {
+                        "data": {
+                            "type": "object",
+                            "properties": {
+                                "size": {
+                                    "type": "string"
+                                }
+                            }
+                        },
+                        "temp": {
+                            "type": "object",
+                            "properties": {
+                                "size": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
-      },
-      "additionalProperties": false
-    },
-    "sopsEncryption": {
-      "type": "object",
-      "required": ["enabled"],
-      "properties": {
-        "enabled": {
-          "type": "boolean"
-        },
-        "encryptionKeys": {
-          "type": "array",
-          "additionalItems": false,
-          "items": {
-            "type": "string",
-            "minLength": 1
-          }
-        }
-      },
-      "additionalProperties": false
-    },
-    "verticalPodAutoscaler": {
-      "type": "object",
-      "properties": {
-        "enabled": {
-            "type": "boolean"
-        },
-        "force": {
-            "type": "boolean"
-        }
-      }
-    },
-    "volumes": {
-      "type": "object",
-      "required": [
-        "helmController",
-        "sourceController",
-        "kustomizeController",
-        "notificationController",
-        "imageAutomationController",
-        "imageReflectorController"
-      ],
-      "properties": {
-        "helmController": {
-          "type": "object",
-          "required": ["temp"],
-          "properties": {
-            "temp": {
-              "$ref": "#/definitions/volumeProps"
-            }
-          },
-          "additionalProperties": false
-        },
-        "sourceController": {
-          "type": "object",
-          "required": ["temp", "data"],
-          "properties": {
-            "temp": {
-              "$ref": "#/definitions/volumeProps"
-            },
-            "data": {
-              "$ref": "#/definitions/volumeProps"
-            }
-          },
-          "additionalProperties": false
-        },
-        "kustomizeController": {
-          "type": "object",
-          "required": ["temp"],
-          "properties": {
-            "temp": {
-              "$ref": "#/definitions/volumeProps"
-            }
-          },
-          "additionalProperties": false
-        },
-        "notificationController": {
-          "type": "object",
-          "required": ["temp"],
-          "properties": {
-            "temp": {
-              "$ref": "#/definitions/volumeProps"
-            }
-          },
-          "additionalProperties": false
-        },
-        "imageAutomationController": {
-          "type": "object",
-          "required": ["temp"],
-          "properties": {
-            "temp": {
-              "$ref": "#/definitions/volumeProps"
-            }
-          },
-          "additionalProperties": false
-        },
-        "imageReflectorController": {
-          "type": "object",
-          "required": ["temp", "data"],
-          "properties": {
-            "temp": {
-              "$ref": "#/definitions/volumeProps"
-            },
-            "data": {
-              "$ref": "#/definitions/volumeProps"
-            }
-          },
-          "additionalProperties": false
-        }
-      },
-      "additionalProperties": false
-    },
-    "kustomizeServiceAccount": {
-      "type": "object",
-      "required": ["annotations"],
-      "properties": {
-        "annotations": {"type": "object"}
-      }
-    },
-    "kustomizeController": {
-      "type": "object",
-      "required": ["podTemplate"],
-      "properties": {
-        "podTemplate": {
-          "type": "object",
-          "required": ["annotations", "labels"],
-          "properties": {
-            "annotations": {"type": "object"},
-            "labels": {"type": "object"}
-          }
-        }
-      }
-    },
-    "imageAutomationController": {
-      "type": "object",
-      "required": ["featureGatesToDisable"],
-      "properties": {
-        "featureGatesToDisable": {
-          "type": "array",
-          "items": {
-            "type": "string",
-            "enum": ["GitForcePushBranch", "ForceGoGitImplementation"]
-          }
-        }
-      }
     }
-  },
-  "additionalProperties": true
 }
