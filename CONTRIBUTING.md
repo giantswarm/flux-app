@@ -40,4 +40,9 @@ Updating from upstream requires `kustomize` (https://github.com/kubernetes-sigs/
   {{ include "podTemplateLabels.kustomizeController" . }}
   ```
   Please also check if upstream changed the labels and update the definition in `helm/flux-app/templates/_helpers.tpl`
+- IMPORTANT: There are some `ClusterRoles` upstream that we do not want to deploy to MCs: `flux-view` and `flux-edit` at
+  the time of writing. They are guarded by a condition based on the value `.clusterRoles.install` which is enabled by
+  default to install it automatically for customers using the app for themselves. In MCF however we disable them. Please
+  make sure on upgrade that this 2 (and similar `ClusterRoles` if they add more that would give access to giantswarm
+  resources if bound and are not required to make flux work) CRs are guarded by this condition.
 - Bump the `appVersion` in `helm/flux-app/Chart.yaml`

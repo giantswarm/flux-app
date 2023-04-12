@@ -7,12 +7,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-## [0.23.0] - 2023-04-03
+## [0.23.0] - 2023-04-12
 
-## [0.23.0] - 2023-04-03
+### Added
+
+- Added the use the runtime/default seccomp profile.
+- Added `clusterRoles.install` value that can disable installing the `flux-view` and `flux-edit` cluster roles. Enabled by default to install these resources.
 
 ### Changed
+
 - Updated flux apps to v0.41.2
+- Changed PSP to allow the same volumes as restricted, to prevent seccomp profile changes breaking pod creation.
 
 ## [0.22.0] - 2023-02-23
 
