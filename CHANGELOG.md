@@ -15,6 +15,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added `clusterRoles.install` value that can disable installing the `flux-view` and `flux-edit` cluster roles. Enabled by default to install these resources.
 
 ### Changed
+- Use Cilium network policy when available for CRD installer
+
+### Changed
 
 - Updated flux apps to v0.41.2
 - Changed PSP to allow the same volumes as restricted, to prevent seccomp profile changes breaking pod creation.
