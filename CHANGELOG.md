@@ -7,12 +7,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.23.0] - 2023-04-12
+
 ### Added
 
 - Added the use the runtime/default seccomp profile.
+- Added `clusterRoles.install` value that can disable installing the `flux-view` and `flux-edit` cluster roles. Enabled by default to install these resources.
 
 ### Changed
 
+- Use Cilium network policy when available for CRD installer
+- Updated flux apps to v0.41.2
 - Changed PSP to allow the same volumes as restricted, to prevent seccomp profile changes breaking pod creation.
 
 ## [0.22.0] - 2023-02-23
@@ -263,7 +268,9 @@ reduce memory usage by downgrading Helm from 3.7.1 to 3.6.3
 
 - Initial release containing flux toolkit 0.5.9
 
-[Unreleased]: https://github.com/giantswarm/flux-app/compare/v0.22.0...HEAD
+[Unreleased]: https://github.com/giantswarm/flux-app/compare/v0.23.0...HEAD
+[0.23.0]: https://github.com/giantswarm/flux-app/compare/v0.23.0...v0.23.0
+[0.23.0]: https://github.com/giantswarm/flux-app/compare/v0.22.0...v0.23.0
 [0.22.0]: https://github.com/giantswarm/flux-app/compare/v0.21.2...v0.22.0
 [0.21.2]: https://github.com/giantswarm/flux-app/compare/v0.21.1...v0.21.2
 [0.21.1]: https://github.com/giantswarm/flux-app/compare/v0.21.0...v0.21.1
