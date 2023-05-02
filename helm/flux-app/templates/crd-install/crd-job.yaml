@@ -30,6 +30,8 @@ spec:
       tolerations:
       - key: node-role.kubernetes.io/master
         effect: NoSchedule
+      - key: node-role.kubernetes.io/control-plane
+        effect: NoSchedule
       containers:
       - name: kubectl
         image: "{{ .Values.images.registry }}/giantswarm/docker-kubectl:1.23.6"
