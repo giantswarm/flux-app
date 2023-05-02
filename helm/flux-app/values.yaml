@@ -118,31 +118,6 @@ verticalPodAutoscaler:
   # enables bypassing "autoscaling.k8s.io/v1" check; use with care
   force: false
 
-# allows to change the persistentVolumeClaim request sizes
-volumes:
-  helmController:
-    temp:
-      size: 100Mi
-  imageAutomationController:
-    temp:
-      size: 100Mi
-  imageReflectorController:
-    temp:
-      size: 100Mi
-    data:
-      size: 100Mi
-  kustomizeController:
-    temp:
-      size: 100Mi
-  notificationController:
-    temp:
-      size: 100Mi
-  sourceController:
-    temp:
-      size: 100Mi
-    data:
-      size: 100Mi
-
 # Annotations to add on to the kustomize controller service account
 # Allows for adding custom annotations such as those required for use of
 # KMS keys.

@@ -20,6 +20,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Updated flux apps to v0.41.2
 - Changed PSP to allow the same volumes as restricted, to prevent seccomp profile changes breaking pod creation.
 
+### Removed
+
+- Removed obslete values related to PVCs under: `.Values.volumes`
+
 ## [0.22.0] - 2023-02-23
 
 ### Added
