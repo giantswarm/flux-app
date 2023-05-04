@@ -92,8 +92,10 @@ metadata:
 apiVersion: policy/v1beta1
 kind: PodSecurityPolicy
 metadata:
+  {{- if ge (int .Capabilities.KubeVersion.Minor) 19 }}
   annotations:
     seccomp.security.alpha.kubernetes.io/allowedProfileNames: "runtime/default"
+  {{- end }}
   labels:
     app.kubernetes.io/instance: {{ .Release.Name }}
     app.kubernetes.io/managed-by: {{ .Release.Service }}
@@ -531,8 +533,11 @@ spec:
             allowPrivilegeEscalation: false
             readOnlyRootFilesystem: true
             runAsUser: 100
-            {{- with .Values.securityContext }}
-              {{- . | toYaml | nindent 12 }}
+            {{- if ge (int .Capabilities.KubeVersion.Minor) 19 }}
+            {{- with .Values.seccompProfile }}
+            seccompProfile:
+              {{- . | toYaml | nindent 14 }}
+            {{- end }}
             {{- end }}
           volumeMounts:
             - mountPath: /tmp
@@ -540,8 +545,11 @@ spec:
       priorityClassName: {{ include "priorityClass.name" . }}
       securityContext:
         fsGroup: 1337
-        {{- with .Values.podSecurityContext }}
+        {{- if ge (int .Capabilities.KubeVersion.Minor) 19 }}
+        {{- with .Values.seccompProfile }}
+        seccompProfile:
           {{- . | toYaml | nindent 8 }}
+        {{- end }}
         {{- end }}
       serviceAccountName: helm-controller
       terminationGracePeriodSeconds: 600
@@ -624,8 +632,11 @@ spec:
             allowPrivilegeEscalation: false
             readOnlyRootFilesystem: true
             runAsUser: 100
-            {{- with .Values.securityContext }}
-              {{- . | toYaml | nindent 12 }}
+            {{- if ge (int .Capabilities.KubeVersion.Minor) 19 }}
+            {{- with .Values.seccompProfile }}
+            seccompProfile:
+              {{- . | toYaml | nindent 14 }}
+            {{- end }}
             {{- end }}
           volumeMounts:
             - mountPath: /tmp
@@ -633,8 +644,11 @@ spec:
       priorityClassName: {{ include "priorityClass.name" . }}
       securityContext:
         fsGroup: 1337
-        {{- with .Values.podSecurityContext }}
-          {{- . | toYaml | nindent 8 }}
+        {{- if ge (int .Capabilities.KubeVersion.Minor) 19 }}
+        {{- with .Values.podSeccompProfile }}
+        seccompProfile:
+          {{- . | toYaml | nindent 10 }}
+        {{- end }}
         {{- end }}
       serviceAccountName: image-automation-controller
       terminationGracePeriodSeconds: 10
@@ -716,8 +730,11 @@ spec:
             allowPrivilegeEscalation: false
             readOnlyRootFilesystem: true
             runAsUser: 100
-            {{- with .Values.securityContext }}
-              {{- . | toYaml | nindent 12 }}
+            {{- if ge (int .Capabilities.KubeVersion.Minor) 19 }}
+            {{- with .Values.seccompProfile }}
+            seccompProfile:
+              {{- . | toYaml | nindent 14 }}
+            {{- end }}
             {{- end }}
           volumeMounts:
             - mountPath: /tmp
@@ -727,8 +744,11 @@ spec:
       priorityClassName: {{ include "priorityClass.name" . }}
       securityContext:
         fsGroup: 1337
-        {{- with .Values.podSecurityContext }}
-          {{- . | toYaml | nindent 8 }}
+        {{- if ge (int .Capabilities.KubeVersion.Minor) 19 }}
+        {{- with .Values.podSeccompProfile }}
+        seccompProfile:
+          {{- . | toYaml | nindent 10 }}
+        {{- end }}
         {{- end }}
       serviceAccountName: image-reflector-controller
       terminationGracePeriodSeconds: 10
@@ -803,8 +823,11 @@ spec:
             allowPrivilegeEscalation: false
             readOnlyRootFilesystem: true
             runAsUser: 100
-            {{- with .Values.securityContext }}
-              {{- . | toYaml | nindent 12 }}
+            {{- if ge (int .Capabilities.KubeVersion.Minor) 19 }}
+            {{- with .Values.seccompProfile }}
+            seccompProfile:
+              {{- . | toYaml | nindent 14 }}
+            {{- end }}
             {{- end }}
           volumeMounts:
             - mountPath: /tmp
@@ -812,8 +835,10 @@ spec:
       priorityClassName: {{ include "priorityClass.name" . }}
       securityContext:
         fsGroup: 1337
-        {{- with .Values.podSecurityContext }}
-          {{- . | toYaml | nindent 8 }}
+        {{- if ge (int .Capabilities.KubeVersion.Minor) 19 }}
+        {{- with .Values.podSeccompProfile }}
+          {{- . | toYaml | nindent 10 }}
+        {{- end }}
         {{- end }}
       serviceAccountName: kustomize-controller
       terminationGracePeriodSeconds: 60
@@ -900,8 +925,11 @@ spec:
             allowPrivilegeEscalation: false
             readOnlyRootFilesystem: true
             runAsUser: 100
-            {{- with .Values.securityContext }}
-              {{- . | toYaml | nindent 12 }}
+            {{- if ge (int .Capabilities.KubeVersion.Minor) 19 }}
+            {{- with .Values.seccompProfile }}
+            seccompProfile:
+              {{- . | toYaml | nindent 14 }}
+            {{- end }}
             {{- end }}
           volumeMounts:
             - mountPath: /tmp
@@ -909,8 +937,10 @@ spec:
       priorityClassName: {{ include "priorityClass.name" . }}
       securityContext:
         fsGroup: 1337
-        {{- with .Values.podSecurityContext }}
-          {{- . | toYaml | nindent 8 }}
+        {{- if ge (int .Capabilities.KubeVersion.Minor) 19 }}
+        {{- with .Values.podSeccompProfile }}
+          {{- . | toYaml | nindent 10 }}
+        {{- end }}
         {{- end }}
       serviceAccountName: notification-controller
       terminationGracePeriodSeconds: 10
@@ -1001,7 +1031,7 @@ spec:
             allowPrivilegeEscalation: false
             readOnlyRootFilesystem: true
             runAsUser: 100
-            {{- with .Values.securityContext }}
+            {{- with .Values.seccompProfile }}
               {{- . | toYaml | nindent 12 }}
             {{- end }}
           volumeMounts:
@@ -1012,8 +1042,11 @@ spec:
       priorityClassName: {{ include "priorityClass.name" . }}
       securityContext:
         fsGroup: 1337
-        {{- with .Values.securityContext }}
-          {{- . | toYaml | nindent 8 }}
+        {{- if ge (int .Capabilities.KubeVersion.Minor) 19 }}
+        {{- with .Values.podSeccompProfile }}
+        seccompProfile:
+          {{- . | toYaml | nindent 10 }}
+        {{- end }}
         {{- end }}
       serviceAccountName: source-controller
       terminationGracePeriodSeconds: 10

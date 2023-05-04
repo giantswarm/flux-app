@@ -24,16 +24,11 @@
                 "install": {
                     "type": "boolean"
                 },
-                "podSecurityContext": {
+                "podSeccompProfile": {
                     "type": "object",
                     "properties": {
-                        "seccompProfile": {
-                            "type": "object",
-                            "properties": {
-                                "type": {
-                                    "type": "string"
-                                }
-                            }
+                        "type": {
+                            "type": "string"
                         }
                     }
                 },
@@ -64,16 +59,11 @@
                         }
                     }
                 },
-                "securityContext": {
+                "seccompProfile": {
                     "type": "object",
                     "properties": {
-                        "seccompProfile": {
-                            "type": "object",
-                            "properties": {
-                                "type": {
-                                    "type": "string"
-                                }
-                            }
+                        "type": {
+                            "type": "string"
                         }
                     }
                 }
@@ -170,16 +160,11 @@
                 }
             }
         },
-        "podSecurityContext": {
+        "podSeccompProfile": {
             "type": "object",
             "properties": {
-                "seccompProfile": {
-                    "type": "object",
-                    "properties": {
-                        "type": {
-                            "type": "string"
-                        }
-                    }
+                "type": {
+                    "type": "string"
                 }
             }
         },
@@ -361,16 +346,11 @@
                 }
             }
         },
-        "securityContext": {
+        "seccompProfile": {
             "type": "object",
             "properties": {
-                "seccompProfile": {
-                    "type": "object",
-                    "properties": {
-                        "type": {
-                            "type": "string"
-                        }
-                    }
+                "type": {
+                    "type": "string"
                 }
             }
         },
