@@ -548,7 +548,7 @@ spec:
         {{- if ge (int .Capabilities.KubeVersion.Minor) 19 }}
         {{- with .Values.seccompProfile }}
         seccompProfile:
-          {{- . | toYaml | nindent 8 }}
+          {{- . | toYaml | nindent 10 }}
         {{- end }}
         {{- end }}
       serviceAccountName: helm-controller
@@ -1032,7 +1032,7 @@ spec:
             readOnlyRootFilesystem: true
             runAsUser: 100
             {{- with .Values.seccompProfile }}
-              {{- . | toYaml | nindent 12 }}
+              {{- . | toYaml | nindent 14 }}
             {{- end }}
           volumeMounts:
             - mountPath: /data
