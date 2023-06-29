@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- Updated default `securityContext` values to comply with PSS policies.
+
 ## [0.23.1] - 2023-05-04
 
 ### Added
