@@ -432,33 +432,6 @@ spec:
     app.kubernetes.io/name: {{ include "name" . }}
   type: ClusterIP
 ---
-apiVersion: v1
-kind: Service
-metadata:
-  annotations:
-    giantswarm.io/monitoring-path: /metrics
-    giantswarm.io/monitoring-port: "8080"
-  labels:
-    app.kubernetes.io/instance: {{ .Release.Name }}
-    app.kubernetes.io/managed-by: {{ .Release.Service }}
-    app.kubernetes.io/name: {{ include "name" . }}
-    app.kubernetes.io/version: {{ .Chart.AppVersion }}
-    giantswarm.io/monitoring: "true"
-    giantswarm.io/service_type: managed
-    helm.sh/chart: {{ include "chart" . }}
-  name: {{ .Release.Name  }}-monitoring
-  namespace: {{ .Release.Namespace }}
-spec:
-  clusterIP: None
-  ports:
-    - port: 8080
-      protocol: TCP
-      targetPort: {{ .Values.upstreamMetricsPort }}
-  selector:
-    app.kubernetes.io/instance: {{ .Release.Name }}
-    app.kubernetes.io/managed-by: {{ .Release.Service }}
-    app.kubernetes.io/name: {{ include "name" . }}
----
 apiVersion: apps/v1
 kind: Deployment
 metadata:

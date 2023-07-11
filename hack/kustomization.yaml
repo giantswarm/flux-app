@@ -26,7 +26,6 @@ images:
 resources:
 - https://github.com/fluxcd/flux2/releases/download/v0.41.2/install.yaml
 - ./additional-resources/pvc-psp.yaml
-- ./additional-resources/metrics-service.yaml
 
 patches:
 - path: ./patches/allow-scraping-networkpolicy-patch.yaml
