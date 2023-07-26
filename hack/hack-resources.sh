@@ -11,7 +11,7 @@ then
     sed -i 's!GS_PLACEHOLDER_RESOURCES_NOTIFICATION_CONTROLLER!\n{{ include "resources.notificationController" . | indent 12 }}!g' helm/flux-app/templates/install.yaml
     sed -i 's!GS_PLACEHOLDER_RESOURCES_SOURCE_CONTROLLER!\n{{ include "resources.sourceController" . | indent 12 }}!g' helm/flux-app/templates/install.yaml
 
-    sed -i e "/image:/b;s/'{{/{{/g" -e "/image:/b;s/}}'/}}/g" helm/flux-app/templates/install.yaml
+    sed -i -e "/image:/b;s/'{{/{{/g" -e "/image:/b;s/}}'/}}/g" helm/flux-app/templates/install.yaml
 else
     ## BSD sed commands
     sed -i "" 's!GS_PLACEHOLDER_RESOURCES_HELM_CONTROLLER!\n{{ include "resources.helmController" . | indent 12 }}!g' helm/flux-app/templates/install.yaml
