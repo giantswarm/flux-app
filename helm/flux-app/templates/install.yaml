@@ -530,7 +530,9 @@ spec:
           resources: 
 {{ include "resources.helmController" . | indent 12 }}
           securityContext:
-            allowPrivilegeEscalation: false
+            {{- with .Values.containerSecurityContext }}
+            {{- . | toYaml | nindent 12 }}
+            {{- end }}
             readOnlyRootFilesystem: true
             runAsUser: 100
             {{- if ge (int .Capabilities.KubeVersion.Minor) 19 }}
@@ -546,7 +548,7 @@ spec:
       securityContext:
         fsGroup: 1337
         {{- if ge (int .Capabilities.KubeVersion.Minor) 19 }}
-        {{- with .Values.seccompProfile }}
+        {{- with .Values.podSeccompProfile }}
         seccompProfile:
           {{- . | toYaml | nindent 10 }}
         {{- end }}
@@ -629,7 +631,9 @@ spec:
           resources: 
 {{ include "resources.imageAutomationController" . | indent 12 }}
           securityContext:
-            allowPrivilegeEscalation: false
+            {{- with .Values.containerSecurityContext }}
+            {{- . | toYaml | nindent 12 }}
+            {{- end }}
             readOnlyRootFilesystem: true
             runAsUser: 100
             {{- if ge (int .Capabilities.KubeVersion.Minor) 19 }}
@@ -727,7 +731,9 @@ spec:
           resources: 
 {{ include "resources.imageReflectorController" . | indent 12 }}
           securityContext:
-            allowPrivilegeEscalation: false
+            {{- with .Values.containerSecurityContext }}
+            {{- . | toYaml | nindent 12 }}
+            {{- end }}
             readOnlyRootFilesystem: true
             runAsUser: 100
             {{- if ge (int .Capabilities.KubeVersion.Minor) 19 }}
@@ -820,7 +826,9 @@ spec:
           resources: 
 {{ include "resources.kustomizeController" . | indent 12 }}
           securityContext:
-            allowPrivilegeEscalation: false
+            {{- with .Values.containerSecurityContext }}
+            {{- . | toYaml | nindent 12 }}
+            {{- end }}
             readOnlyRootFilesystem: true
             runAsUser: 100
             {{- if ge (int .Capabilities.KubeVersion.Minor) 19 }}
@@ -923,7 +931,9 @@ spec:
           resources: 
 {{ include "resources.notificationController" . | indent 12 }}
           securityContext:
-            allowPrivilegeEscalation: false
+            {{- with .Values.containerSecurityContext }}
+            {{- . | toYaml | nindent 12 }}
+            {{- end }}
             readOnlyRootFilesystem: true
             runAsUser: 100
             {{- if ge (int .Capabilities.KubeVersion.Minor) 19 }}
@@ -1030,7 +1040,9 @@ spec:
           resources: 
 {{ include "resources.sourceController" . | indent 12 }}
           securityContext:
-            allowPrivilegeEscalation: false
+            {{- with .Values.containerSecurityContext }}
+            {{- . | toYaml | nindent 12 }}
+            {{- end }}
             readOnlyRootFilesystem: true
             runAsUser: 100
             {{- if ge (int .Capabilities.KubeVersion.Minor) 19 }}
