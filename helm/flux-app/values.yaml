@@ -148,10 +148,11 @@ podSeccompProfile:
 
 # Add seccomp to container security context
 seccompProfile:
+  type: RuntimeDefault
+
+containerSecurityContext:
   allowPrivilegeEscalation: false
   capabilities:
     drop:
       - ALL
   runAsNonRoot: true
-  seccompProfile:
-    type: RuntimeDefault
