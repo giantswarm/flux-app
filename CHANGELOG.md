@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- Update Flux to v2.0.1. Includes [breaking changes](https://github.com/fluxcd/flux2/releases/tag/v2.0.1).
+
 ## [0.24.1] - 2023-08-03
 
 ### Fixed
