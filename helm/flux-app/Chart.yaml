@@ -19,4 +19,4 @@ restrictions:
 sources:
   - https://github.com/fluxcd/flux2
 type: application
-version: 0.24.1
+version: 1.0.0
