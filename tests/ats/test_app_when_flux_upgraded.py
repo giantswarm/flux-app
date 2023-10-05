@@ -148,7 +148,7 @@ def deploy_as_kustomization(
         namespace,
         "1m",
         "https://github.com/giantswarm/flux-app-tests",
-        "main",
+        "align-to-flux-v2-updated-flux-app-repo",
         ignore_pattern="tests/test_cases/**/result",
     )
     git_repository.create()
