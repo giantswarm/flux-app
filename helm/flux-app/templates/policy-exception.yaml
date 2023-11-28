@@ -37,6 +37,7 @@ spec:
         - Deployment
         - ReplicaSet
         - Pod
+        - Job
         names:
           - "helm-controller*"
           - "image-automation-controller*"
@@ -44,6 +45,7 @@ spec:
           - "kustomize-controller*"
           - "notification-controller*"
           - "source-controller*"
+          - "flux-app-crd-install*"
         namespaces:
         - "{{ .Release.Namespace }}"
 {{- end }}
