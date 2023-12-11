@@ -44,7 +44,7 @@ def test_kustomization_works(
         namespace,
         "1m",
         "https://github.com/giantswarm/flux-app-tests",
-        "align-to-flux-app-test-changes",
+        "main",
         ignore_pattern="tests/test_cases/**/result",
     )
 
