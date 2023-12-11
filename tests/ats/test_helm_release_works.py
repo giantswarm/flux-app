@@ -1,4 +1,5 @@
 import logging
+import time
 from typing import List
 
 import pykube
@@ -59,5 +60,7 @@ def test_helm_release_works(
         ),
         interval="1m",
     )
+
+    time.sleep(1800)
 
     assert_hello_world_is_running(kube_cluster.kube_client, app_namespace)
