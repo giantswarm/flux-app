@@ -1,4 +1,5 @@
 import logging
+import time
 from typing import List
 
 import pykube
@@ -49,8 +50,8 @@ def test_helm_release_works(
         "hello-world",
         app_namespace,
         chart=ChartTemplate(
-            chart="hello-world-app",
-            version="0.1.0",
+            chart="hello-world",
+            version="2.3.0",
             sourceRef=CrossNamespaceObjectReference(
                 kind="HelmRepository",
                 name=helm_registry_name,

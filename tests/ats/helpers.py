@@ -9,9 +9,9 @@ def assert_hello_world_is_running(
     kube_client: HTTPClient,
     app_namespace: str,
     app_deploy_name: str = "hello-world",
-    app_svc_name: str = "hello-world-service",
+    app_svc_name: str = "hello-world",
 ) -> None:
-    app_svc_port = 8080
+    app_svc_port = 80
     wait_for_deployments_to_run(
         kube_client,
         [app_deploy_name],
