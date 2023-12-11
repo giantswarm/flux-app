@@ -45,7 +45,7 @@ def test_app_unchanged_when_flux_upgraded(
     test_dir_name = "simple-app-cr-upgrade"
     kustomization_name = test_dir_name + suffix
     app_deploy_namespace = "hello-world" + suffix
-    deployment_name = "hello-world-flux-app-upgrade-test"
+    deployment_name = "hello-world"
 
     # we can't use fixture factories here, as they are automatically cleaned up at the end of test (the latest)
     if upgrade_stage == "pre_upgrade":
@@ -88,9 +88,7 @@ def delete_deployment(
     # assert app is running as expected
     assert_hello_world_is_running(
         kube_cluster.kube_client,
-        app_namespace,
-        app_deploy_name="hello-world-flux-app-upgrade-test",
-        app_svc_name="hello-world-flux-app-upgrade-test-service",
+        app_namespace
     )
     if not exists(tmp_file_name):
         pytest.fail(
@@ -174,9 +172,7 @@ def deploy_as_kustomization(
     # check if deployed successfully
     assert_hello_world_is_running(
         kube_cluster.kube_client,
-        app_deploy_namespace,
-        app_deploy_name="hello-world-flux-app-upgrade-test",
-        app_svc_name="hello-world-flux-app-upgrade-test-service",
+        app_deploy_namespace
     )
     deployment_generation = get_deployment_generation(
         kube_cluster, deployment_name, app_deploy_namespace
