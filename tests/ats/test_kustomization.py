@@ -1,4 +1,5 @@
 import logging
+import time
 from typing import List
 
 import pykube
@@ -57,5 +58,7 @@ def test_kustomization_works(
         git_repo_cr_name,
         "2m",
     )
+
+    time.sleep(1800)
 
     assert_hello_world_is_running(kube_cluster.kube_client, "hello-world")
