@@ -22,7 +22,7 @@ APP_DEPLOYMENT_TIMEOUT_SEC = 180
 
 
 @pytest.mark.functional
-# @pytest.mark.upgrade
+@pytest.mark.upgrade
 def test_helm_release_works(
     kube_cluster: Cluster,
     flux_deployments: List[pykube.Deployment],
@@ -63,6 +63,6 @@ def test_helm_release_works(
         }
     )
 
-    time.sleep(600)
+    time.sleep(450)
 
     assert_hello_world_is_running(kube_cluster.kube_client, app_namespace=name, app_deploy_name=name, app_svc_name=name)
