@@ -50,6 +50,9 @@ spec:
           kubectl apply -f /data/ 2>&1
         securityContext:
           readOnlyRootFilesystem: true
+          {{- with .Values.containerSecurityContext }}
+          {{- . | toYaml | nindent 10 }}
+          {{- end }}
           {{- if ge (int .Capabilities.KubeVersion.Minor) 19 }}
           {{- with .Values.crds.seccompProfile }}
           seccompProfile:
