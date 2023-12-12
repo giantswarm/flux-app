@@ -59,8 +59,9 @@ def test_helm_release_works(
             ),
         ),
         interval="1m",
+        values={
+            "fullnameOverride": "hello-world-helm-release-test"
+        }
     )
-
-    time.sleep(1800)
 
     assert_hello_world_is_running(kube_cluster.kube_client, app_namespace)

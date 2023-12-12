@@ -16,7 +16,7 @@ logger = logging.getLogger(__name__)
 
 
 @pytest.mark.functional
-@pytest.mark.upgrade
+# @pytest.mark.upgrade
 @pytest.mark.parametrize(
     "test_name", ["simple-app-cr-delivery", "simple-chart-release"]
 )
