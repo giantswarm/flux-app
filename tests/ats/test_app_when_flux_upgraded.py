@@ -1,4 +1,5 @@
 import os
+import time
 from os.path import exists
 from typing import Dict
 
@@ -99,7 +100,7 @@ def delete_deployment(
     )
     with open(tmp_file_name, "r") as f:
         expected_generation = f.read()
-    os.remove(tmp_file_name)
+    # os.remove(tmp_file_name)
     assert deployment_generation == expected_generation
 
     # delete the app deployment
@@ -109,12 +110,14 @@ def delete_deployment(
         .get_by_name(kustomization_name)
     )
     kustomization.delete()
+
     git_repo: GitRepositoryCR = (
         GitRepositoryCR.objects(kube_cluster.kube_client)
         .filter(namespace=namespace)
         .get_by_name(git_repo_name)
     )
     git_repo.delete()
+
     catalog: CatalogCR = (
         CatalogCR.objects(kube_cluster.kube_client)
         .filter(namespace=namespace)
@@ -122,6 +125,8 @@ def delete_deployment(
     )
     catalog.delete()
 
+    # Wait a little to clean up actual resources managed by the kustomization
+    time.sleep(20)
 
 def deploy_as_kustomization(
     kube_cluster: Cluster,
@@ -174,6 +179,7 @@ def deploy_as_kustomization(
         kube_cluster.kube_client,
         app_deploy_namespace
     )
+
     deployment_generation = get_deployment_generation(
         kube_cluster, deployment_name, app_deploy_namespace
     )
@@ -190,4 +196,5 @@ def get_deployment_generation(kube_cluster, deployment_name, namespace) -> str:
         .filter(namespace=namespace)
         .get_by_name(deployment_name)
     )
+
     return str(hello_deployment.obj["status"]["observedGeneration"])
