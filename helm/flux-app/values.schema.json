@@ -91,6 +91,9 @@
                 }
             }
         },
+        "createPolicyExceptionsNamespace": {
+            "type": "boolean"
+        },
         "imageAutomationController": {
             "type": "object",
             "properties": {

@@ -1,4 +1,12 @@
 {{ if .Capabilities.APIVersions.Has "kyverno.io/v2alpha1/PolicyException" }}
+{{ if .Values.createPolicyExceptionsNamespace -}}
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: policy-exceptions
+{{- end }}
+---
 apiVersion: kyverno.io/v2alpha1
 kind: PolicyException
 metadata:
