@@ -156,6 +156,3 @@ containerSecurityContext:
     drop:
       - ALL
   runAsNonRoot: true
-
-# If we should create the namespace for policy-exceptions
-createPolicyExceptionsNamespace: false
