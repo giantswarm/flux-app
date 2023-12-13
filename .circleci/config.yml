@@ -19,24 +19,24 @@ workflows:
               only: /^v.*/
           push_to_oci_registry: true
 
-#      - architect/run-tests-with-ats:
-#          name: execute chart tests - smoke and functional
-#          additional_app-test-suite_flags: "--skip-steps upgrade"
-#          app-test-suite_version: "v0.2.9"
-#          app-test-suite_container_tag: "0.2.9"
-#          filters:
-#            # Do not trigger the job on merge to master.
-#            branches:
-#              ignore:
-#                - master
-#          requires:
-#            - "package and push flux-app chart"
+      #      - architect/run-tests-with-ats:
+      #          name: execute chart tests - smoke and functional
+      #          additional_app-test-suite_flags: "--skip-steps upgrade"
+      #          app-test-suite_version: "v0.2.9"
+      #          app-test-suite_container_tag: "0.2.9"
+      #          filters:
+      #            # Do not trigger the job on merge to master.
+      #            branches:
+      #              ignore:
+      #                - master
+      #          requires:
+      #            - "package and push flux-app chart"
 
       - architect/run-tests-with-ats:
           name: execute chart tests - upgrade
           additional_app-test-suite_flags: "--skip-steps smoke functional"
-          app-test-suite_version: "v0.2.9"
-          app-test-suite_container_tag: "0.2.9"
+          app-test-suite_version: "v0.5.0"
+          app-test-suite_container_tag: "0.5.0"
           filters:
             branches:
               only: /master#release#.*/
