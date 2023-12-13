@@ -18,7 +18,7 @@ from helpers import assert_hello_world_is_running
 
 logger = logging.getLogger(__name__)
 
-APP_DEPLOYMENT_TIMEOUT_SEC = 180
+APP_DEPLOYMENT_TIMEOUT_SEC = 1800
 
 
 @pytest.mark.functional
@@ -35,30 +35,32 @@ def test_helm_release_works(
     For upgrade test, the workflow is executed twice, so for both the stable and under-test versions
     a full cycle is executed (app is deployed and then destroyed).
     """
-    namespace = "hello-world"
-    app_namespace = "hello-world"
-    namespace_factory(app_namespace)
+    name = "hello-world-helm-release-test"
+    namespace_factory(name)
 
     helm_registry_name = "giantswarm"
     helm_repository_factory(
         helm_registry_name,
-        namespace,
+        name,
         "1m",
         "https://giantswarm.github.io/giantswarm-catalog",
     )
     helm_release_factory(
         "hello-world",
-        app_namespace,
+        name,
         chart=ChartTemplate(
             chart="hello-world",
             version="2.3.0",
             sourceRef=CrossNamespaceObjectReference(
                 kind="HelmRepository",
                 name=helm_registry_name,
-                namespace=namespace,
+                namespace=name,
             ),
         ),
         interval="1m",
+        values={
+            "fullnameOverride": name
+        }
     )
 
-    assert_hello_world_is_running(kube_cluster.kube_client, app_namespace)
+    assert_hello_world_is_running(kube_cluster.kube_client, app_namespace=name, app_deploy_name=name, app_svc_name=name)

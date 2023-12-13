@@ -1,4 +1,5 @@
 import os
+import time
 from os.path import exists
 from typing import Dict
 
@@ -44,8 +45,8 @@ def test_app_unchanged_when_flux_upgraded(
     git_repo_name = "flux-app-tests" + suffix
     test_dir_name = "simple-app-cr-upgrade"
     kustomization_name = test_dir_name + suffix
-    app_deploy_namespace = "hello-world" + suffix
-    deployment_name = "hello-world-flux-app-upgrade-test"
+    app_deploy_namespace = "default"
+    deployment_name = "hello-world"
 
     # we can't use fixture factories here, as they are automatically cleaned up at the end of test (the latest)
     if upgrade_stage == "pre_upgrade":
@@ -88,9 +89,7 @@ def delete_deployment(
     # assert app is running as expected
     assert_hello_world_is_running(
         kube_cluster.kube_client,
-        app_namespace,
-        app_deploy_name="hello-world-flux-app-upgrade-test",
-        app_svc_name="hello-world-flux-app-upgrade-test-service",
+        app_namespace
     )
     if not exists(tmp_file_name):
         pytest.fail(
@@ -101,7 +100,7 @@ def delete_deployment(
     )
     with open(tmp_file_name, "r") as f:
         expected_generation = f.read()
-    os.remove(tmp_file_name)
+    # os.remove(tmp_file_name)
     assert deployment_generation == expected_generation
 
     # delete the app deployment
@@ -111,12 +110,14 @@ def delete_deployment(
         .get_by_name(kustomization_name)
     )
     kustomization.delete()
+
     git_repo: GitRepositoryCR = (
         GitRepositoryCR.objects(kube_cluster.kube_client)
         .filter(namespace=namespace)
         .get_by_name(git_repo_name)
     )
     git_repo.delete()
+
     catalog: CatalogCR = (
         CatalogCR.objects(kube_cluster.kube_client)
         .filter(namespace=namespace)
@@ -124,6 +125,8 @@ def delete_deployment(
     )
     catalog.delete()
 
+    # Wait a little to clean up actual resources managed by the kustomization
+    time.sleep(20)
 
 def deploy_as_kustomization(
     kube_cluster: Cluster,
@@ -174,10 +177,9 @@ def deploy_as_kustomization(
     # check if deployed successfully
     assert_hello_world_is_running(
         kube_cluster.kube_client,
-        app_deploy_namespace,
-        app_deploy_name="hello-world-flux-app-upgrade-test",
-        app_svc_name="hello-world-flux-app-upgrade-test-service",
+        app_deploy_namespace
     )
+
     deployment_generation = get_deployment_generation(
         kube_cluster, deployment_name, app_deploy_namespace
     )
@@ -194,4 +196,5 @@ def get_deployment_generation(kube_cluster, deployment_name, namespace) -> str:
         .filter(namespace=namespace)
         .get_by_name(deployment_name)
     )
+
     return str(hello_deployment.obj["status"]["observedGeneration"])

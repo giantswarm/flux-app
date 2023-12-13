@@ -2,3 +2,4 @@ smoke-tests-cluster-type: kind
 functional-tests-cluster-type: kind
 upgrade-tests-cluster-type: kind
 upgrade-tests-app-catalog-url: https://giantswarm.github.io/giantswarm-catalog/
+upgrade-tests-app-version: 1.0.0
