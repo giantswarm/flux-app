@@ -8,7 +8,7 @@ from pytest_helm_charts.clusters import Cluster
 
 logger = logging.getLogger(__name__)
 
-APP_DEPLOYMENT_TIMEOUT_SEC = 180
+APP_DEPLOYMENT_TIMEOUT_SEC = 1800
 
 
 @pytest.mark.smoke

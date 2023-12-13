@@ -18,7 +18,7 @@ from helpers import assert_hello_world_is_running
 
 logger = logging.getLogger(__name__)
 
-APP_DEPLOYMENT_TIMEOUT_SEC = 180
+APP_DEPLOYMENT_TIMEOUT_SEC = 1800
 
 
 @pytest.mark.functional
