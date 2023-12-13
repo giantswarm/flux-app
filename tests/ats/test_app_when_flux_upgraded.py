@@ -45,7 +45,7 @@ def test_app_unchanged_when_flux_upgraded(
     git_repo_name = "flux-app-tests" + suffix
     test_dir_name = "simple-app-cr-upgrade"
     kustomization_name = test_dir_name + suffix
-    app_deploy_namespace = "hello-world" + suffix
+    app_deploy_namespace = "default"
     deployment_name = "hello-world"
 
     # we can't use fixture factories here, as they are automatically cleaned up at the end of test (the latest)
