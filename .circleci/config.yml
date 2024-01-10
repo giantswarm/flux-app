@@ -1,6 +1,6 @@
 version: 2.1
 orbs:
-  architect: giantswarm/architect@dev:update-abs-and-use-gsoci
+  architect: giantswarm/architect@4.35.1
 
 workflows:
   package-and-push-chart-on-tag:
