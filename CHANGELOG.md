@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+- Updgrade Flux to 2.1.2 and preare it for Kubernetes 1.25
+
 ## [1.1.1] - 2023-12-11
 
 ### Changed
