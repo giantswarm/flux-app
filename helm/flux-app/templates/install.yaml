@@ -113,42 +113,6 @@ metadata:
   name: source-controller
   namespace: {{ .Release.Namespace }}
 ---
-apiVersion: policy/v1beta1
-kind: PodSecurityPolicy
-metadata:
-  {{- if ge (int .Capabilities.KubeVersion.Minor) 19 }}
-  annotations:
-    seccomp.security.alpha.kubernetes.io/allowedProfileNames: "runtime/default"
-  {{- end }}
-  labels:
-    app.kubernetes.io/instance: {{ .Release.Name }}
-    app.kubernetes.io/managed-by: {{ .Release.Service }}
-    app.kubernetes.io/name: {{ include "name" . }}
-    app.kubernetes.io/version: {{ .Chart.AppVersion }}
-    giantswarm.io/service_type: managed
-    helm.sh/chart: {{ include "chart" . }}
-  name: {{ printf "%s-pvc-psp" (include "name" .) }}
-spec:
-  allowPrivilegeEscalation: false
-  fsGroup:
-    ranges:
-      - max: 65535
-        min: 1
-    rule: MustRunAs
-  privileged: false
-  runAsUser:
-    rule: MustRunAsNonRoot
-  seLinux:
-    rule: RunAsAny
-  supplementalGroups:
-    ranges:
-      - max: 65535
-        min: 1
-    rule: MustRunAs
-  volumes:
-    - emptyDir
-    - secret
----
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
 metadata:
@@ -533,7 +497,7 @@ spec:
               valueFrom:
                 fieldRef:
                   fieldPath: metadata.namespace
-          image: '{{ .Values.images.registry }}/{{ .Values.images.helmController.image }}:v0.35.0'
+          image: '{{ .Values.images.registry }}/{{ .Values.images.helmController.image }}:v0.36.2'
           imagePullPolicy: IfNotPresent
           livenessProbe:
             httpGet:
@@ -576,7 +540,7 @@ spec:
         seccompProfile:
           {{- . | toYaml | nindent 10 }}
         {{- end }}
-        {{- end }}
+        {{- end }} 
       serviceAccountName: helm-controller
       terminationGracePeriodSeconds: 600
       volumes:
@@ -634,7 +598,7 @@ spec:
               valueFrom:
                 fieldRef:
                   fieldPath: metadata.namespace
-          image: '{{ .Values.images.registry }}/{{ .Values.images.imageAutomationController.image }}:v0.35.0'
+          image: '{{ .Values.images.registry }}/{{ .Values.images.imageAutomationController.image }}:v0.36.1'
           imagePullPolicy: IfNotPresent
           livenessProbe:
             httpGet:
@@ -677,7 +641,7 @@ spec:
         seccompProfile:
           {{- . | toYaml | nindent 10 }}
         {{- end }}
-        {{- end }}
+        {{- end }} 
       serviceAccountName: image-automation-controller
       terminationGracePeriodSeconds: 10
       volumes:
@@ -734,7 +698,7 @@ spec:
               valueFrom:
                 fieldRef:
                   fieldPath: metadata.namespace
-          image: '{{ .Values.images.registry }}/{{ .Values.images.imageReflectorController.image }}:v0.29.1'
+          image: '{{ .Values.images.registry }}/{{ .Values.images.imageReflectorController.image }}:v0.30.0'
           imagePullPolicy: IfNotPresent
           livenessProbe:
             httpGet:
@@ -779,7 +743,7 @@ spec:
         seccompProfile:
           {{- . | toYaml | nindent 10 }}
         {{- end }}
-        {{- end }}
+        {{- end }} 
       serviceAccountName: image-reflector-controller
       terminationGracePeriodSeconds: 10
       volumes:
@@ -815,7 +779,8 @@ spec:
   template:
     metadata:
       annotations: {{ include "podTemplateAnnotations.kustomizeController" . }}
-      labels: {{ include "podTemplateLabels.kustomizeController" . }}
+      labels:
+        {{ include "podTemplateLabels.kustomizeController" . }}
     spec:
       containers:
         - args:
@@ -829,7 +794,7 @@ spec:
               valueFrom:
                 fieldRef:
                   fieldPath: metadata.namespace
-          image: '{{ .Values.images.registry }}/{{ .Values.images.kustomizeController.image }}:v1.0.1'
+          image: '{{ .Values.images.registry }}/{{ .Values.images.kustomizeController.image }}:v1.1.1'
           imagePullPolicy: IfNotPresent
           livenessProbe:
             httpGet:
@@ -865,6 +830,7 @@ spec:
             - mountPath: /tmp
               name: temp
       priorityClassName: {{ include "priorityClass.name" . }}
+      serviceAccountName: kustomize-controller
       securityContext:
         fsGroup: 1337
         {{- if ge (int .Capabilities.KubeVersion.Minor) 19 }}
@@ -872,8 +838,7 @@ spec:
         seccompProfile:
           {{- . | toYaml | nindent 10 }}
         {{- end }}
-        {{- end }}
-      serviceAccountName: kustomize-controller
+        {{- end }} 
       terminationGracePeriodSeconds: 60
       volumes:
         - emptyDir: {}
@@ -928,7 +893,7 @@ spec:
               valueFrom:
                 fieldRef:
                   fieldPath: metadata.namespace
-          image: '{{ .Values.images.registry }}/{{ .Values.images.notificationController.image }}:v1.0.0'
+          image: '{{ .Values.images.registry }}/{{ .Values.images.notificationController.image }}:v1.1.0'
           imagePullPolicy: IfNotPresent
           livenessProbe:
             httpGet:
@@ -977,7 +942,7 @@ spec:
         seccompProfile:
           {{- . | toYaml | nindent 10 }}
         {{- end }}
-        {{- end }}
+        {{- end }} 
       serviceAccountName: notification-controller
       terminationGracePeriodSeconds: 10
       volumes:
@@ -1040,7 +1005,7 @@ spec:
                   fieldPath: metadata.namespace
             - name: TUF_ROOT
               value: /tmp/.sigstore
-          image: '{{ .Values.images.registry }}/{{ .Values.images.sourceController.image }}:v1.0.1'
+          image: '{{ .Values.images.registry }}/{{ .Values.images.sourceController.image }}:v1.1.2'
           imagePullPolicy: IfNotPresent
           livenessProbe:
             httpGet:
@@ -1088,7 +1053,7 @@ spec:
         seccompProfile:
           {{- . | toYaml | nindent 10 }}
         {{- end }}
-        {{- end }}
+        {{- end }} 
       serviceAccountName: source-controller
       terminationGracePeriodSeconds: 10
       volumes:
