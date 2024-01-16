@@ -15,7 +15,7 @@ metadata:
     app.kubernetes.io/version: {{ .Chart.AppVersion }}
     giantswarm.io/service_type: managed
     helm.sh/chart: {{ include "chart" . }}
-  name: {{ printf "%s-pvc-psp" (include "name" .) }}
+  name: {{ include "pspNameFinal" . }}
 spec:
   allowPrivilegeEscalation: false
   fsGroup:

@@ -160,3 +160,8 @@ containerSecurityContext:
 global:
   podSecurityStandards:
     enforced: false
+
+# It should be used for making it possible to install this chart several times
+# without having cluster-wide resources conflicting.
+# It's not applied everywhere yet, so don't rely on that yet.
+namePostfix: giantswarm
