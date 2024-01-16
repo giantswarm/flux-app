@@ -33,7 +33,7 @@ metadata:
     app.kubernetes.io/version: {{ .Chart.AppVersion }}
     giantswarm.io/service_type: managed
     helm.sh/chart: {{ include "chart" . }}
-  name: psp-binding
+  name: flux-psp-binding
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: ClusterRole
