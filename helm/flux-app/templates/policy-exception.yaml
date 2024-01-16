@@ -1,3 +1,4 @@
+{{ if .Capabilities.APIVersions.Has "kyverno.io/v2alpha1/PolicyException" }}
 ---
 apiVersion: kyverno.io/v2alpha1
 kind: PolicyException
@@ -50,3 +51,4 @@ spec:
           - "flux-app-crd-install*"
         namespaces:
         - "{{ .Release.Namespace }}"
+{{- end }}
