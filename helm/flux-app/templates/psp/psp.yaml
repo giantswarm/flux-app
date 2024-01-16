@@ -1,0 +1,39 @@
+# PSP were removed in k8s 1.25
+# but we still require them in older versions
+{{- if not .Values.global.podSecurityStandards.enforced }}
+apiVersion: policy/v1beta1
+kind: PodSecurityPolicy
+metadata:
+  {{- if ge (int .Capabilities.KubeVersion.Minor) 19 }}
+  annotations:
+    seccomp.security.alpha.kubernetes.io/allowedProfileNames: "runtime/default"
+  {{- end }}
+  labels:
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+    app.kubernetes.io/name: {{ include "name" . }}
+    app.kubernetes.io/version: {{ .Chart.AppVersion }}
+    giantswarm.io/service_type: managed
+    helm.sh/chart: {{ include "chart" . }}
+  name: {{ printf "%s-pvc-psp" (include "name" .) }}
+spec:
+  allowPrivilegeEscalation: false
+  fsGroup:
+    ranges:
+      - max: 65535
+        min: 1
+    rule: MustRunAs
+  privileged: false
+  runAsUser:
+    rule: MustRunAsNonRoot
+  seLinux:
+    rule: RunAsAny
+  supplementalGroups:
+    ranges:
+      - max: 65535
+        min: 1
+    rule: MustRunAs
+  volumes:
+    - emptyDir
+    - secret
+{{- end }}
