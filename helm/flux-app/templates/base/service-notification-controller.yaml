@@ -6,6 +6,7 @@ metadata:
     app.kubernetes.io/component: notification-controller
 {{ include "labels.common" . | indent 4 }}
   name: notification-controller
+  namespace: {{ .Release.Namespace }}
 spec:
   ports:
     - name: http

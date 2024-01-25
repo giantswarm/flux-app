@@ -5,6 +5,7 @@ metadata:
   labels:
 {{ include "labels.common" . | indent 4 }}
   name: critical-pods
+  namespace: {{ .Release.Namespace }}
 spec:
   hard:
     pods: "1000"

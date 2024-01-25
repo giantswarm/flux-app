@@ -6,6 +6,7 @@ metadata:
     app.kubernetes.io/component: image-automation-controller
 {{ include "labels.common" . | indent 4 }}
   name: image-automation-controller
+  namespace: {{ .Release.Namespace }}
 spec:
   replicas: 1
   selector:

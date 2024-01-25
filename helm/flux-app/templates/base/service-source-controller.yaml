@@ -6,6 +6,7 @@ metadata:
     app.kubernetes.io/component: source-controller
 {{ include "labels.common" . | indent 4 }}
   name: source-controller
+  namespace: {{ .Release.Namespace }}
 spec:
   ports:
     - name: http

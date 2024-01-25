@@ -6,6 +6,7 @@ metadata:
     app.kubernetes.io/component: helm-controller
 {{ include "labels.common" . | indent 4 }}
   name: helm-controller
+  namespace: {{ .Release.Namespace }}
 spec:
   replicas: 1
   selector:

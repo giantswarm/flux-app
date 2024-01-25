@@ -5,6 +5,7 @@ metadata:
   labels:
 {{ include "labels.common" . | indent 4 }}
   name: allow-webhooks
+  namespace: {{ .Release.Namespace }}
 spec:
   ingress:
     - from:

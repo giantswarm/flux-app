@@ -6,6 +6,7 @@ metadata:
     app.kubernetes.io/component: kustomize-controller
 {{ include "labels.common" . | indent 4 }}
   name: kustomize-controller
+  namespace: {{ .Release.Namespace }}
 spec:
   replicas: 1
   selector:
