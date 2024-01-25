@@ -149,10 +149,19 @@ podSeccompProfile:
 # Add seccomp to container security context
 seccompProfile:
   type: RuntimeDefault
-
+policyException:
+  namespace: policy-exception
 containerSecurityContext:
   allowPrivilegeEscalation: false
   capabilities:
     drop:
       - ALL
   runAsNonRoot: true
+providerData:
+  enabled: false
+  branch: main
+  # name:
+  # url:
+global:
+  podSecurityStandards:
+    enforced: false

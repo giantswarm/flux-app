@@ -1,9 +1,9 @@
-{{ if eq (include "resource.vpa.enabled" .) "true" }}
+{{/*- if .Capabilities.APIVersions.Has "autoscaling.k8s.io/v1/VerticalPodAutoscaler" */}}
+{{- if eq (include "resource.vpa.enabled" .) "true" }}
 apiVersion: autoscaling.k8s.io/v1
 kind: VerticalPodAutoscaler
 metadata:
   name: helm-controller
-  namespace: {{ .Release.Namespace }}
   labels:
     {{- include "labels.common" . | nindent 4 }}
 spec:
@@ -29,7 +29,8 @@ apiVersion: autoscaling.k8s.io/v1
 kind: VerticalPodAutoscaler
 metadata:
   name: image-automation-controller
-  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "labels.common" . | nindent 4 }}
 spec:
   resourcePolicy:
     containerPolicies:
@@ -53,7 +54,6 @@ apiVersion: autoscaling.k8s.io/v1
 kind: VerticalPodAutoscaler
 metadata:
   name: image-reflector-controller
-  namespace: {{ .Release.Namespace }}
   labels:
     {{- include "labels.common" . | nindent 4 }}
 spec:
@@ -79,7 +79,6 @@ apiVersion: autoscaling.k8s.io/v1
 kind: VerticalPodAutoscaler
 metadata:
   name: kustomize-controller
-  namespace: {{ .Release.Namespace }}
   labels:
     {{- include "labels.common" . | nindent 4 }}
 spec:
@@ -150,4 +149,4 @@ spec:
     name: source-controller
   updatePolicy:
     updateMode: Auto
-{{ end }}
+{{- end }}
