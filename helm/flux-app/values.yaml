@@ -157,11 +157,6 @@ containerSecurityContext:
     drop:
       - ALL
   runAsNonRoot: true
-providerData:
-  enabled: false
-  branch: main
-  # name:
-  # url:
 global:
   podSecurityStandards:
     enforced: false
