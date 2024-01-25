@@ -1,41 +1,31 @@
+---
 apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
     controller-gen.kubebuilder.io/version: v0.12.0
   labels:
-    app.kubernetes.io/component: notification-controller
-    app.kubernetes.io/instance: '{{ .Release.Name }}'
-    app.kubernetes.io/managed-by: '{{ .Release.Service }}'
-    app.kubernetes.io/name: '{{ include "name" . }}'
+    app.kubernetes.io/component: image-reflector-controller
+    app.kubernetes.io/instance: flux-system
     app.kubernetes.io/part-of: flux
-    app.kubernetes.io/version: '{{ .Chart.AppVersion }}'
-    giantswarm.io/service_type: managed
-    helm.sh/chart: '{{ include "chart" . }}'
-  name: alerts.notification.toolkit.fluxcd.io
+  name: imagepolicies.image.toolkit.fluxcd.io
 spec:
-  group: notification.toolkit.fluxcd.io
+  group: image.toolkit.fluxcd.io
   names:
-    kind: Alert
-    listKind: AlertList
-    plural: alerts
-    singular: alert
+    kind: ImagePolicy
+    listKind: ImagePolicyList
+    plural: imagepolicies
+    singular: imagepolicy
   scope: Namespaced
   versions:
     - additionalPrinterColumns:
-        - jsonPath: .metadata.creationTimestamp
-          name: Age
-          type: date
-        - jsonPath: .status.conditions[?(@.type=="Ready")].status
-          name: Ready
-          type: string
-        - jsonPath: .status.conditions[?(@.type=="Ready")].message
-          name: Status
+        - jsonPath: .status.latestImage
+          name: LatestImage
           type: string
       name: v1beta1
       schema:
         openAPIV3Schema:
-          description: Alert is the Schema for the alerts API
+          description: ImagePolicy is the Schema for the imagepolicies API
           properties:
             apiVersion:
               description: 'APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
@@ -46,84 +36,73 @@ spec:
             metadata:
               type: object
             spec:
-              description: AlertSpec defines an alerting rule for events involving a list of objects
+              description: ImagePolicySpec defines the parameters for calculating the ImagePolicy
               properties:
-                eventSeverity:
-                  default: info
-                  description: Filter events based on severity, defaults to ('info'). If set to 'info' no events will be filtered.
-                  enum:
-                    - info
-                    - error
-                  type: string
-                eventSources:
-                  description: Filter events based on the involved objects.
-                  items:
-                    description: CrossNamespaceObjectReference contains enough information to let you locate the typed referenced object at cluster level
-                    properties:
-                      apiVersion:
-                        description: API version of the referent
-                        type: string
-                      kind:
-                        description: Kind of the referent
-                        enum:
-                          - Bucket
-                          - GitRepository
-                          - Kustomization
-                          - HelmRelease
-                          - HelmChart
-                          - HelmRepository
-                          - ImageRepository
-                          - ImagePolicy
-                          - ImageUpdateAutomation
-                          - OCIRepository
-                        type: string
-                      matchLabels:
-                        additionalProperties:
-                          type: string
-                        description: MatchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels map is equivalent to an element of matchExpressions, whose key field is "key", the operator is "In", and the values array contains only "value". The requirements are ANDed.
-                        type: object
-                      name:
-                        description: Name of the referent
-                        maxLength: 53
-                        minLength: 1
-                        type: string
-                      namespace:
-                        description: Namespace of the referent
-                        maxLength: 53
-                        minLength: 1
-                        type: string
-                    required:
-                      - name
-                    type: object
-                  type: array
-                exclusionList:
-                  description: A list of Golang regular expressions to be used for excluding messages.
-                  items:
-                    type: string
-                  type: array
-                providerRef:
-                  description: Send events using this provider.
+                filterTags:
+                  description: FilterTags enables filtering for only a subset of tags based on a set of rules. If no rules are provided, all the tags from the repository will be ordered and compared.
+                  properties:
+                    extract:
+                      description: Extract allows a capture group to be extracted from the specified regular expression pattern, useful before tag evaluation.
+                      type: string
+                    pattern:
+                      description: Pattern specifies a regular expression pattern used to filter for image tags.
+                      type: string
+                  type: object
+                imageRepositoryRef:
+                  description: ImageRepositoryRef points at the object specifying the image being scanned
                   properties:
                     name:
                       description: Name of the referent.
                       type: string
+                    namespace:
+                      description: Namespace of the referent, when not specified it acts as LocalObjectReference.
+                      type: string
                   required:
                     - name
                   type: object
-                summary:
-                  description: Short description of the impact and affected cluster.
-                  type: string
-                suspend:
-                  description: This flag tells the controller to suspend subsequent events dispatching. Defaults to false.
-                  type: boolean
+                policy:
+                  description: Policy gives the particulars of the policy to be followed in selecting the most recent image
+                  properties:
+                    alphabetical:
+                      description: Alphabetical set of rules to use for alphabetical ordering of the tags.
+                      properties:
+                        order:
+                          default: asc
+                          description: Order specifies the sorting order of the tags. Given the letters of the alphabet as tags, ascending order would select Z, and descending order would select A.
+                          enum:
+                            - asc
+                            - desc
+                          type: string
+                      type: object
+                    numerical:
+                      description: Numerical set of rules to use for numerical ordering of the tags.
+                      properties:
+                        order:
+                          default: asc
+                          description: Order specifies the sorting order of the tags. Given the integer values from 0 to 9 as tags, ascending order would select 9, and descending order would select 0.
+                          enum:
+                            - asc
+                            - desc
+                          type: string
+                      type: object
+                    semver:
+                      description: SemVer gives a semantic version range to check against the tags available.
+                      properties:
+                        range:
+                          description: Range gives a semver range for the image tag; the highest version within the range that's a tag yields the latest image.
+                          type: string
+                      required:
+                        - range
+                      type: object
+                  type: object
               required:
-                - eventSources
-                - providerRef
+                - imageRepositoryRef
+                - policy
               type: object
             status:
               default:
                 observedGeneration: -1
-              description: AlertStatus defines the observed state of Alert
+              description: ImagePolicyStatus defines the observed state of ImagePolicy
               properties:
                 conditions:
                   items:
@@ -168,8 +147,10 @@ spec:
                       - type
                     type: object
                   type: array
+                latestImage:
+                  description: LatestImage gives the first in the list of images scanned by the image repository, when filtered and ordered according to the policy.
+                  type: string
                 observedGeneration:
-                  description: ObservedGeneration is the last observed generation.
                   format: int64
                   type: integer
               type: object
@@ -179,19 +160,13 @@ spec:
       subresources:
         status: {}
     - additionalPrinterColumns:
-        - jsonPath: .metadata.creationTimestamp
-          name: Age
-          type: date
-        - jsonPath: .status.conditions[?(@.type=="Ready")].status
-          name: Ready
-          type: string
-        - jsonPath: .status.conditions[?(@.type=="Ready")].message
-          name: Status
+        - jsonPath: .status.latestImage
+          name: LatestImage
           type: string
       name: v1beta2
       schema:
         openAPIV3Schema:
-          description: Alert is the Schema for the alerts API
+          description: ImagePolicy is the Schema for the imagepolicies API
           properties:
             apiVersion:
               description: 'APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
@@ -202,99 +177,75 @@ spec:
             metadata:
               type: object
             spec:
-              description: AlertSpec defines an alerting rule for events involving a list of objects.
+              description: ImagePolicySpec defines the parameters for calculating the ImagePolicy.
               properties:
-                eventMetadata:
-                  additionalProperties:
-                    type: string
-                  description: EventMetadata is an optional field for adding metadata to events dispatched by the controller. This can be used for enhancing the context of the event. If a field would override one already present on the original event as generated by the emitter, then the override doesn't happen, i.e. the original value is preserved, and an info log is printed.
+                filterTags:
+                  description: FilterTags enables filtering for only a subset of tags based on a set of rules. If no rules are provided, all the tags from the repository will be ordered and compared.
+                  properties:
+                    extract:
+                      description: Extract allows a capture group to be extracted from the specified regular expression pattern, useful before tag evaluation.
+                      type: string
+                    pattern:
+                      description: Pattern specifies a regular expression pattern used to filter for image tags.
+                      type: string
                   type: object
-                eventSeverity:
-                  default: info
-                  description: EventSeverity specifies how to filter events based on severity. If set to 'info' no events will be filtered.
-                  enum:
-                    - info
-                    - error
-                  type: string
-                eventSources:
-                  description: EventSources specifies how to filter events based on the involved object kind, name and namespace.
-                  items:
-                    description: CrossNamespaceObjectReference contains enough information to let you locate the typed referenced object at cluster level
-                    properties:
-                      apiVersion:
-                        description: API version of the referent
-                        type: string
-                      kind:
-                        description: Kind of the referent
-                        enum:
-                          - Bucket
-                          - GitRepository
-                          - Kustomization
-                          - HelmRelease
-                          - HelmChart
-                          - HelmRepository
-                          - ImageRepository
-                          - ImagePolicy
-                          - ImageUpdateAutomation
-                          - OCIRepository
-                        type: string
-                      matchLabels:
-                        additionalProperties:
-                          type: string
-                        description: MatchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels map is equivalent to an element of matchExpressions, whose key field is "key", the operator is "In", and the values array contains only "value". The requirements are ANDed. MatchLabels requires the name to be set to `*`.
-                        type: object
-                      name:
-                        description: Name of the referent If multiple resources are targeted `*` may be set.
-                        maxLength: 53
-                        minLength: 1
-                        type: string
-                      namespace:
-                        description: Namespace of the referent
-                        maxLength: 53
-                        minLength: 1
-                        type: string
-                    required:
-                      - kind
-                      - name
-                    type: object
-                  type: array
-                exclusionList:
-                  description: ExclusionList specifies a list of Golang regular expressions to be used for excluding messages.
-                  items:
-                    type: string
-                  type: array
-                inclusionList:
-                  description: InclusionList specifies a list of Golang regular expressions to be used for including messages.
-                  items:
-                    type: string
-                  type: array
-                providerRef:
-                  description: ProviderRef specifies which Provider this Alert should use.
+                imageRepositoryRef:
+                  description: ImageRepositoryRef points at the object specifying the image being scanned
                   properties:
                     name:
                       description: Name of the referent.
                       type: string
+                    namespace:
+                      description: Namespace of the referent, when not specified it acts as LocalObjectReference.
+                      type: string
                   required:
                     - name
                   type: object
-                summary:
-                  description: Summary holds a short description of the impact and affected cluster.
-                  maxLength: 255
-                  type: string
-                suspend:
-                  description: Suspend tells the controller to suspend subsequent events handling for this Alert.
-                  type: boolean
+                policy:
+                  description: Policy gives the particulars of the policy to be followed in selecting the most recent image
+                  properties:
+                    alphabetical:
+                      description: Alphabetical set of rules to use for alphabetical ordering of the tags.
+                      properties:
+                        order:
+                          default: asc
+                          description: Order specifies the sorting order of the tags. Given the letters of the alphabet as tags, ascending order would select Z, and descending order would select A.
+                          enum:
+                            - asc
+                            - desc
+                          type: string
+                      type: object
+                    numerical:
+                      description: Numerical set of rules to use for numerical ordering of the tags.
+                      properties:
+                        order:
+                          default: asc
+                          description: Order specifies the sorting order of the tags. Given the integer values from 0 to 9 as tags, ascending order would select 9, and descending order would select 0.
+                          enum:
+                            - asc
+                            - desc
+                          type: string
+                      type: object
+                    semver:
+                      description: SemVer gives a semantic version range to check against the tags available.
+                      properties:
+                        range:
+                          description: Range gives a semver range for the image tag; the highest version within the range that's a tag yields the latest image.
+                          type: string
+                      required:
+                        - range
+                      type: object
+                  type: object
               required:
-                - eventSources
-                - providerRef
+                - imageRepositoryRef
+                - policy
               type: object
             status:
               default:
                 observedGeneration: -1
-              description: AlertStatus defines the observed state of the Alert.
+              description: ImagePolicyStatus defines the observed state of ImagePolicy
               properties:
                 conditions:
-                  description: Conditions holds the conditions for the Alert.
                   items:
                     description: "Condition contains details for one aspect of the current state of this API Resource. --- This struct is intended for direct use as an array at the field path .status.conditions.  For example, \n type FooStatus struct{ // Represents the observations of a foo's current state. // Known .status.conditions.type are: \"Available\", \"Progressing\", and \"Degraded\" // +patchMergeKey=type // +patchStrategy=merge // +listType=map // +listMapKey=type Conditions []metav1.Condition `json:\"conditions,omitempty\" patchStrategy:\"merge\" patchMergeKey:\"type\" protobuf:\"bytes,1,rep,name=conditions\"` \n // other fields }"
                     properties:
@@ -337,13 +288,15 @@ spec:
                       - type
                     type: object
                   type: array
-                lastHandledReconcileAt:
-                  description: LastHandledReconcileAt holds the value of the most recent reconcile request value, so a change of the annotation value can be detected.
+                latestImage:
+                  description: LatestImage gives the first in the list of images scanned by the image repository, when filtered and ordered according to the policy.
                   type: string
                 observedGeneration:
-                  description: ObservedGeneration is the last observed generation.
                   format: int64
                   type: integer
+                observedPreviousImage:
+                  description: ObservedPreviousImage is the observed previous LatestImage. It is used to keep track of the previous and current images.
+                  type: string
               type: object
           type: object
       served: true

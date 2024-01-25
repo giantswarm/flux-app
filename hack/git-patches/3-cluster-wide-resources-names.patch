@@ -1,0 +1,70 @@
+diff --git a/clusterrole-crd-controller.yaml b/clusterrole-crd-controller.yaml
+index 9ed2b5f..e62c278 100644
+--- a/clusterrole-crd-controller.yaml
++++ b/clusterrole-crd-controller.yaml
+@@ -4,7 +4,7 @@ kind: ClusterRole
+ metadata:
+   labels:
+ {{ include "labels.common" . | indent 4}}
+-  name: crd-controller
++  name: "crd-controller-{{ .Release.Name }}"
+ rules:
+   - apiGroups:
+       - source.toolkit.fluxcd.io
+diff --git a/clusterrole-flux-edit.yaml b/clusterrole-flux-edit.yaml
+index 2c8e425..ffbc0b9 100644
+--- a/clusterrole-flux-edit.yaml
++++ b/clusterrole-flux-edit.yaml
+@@ -5,7 +5,7 @@ kind: ClusterRole
+ metadata:
+   labels:
+ {{ include "labels.common" . | indent 4}}
+-  name: flux-edit
++  name: "flux-edit-{{ .Release.Name }}"
+ rules:
+   - apiGroups:
+       - notification.toolkit.fluxcd.io
+diff --git a/clusterrole-flux-view.yaml b/clusterrole-flux-view.yaml
+index b47bbee..14a33d8 100644
+--- a/clusterrole-flux-view.yaml
++++ b/clusterrole-flux-view.yaml
+@@ -5,7 +5,7 @@ kind: ClusterRole
+ metadata:
+   labels:
+ {{ include "labels.common" . | indent 4}}
+-  name: flux-view
++  name: "flux-view-{{ .Release.Name }}"
+ rules:
+   - apiGroups:
+       - notification.toolkit.fluxcd.io
+diff --git a/clusterrolebinding-cluster-reconciler.yaml b/clusterrolebinding-cluster-reconciler.yaml
+index 0d4874d..c604c4b 100644
+--- a/clusterrolebinding-cluster-reconciler.yaml
++++ b/clusterrolebinding-cluster-reconciler.yaml
+@@ -4,7 +4,7 @@ kind: ClusterRoleBinding
+ metadata:
+   labels:
+ {{ include "labels.common" . | indent 4}}
+-  name: cluster-reconciler
++  name: "cluster-reconciler-{{ .Release.Name }}"
+ roleRef:
+   apiGroup: rbac.authorization.k8s.io
+   kind: ClusterRole
+diff --git a/clusterrolebinding-crd-controller.yaml b/clusterrolebinding-crd-controller.yaml
+index 081ae78..0502b6a 100644
+--- a/clusterrolebinding-crd-controller.yaml
++++ b/clusterrolebinding-crd-controller.yaml
+@@ -4,11 +4,11 @@ kind: ClusterRoleBinding
+ metadata:
+   labels:
+ {{ include "labels.common" . | indent 4}}
+-  name: crd-controller
++  name: "crd-controller-{{ .Release.Name }}"
+ roleRef:
+   apiGroup: rbac.authorization.k8s.io
+   kind: ClusterRole
+-  name: crd-controller
++  name: "crd-controller-{{ .Release.Name }}"
+ subjects:
+   - kind: ServiceAccount
+     name: kustomize-controller

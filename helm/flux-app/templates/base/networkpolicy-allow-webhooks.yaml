@@ -1,0 +1,17 @@
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  labels:
+{{ include "labels.common" . | indent 4 }}
+  name: allow-webhooks
+spec:
+  ingress:
+    - from:
+        - namespaceSelector: {}
+  podSelector:
+    matchLabels:
+      app.kubernetes.io/component: notification-controller
+{{ include "labels.selector" . | indent 6 }}
+  policyTypes:
+    - Ingress
