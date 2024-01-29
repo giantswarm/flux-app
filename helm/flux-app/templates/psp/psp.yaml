@@ -10,6 +10,7 @@ metadata:
     seccomp.security.alpha.kubernetes.io/allowedProfileNames: "runtime/default"
   {{- end }}
   labels:
+    giantswarm.io/kustomize-selector: remove-psp
     {{ include "labels.common" . | nindent 4}}
   name: {{ .Release.Name }}
 spec:
