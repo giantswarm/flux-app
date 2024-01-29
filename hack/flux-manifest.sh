@@ -1,4 +1,4 @@
-#!/bin/env bash
+#!/usr/bin/env bash
 # ---------------------------------------------------------------------
 # This script is supposed to get the yaml file from the flux release,
 # patch and by applying patches turn it to the helm chart.
@@ -12,24 +12,15 @@ VERSION=$(yq '.appVersion' ./helm/flux-app/Chart.yaml)
 # these dir related variables
 CURRENT_DIR=$(pwd)
 CHART_DIR="${CURRENT_DIR}/helm/flux-app"
+CRDS_DIR="${CHART_DIR}/crd-base"
 WORKDIR=$(mktemp -d)
+echo "workdir is $WORKDIR"
 cd $WORKDIR
 # ---------------------------------------------------------------------
 # Download the official flux installation manifest
 # ---------------------------------------------------------------------
 curl -s -L "https://github.com/fluxcd/flux2/releases/download/v${VERSION}/install.yaml" \
     | yq -s '.kind + "-" + .metadata.name'
-# ---------------------------------------------------------------------
-# After we got manifests, we want to extract CRDs, because they will
-# be treated differently
-# Old CRDs will be removed and replaces by newer ones
-# ---------------------------------------------------------------------
-CRDS_DIR="${CHART_DIR}/crd-base"
-rm -rf $CRDS_DIR && mkdir $CRDS_DIR
-for crd in $(find . -type f -name "CustomResource*"); do
-    TARGET_FILE_NAME="$(echo $crd | grep -o -P '(?<=-).*?(?=\.)').yaml"
-    mv $crd "$CRDS_DIR/$TARGET_FILE_NAME"
-done
 # ---------------------------------------------------------------------
 # Remove the namespace manifest
 # We don't want to have a namespace as a part of this helm chart
@@ -39,7 +30,8 @@ for ns in $(find . -type f -name "Namespace*"); do
     rm -f $ns
 done
 # ---------------------------------------------------------------------
-# And here the main part. Since we have regular yaml files, we need to
+# And here goes the main part. 
+# Since we have regular yaml files, we need to
 # turn them into helm templates. Currently, it's done by git patches,
 # but I'm not sure how versatile this approach is. We will only see
 # when newer flux version will be released and we will try to patch it
@@ -65,9 +57,12 @@ TEMPLATES_DIR="${CURRENT_DIR}/helm/flux-app/templates/base"
 # ---------------------------------------------------------------------
 for template in $(find . -type f); do
     yq e -i 'del(.metadata.namespace)' $template
-    TARGET_FILE_NAME="$(echo $template | grep -o -P '(?<=/).*?(?=\.)' | tr '[:upper:]' '[:lower:]' ).yaml"
+    TARGET_FILE_NAME="$(echo $template | grep -o -P '(?<=/).*?(?=\.)' \
+        | tr '[:upper:]' '[:lower:]' ).yaml"
     mv $template "$TARGET_FILE_NAME"
 done
+
+ls 
 # ---------------------------------------------------------------------
 # Now, let's prepare a patch for images. Since the amount of containers
 # is pretty much defined, we will just export some variables and then
@@ -99,17 +94,29 @@ done
 # a tmp.patch that you'll have to rename. After it's renamved, comment
 # it back out, and run again
 # ---------------------------------------------------------------------
-# -- cp -r $CURRENT_DIR/helm/flux-app/templates/base $CURRENT_DIR
-# -- git add .
-# -- cp $CURRENT_DIR/base/* .
-# -- git diff . > $CURRENT_DIR/hack/git-patches/tmp.patch
-# -- exit 0
+#TMP_DIR=$(mktemp -d)
+#echo "temporary dir is $TMP_DIR"
+#cp $CURRENT_DIR/helm/flux-app/crd-base/* $TMP_DIR
+#cp $CURRENT_DIR/helm/flux-app/templates/base/* $TMP_DIR
+#git add .
+#cp $TMP_DIR/* .
+#git diff . > $CURRENT_DIR/hack/git-patches/tmp.patch
+#exit 0
 # ---------------------------------------------------------------------
 rm -rf "${TEMPLATES_DIR}" && mkdir "${TEMPLATES_DIR}"
 # ---------------------------------------------------------------------
 # Copy patched files to our chart ant that's it
 # ---------------------------------------------------------------------
 rm -rf .git
+# ---------------------------------------------------------------------
+# After we got manifests, we want to extract CRDs, because they will
+# be treated differently
+# Old CRDs will be removed and replaces by newer ones
+# ---------------------------------------------------------------------
+rm -rf $CRDS_DIR && mkdir $CRDS_DIR
+for crd in $(find . -type f -name "customresource*"); do
+    mv $crd "$CRDS_DIR"
+done
 for template in $(find . -type f); do
     cp $template "$TEMPLATES_DIR"
 done

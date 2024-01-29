@@ -6,8 +6,7 @@ metadata:
     controller-gen.kubebuilder.io/version: v0.12.0
   labels:
     app.kubernetes.io/component: kustomize-controller
-    app.kubernetes.io/instance: flux-system
-    app.kubernetes.io/part-of: flux
+{{- include "labels.common" . | indent 4 }}
   name: kustomizations.kustomize.toolkit.fluxcd.io
 spec:
   group: kustomize.toolkit.fluxcd.io
