@@ -4,6 +4,7 @@ apiVersion: autoscaling.k8s.io/v1
 kind: VerticalPodAutoscaler
 metadata:
   name: helm-controller
+  namespace: {{ .Release.Namespace }}
   labels:
     {{- include "labels.common" . | nindent 4 }}
 spec:
@@ -29,6 +30,7 @@ apiVersion: autoscaling.k8s.io/v1
 kind: VerticalPodAutoscaler
 metadata:
   name: image-automation-controller
+  namespace: {{ .Release.Namespace }}
   labels:
     {{- include "labels.common" . | nindent 4 }}
 spec:
@@ -54,6 +56,7 @@ apiVersion: autoscaling.k8s.io/v1
 kind: VerticalPodAutoscaler
 metadata:
   name: image-reflector-controller
+  namespace: {{ .Release.Namespace }}
   labels:
     {{- include "labels.common" . | nindent 4 }}
 spec:
@@ -79,6 +82,7 @@ apiVersion: autoscaling.k8s.io/v1
 kind: VerticalPodAutoscaler
 metadata:
   name: kustomize-controller
+  namespace: {{ .Release.Namespace }}
   labels:
     {{- include "labels.common" . | nindent 4 }}
 spec:
