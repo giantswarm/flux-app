@@ -11,16 +11,23 @@ spec:
   replicas: 1
   selector:
     matchLabels:
-      app.kubernetes.io/component: image-reflector-controller
-{{ include "labels.selector" . | indent 6 }}
+      app: image-reflector-controller
+      app.kubernetes.io/instance: {{ .Release.Name }}
+      app.kubernetes.io/managed-by: {{ .Release.Service }}
+      app.kubernetes.io/name: {{ include "name" . }}
   template:
     metadata:
       annotations:
         prometheus.io/port: "8080"
         prometheus.io/scrape: "true"
       labels:
-        app.kubernetes.io/component: image-reflector-controller
-{{ include "labels.selector" . | indent 8 }}
+        app: image-reflector-controller
+        app.kubernetes.io/instance: {{ .Release.Name }}
+        app.kubernetes.io/managed-by: {{ .Release.Service }}
+        app.kubernetes.io/name: {{ include "name" . }}
+        app.kubernetes.io/version: {{ .Chart.AppVersion }}
+        giantswarm.io/service_type: managed
+        helm.sh/chart: {{ include "chart" . }}
     spec:
       containers:
         - args:
