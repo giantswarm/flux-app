@@ -1,0 +1,39 @@
+diff --git a/service-notification-controller.yaml b/service-notification-controller.yaml
+index 44e2ab3..1f74794 100644
+--- a/service-notification-controller.yaml
++++ b/service-notification-controller.yaml
+@@ -15,5 +15,7 @@ spec:
+       targetPort: http
+   selector:
+     app.kubernetes.io/component: notification-controller
+-{{ include "labels.selector" . | indent 4 }}
++    app.kubernetes.io/instance: {{ .Release.Name }}
++    app.kubernetes.io/managed-by: {{ .Release.Service }}
++    app.kubernetes.io/name: {{ include "name" . }}
+   type: ClusterIP
+diff --git a/service-source-controller.yaml b/service-source-controller.yaml
+index 47f5321..81e6006 100644
+--- a/service-source-controller.yaml
++++ b/service-source-controller.yaml
+@@ -15,5 +15,7 @@ spec:
+       targetPort: http
+   selector:
+     app.kubernetes.io/component: source-controller
+-{{ include "labels.selector" . | indent 4 }}
++    app.kubernetes.io/instance: {{ .Release.Name }}
++    app.kubernetes.io/managed-by: {{ .Release.Service }}
++    app.kubernetes.io/name: {{ include "name" . }}
+   type: ClusterIP
+diff --git a/service-webhook-receiver.yaml b/service-webhook-receiver.yaml
+index cfbd649..07e18a0 100644
+--- a/service-webhook-receiver.yaml
++++ b/service-webhook-receiver.yaml
+@@ -15,5 +15,7 @@ spec:
+       targetPort: http-webhook
+   selector:
+     app.kubernetes.io/component: notification-controller
+-{{ include "labels.selector" . | indent 4 }}
++    app.kubernetes.io/instance: {{ .Release.Name }}
++    app.kubernetes.io/managed-by: {{ .Release.Service }}
++    app.kubernetes.io/name: {{ include "name" . }}
+   type: ClusterIP
