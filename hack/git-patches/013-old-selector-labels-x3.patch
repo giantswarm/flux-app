@@ -1,0 +1,51 @@
+diff --git a/deployment-helm-controller.yaml b/deployment-helm-controller.yaml
+index d032386..5a12959 100644
+--- a/deployment-helm-controller.yaml
++++ b/deployment-helm-controller.yaml
+@@ -15,7 +15,6 @@ spec:
+       app.kubernetes.io/instance: {{ .Release.Name }}
+       app.kubernetes.io/managed-by: {{ .Release.Service }}
+       app.kubernetes.io/name: {{ include "name" . }}
+-      app.kubernetes.io/component: helm-controller
+   template:
+     metadata:
+       annotations:
+diff --git a/service-notification-controller.yaml b/service-notification-controller.yaml
+index 1f74794..0e48238 100644
+--- a/service-notification-controller.yaml
++++ b/service-notification-controller.yaml
+@@ -14,7 +14,7 @@ spec:
+       protocol: TCP
+       targetPort: http
+   selector:
+-    app.kubernetes.io/component: notification-controller
++    app: notification-controller
+     app.kubernetes.io/instance: {{ .Release.Name }}
+     app.kubernetes.io/managed-by: {{ .Release.Service }}
+     app.kubernetes.io/name: {{ include "name" . }}
+diff --git a/service-source-controller.yaml b/service-source-controller.yaml
+index 81e6006..4f94e04 100644
+--- a/service-source-controller.yaml
++++ b/service-source-controller.yaml
+@@ -14,7 +14,7 @@ spec:
+       protocol: TCP
+       targetPort: http
+   selector:
+-    app.kubernetes.io/component: source-controller
++    app: source-controller
+     app.kubernetes.io/instance: {{ .Release.Name }}
+     app.kubernetes.io/managed-by: {{ .Release.Service }}
+     app.kubernetes.io/name: {{ include "name" . }}
+diff --git a/service-webhook-receiver.yaml b/service-webhook-receiver.yaml
+index 07e18a0..0d33dd5 100644
+--- a/service-webhook-receiver.yaml
++++ b/service-webhook-receiver.yaml
+@@ -14,7 +14,7 @@ spec:
+       protocol: TCP
+       targetPort: http-webhook
+   selector:
+-    app.kubernetes.io/component: notification-controller
++    app: notification-controller
+     app.kubernetes.io/instance: {{ .Release.Name }}
+     app.kubernetes.io/managed-by: {{ .Release.Service }}
+     app.kubernetes.io/name: {{ include "name" . }}

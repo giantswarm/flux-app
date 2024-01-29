@@ -14,7 +14,7 @@ spec:
       protocol: TCP
       targetPort: http
   selector:
-    app.kubernetes.io/component: notification-controller
+    app: notification-controller
     app.kubernetes.io/instance: {{ .Release.Name }}
     app.kubernetes.io/managed-by: {{ .Release.Service }}
     app.kubernetes.io/name: {{ include "name" . }}
