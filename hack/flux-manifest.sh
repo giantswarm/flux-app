@@ -18,6 +18,7 @@ echo "workdir is $WORKDIR"
 cd $WORKDIR
 # ---------------------------------------------------------------------
 # Download the official flux installation manifest
+# Requires: curl @ 8.5.0 or higher
 # ---------------------------------------------------------------------
 curl -s -L "https://github.com/fluxcd/flux2/releases/download/v${VERSION}/install.yaml" \
     | yq -s '.kind + "-" + .metadata.name'
