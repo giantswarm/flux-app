@@ -77,7 +77,7 @@ export IMAGE_KUSTOMIZE_CTRL=$(bash -c "$CMD deployment-kustomize-controller.yaml
 export IMAGE_NOTIFICATION_CTRL=$(bash -c "$CMD deployment-notification-controller.yaml")
 export IMAGE_SOURCE_CTRL=$(bash -c "$CMD deployment-source-controller.yaml")
 env | grep IMAGE
-IMAGES_PATCH=$CURRENT_DIR/hack/git-patches/7-images.patch
+IMAGES_PATCH=$CURRENT_DIR/hack/git-patches/007-images.patch
 envsubst < "$IMAGES_PATCH.tmpl" > $IMAGES_PATCH
 # ---------------------------------------------------------------------
 # Patch resources finally. I'm creating patches that should be applied
