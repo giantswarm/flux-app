@@ -8,7 +8,7 @@ index b10f27f..257cb0c 100644
      app.kubernetes.io/component: notification-controller
 -    app.kubernetes.io/instance: flux-system
 -    app.kubernetes.io/part-of: flux
-+{{- include "labels.common" . | indent 4 }}
++{{- include "labels.common" . | nindent 4 }}
    name: alerts.notification.toolkit.fluxcd.io
  spec:
    group: notification.toolkit.fluxcd.io
@@ -22,7 +22,7 @@ index 2663d62..3c43d35 100644
      app.kubernetes.io/component: source-controller
 -    app.kubernetes.io/instance: flux-system
 -    app.kubernetes.io/part-of: flux
-+{{- include "labels.common" . | indent 4 }}
++{{- include "labels.common" . | nindent 4 }}
    name: buckets.source.toolkit.fluxcd.io
  spec:
    group: source.toolkit.fluxcd.io
@@ -36,7 +36,7 @@ index 3c5f6af..e2fa425 100644
      app.kubernetes.io/component: source-controller
 -    app.kubernetes.io/instance: flux-system
 -    app.kubernetes.io/part-of: flux
-+{{- include "labels.common" . | indent 4 }}
++{{- include "labels.common" . | nindent 4 }}
    name: gitrepositories.source.toolkit.fluxcd.io
  spec:
    group: source.toolkit.fluxcd.io
@@ -50,7 +50,7 @@ index c2d179a..96a0ed5 100644
      app.kubernetes.io/component: source-controller
 -    app.kubernetes.io/instance: flux-system
 -    app.kubernetes.io/part-of: flux
-+{{- include "labels.common" . | indent 4 }}
++{{- include "labels.common" . | nindent 4 }}
    name: helmcharts.source.toolkit.fluxcd.io
  spec:
    group: source.toolkit.fluxcd.io
@@ -64,7 +64,7 @@ index 3a7065d..187eed9 100644
      app.kubernetes.io/component: helm-controller
 -    app.kubernetes.io/instance: flux-system
 -    app.kubernetes.io/part-of: flux
-+{{- include "labels.common" . | indent 4 }}
++{{- include "labels.common" . | nindent 4 }}
    name: helmreleases.helm.toolkit.fluxcd.io
  spec:
    group: helm.toolkit.fluxcd.io
@@ -78,7 +78,7 @@ index abef636..2c10b3d 100644
      app.kubernetes.io/component: source-controller
 -    app.kubernetes.io/instance: flux-system
 -    app.kubernetes.io/part-of: flux
-+{{- include "labels.common" . | indent 4 }}
++{{- include "labels.common" . | nindent 4 }}
    name: helmrepositories.source.toolkit.fluxcd.io
  spec:
    group: source.toolkit.fluxcd.io
@@ -92,7 +92,7 @@ index 4e4f9a2..0fee986 100644
      app.kubernetes.io/component: image-reflector-controller
 -    app.kubernetes.io/instance: flux-system
 -    app.kubernetes.io/part-of: flux
-+{{- include "labels.common" . | indent 4 }}
++{{- include "labels.common" . | nindent 4 }}
    name: imagepolicies.image.toolkit.fluxcd.io
  spec:
    group: image.toolkit.fluxcd.io
@@ -106,7 +106,7 @@ index 8f9188e..ec9112a 100644
      app.kubernetes.io/component: image-reflector-controller
 -    app.kubernetes.io/instance: flux-system
 -    app.kubernetes.io/part-of: flux
-+{{- include "labels.common" . | indent 4 }}
++{{- include "labels.common" . | nindent 4 }}
    name: imagerepositories.image.toolkit.fluxcd.io
  spec:
    group: image.toolkit.fluxcd.io
@@ -120,7 +120,7 @@ index 5895b2d..d310641 100644
      app.kubernetes.io/component: image-automation-controller
 -    app.kubernetes.io/instance: flux-system
 -    app.kubernetes.io/part-of: flux
-+{{- include "labels.common" . | indent 4 }}
++{{- include "labels.common" . | nindent 4 }}
    name: imageupdateautomations.image.toolkit.fluxcd.io
  spec:
    group: image.toolkit.fluxcd.io
@@ -134,7 +134,7 @@ index 2f5319d..bbabceb 100644
      app.kubernetes.io/component: kustomize-controller
 -    app.kubernetes.io/instance: flux-system
 -    app.kubernetes.io/part-of: flux
-+{{- include "labels.common" . | indent 4 }}
++{{- include "labels.common" . | nindent 4 }}
    name: kustomizations.kustomize.toolkit.fluxcd.io
  spec:
    group: kustomize.toolkit.fluxcd.io
@@ -148,7 +148,7 @@ index d7df9c5..2594f58 100644
      app.kubernetes.io/component: source-controller
 -    app.kubernetes.io/instance: flux-system
 -    app.kubernetes.io/part-of: flux
-+{{- include "labels.common" . | indent 4 }}
++{{- include "labels.common" . | nindent 4 }}
    name: ocirepositories.source.toolkit.fluxcd.io
  spec:
    group: source.toolkit.fluxcd.io
@@ -162,7 +162,7 @@ index e4140c4..7b67834 100644
      app.kubernetes.io/component: notification-controller
 -    app.kubernetes.io/instance: flux-system
 -    app.kubernetes.io/part-of: flux
-+{{- include "labels.common" . | indent 4 }}
++{{- include "labels.common" . | nindent 4 }}
    name: providers.notification.toolkit.fluxcd.io
  spec:
    group: notification.toolkit.fluxcd.io
@@ -176,7 +176,7 @@ index 7ce75cf..caa491c 100644
      app.kubernetes.io/component: notification-controller
 -    app.kubernetes.io/instance: flux-system
 -    app.kubernetes.io/part-of: flux
-+{{- include "labels.common" . | indent 4 }}
++{{- include "labels.common" . | nindent 4 }}
    name: receivers.notification.toolkit.fluxcd.io
  spec:
    group: notification.toolkit.fluxcd.io
