@@ -12,7 +12,7 @@ rules:
   - apiGroups:
       - policy
     resourceNames:
-      - {{ .Release.Name }}
+      - {{ printf "%s-pvc-psp" (include "name" .) | quote }}
     resources:
       - podsecuritypolicies
     verbs:

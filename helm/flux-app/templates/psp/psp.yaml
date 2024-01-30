@@ -12,7 +12,7 @@ metadata:
   labels:
     giantswarm.io/kustomize-selector: remove-psp
     {{ include "labels.common" . | nindent 4}}
-  name: {{ .Release.Name }}
+  name: {{ printf "%s-pvc-psp" (include "name" .) | quote }}
 spec:
   allowPrivilegeEscalation: false
   fsGroup:
