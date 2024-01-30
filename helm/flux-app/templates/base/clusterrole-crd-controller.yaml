@@ -6,6 +6,16 @@ metadata:
 {{ include "labels.common" . | indent 4}}
   name: crd-controller
 rules:
+{{- if not .Values.global.podSecurityStandards.enforced }}
+  - apiGroups:
+      - policy
+    resourceNames:
+      - {{ printf "%s-pvc-psp" (include "name" .) | quote }}
+    resources:
+      - podsecuritypolicies
+    verbs:
+      - use
+{{- end }}
   - apiGroups:
       - source.toolkit.fluxcd.io
     resources:
