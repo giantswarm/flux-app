@@ -4,11 +4,11 @@ kind: ClusterRoleBinding
 metadata:
   labels:
 {{ include "labels.common" . | indent 4}}
-  name: "crd-controller-{{ .Release.Name }}"
+  name: crd-controller
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: ClusterRole
-  name: "crd-controller-{{ .Release.Name }}"
+  name: crd-controller
 subjects:
   - kind: ServiceAccount
     name: kustomize-controller

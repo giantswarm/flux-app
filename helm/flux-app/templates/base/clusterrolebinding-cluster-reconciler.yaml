@@ -4,7 +4,7 @@ kind: ClusterRoleBinding
 metadata:
   labels:
 {{ include "labels.common" . | indent 4}}
-  name: "cluster-reconciler-{{ .Release.Name }}"
+  name: cluster-reconciler
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: ClusterRole

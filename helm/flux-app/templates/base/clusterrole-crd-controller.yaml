@@ -4,7 +4,7 @@ kind: ClusterRole
 metadata:
   labels:
 {{ include "labels.common" . | indent 4}}
-  name: "crd-controller-{{ .Release.Name }}"
+  name: crd-controller
 rules:
   - apiGroups:
       - source.toolkit.fluxcd.io

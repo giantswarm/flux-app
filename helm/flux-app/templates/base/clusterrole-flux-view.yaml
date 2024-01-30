@@ -5,7 +5,7 @@ kind: ClusterRole
 metadata:
   labels:
 {{ include "labels.common" . | indent 4}}
-  name: "flux-view-{{ .Release.Name }}"
+  name: flux-view
 rules:
   - apiGroups:
       - notification.toolkit.fluxcd.io
