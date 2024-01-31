@@ -1,9 +1,0 @@
-- op: replace
-  path: /spec/template/spec/containers/0/resources
-  value: GS_PLACEHOLDER_RESOURCES_HELM_CONTROLLER
-- op: add
-  path: /metadata/labels/app
-  value: helm-controller
-- op: replace
-  path: /spec/template/spec/containers/0/args/0
-  value: --events-addr=http://notification-controller.{{ .Release.Namespace }}.svc.{{ .Values.cluster.domain }}./
