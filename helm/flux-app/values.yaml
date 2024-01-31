@@ -142,6 +142,10 @@ priorityClass:
   name: ""
   value: 1000000000
 
+cilium:
+  # Force creating the cilium network policy
+  enforce: true
+
 # Add seccomp to pod security context
 podSeccompProfile:
   type: RuntimeDefault
