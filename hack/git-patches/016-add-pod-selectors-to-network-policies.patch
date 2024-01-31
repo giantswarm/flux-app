@@ -1,0 +1,47 @@
+diff --git a/networkpolicy-allow-egress.yaml b/networkpolicy-allow-egress.yaml
+index 9c996d2..9953bca 100644
+--- a/networkpolicy-allow-egress.yaml
++++ b/networkpolicy-allow-egress.yaml
+@@ -12,7 +12,11 @@ spec:
+   ingress:
+     - from:
+         - podSelector: {}
+-  podSelector: {}
++  podSelector:
++    matchLabels:
++      app.kubernetes.io/instance: {{ .Release.Name }}
++      app.kubernetes.io/managed-by: {{ .Release.Service }}
++      app.kubernetes.io/name: {{ include "name" . }}
+   policyTypes:
+     - Ingress
+     - Egress
+diff --git a/networkpolicy-allow-scraping.yaml b/networkpolicy-allow-scraping.yaml
+index 214d611..c39f3da 100644
+--- a/networkpolicy-allow-scraping.yaml
++++ b/networkpolicy-allow-scraping.yaml
+@@ -13,6 +13,10 @@ spec:
+       ports:
+         - port: 8080
+           protocol: TCP
+-  podSelector: {}
++  podSelector:
++    matchLabels:
++      app.kubernetes.io/instance: {{ .Release.Name }}
++      app.kubernetes.io/managed-by: {{ .Release.Service }}
++      app.kubernetes.io/name: {{ include "name" . }}
+   policyTypes:
+     - Ingress
+diff --git a/networkpolicy-allow-webhooks.yaml b/networkpolicy-allow-webhooks.yaml
+index 3f0a43c..f3cc5d7 100644
+--- a/networkpolicy-allow-webhooks.yaml
++++ b/networkpolicy-allow-webhooks.yaml
+@@ -13,6 +13,8 @@ spec:
+   podSelector:
+     matchLabels:
+       app.kubernetes.io/component: notification-controller
+-{{ include "labels.selector" . | indent 6 }}
++      app.kubernetes.io/instance: {{ .Release.Name }}
++      app.kubernetes.io/managed-by: {{ .Release.Service }}
++      app.kubernetes.io/name: {{ include "name" . }}
+   policyTypes:
+     - Ingress
