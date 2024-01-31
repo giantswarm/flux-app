@@ -7,6 +7,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Added support for `.global.podSecurityStandards.enforced` Helm value (defaults to false) to control PSP creation when.
+  When the flag is disabled (default) the PSS is created and the `crd-controller` ClusterRole is updated with the permission
+  to use the created (`flux-app-pvc-psp`) PSP. Pre kubernetes v1.25 upgrade and on v1.25 clusters where PSPs are no longer
+  available, this flag should be enabled to skip the creation of the PSP and the update to the CLusterRole.
+- Added support for `.policyException.namespace` Helm value to control where Kyverno PolicyException is created when the cluster
+  has support for the capability.
+
+### Changed
+
+- Refactored chart upgrade process from `kustomzie` + manual based to be `git` patch based and made the templates structure better for readability.
+
 ## [1.2.0] - 2024-01-11
 
 - Updgrade Flux to 2.1.2 and preare it for Kubernetes 1.25
