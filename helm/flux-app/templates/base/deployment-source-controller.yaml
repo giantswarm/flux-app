@@ -87,7 +87,7 @@ spec:
               name: data
             - mountPath: /tmp
               name: tmp
-      priorityClassName: system-cluster-critical
+      priorityClassName: {{ include "priorityClass.name" . }}
       securityContext:
         fsGroup: 1337
         {{- if ge (int .Capabilities.KubeVersion.Minor) 19 }}
