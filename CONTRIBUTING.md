@@ -12,6 +12,13 @@ Updating from upstream requires `kustomize` (https://github.com/kubernetes-sigs/
   skopeo inspect --format "{{.Digest}}" --override-arch=amd64 --override-os=linux docker://docker.io/fluxcd/kustomize-controller:v0.16.0
   ```
 
+### Upgrade forked kustomize-controller
+
+We have a [fork](https://github.com/giantswarm/kustomize-controller) for `fluxcd/kustomize-controller`
+and a [fork](https://github.com/giantswarm/fluxcd-pkg) for `fluxcd/package` to enable `kustomize` plugins.
+
+Please upgrade them to the version matched in the target Flux version you are upgrading to. Check intranet docs on the upgrade process!
+
 ### Update helm template
  
 - Bump the `appVersion` in `helm/flux-app/Chart.yaml`
