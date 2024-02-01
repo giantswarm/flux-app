@@ -1,0 +1,13 @@
+diff --git a/deployment-kustomize-controller.yaml b/deployment-kustomize-controller.yaml
+index 16a7fa3..45d5eb0 100644
+--- a/deployment-kustomize-controller.yaml
++++ b/deployment-kustomize-controller.yaml
+@@ -25,7 +25,7 @@ spec:
+     spec:
+       containers:
+         - args:
+-            - --events-addr=http://notification-controller.flux-system.svc.cluster.local./
++            - --events-addr=http://notification-controller.{{ .Release.Namespace }}.svc.cluster.local./
+             - --watch-all-namespaces
+             - --log-level=info
+             - --log-encoding=json
