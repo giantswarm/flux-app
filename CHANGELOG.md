@@ -20,6 +20,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Refactored chart upgrade process from `kustomzie` + manual based to be `git` patch based and made the templates structure better for readability.
 
+### Fixed
+
+- Fix `notification-controller` endpoint in `kustomize-controller` deployment settings to point to the controller in the same namespace.
+
 ## [1.2.0] - 2024-01-11
 
 - Updgrade Flux to 2.1.2 and preare it for Kubernetes 1.25
