@@ -26,6 +26,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Fix `notification-controller` endpoint in `kustomize-controller` deployment settings to point to the controller in the same namespace.
 
+### Removed
+
+- Removed `app.kubernetes.io/part-of: flux` labels from upstream resources
+- Removed `app.kubernetes.io/version: ...` labels from upstream resources
+- Removed `app.kubernetes.io/component: ...-controller` labels from upstream resources
+
 ## [1.2.0] - 2024-01-11
 
 - Updgrade Flux to 2.1.2 and preare it for Kubernetes 1.25
