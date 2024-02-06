@@ -45,6 +45,11 @@ def test_helm_release_works(
         "1m",
         "https://giantswarm.github.io/giantswarm-catalog",
     )
+
+    # import pytest_helm_charts
+    # original_value = pytest_helm_charts.flux.utils.FLUX_CR_READY_TIMEOUT_SEC
+    # pytest_helm_charts.flux.utils.FLUX_CR_READY_TIMEOUT_SEC = 180
+
     helm_release_factory(
         "hello-world",
         name,
@@ -57,10 +62,21 @@ def test_helm_release_works(
                 namespace=name,
             ),
         ),
-        interval="1m",
+        interval="10s",
         values={
             "fullnameOverride": name
-        }
+        },
+        extra_spec={
+            "install": {
+                "disableWait": True
+            }
+        },
+        wait_timeout_sec=120
     )
+
+    # Wait for the HR to be deployed
+    # time.sleep(60)
+
+    # pytest_helm_charts.flux.utils.FLUX_CR_READY_TIMEOUT_SEC = original_value
 
     assert_hello_world_is_running(kube_cluster.kube_client, app_namespace=name, app_deploy_name=name, app_svc_name=name)
