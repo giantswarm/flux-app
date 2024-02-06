@@ -1,0 +1,186 @@
+diff --git a/deployment-helm-controller.yaml b/deployment-helm-controller.yaml
+index 72e2078..d032386 100644
+--- a/deployment-helm-controller.yaml
++++ b/deployment-helm-controller.yaml
+@@ -11,16 +11,23 @@ spec:
+   replicas: 1
+   selector:
+     matchLabels:
++      app: helm-controller
++      app.kubernetes.io/instance: {{ .Release.Name }}
++      app.kubernetes.io/managed-by: {{ .Release.Service }}
++      app.kubernetes.io/name: {{ include "name" . }}
+       app.kubernetes.io/component: helm-controller
+-{{ include "labels.selector" . | indent 6 }}
+   template:
+     metadata:
+       annotations:
+         prometheus.io/port: "8080"
+         prometheus.io/scrape: "true"
+       labels:
+-        app.kubernetes.io/component: helm-controller
+-{{ include "labels.selector" . | indent 8 }}
++        app: helm-controller
++        app.kubernetes.io/instance: {{ .Release.Name }}
++        app.kubernetes.io/managed-by: {{ .Release.Service }}
++        app.kubernetes.io/name: {{ include "name" . }}
++        app.kubernetes.io/version: {{ .Chart.AppVersion }}
++        giantswarm.io/service_type: managed
+     spec:
+       containers:
+         - args:
+diff --git a/deployment-image-automation-controller.yaml b/deployment-image-automation-controller.yaml
+index 700763c..2a06705 100644
+--- a/deployment-image-automation-controller.yaml
++++ b/deployment-image-automation-controller.yaml
+@@ -11,16 +11,23 @@ spec:
+   replicas: 1
+   selector:
+     matchLabels:
+-      app.kubernetes.io/component: image-automation-controller
+-{{ include "labels.selector" . | indent 6 }}
++      app: image-automation-controller
++      app.kubernetes.io/instance: {{ .Release.Name }}
++      app.kubernetes.io/managed-by: {{ .Release.Service }}
++      app.kubernetes.io/name: {{ include "name" . }}
+   template:
+     metadata:
+       annotations:
+         prometheus.io/port: "8080"
+         prometheus.io/scrape: "true"
+       labels:
+-        app.kubernetes.io/component: image-automation-controller
+-{{ include "labels.selector" . | indent 8 }}
++        app: image-automation-controller
++        app.kubernetes.io/instance: {{ .Release.Name }}
++        app.kubernetes.io/managed-by: {{ .Release.Service }}
++        app.kubernetes.io/name: {{ include "name" . }}
++        app.kubernetes.io/version: {{ .Chart.AppVersion }}
++        giantswarm.io/service_type: managed
++        helm.sh/chart: {{ include "chart" . }}
+     spec:
+       containers:
+         - args:
+diff --git a/deployment-image-reflector-controller.yaml b/deployment-image-reflector-controller.yaml
+index 60d6115..779b329 100644
+--- a/deployment-image-reflector-controller.yaml
++++ b/deployment-image-reflector-controller.yaml
+@@ -11,16 +11,23 @@ spec:
+   replicas: 1
+   selector:
+     matchLabels:
+-      app.kubernetes.io/component: image-reflector-controller
+-{{ include "labels.selector" . | indent 6 }}
++      app: image-reflector-controller
++      app.kubernetes.io/instance: {{ .Release.Name }}
++      app.kubernetes.io/managed-by: {{ .Release.Service }}
++      app.kubernetes.io/name: {{ include "name" . }}
+   template:
+     metadata:
+       annotations:
+         prometheus.io/port: "8080"
+         prometheus.io/scrape: "true"
+       labels:
+-        app.kubernetes.io/component: image-reflector-controller
+-{{ include "labels.selector" . | indent 8 }}
++        app: image-reflector-controller
++        app.kubernetes.io/instance: {{ .Release.Name }}
++        app.kubernetes.io/managed-by: {{ .Release.Service }}
++        app.kubernetes.io/name: {{ include "name" . }}
++        app.kubernetes.io/version: {{ .Chart.AppVersion }}
++        giantswarm.io/service_type: managed
++        helm.sh/chart: {{ include "chart" . }}
+     spec:
+       containers:
+         - args:
+diff --git a/deployment-kustomize-controller.yaml b/deployment-kustomize-controller.yaml
+index 6fa7c5a..2d8e1e6 100644
+--- a/deployment-kustomize-controller.yaml
++++ b/deployment-kustomize-controller.yaml
+@@ -11,16 +11,17 @@ spec:
+   replicas: 1
+   selector:
+     matchLabels:
+-      app.kubernetes.io/component: kustomize-controller
+-{{ include "labels.selector" . | indent 6 }}
++      app: kustomize-controller
++      app.kubernetes.io/instance: {{ .Release.Name }}
++      app.kubernetes.io/managed-by: {{ .Release.Service }}
++      app.kubernetes.io/name: {{ include "name" . }}
+   template:
+     metadata:
+       annotations:
+         prometheus.io/port: "8080"
+         prometheus.io/scrape: "true"
+       labels:
+-        app.kubernetes.io/component: kustomize-controller
+-{{ include "labels.selector" . | indent 8 }}
++        {{ include "podTemplateLabels.kustomizeController" . }}
+     spec:
+       containers:
+         - args:
+diff --git a/deployment-notification-controller.yaml b/deployment-notification-controller.yaml
+index db822f9..f639731 100644
+--- a/deployment-notification-controller.yaml
++++ b/deployment-notification-controller.yaml
+@@ -11,16 +11,23 @@ spec:
+   replicas: 1
+   selector:
+     matchLabels:
+-      app.kubernetes.io/component: notification-controller
+-{{ include "labels.selector" . | indent 6 }}
++      app: notification-controller
++      app.kubernetes.io/instance: {{ .Release.Name }}
++      app.kubernetes.io/managed-by: {{ .Release.Service }}
++      app.kubernetes.io/name: {{ include "name" . }}
+   template:
+     metadata:
+       annotations:
+         prometheus.io/port: "8080"
+         prometheus.io/scrape: "true"
+       labels:
+-        app.kubernetes.io/component: notification-controller
+-{{ include "labels.selector" . | indent 8 }}
++        app: notification-controller
++        app.kubernetes.io/instance: {{ .Release.Name }}
++        app.kubernetes.io/managed-by: {{ .Release.Service }}
++        app.kubernetes.io/name: {{ include "name" . }}
++        app.kubernetes.io/version: {{ .Chart.AppVersion }}
++        giantswarm.io/service_type: managed
++        helm.sh/chart: {{ include "chart" . }}
+     spec:
+       containers:
+         - args:
+diff --git a/deployment-source-controller.yaml b/deployment-source-controller.yaml
+index 2191585..d9363a5 100644
+--- a/deployment-source-controller.yaml
++++ b/deployment-source-controller.yaml
+@@ -11,8 +11,10 @@ spec:
+   replicas: 1
+   selector:
+     matchLabels:
+-      app.kubernetes.io/component: source-controller
+-{{ include "labels.selector" . | indent 6}}
++      app: source-controller
++      app.kubernetes.io/instance: {{ .Release.Name }}
++      app.kubernetes.io/managed-by: {{ .Release.Service }}
++      app.kubernetes.io/name: {{ include "name" . }}
+   strategy:
+     type: Recreate
+   template:
+@@ -21,8 +23,13 @@ spec:
+         prometheus.io/port: "8080"
+         prometheus.io/scrape: "true"
+       labels:
+-        app.kubernetes.io/component: source-controller
+-{{ include "labels.selector" . | indent 8 }}
++        app: source-controller
++        app.kubernetes.io/instance: {{ .Release.Name }}
++        app.kubernetes.io/managed-by: {{ .Release.Service }}
++        app.kubernetes.io/name: {{ include "name" . }}
++        app.kubernetes.io/version: {{ .Chart.AppVersion }}
++        giantswarm.io/service_type: managed
++        helm.sh/chart: {{ include "chart" . }}
+     spec:
+       containers:
+         - args:

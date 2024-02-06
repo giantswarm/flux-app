@@ -1,0 +1,240 @@
+diff --git a/deployment-helm-controller.yaml b/deployment-helm-controller.yaml
+index 8219a65..6865081 100644
+--- a/deployment-helm-controller.yaml
++++ b/deployment-helm-controller.yaml
+@@ -51,20 +51,29 @@ spec:
+           resources:
+ {{ include "resources.helmController" . | indent 12 }}
+           securityContext:
+-            allowPrivilegeEscalation: false
+-            capabilities:
+-              drop:
+-                - ALL
++            {{- with .Values.containerSecurityContext }}
++            {{- . | toYaml | nindent 12 }}
++            {{- end }}
+             readOnlyRootFilesystem: true
+-            runAsNonRoot: true
++            runAsUser: 100
++            {{- if ge (int .Capabilities.KubeVersion.Minor) 19 }}
++            {{- with .Values.seccompProfile }}
+             seccompProfile:
+-              type: RuntimeDefault
++              {{- . | toYaml | nindent 14 }}
++            {{- end }}
++            {{- end }}
+           volumeMounts:
+             - mountPath: /tmp
+               name: temp
+       priorityClassName: system-cluster-critical
+       securityContext:
+         fsGroup: 1337
++        {{- if ge (int .Capabilities.KubeVersion.Minor) 19 }}
++        {{- with .Values.podSeccompProfile }}
++        seccompProfile:
++          {{- . | toYaml | nindent 10 }}
++        {{- end }}
++        {{- end }}
+       serviceAccountName: helm-controller
+       terminationGracePeriodSeconds: 600
+       volumes:
+diff --git a/deployment-image-automation-controller.yaml b/deployment-image-automation-controller.yaml
+index f60738b..70074f9 100644
+--- a/deployment-image-automation-controller.yaml
++++ b/deployment-image-automation-controller.yaml
+@@ -51,19 +51,28 @@ spec:
+           resources:
+ {{ include "resources.imageAutomationController" . | indent 12 }}
+           securityContext:
+-            allowPrivilegeEscalation: false
+-            capabilities:
+-              drop:
+-                - ALL
++            {{- with .Values.containerSecurityContext }}
++            {{- . | toYaml | nindent 12 }}
++            {{- end }}
+             readOnlyRootFilesystem: true
+-            runAsNonRoot: true
++            runAsUser: 100
++            {{- if ge (int .Capabilities.KubeVersion.Minor) 19 }}
++            {{- with .Values.seccompProfile }}
+             seccompProfile:
+-              type: RuntimeDefault
++              {{- . | toYaml | nindent 14 }}
++            {{- end }}
++            {{- end }}
+           volumeMounts:
+             - mountPath: /tmp
+               name: temp
+       securityContext:
+         fsGroup: 1337
++        {{- if ge (int .Capabilities.KubeVersion.Minor) 19 }}
++        {{- with .Values.podSeccompProfile }}
++        seccompProfile:
++          {{- . | toYaml | nindent 10 }}
++        {{- end }}
++        {{- end }}
+       serviceAccountName: image-automation-controller
+       terminationGracePeriodSeconds: 10
+       volumes:
+diff --git a/deployment-image-reflector-controller.yaml b/deployment-image-reflector-controller.yaml
+index 3c253b7..54bdaba 100644
+--- a/deployment-image-reflector-controller.yaml
++++ b/deployment-image-reflector-controller.yaml
+@@ -51,14 +51,17 @@ spec:
+           resources:
+ {{ include "resources.imageReflectorController" . | indent 12 }}
+           securityContext:
+-            allowPrivilegeEscalation: false
+-            capabilities:
+-              drop:
+-                - ALL
++            {{- with .Values.containerSecurityContext }}
++            {{- . | toYaml | nindent 12 }}
++            {{- end }}
+             readOnlyRootFilesystem: true
+-            runAsNonRoot: true
++            runAsUser: 100
++            {{- if ge (int .Capabilities.KubeVersion.Minor) 19 }}
++            {{- with .Values.seccompProfile }}
+             seccompProfile:
+-              type: RuntimeDefault
++              {{- . | toYaml | nindent 14 }}
++            {{- end }}
++            {{- end }}
+           volumeMounts:
+             - mountPath: /tmp
+               name: temp
+@@ -66,6 +69,12 @@ spec:
+               name: data
+       securityContext:
+         fsGroup: 1337
++        {{- if ge (int .Capabilities.KubeVersion.Minor) 19 }}
++        {{- with .Values.podSeccompProfile }}
++        seccompProfile:
++          {{- . | toYaml | nindent 10 }}
++        {{- end }}
++        {{- end }}
+       serviceAccountName: image-reflector-controller
+       terminationGracePeriodSeconds: 10
+       volumes:
+diff --git a/deployment-kustomize-controller.yaml b/deployment-kustomize-controller.yaml
+index 12ea447..f693064 100644
+--- a/deployment-kustomize-controller.yaml
++++ b/deployment-kustomize-controller.yaml
+@@ -52,20 +52,29 @@ spec:
+           resources:
+ {{ include "resources.kustomizeController" . | indent 12 }}
+           securityContext:
+-            allowPrivilegeEscalation: false
+-            capabilities:
+-              drop:
+-                - ALL
++            {{- with .Values.containerSecurityContext }}
++            {{- . | toYaml | nindent 12 }}
++            {{- end }}
+             readOnlyRootFilesystem: true
+-            runAsNonRoot: true
++            runAsUser: 100
++            {{- if ge (int .Capabilities.KubeVersion.Minor) 19 }}
++            {{- with .Values.seccompProfile }}
+             seccompProfile:
+-              type: RuntimeDefault
++              {{- . | toYaml | nindent 14 }}
++            {{- end }}
++            {{- end }}
+           volumeMounts:
+             - mountPath: /tmp
+               name: temp
+       priorityClassName: system-cluster-critical
+       securityContext:
+         fsGroup: 1337
++        {{- if ge (int .Capabilities.KubeVersion.Minor) 19 }}
++        {{- with .Values.podSeccompProfile }}
++        seccompProfile:
++          {{- . | toYaml | nindent 10 }}
++        {{- end }}
++        {{- end }}
+       serviceAccountName: kustomize-controller
+       terminationGracePeriodSeconds: 60
+       volumes:
+diff --git a/deployment-notification-controller.yaml b/deployment-notification-controller.yaml
+index 1d830fc..823e056 100644
+--- a/deployment-notification-controller.yaml
++++ b/deployment-notification-controller.yaml
+@@ -56,19 +56,28 @@ spec:
+           resources:
+ {{ include "resources.notificationController" . | indent 12 }}
+           securityContext:
+-            allowPrivilegeEscalation: false
+-            capabilities:
+-              drop:
+-                - ALL
++            {{- with .Values.containerSecurityContext }}
++            {{- . | toYaml | nindent 12 }}
++            {{- end }}
+             readOnlyRootFilesystem: true
+-            runAsNonRoot: true
++            runAsUser: 100
++            {{- if ge (int .Capabilities.KubeVersion.Minor) 19 }}
++            {{- with .Values.seccompProfile }}
+             seccompProfile:
+-              type: RuntimeDefault
++              {{- . | toYaml | nindent 14 }}
++            {{- end }}
++            {{- end }}
+           volumeMounts:
+             - mountPath: /tmp
+               name: temp
+       securityContext:
+         fsGroup: 1337
++        {{- if ge (int .Capabilities.KubeVersion.Minor) 19 }}
++        {{- with .Values.podSeccompProfile }}
++        seccompProfile:
++          {{- . | toYaml | nindent 10 }}
++        {{- end }}
++        {{- end }}
+       serviceAccountName: notification-controller
+       terminationGracePeriodSeconds: 10
+       volumes:
+diff --git a/deployment-source-controller.yaml b/deployment-source-controller.yaml
+index c58bd75..9b1ea48 100644
+--- a/deployment-source-controller.yaml
++++ b/deployment-source-controller.yaml
+@@ -60,14 +60,17 @@ spec:
+           resources:
+ {{ include "resources.sourceController" . | indent 12 }}
+           securityContext:
+-            allowPrivilegeEscalation: false
+-            capabilities:
+-              drop:
+-                - ALL
++            {{- with .Values.containerSecurityContext }}
++            {{- . | toYaml | nindent 12 }}
++            {{- end }}
+             readOnlyRootFilesystem: true
+-            runAsNonRoot: true
++            runAsUser: 100
++            {{- if ge (int .Capabilities.KubeVersion.Minor) 19 }}
++            {{- with .Values.seccompProfile }}
+             seccompProfile:
+-              type: RuntimeDefault
++              {{- . | toYaml | nindent 14 }}
++            {{- end }}
++            {{- end }}
+           volumeMounts:
+             - mountPath: /data
+               name: data
+@@ -76,6 +79,12 @@ spec:
+       priorityClassName: system-cluster-critical
+       securityContext:
+         fsGroup: 1337
++        {{- if ge (int .Capabilities.KubeVersion.Minor) 19 }}
++        {{- with .Values.podSeccompProfile }}
++        seccompProfile:
++          {{- . | toYaml | nindent 10 }}
++        {{- end }}
++        {{- end }}
+       serviceAccountName: source-controller
+       terminationGracePeriodSeconds: 10
+       volumes:

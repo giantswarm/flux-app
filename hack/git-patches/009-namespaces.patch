@@ -1,0 +1,210 @@
+diff --git a/deployment-helm-controller.yaml b/deployment-helm-controller.yaml
+index 6326667..72e2078 100644
+--- a/deployment-helm-controller.yaml
++++ b/deployment-helm-controller.yaml
+@@ -6,6 +6,7 @@ metadata:
+     app.kubernetes.io/component: helm-controller
+ {{ include "labels.common" . | indent 4 }}
+   name: helm-controller
++  namespace: {{ .Release.Namespace }}
+ spec:
+   replicas: 1
+   selector:
+diff --git a/deployment-image-automation-controller.yaml b/deployment-image-automation-controller.yaml
+index 78639b2..700763c 100644
+--- a/deployment-image-automation-controller.yaml
++++ b/deployment-image-automation-controller.yaml
+@@ -6,6 +6,7 @@ metadata:
+     app.kubernetes.io/component: image-automation-controller
+ {{ include "labels.common" . | indent 4 }}
+   name: image-automation-controller
++  namespace: {{ .Release.Namespace }}
+ spec:
+   replicas: 1
+   selector:
+diff --git a/deployment-image-reflector-controller.yaml b/deployment-image-reflector-controller.yaml
+index cd7335b..60d6115 100644
+--- a/deployment-image-reflector-controller.yaml
++++ b/deployment-image-reflector-controller.yaml
+@@ -6,6 +6,7 @@ metadata:
+     app.kubernetes.io/component: image-reflector-controller
+ {{ include "labels.common" . | indent 4 }}
+   name: image-reflector-controller
++  namespace: {{ .Release.Namespace }}
+ spec:
+   replicas: 1
+   selector:
+diff --git a/deployment-kustomize-controller.yaml b/deployment-kustomize-controller.yaml
+index fce0a76..6fa7c5a 100644
+--- a/deployment-kustomize-controller.yaml
++++ b/deployment-kustomize-controller.yaml
+@@ -6,6 +6,7 @@ metadata:
+     app.kubernetes.io/component: kustomize-controller
+ {{ include "labels.common" . | indent 4 }}
+   name: kustomize-controller
++  namespace: {{ .Release.Namespace }}
+ spec:
+   replicas: 1
+   selector:
+diff --git a/deployment-notification-controller.yaml b/deployment-notification-controller.yaml
+index d0ccb7a..db822f9 100644
+--- a/deployment-notification-controller.yaml
++++ b/deployment-notification-controller.yaml
+@@ -6,6 +6,7 @@ metadata:
+     app.kubernetes.io/component: notification-controller
+ {{ include "labels.common" . | indent 4 }}
+   name: notification-controller
++  namespace: {{ .Release.Namespace }}
+ spec:
+   replicas: 1
+   selector:
+diff --git a/deployment-source-controller.yaml b/deployment-source-controller.yaml
+index 9775469..2191585 100644
+--- a/deployment-source-controller.yaml
++++ b/deployment-source-controller.yaml
+@@ -6,6 +6,7 @@ metadata:
+     app.kubernetes.io/component: source-controller
+ {{ include "labels.common" . | indent 4 }}
+   name: source-controller
++  namespace: {{ .Release.Namespace }}
+ spec:
+   replicas: 1
+   selector:
+diff --git a/networkpolicy-allow-egress.yaml b/networkpolicy-allow-egress.yaml
+index f9afef0..9c996d2 100644
+--- a/networkpolicy-allow-egress.yaml
++++ b/networkpolicy-allow-egress.yaml
+@@ -5,6 +5,7 @@ metadata:
+   labels:
+ {{ include "labels.common" . | indent 4 }}
+   name: allow-egress
++  namespace: {{ .Release.Namespace }}
+ spec:
+   egress:
+     - {}
+diff --git a/networkpolicy-allow-scraping.yaml b/networkpolicy-allow-scraping.yaml
+index f4d5b26..214d611 100644
+--- a/networkpolicy-allow-scraping.yaml
++++ b/networkpolicy-allow-scraping.yaml
+@@ -5,6 +5,7 @@ metadata:
+   labels:
+ {{ include "labels.common" . | indent 4 }}
+   name: allow-scraping
++  namespace: {{ .Release.Namespace }}
+ spec:
+   ingress:
+     - from:
+diff --git a/networkpolicy-allow-webhooks.yaml b/networkpolicy-allow-webhooks.yaml
+index f80a2bd..3f0a43c 100644
+--- a/networkpolicy-allow-webhooks.yaml
++++ b/networkpolicy-allow-webhooks.yaml
+@@ -5,6 +5,7 @@ metadata:
+   labels:
+ {{ include "labels.common" . | indent 4 }}
+   name: allow-webhooks
++  namespace: {{ .Release.Namespace }}
+ spec:
+   ingress:
+     - from:
+diff --git a/resourcequota-critical-pods.yaml b/resourcequota-critical-pods.yaml
+index ea8e94e..114999b 100644
+--- a/resourcequota-critical-pods.yaml
++++ b/resourcequota-critical-pods.yaml
+@@ -5,6 +5,7 @@ metadata:
+   labels:
+ {{ include "labels.common" . | indent 4 }}
+   name: critical-pods
++  namespace: {{ .Release.Namespace }}
+ spec:
+   hard:
+     pods: "1000"
+diff --git a/service-notification-controller.yaml b/service-notification-controller.yaml
+index 7fc5c82..44e2ab3 100644
+--- a/service-notification-controller.yaml
++++ b/service-notification-controller.yaml
+@@ -6,6 +6,7 @@ metadata:
+     app.kubernetes.io/component: notification-controller
+ {{ include "labels.common" . | indent 4 }}
+   name: notification-controller
++  namespace: {{ .Release.Namespace }}
+ spec:
+   ports:
+     - name: http
+diff --git a/service-source-controller.yaml b/service-source-controller.yaml
+index f3e57db..47f5321 100644
+--- a/service-source-controller.yaml
++++ b/service-source-controller.yaml
+@@ -6,6 +6,7 @@ metadata:
+     app.kubernetes.io/component: source-controller
+ {{ include "labels.common" . | indent 4 }}
+   name: source-controller
++  namespace: {{ .Release.Namespace }}
+ spec:
+   ports:
+     - name: http
+diff --git a/service-webhook-receiver.yaml b/service-webhook-receiver.yaml
+index 23f3c39..cfbd649 100644
+--- a/service-webhook-receiver.yaml
++++ b/service-webhook-receiver.yaml
+@@ -6,6 +6,7 @@ metadata:
+     app.kubernetes.io/component: notification-controller
+ {{ include "labels.common" . | indent 4 }}
+   name: webhook-receiver
++  namespace: {{ .Release.Namespace }}
+ spec:
+   ports:
+     - name: http
+diff --git a/serviceaccount-helm-controller.yaml b/serviceaccount-helm-controller.yaml
+index d26416b..4f2ce2d 100644
+--- a/serviceaccount-helm-controller.yaml
++++ b/serviceaccount-helm-controller.yaml
+@@ -5,3 +5,4 @@ metadata:
+   labels:
+ {{ include "labels.common" . | indent 4 }}
+   name: helm-controller
++  namespace: {{ .Release.Namespace }}
+diff --git a/serviceaccount-image-automation-controller.yaml b/serviceaccount-image-automation-controller.yaml
+index d7a9a7b..aee36da 100644
+--- a/serviceaccount-image-automation-controller.yaml
++++ b/serviceaccount-image-automation-controller.yaml
+@@ -5,3 +5,4 @@ metadata:
+   labels:
+ {{ include "labels.common" . | indent 4 }}
+   name: image-automation-controller
++  namespace: {{ .Release.Namespace }}
+diff --git a/serviceaccount-image-reflector-controller.yaml b/serviceaccount-image-reflector-controller.yaml
+index 91e73cc..cd56147 100644
+--- a/serviceaccount-image-reflector-controller.yaml
++++ b/serviceaccount-image-reflector-controller.yaml
+@@ -5,3 +5,4 @@ metadata:
+   labels:
+ {{ include "labels.common" . | indent 4 }}
+   name: image-reflector-controller
++  namespace: {{ .Release.Namespace }}
+diff --git a/serviceaccount-kustomize-controller.yaml b/serviceaccount-kustomize-controller.yaml
+index 93a42c9..960b306 100644
+--- a/serviceaccount-kustomize-controller.yaml
++++ b/serviceaccount-kustomize-controller.yaml
+@@ -5,3 +5,4 @@ metadata:
+   labels:
+ {{ include "labels.common" . | indent 4 }}
+   name: kustomize-controller
++  namespace: {{ .Release.Namespace }}
+diff --git a/serviceaccount-notification-controller.yaml b/serviceaccount-notification-controller.yaml
+index 152b964..684d9e6 100644
+--- a/serviceaccount-notification-controller.yaml
++++ b/serviceaccount-notification-controller.yaml
+@@ -5,3 +5,4 @@ metadata:
+   labels:
+ {{ include "labels.common" . | indent 4 }}
+   name: notification-controller
++  namespace: {{ .Release.Namespace }}
+diff --git a/serviceaccount-source-controller.yaml b/serviceaccount-source-controller.yaml
+index 4dbeef7..6c2df2a 100644
+--- a/serviceaccount-source-controller.yaml
++++ b/serviceaccount-source-controller.yaml
+@@ -5,3 +5,4 @@ metadata:
+   labels:
+ {{ include "labels.common" . | indent 4 }}
+   name: source-controller
++  namespace: {{ .Release.Namespace }}

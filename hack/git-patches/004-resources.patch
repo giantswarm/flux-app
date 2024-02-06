@@ -1,0 +1,108 @@
+diff --git a/deployment-helm-controller.yaml b/deployment-helm-controller.yaml
+index 73f5380..8219a65 100644
+--- a/deployment-helm-controller.yaml
++++ b/deployment-helm-controller.yaml
+@@ -49,12 +49,7 @@ spec:
+               path: /readyz
+               port: healthz
+           resources:
+-            limits:
+-              cpu: 1000m
+-              memory: 1Gi
+-            requests:
+-              cpu: 100m
+-              memory: 64Mi
++{{ include "resources.helmController" . | indent 12 }}
+           securityContext:
+             allowPrivilegeEscalation: false
+             capabilities:
+diff --git a/deployment-image-automation-controller.yaml b/deployment-image-automation-controller.yaml
+index 32f0ef6..f60738b 100644
+--- a/deployment-image-automation-controller.yaml
++++ b/deployment-image-automation-controller.yaml
+@@ -49,12 +49,7 @@ spec:
+               path: /readyz
+               port: healthz
+           resources:
+-            limits:
+-              cpu: 1000m
+-              memory: 1Gi
+-            requests:
+-              cpu: 100m
+-              memory: 64Mi
++{{ include "resources.imageAutomationController" . | indent 12 }}
+           securityContext:
+             allowPrivilegeEscalation: false
+             capabilities:
+diff --git a/deployment-image-reflector-controller.yaml b/deployment-image-reflector-controller.yaml
+index 6ea3f0a..3c253b7 100644
+--- a/deployment-image-reflector-controller.yaml
++++ b/deployment-image-reflector-controller.yaml
+@@ -49,12 +49,7 @@ spec:
+               path: /readyz
+               port: healthz
+           resources:
+-            limits:
+-              cpu: 1000m
+-              memory: 1Gi
+-            requests:
+-              cpu: 100m
+-              memory: 64Mi
++{{ include "resources.imageReflectorController" . | indent 12 }}
+           securityContext:
+             allowPrivilegeEscalation: false
+             capabilities:
+diff --git a/deployment-kustomize-controller.yaml b/deployment-kustomize-controller.yaml
+index bb60e01..12ea447 100644
+--- a/deployment-kustomize-controller.yaml
++++ b/deployment-kustomize-controller.yaml
+@@ -50,12 +50,7 @@ spec:
+               path: /readyz
+               port: healthz
+           resources:
+-            limits:
+-              cpu: 1000m
+-              memory: 1Gi
+-            requests:
+-              cpu: 100m
+-              memory: 64Mi
++{{ include "resources.kustomizeController" . | indent 12 }}
+           securityContext:
+             allowPrivilegeEscalation: false
+             capabilities:
+diff --git a/deployment-notification-controller.yaml b/deployment-notification-controller.yaml
+index a1dabd5..1d830fc 100644
+--- a/deployment-notification-controller.yaml
++++ b/deployment-notification-controller.yaml
+@@ -54,12 +54,7 @@ spec:
+               path: /readyz
+               port: healthz
+           resources:
+-            limits:
+-              cpu: 1000m
+-              memory: 1Gi
+-            requests:
+-              cpu: 100m
+-              memory: 64Mi
++{{ include "resources.notificationController" . | indent 12 }}
+           securityContext:
+             allowPrivilegeEscalation: false
+             capabilities:
+diff --git a/deployment-source-controller.yaml b/deployment-source-controller.yaml
+index e1ce853..c58bd75 100644
+--- a/deployment-source-controller.yaml
++++ b/deployment-source-controller.yaml
+@@ -58,12 +58,7 @@ spec:
+               path: /
+               port: http
+           resources:
+-            limits:
+-              cpu: 1000m
+-              memory: 1Gi
+-            requests:
+-              cpu: 50m
+-              memory: 64Mi
++{{ include "resources.sourceController" . | indent 12 }}
+           securityContext:
+             allowPrivilegeEscalation: false
+             capabilities:

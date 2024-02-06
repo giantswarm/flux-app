@@ -1,0 +1,21 @@
+diff --git a/clusterrole-crd-controller.yaml b/clusterrole-crd-controller.yaml
+index 9ed2b5f..529397a 100644
+--- a/clusterrole-crd-controller.yaml
++++ b/clusterrole-crd-controller.yaml
+@@ -6,6 +6,16 @@ metadata:
+ {{ include "labels.common" . | indent 4}}
+   name: crd-controller
+ rules:
++{{- if not .Values.global.podSecurityStandards.enforced }}
++  - apiGroups:
++      - policy
++    resourceNames:
++      - {{ printf "%s-pvc-psp" (include "name" .) | quote }}
++    resources:
++      - podsecuritypolicies
++    verbs:
++      - use
++{{- end }}
+   - apiGroups:
+       - source.toolkit.fluxcd.io
+     resources:

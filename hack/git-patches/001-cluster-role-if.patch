@@ -1,0 +1,29 @@
+diff --git a/clusterrole-flux-edit.yaml b/clusterrole-flux-edit.yaml
+index 96bdfe1..2c8e425 100644
+--- a/clusterrole-flux-edit.yaml
++++ b/clusterrole-flux-edit.yaml
+@@ -1,3 +1,4 @@
++{{- if .Values.clusterRoles.install }}
+ ---
+ apiVersion: rbac.authorization.k8s.io/v1
+ kind: ClusterRole
+@@ -20,3 +21,4 @@ rules:
+       - deletecollection
+       - patch
+       - update
++{{- end }}
+diff --git a/clusterrole-flux-view.yaml b/clusterrole-flux-view.yaml
+index b500b23..b47bbee 100644
+--- a/clusterrole-flux-view.yaml
++++ b/clusterrole-flux-view.yaml
+@@ -1,3 +1,4 @@
++{{- if .Values.clusterRoles.install }}
+ ---
+ apiVersion: rbac.authorization.k8s.io/v1
+ kind: ClusterRole
+@@ -18,3 +19,4 @@ rules:
+       - get
+       - list
+       - watch
++{{- end }}
+
