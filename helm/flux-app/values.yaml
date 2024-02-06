@@ -144,7 +144,7 @@ priorityClass:
 
 cilium:
   # Force creating the cilium network policy
-  enforce: true
+  enforce: false
 
 # Add seccomp to pod security context
 podSeccompProfile:

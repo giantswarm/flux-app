@@ -15,6 +15,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   available, this flag should be enabled to skip the creation of the PSP and the update to the CLusterRole.
 - Added support for `.policyException.namespace` Helm value to control where Kyverno PolicyException is created when the cluster
   has support for the capability.
+- Added support for `.cilium.enforce` Helm value (defaults to false) to force creation of the Cilium network policy in
+  cases when Helm capability checks are not available.
 
 ### Changed
 
