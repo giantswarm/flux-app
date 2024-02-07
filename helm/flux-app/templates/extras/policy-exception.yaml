@@ -2,7 +2,7 @@
 apiVersion: kyverno.io/v2alpha1
 kind: PolicyException
 metadata:
-  name: flux-app
+  name: {{ .Release.Name | quote }}
   {{- if (.Values.policyException).namespace }}
   namespace: {{ .Values.policyException.namespace }}
   {{- end }}
