@@ -154,7 +154,9 @@ podSeccompProfile:
 seccompProfile:
   type: RuntimeDefault
 policyException:
-  namespace: policy-exception
+  # Force creating the Kyverno policy exception
+  enforce: false
+  namespace: policy-exceptions
 containerSecurityContext:
   allowPrivilegeEscalation: false
   capabilities:

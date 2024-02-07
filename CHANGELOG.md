@@ -17,6 +17,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   has support for the capability.
 - Added support for `.cilium.enforce` Helm value (defaults to false) to force creation of the Cilium network policy in
   cases when Helm capability checks are not available.
+- Added support for `.policyException.enforce` Helm value (defaults to false) to force creation of the Cilium policy in
+  cases when Helm capability checks are not available.
 
 ### Changed
 
