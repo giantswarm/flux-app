@@ -57,10 +57,11 @@ def test_helm_release_works(
                 namespace=name,
             ),
         ),
-        interval="1m",
+        interval="10s",
         values={
             "fullnameOverride": name
-        }
+        },
+        wait_timeout_sec=120
     )
 
     assert_hello_world_is_running(kube_cluster.kube_client, app_namespace=name, app_deploy_name=name, app_svc_name=name)
