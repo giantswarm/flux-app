@@ -154,7 +154,9 @@ podSeccompProfile:
 seccompProfile:
   type: RuntimeDefault
 policyException:
-  namespace: policy-exception
+  # Force creating the Kyverno policy exception
+  enforce: false
+  namespace: giantswarm
 containerSecurityContext:
   allowPrivilegeEscalation: false
   capabilities:

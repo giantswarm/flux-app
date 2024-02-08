@@ -214,6 +214,9 @@
         "policyException": {
             "type": "object",
             "properties": {
+                "enforce": {
+                    "type": "boolean"
+                },
                 "namespace": {
                     "type": "string"
                 }
