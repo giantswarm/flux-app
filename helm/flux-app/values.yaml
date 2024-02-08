@@ -156,7 +156,7 @@ seccompProfile:
 policyException:
   # Force creating the Kyverno policy exception
   enforce: false
-  namespace: policy-exceptions
+  namespace: giantswarm
 containerSecurityContext:
   allowPrivilegeEscalation: false
   capabilities:
