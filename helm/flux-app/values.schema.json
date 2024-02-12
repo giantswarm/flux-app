@@ -208,6 +208,9 @@
             "properties": {
                 "enabled": {
                     "type": "boolean"
+                },
+                "relabelings": {
+                    "type": "array"
                 }
             }
         },

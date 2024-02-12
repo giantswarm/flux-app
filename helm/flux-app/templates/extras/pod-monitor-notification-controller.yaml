@@ -13,19 +13,10 @@ spec:
       - {{ .Release.Namespace }}
   podMetricsEndpoints:
     - port: {{ .Values.upstreamMetricsPort }}
+      {{- with .Values.podMonitors.relabelings }}
       relabelings:
-        - action: replace
-          sourceLabels:
-            - __meta_kubernetes_pod_label_app_kubernetes_io_name
-          targetLabel: app
-        - action: replace
-          sourceLabels:
-            - __meta_kubernetes_pod_node_name
-          targetLabel: node
-        - action: replace
-          sourceLabels:
-            - __meta_kubernetes_node_label_role
-          targetLabel: role
+      {{- toYaml . | nindent 6 }}
+      {{- end }}
   selector:
     matchLabels:
       app: notification-controller
