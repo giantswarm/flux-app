@@ -203,6 +203,14 @@
                 }
             }
         },
+        "podMonitors": {
+            "type": "object",
+            "properties": {
+                "enabled": {
+                    "type": "boolean"
+                }
+            }
+        },
         "podSeccompProfile": {
             "type": "object",
             "properties": {

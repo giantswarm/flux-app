@@ -146,6 +146,9 @@ cilium:
   # Force creating the cilium network policy
   enforce: false
 
+podMonitors:
+  enabled: false
+
 # Add seccomp to pod security context
 podSeccompProfile:
   type: RuntimeDefault
