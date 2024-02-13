@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Add pod monitors to controllers. Creation is controlled by the `.podMonitors.enabled` Helm value with default: `true`.
+
+### Removed
+
+- Removed `{{ .Release.Name  }}-monitoring` service that was used in the old monitoring stack.
+
 ## [1.3.0] - 2024-02-08
 
 ### Added

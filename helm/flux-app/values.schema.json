@@ -203,6 +203,17 @@
                 }
             }
         },
+        "podMonitors": {
+            "type": "object",
+            "properties": {
+                "enabled": {
+                    "type": "boolean"
+                },
+                "relabelings": {
+                    "type": "array"
+                }
+            }
+        },
         "podSeccompProfile": {
             "type": "object",
             "properties": {
