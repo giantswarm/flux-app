@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.3.1] - 2024-02-13
+
 ### Added
 
 - Add pod monitors to controllers. Creation is controlled by the `.podMonitors.enabled` Helm value with default: `true`.
@@ -348,7 +350,8 @@ reduce memory usage by downgrading Helm from 3.7.1 to 3.6.3
 
 - Initial release containing flux toolkit 0.5.9
 
-[Unreleased]: https://github.com/giantswarm/flux-app/compare/v1.3.0...HEAD
+[Unreleased]: https://github.com/giantswarm/flux-app/compare/v1.3.1...HEAD
+[1.3.1]: https://github.com/giantswarm/flux-app/compare/v1.3.0...v1.3.1
 [1.3.0]: https://github.com/giantswarm/flux-app/compare/v1.2.0...v1.3.0
 [1.2.0]: https://github.com/giantswarm/flux-app/compare/v1.1.1...v1.2.0
 [1.1.1]: https://github.com/giantswarm/flux-app/compare/v1.1.0...v1.1.1
