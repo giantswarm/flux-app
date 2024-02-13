@@ -147,7 +147,7 @@ cilium:
   enforce: false
 
 podMonitors:
-  enabled: false
+  enabled: true
   relabelings: []
 
 # Add seccomp to pod security context

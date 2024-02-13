@@ -9,7 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-- Add pod monitors to controllers. Creation is controlled by the `.podMonitors.enabled` Helm value with default: `false`.
+- Add pod monitors to controllers. Creation is controlled by the `.podMonitors.enabled` Helm value with default: `true`.
 
 ### Removed
 
