@@ -21,7 +21,7 @@ Common labels
 app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
 application.giantswarm.io/team: {{ index .Chart.Annotations "application.giantswarm.io/team" | quote }}
 helm.sh/chart: {{ include "chart" . | quote }}
-giantswarm.io/service_type: managed
+giantswarm.io/service-type: managed
 {{- end -}}
 
 {{/*
@@ -156,7 +156,7 @@ limits:
 {{- printf "app.kubernetes.io/managed-by: %s" ( .Release.Service ) | nindent 8 }}
 {{- printf "app.kubernetes.io/name: %s" ( include "name" . ) | nindent 8 }}
 {{- printf "app.kubernetes.io/version: %s" ( .Chart.AppVersion ) | nindent 8 }}
-{{- printf "giantswarm.io/service_type: managed" | nindent 8 }}
+{{- printf "giantswarm.io/service-type: managed" | nindent 8 }}
 {{- printf "helm.sh/chart: %s" ( include "chart" . ) | nindent 8 }}
 {{- if (.Values.kustomizeController.podTemplate.labels) -}}
 {{- range $k, $v := .Values.kustomizeController.podTemplate.labels }}
