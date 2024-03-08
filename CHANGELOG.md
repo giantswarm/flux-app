@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+- Fix resource labelling from `giantswarm.io/service_type` to `giantswarm.io/service-type`.
+
 ## [1.4.0] - 2024-03-07
 
 ### Changed
