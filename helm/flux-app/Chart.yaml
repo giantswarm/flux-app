@@ -1,7 +1,7 @@
 apiVersion: v2
 appVersion: 2.1.2
 annotations:
-  application.giantswarm.io/team: team-honeybadger
+  application.giantswarm.io/team: honeybadger
   application.giantswarm.io/two-step-install: "true"
   ui.giantswarm.io/logo: https://s.giantswarm.io/app-icons/flux/2/logo_dark.svg
 description: |
