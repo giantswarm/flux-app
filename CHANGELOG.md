@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+- Set the location of the notificaton-controller to the namespace it's currently running in.
+
 ## [1.4.1] - 2024-03-08
 
 ### Fixed
