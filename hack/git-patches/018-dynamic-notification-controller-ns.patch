@@ -1,0 +1,52 @@
+diff --git a/deployment-helm-controller.yaml b/deployment-helm-controller.yaml
+index ce7a6e5..f69b0e8 100644
+--- a/deployment-helm-controller.yaml
++++ b/deployment-helm-controller.yaml
+@@ -30,7 +30,7 @@ spec:
+     spec:
+       containers:
+         - args:
+-            - --events-addr=http://notification-controller.flux-system.svc.cluster.local./
++            - --events-addr=http://notification-controller.$(RUNTIME_NAMESPACE).svc.cluster.local./
+             - --watch-all-namespaces
+             - --log-level=info
+             - --log-encoding=json
+diff --git a/deployment-image-automation-controller.yaml b/deployment-image-automation-controller.yaml
+index 86def7f..61afa4e 100644
+--- a/deployment-image-automation-controller.yaml
++++ b/deployment-image-automation-controller.yaml
+@@ -31,7 +31,7 @@ spec:
+     spec:
+       containers:
+         - args:
+-            - --events-addr=http://notification-controller.flux-system.svc.cluster.local./
++            - --events-addr=http://notification-controller.$(RUNTIME_NAMESPACE).svc.cluster.local./
+             - --watch-all-namespaces
+             - --log-level=info
+             - --log-encoding=json
+diff --git a/deployment-image-reflector-controller.yaml b/deployment-image-reflector-controller.yaml
+index cb22f39..6859730 100644
+--- a/deployment-image-reflector-controller.yaml
++++ b/deployment-image-reflector-controller.yaml
+@@ -31,7 +31,7 @@ spec:
+     spec:
+       containers:
+         - args:
+-            - --events-addr=http://notification-controller.flux-system.svc.cluster.local./
++            - --events-addr=http://notification-controller.$(RUNTIME_NAMESPACE).svc.cluster.local./
+             - --watch-all-namespaces
+             - --log-level=info
+             - --log-encoding=json
+diff --git a/deployment-source-controller.yaml b/deployment-source-controller.yaml
+index 82061b1..7ab5dd2 100644
+--- a/deployment-source-controller.yaml
++++ b/deployment-source-controller.yaml
+@@ -33,7 +33,7 @@ spec:
+     spec:
+       containers:
+         - args:
+-            - --events-addr=http://notification-controller.flux-system.svc.cluster.local./
++            - --events-addr=http://notification-controller.$(RUNTIME_NAMESPACE).svc.cluster.local./
+             - --watch-all-namespaces
+             - --log-level=info
+             - --log-encoding=json
