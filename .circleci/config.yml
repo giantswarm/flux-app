@@ -5,19 +5,23 @@ orbs:
 workflows:
   package-and-push-chart-on-tag:
     jobs:
-      - architect/push-to-app-catalog:
-          context: "architect"
-          executor: "app-build-suite"
-          name: "package and push flux-app chart"
-          app_catalog: "giantswarm-catalog"
-          app_catalog_test: "giantswarm-test-catalog"
-          chart: "flux-app"
-          persist_chart_archive: true
+    - architect/push-to-app-catalog:
+        context: architect
+        executor: app-build-suite
+        name: package and push flux-app chart
+        app_catalog: giantswarm-catalog
+        app_catalog_test: giantswarm-test-catalog
+        chart: flux-app
+        persist_chart_archive: true
           # Trigger job on git tag.
-          filters:
-            tags:
-              only: /^v.*/
-          push_to_oci_registry: true
+        filters:
+          tags:
+            only: /^v.*/
+          branches:
+            ignore:
+            - main
+            - master
+        push_to_oci_registry: true
 
       #      - architect/run-tests-with-ats:
       #          name: execute chart tests - smoke and functional
@@ -32,15 +36,15 @@ workflows:
       #          requires:
       #            - "package and push flux-app chart"
 
-      - architect/run-tests-with-ats:
-          name: execute chart tests - upgrade
-          additional_app-test-suite_flags: "--skip-steps smoke functional"
-          app-test-suite_version: "v0.5.0"
-          app-test-suite_container_tag: "0.5.0"
-          resource_class: large
-          filters:
-            branches:
-              only: /master#release#.*/
-          requires:
-            - "package and push flux-app chart"
+    - architect/run-tests-with-ats:
+        name: execute chart tests - upgrade
+        additional_app-test-suite_flags: --skip-steps smoke functional
+        app-test-suite_version: v0.5.0
+        app-test-suite_container_tag: 0.5.0
+        resource_class: large
+        filters:
+          branches:
+            only: /master#release#.*/
+        requires:
+        - package and push flux-app chart
 #            - "execute chart tests - smoke and functional"
