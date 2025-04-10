@@ -47,7 +47,7 @@ spec:
                   fieldPath: metadata.namespace
             - name: TUF_ROOT
               value: /tmp/.sigstore
-          image: '{{ .Values.images.registry }}/{{ .Values.images.sourceController.image }}:v1.1.2'
+          image: '{{ .Values.images.registry }}/{{ .Values.images.sourceController.image }}:v1.2.2'
           imagePullPolicy: IfNotPresent
           livenessProbe:
             httpGet:
