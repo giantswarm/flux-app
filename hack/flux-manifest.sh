@@ -31,7 +31,7 @@ for ns in $(find . -type f -name "Namespace*"); do
     rm -f $ns
 done
 # ---------------------------------------------------------------------
-# And here goes the main part. 
+# And here goes the main part.
 # Since we have regular yaml files, we need to
 # turn them into helm templates. Currently, it's done by git patches,
 # but I'm not sure how versatile this approach is. We will only see
@@ -63,7 +63,7 @@ for template in $(find . -type f); do
     mv $template "$TARGET_FILE_NAME"
 done
 
-ls 
+ls
 # ---------------------------------------------------------------------
 # Now, let's prepare a patch for images. Since the amount of containers
 # is pretty much defined, we will just export some variables and then
@@ -71,11 +71,23 @@ ls
 # ---------------------------------------------------------------------
 export CMD="yq '.spec.template.spec.containers.[] | select(.name == \"manager\") | .image'"
 export IMAGE_HELM_CTRL=$(bash -c "$CMD deployment-helm-controller.yaml")
+export IMAGE_HELM_CTRL_TAG=$(echo $IMAGE_HELM_CTRL | cut -d: -f2)
+
 export IMAGE_AUTOMATION_CTRL=$(bash -c "$CMD deployment-image-automation-controller.yaml")
+export IMAGE_AUTOMATION_CTRL_TAG=$(echo $IMAGE_AUTOMATION_CTRL | cut -d: -f2)
+
 export IMAGE_REFLECTOR_CTRL=$(bash -c "$CMD deployment-image-reflector-controller.yaml")
+export IMAGE_REFLECTOR_CTRL_TAG=$(echo $IMAGE_REFLECTOR_CTRL | cut -d: -f2)
+
 export IMAGE_KUSTOMIZE_CTRL=$(bash -c "$CMD deployment-kustomize-controller.yaml")
+export IMAGE_KUSTOMIZE_CTRL_TAG=$(echo $IMAGE_KUSTOMIZE_CTRL | cut -d: -f2)
+
 export IMAGE_NOTIFICATION_CTRL=$(bash -c "$CMD deployment-notification-controller.yaml")
+export IMAGE_NOTIFICATION_CTRL_TAG=$(echo $IMAGE_NOTIFICATION_CTRL | cut -d: -f2)
+
 export IMAGE_SOURCE_CTRL=$(bash -c "$CMD deployment-source-controller.yaml")
+export IMAGE_SOURCE_CTRL_TAG=$(echo $IMAGE_SOURCE_CTRL | cut -d: -f2)
+
 env | grep IMAGE
 IMAGES_PATCH=$CURRENT_DIR/hack/git-patches/007-images.patch
 envsubst < "$IMAGES_PATCH.tmpl" > $IMAGES_PATCH

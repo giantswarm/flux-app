@@ -7,7 +7,7 @@ index 6865081..4792ef0 100644
                  fieldRef:
                    fieldPath: metadata.namespace
 -          image: ${IMAGE_HELM_CTRL}
-+          image: '{{ .Values.images.registry }}/{{ .Values.images.helmController.image }}:v0.37.0'
++          image: '{{ .Values.images.registry }}/{{ .Values.images.helmController.image }}:${IMAGE_HELM_CTRL_TAG}'
            imagePullPolicy: IfNotPresent
            livenessProbe:
              httpGet:
@@ -20,7 +20,7 @@ index 70074f9..65613e2 100644
                  fieldRef:
                    fieldPath: metadata.namespace
 -          image: ${IMAGE_AUTOMATION_CTRL}
-+          image: '{{ .Values.images.registry }}/{{ .Values.images.imageAutomationController.image }}:v0.37.0'
++          image: '{{ .Values.images.registry }}/{{ .Values.images.imageAutomationController.image }}:${IMAGE_AUTOMATION_CTRL_TAG}'
            imagePullPolicy: IfNotPresent
            livenessProbe:
              httpGet:
@@ -33,7 +33,7 @@ index 54bdaba..1cd6d7d 100644
                  fieldRef:
                    fieldPath: metadata.namespace
 -          image: ${IMAGE_REFLECTOR_CTRL}
-+          image: '{{ .Values.images.registry }}/{{ .Values.images.imageReflectorController.image }}:v0.31.1'
++          image: '{{ .Values.images.registry }}/{{ .Values.images.imageReflectorController.image }}:${IMAGE_REFLECTOR_CTRL_TAG}'
            imagePullPolicy: IfNotPresent
            livenessProbe:
              httpGet:
@@ -46,7 +46,7 @@ index f693064..23b7bed 100644
                  fieldRef:
                    fieldPath: metadata.namespace
 -          image: ${IMAGE_KUSTOMIZE_CTRL}
-+          image: '{{ .Values.images.registry }}/{{ .Values.images.kustomizeController.image }}:v1.2.0'
++          image: '{{ .Values.images.registry }}/{{ .Values.images.kustomizeController.image }}:${IMAGE_KUSTOMIZE_CTRL_TAG}'
            imagePullPolicy: IfNotPresent
            livenessProbe:
              httpGet:
@@ -59,7 +59,7 @@ index 823e056..da7c96f 100644
                  fieldRef:
                    fieldPath: metadata.namespace
 -          image: ${IMAGE_NOTIFICATION_CTRL}
-+          image: '{{ .Values.images.registry }}/{{ .Values.images.notificationController.image }}:v1.2.2'
++          image: '{{ .Values.images.registry }}/{{ .Values.images.notificationController.image }}:${IMAGE_NOTIFICATION_CTRL_TAG}'
            imagePullPolicy: IfNotPresent
            livenessProbe:
              httpGet:
@@ -72,7 +72,7 @@ index 9b1ea48..ddf2bd4 100644
              - name: TUF_ROOT
                value: /tmp/.sigstore
 -          image: ${IMAGE_SOURCE_CTRL}
-+          image: '{{ .Values.images.registry }}/{{ .Values.images.sourceController.image }}:v1.2.2'
++          image: '{{ .Values.images.registry }}/{{ .Values.images.sourceController.image }}:${IMAGE_SOURCE_CTRL_TAG}'
            imagePullPolicy: IfNotPresent
            livenessProbe:
              httpGet:
