@@ -41,7 +41,17 @@ spec:
               valueFrom:
                 fieldRef:
                   fieldPath: metadata.namespace
-          image: '{{ .Values.images.registry }}/{{ .Values.images.imageReflectorController.image }}:v0.31.1'
+            - name: GOMAXPROCS
+              valueFrom:
+                resourceFieldRef:
+                  containerName: manager
+                  resource: limits.cpu
+            - name: GOMEMLIMIT
+              valueFrom:
+                resourceFieldRef:
+                  containerName: manager
+                  resource: limits.memory
+          image: '{{ .Values.images.registry }}/{{ .Values.images.imageReflectorController.image }}:v0.32.0'
           imagePullPolicy: IfNotPresent
           livenessProbe:
             httpGet:

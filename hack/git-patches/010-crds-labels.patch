@@ -1,9 +1,9 @@
 diff --git a/customresourcedefinition-alerts.yaml b/customresourcedefinition-alerts.yaml
-index b10f27f..257cb0c 100644
+index 784a438..2ef0272 100644
 --- a/customresourcedefinition-alerts.yaml
 +++ b/customresourcedefinition-alerts.yaml
 @@ -6,8 +6,7 @@ metadata:
-     controller-gen.kubebuilder.io/version: v0.12.0
+     controller-gen.kubebuilder.io/version: v0.15.0
    labels:
      app.kubernetes.io/component: notification-controller
 -    app.kubernetes.io/instance: flux-system
@@ -13,11 +13,11 @@ index b10f27f..257cb0c 100644
  spec:
    group: notification.toolkit.fluxcd.io
 diff --git a/customresourcedefinition-buckets.yaml b/customresourcedefinition-buckets.yaml
-index 2663d62..3c43d35 100644
+index cb56ada..72b306b 100644
 --- a/customresourcedefinition-buckets.yaml
 +++ b/customresourcedefinition-buckets.yaml
 @@ -6,8 +6,7 @@ metadata:
-     controller-gen.kubebuilder.io/version: v0.12.0
+     controller-gen.kubebuilder.io/version: v0.15.0
    labels:
      app.kubernetes.io/component: source-controller
 -    app.kubernetes.io/instance: flux-system
@@ -27,11 +27,11 @@ index 2663d62..3c43d35 100644
  spec:
    group: source.toolkit.fluxcd.io
 diff --git a/customresourcedefinition-gitrepositories.yaml b/customresourcedefinition-gitrepositories.yaml
-index 3c5f6af..e2fa425 100644
+index 2b01026..566cebf 100644
 --- a/customresourcedefinition-gitrepositories.yaml
 +++ b/customresourcedefinition-gitrepositories.yaml
 @@ -6,8 +6,7 @@ metadata:
-     controller-gen.kubebuilder.io/version: v0.12.0
+     controller-gen.kubebuilder.io/version: v0.15.0
    labels:
      app.kubernetes.io/component: source-controller
 -    app.kubernetes.io/instance: flux-system
@@ -41,11 +41,11 @@ index 3c5f6af..e2fa425 100644
  spec:
    group: source.toolkit.fluxcd.io
 diff --git a/customresourcedefinition-helmcharts.yaml b/customresourcedefinition-helmcharts.yaml
-index c2d179a..96a0ed5 100644
+index 68e3110..5727c36 100644
 --- a/customresourcedefinition-helmcharts.yaml
 +++ b/customresourcedefinition-helmcharts.yaml
 @@ -6,8 +6,7 @@ metadata:
-     controller-gen.kubebuilder.io/version: v0.12.0
+     controller-gen.kubebuilder.io/version: v0.15.0
    labels:
      app.kubernetes.io/component: source-controller
 -    app.kubernetes.io/instance: flux-system
@@ -55,11 +55,11 @@ index c2d179a..96a0ed5 100644
  spec:
    group: source.toolkit.fluxcd.io
 diff --git a/customresourcedefinition-helmreleases.yaml b/customresourcedefinition-helmreleases.yaml
-index 3a7065d..187eed9 100644
+index 0a19ae8..2ccbf64 100644
 --- a/customresourcedefinition-helmreleases.yaml
 +++ b/customresourcedefinition-helmreleases.yaml
 @@ -6,8 +6,7 @@ metadata:
-     controller-gen.kubebuilder.io/version: v0.12.0
+     controller-gen.kubebuilder.io/version: v0.15.0
    labels:
      app.kubernetes.io/component: helm-controller
 -    app.kubernetes.io/instance: flux-system
@@ -69,11 +69,11 @@ index 3a7065d..187eed9 100644
  spec:
    group: helm.toolkit.fluxcd.io
 diff --git a/customresourcedefinition-helmrepositories.yaml b/customresourcedefinition-helmrepositories.yaml
-index abef636..2c10b3d 100644
+index cfd36f4..e8ba546 100644
 --- a/customresourcedefinition-helmrepositories.yaml
 +++ b/customresourcedefinition-helmrepositories.yaml
 @@ -6,8 +6,7 @@ metadata:
-     controller-gen.kubebuilder.io/version: v0.12.0
+     controller-gen.kubebuilder.io/version: v0.15.0
    labels:
      app.kubernetes.io/component: source-controller
 -    app.kubernetes.io/instance: flux-system
@@ -83,11 +83,11 @@ index abef636..2c10b3d 100644
  spec:
    group: source.toolkit.fluxcd.io
 diff --git a/customresourcedefinition-imagepolicies.yaml b/customresourcedefinition-imagepolicies.yaml
-index 4e4f9a2..0fee986 100644
+index 7844ca8..75fd49b 100644
 --- a/customresourcedefinition-imagepolicies.yaml
 +++ b/customresourcedefinition-imagepolicies.yaml
 @@ -6,8 +6,7 @@ metadata:
-     controller-gen.kubebuilder.io/version: v0.12.0
+     controller-gen.kubebuilder.io/version: v0.15.0
    labels:
      app.kubernetes.io/component: image-reflector-controller
 -    app.kubernetes.io/instance: flux-system
@@ -97,11 +97,11 @@ index 4e4f9a2..0fee986 100644
  spec:
    group: image.toolkit.fluxcd.io
 diff --git a/customresourcedefinition-imagerepositories.yaml b/customresourcedefinition-imagerepositories.yaml
-index 8f9188e..ec9112a 100644
+index 1234e05..b365e07 100644
 --- a/customresourcedefinition-imagerepositories.yaml
 +++ b/customresourcedefinition-imagerepositories.yaml
 @@ -6,8 +6,7 @@ metadata:
-     controller-gen.kubebuilder.io/version: v0.12.0
+     controller-gen.kubebuilder.io/version: v0.15.0
    labels:
      app.kubernetes.io/component: image-reflector-controller
 -    app.kubernetes.io/instance: flux-system
@@ -111,11 +111,11 @@ index 8f9188e..ec9112a 100644
  spec:
    group: image.toolkit.fluxcd.io
 diff --git a/customresourcedefinition-imageupdateautomations.yaml b/customresourcedefinition-imageupdateautomations.yaml
-index 5895b2d..d310641 100644
+index 1392267..3420f0e 100644
 --- a/customresourcedefinition-imageupdateautomations.yaml
 +++ b/customresourcedefinition-imageupdateautomations.yaml
 @@ -6,8 +6,7 @@ metadata:
-     controller-gen.kubebuilder.io/version: v0.12.0
+     controller-gen.kubebuilder.io/version: v0.15.0
    labels:
      app.kubernetes.io/component: image-automation-controller
 -    app.kubernetes.io/instance: flux-system
@@ -125,11 +125,11 @@ index 5895b2d..d310641 100644
  spec:
    group: image.toolkit.fluxcd.io
 diff --git a/customresourcedefinition-kustomizations.yaml b/customresourcedefinition-kustomizations.yaml
-index 2f5319d..bbabceb 100644
+index 358ba9d..c7f4dd7 100644
 --- a/customresourcedefinition-kustomizations.yaml
 +++ b/customresourcedefinition-kustomizations.yaml
 @@ -6,8 +6,7 @@ metadata:
-     controller-gen.kubebuilder.io/version: v0.12.0
+     controller-gen.kubebuilder.io/version: v0.15.0
    labels:
      app.kubernetes.io/component: kustomize-controller
 -    app.kubernetes.io/instance: flux-system
@@ -139,11 +139,11 @@ index 2f5319d..bbabceb 100644
  spec:
    group: kustomize.toolkit.fluxcd.io
 diff --git a/customresourcedefinition-ocirepositories.yaml b/customresourcedefinition-ocirepositories.yaml
-index d7df9c5..2594f58 100644
+index ee8b6b8..0dac37c 100644
 --- a/customresourcedefinition-ocirepositories.yaml
 +++ b/customresourcedefinition-ocirepositories.yaml
 @@ -6,8 +6,7 @@ metadata:
-     controller-gen.kubebuilder.io/version: v0.12.0
+     controller-gen.kubebuilder.io/version: v0.15.0
    labels:
      app.kubernetes.io/component: source-controller
 -    app.kubernetes.io/instance: flux-system
@@ -153,11 +153,11 @@ index d7df9c5..2594f58 100644
  spec:
    group: source.toolkit.fluxcd.io
 diff --git a/customresourcedefinition-providers.yaml b/customresourcedefinition-providers.yaml
-index e4140c4..7b67834 100644
+index 461fbf1..fb07c78 100644
 --- a/customresourcedefinition-providers.yaml
 +++ b/customresourcedefinition-providers.yaml
 @@ -6,8 +6,7 @@ metadata:
-     controller-gen.kubebuilder.io/version: v0.12.0
+     controller-gen.kubebuilder.io/version: v0.15.0
    labels:
      app.kubernetes.io/component: notification-controller
 -    app.kubernetes.io/instance: flux-system
@@ -167,11 +167,11 @@ index e4140c4..7b67834 100644
  spec:
    group: notification.toolkit.fluxcd.io
 diff --git a/customresourcedefinition-receivers.yaml b/customresourcedefinition-receivers.yaml
-index 7ce75cf..caa491c 100644
+index ce07dd7..addf352 100644
 --- a/customresourcedefinition-receivers.yaml
 +++ b/customresourcedefinition-receivers.yaml
 @@ -6,8 +6,7 @@ metadata:
-     controller-gen.kubebuilder.io/version: v0.12.0
+     controller-gen.kubebuilder.io/version: v0.15.0
    labels:
      app.kubernetes.io/component: notification-controller
 -    app.kubernetes.io/instance: flux-system

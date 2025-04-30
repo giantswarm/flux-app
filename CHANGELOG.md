@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- Updgrade Flux to 2.3.0 version.
+
 ## [1.5.0] - 2025-04-10
 
 - Updgrade Flux to 2.2.0 version.
