@@ -20,6 +20,7 @@ on:
       - 'release#v*.*.*'
       - 'release#major'
       - 'release#minor'
+      - 'flux-upgrade-to-v2.2.3#release#v1.5.1'
       - 'release#patch'
       - 'release-v*.*.x#release#v*.*.*'
       # "!" negates previous positive patterns so it has to be at the end.
