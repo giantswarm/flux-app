@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- Enable VPA by default (Helm value `.verticalPodAutoscaler.enabled` now defaults to `true`, was `false`).
+
 ## [1.7.0] - 2025-05-08
 
 ### Changed
