@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.6.0] - 2025-06-26
+
 ### Changed
 
 - Enable VPA by default (Helm value `.verticalPodAutoscaler.enabled` now defaults to `true`, was `false`).
@@ -392,7 +394,8 @@ reduce memory usage by downgrading Helm from 3.7.1 to 3.6.3
 
 - Initial release containing flux toolkit 0.5.9
 
-[Unreleased]: https://github.com/giantswarm/flux-app/compare/v1.7.0...HEAD
+[Unreleased]: https://github.com/giantswarm/flux-app/compare/v1.6.0...HEAD
+[1.6.0]: https://github.com/giantswarm/flux-app/compare/v1.7.0...v1.6.0
 [1.7.0]: https://github.com/giantswarm/flux-app/compare/v1.6.0...v1.7.0
 [1.6.0]: https://github.com/giantswarm/flux-app/compare/v1.5.0...v1.6.0
 [1.5.0]: https://github.com/giantswarm/flux-app/compare/v1.4.3...v1.5.0
