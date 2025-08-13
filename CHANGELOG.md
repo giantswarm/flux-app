@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Set `ephemeral-storage` resource requests and limits for containers.
+
 ## [1.7.1] - 2025-06-26
 
 ### Changed
