@@ -2,10 +2,14 @@
 
 All notable changes to this project will be documented in this file.
 
-The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
-and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to
+[Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+
+### Changed
+
+- added the `app.kubernetes.io/version` to the default labels
 
 ## [1.7.1] - 2025-06-26
 
@@ -55,7 +59,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-- Add pod monitors to controllers. Creation is controlled by the `.podMonitors.enabled` Helm value with default: `true`.
+- Add pod monitors to controllers. Creation is controlled by the `.podMonitors.enabled` Helm value with
+  default: `true`.
 
 ### Removed
 
@@ -65,23 +70,27 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-- Added support for `.global.podSecurityStandards.enforced` Helm value (defaults to false) to control PSP creation when.
-  When the flag is disabled (default) the PSS is created and the `crd-controller` ClusterRole is updated with the permission
-  to use the created (`flux-app-pvc-psp`) PSP. Pre kubernetes v1.25 upgrade and on v1.25 clusters where PSPs are no longer
-  available, this flag should be enabled to skip the creation of the PSP and the update to the CLusterRole.
-- Added support for `.policyException.namespace` Helm value to control where Kyverno PolicyException is created, defaults to: `giantswarm`
-- Added support for `.cilium.enforce` Helm value (defaults to false) to force creation of the Cilium network policy in
-  cases when Helm capability checks are not available.
-- Added support for `.policyException.enforce` Helm value (defaults to false) to force creation of the Cilium policy in
-  cases when Helm capability checks are not available.
+- Added support for `.global.podSecurityStandards.enforced` Helm value (defaults to false) to control PSP
+  creation when. When the flag is disabled (default) the PSS is created and the `crd-controller` ClusterRole
+  is updated with the permission to use the created (`flux-app-pvc-psp`) PSP. Pre kubernetes v1.25 upgrade and
+  on v1.25 clusters where PSPs are no longer available, this flag should be enabled to skip the creation of
+  the PSP and the update to the CLusterRole.
+- Added support for `.policyException.namespace` Helm value to control where Kyverno PolicyException is
+  created, defaults to: `giantswarm`
+- Added support for `.cilium.enforce` Helm value (defaults to false) to force creation of the Cilium network
+  policy in cases when Helm capability checks are not available.
+- Added support for `.policyException.enforce` Helm value (defaults to false) to force creation of the Cilium
+  policy in cases when Helm capability checks are not available.
 
 ### Changed
 
-- Refactored chart upgrade process from `kustomzie` + manual based to be `git` patch based and made the templates structure better for readability.
+- Refactored chart upgrade process from `kustomzie` + manual based to be `git` patch based and made the
+  templates structure better for readability.
 
 ### Fixed
 
-- Fix `notification-controller` endpoint in `kustomize-controller` deployment settings to point to the controller in the same namespace.
+- Fix `notification-controller` endpoint in `kustomize-controller` deployment settings to point to the
+  controller in the same namespace.
 
 ### Removed
 
@@ -134,13 +143,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - Added the use the runtime/default seccomp profile.
-- Added `clusterRoles.install` value that can disable installing the `flux-view` and `flux-edit` cluster roles. Enabled by default to install these resources.
+- Added `clusterRoles.install` value that can disable installing the `flux-view` and `flux-edit` cluster
+  roles. Enabled by default to install these resources.
 
 ### Changed
 
 - Use Cilium network policy when available for CRD installer
 - Updated flux apps to v0.41.2
-- Changed PSP to allow the same volumes as restricted, to prevent seccomp profile changes breaking pod creation.
+- Changed PSP to allow the same volumes as restricted, to prevent seccomp profile changes breaking pod
+  creation.
 
 ### Removed
 
@@ -186,8 +197,10 @@ Fixed condition for internal upgrade.
 ### Changed
 
 - Bump upstream flux toolkit version to from `v0.36.0` to `v0.37.0`.
-  - The interpretation of the `gitImplementation` field of `GitRepository` by `source-controller` and `image-automation-controller` has been deprecated, and will effectively always use `go-git`.
-  - `ImageUpdateAutomation` objects with a `.spec.PushBranch` specified will have the push branch refreshed automatically via force push.
+  - The interpretation of the `gitImplementation` field of `GitRepository` by `source-controller` and
+    `image-automation-controller` has been deprecated, and will effectively always use `go-git`.
+  - `ImageUpdateAutomation` objects with a `.spec.PushBranch` specified will have the push branch refreshed
+    automatically via force push.
   - `ImagePolicy` CRD dropped version `v1alpha1`
   - `ImageRepository` CRD dropped version `v1alpha1`
   - `ImageUpdateAutomation` CRD dropped version `v1alpha1`
@@ -226,8 +239,7 @@ Fixed condition for internal upgrade.
 ### Changed
 
 - Upgrade ATS to `v0.2.9`
-- Bump upstream flux toolkit version to from `v0.35.0` to `v0.36.0`. There are
-  no breaking changes.
+- Bump upstream flux toolkit version to from `v0.35.0` to `v0.36.0`. There are no breaking changes.
 - Change resource requests & limits.
 
 ## [0.16.1] - 2022-10-11
@@ -240,8 +252,9 @@ Fixed condition for internal upgrade.
 
 ### Changed
 
-- Bump upstream flux toolkit version to from `v0.33.0` to `v0.35.0`.
-  This upgrade comes with 1 breaking change from Flux [v0.34.0](https://github.com/fluxcd/flux2/releases/tag/v0.34.0), see: [fluxcd/flux2#3051](https://github.com/fluxcd/flux2/issues/3051).
+- Bump upstream flux toolkit version to from `v0.33.0` to `v0.35.0`. This upgrade comes with 1 breaking change
+  from Flux [v0.34.0](https://github.com/fluxcd/flux2/releases/tag/v0.34.0), see:
+  [fluxcd/flux2#3051](https://github.com/fluxcd/flux2/issues/3051).
 - Change default registry in helm chart to docker.io.
 
 ## [0.15.1] - 2022-09-07
@@ -254,16 +267,17 @@ Fixed condition for internal upgrade.
 
 ### Changed
 
-- Bump upstream flux toolkit version to from `v0.31.3` to `v0.33.0`.
-  This upgrade comes with no breaking changes.
-  Flux now supports distributing Kubernetes manifests, Kustomize overlays and Terraform code as OCI artifacts. For more information please see the [Flux OCI documentation].
-  More details in [Flux v0.32.0] and [Flux v0.33.0] release notes.
+- Bump upstream flux toolkit version to from `v0.31.3` to `v0.33.0`. This upgrade comes with no breaking
+  changes. Flux now supports distributing Kubernetes manifests, Kustomize overlays and Terraform code as OCI
+  artifacts. For more information please see the [Flux OCI documentation]. More details in [Flux v0.32.0] and
+  [Flux v0.33.0] release notes.
 
 ## [0.14.0] - 2022-08-18
 
 ### Added
 
-- Add installation note to README.md (also visible in e.g. Happa) about limitations of installing FluxCRDs and CRs at the same time
+- Add installation note to README.md (also visible in e.g. Happa) about limitations of installing FluxCRDs and
+  CRs at the same time
 
 ### Changed
 
@@ -277,29 +291,26 @@ Fixed condition for internal upgrade.
 
 ### Removed
 
-- Removed templated labels from CRDs because Helm 3 does not support templating the CRDs with the native way of installation
+- Removed templated labels from CRDs because Helm 3 does not support templating the CRDs with the native way
+  of installation
 
 ## [0.12.0] - 2022-07-13
 
 ### Changed
 
-- Bump upstream flux toolkit version to v0.31.3.
-  Breaking changes: Flux is no longer compatible with kubeconfigs using
-  `client.authentication.k8s.io/v1alpha1`, this version was deprecated and
-  removed in Kubernetes 1.24.
-  More details in [Flux v0.31.0] release notes.
+- Bump upstream flux toolkit version to v0.31.3. Breaking changes: Flux is no longer compatible with
+  kubeconfigs using `client.authentication.k8s.io/v1alpha1`, this version was deprecated and removed in
+  Kubernetes 1.24. More details in [Flux v0.31.0] release notes.
 
 ## [0.11.0] - 2022-05-26
 
 ### Changed
 
-- Bump upstream flux toolkit version to v0.30.2.
-  This app version upgrades Flux workloads and resource definitions from
-  v0.27.3 to v0.30.2. The two upstream releases in between ([Flux v0.28.0] and
-  [Flux v0.29.0]) contain potentially breaking changes, the main difference
-  being graduating custom resource API versions. Please read linked upstream
-  changelogs and [Flux Source v1beta2 API upgrade] document before performing
-  an upgrade.
+- Bump upstream flux toolkit version to v0.30.2. This app version upgrades Flux workloads and resource
+  definitions from v0.27.3 to v0.30.2. The two upstream releases in between ([Flux v0.28.0] and [Flux
+  v0.29.0]) contain potentially breaking changes, the main difference being graduating custom resource API
+  versions. Please read linked upstream changelogs and [Flux Source v1beta2 API upgrade] document before
+  performing an upgrade.
 
 ## [0.10.1] - 2022-05-13
 
@@ -327,8 +338,8 @@ Fixed condition for internal upgrade.
 
 ### Changed
 
-- Bump upstream flux toolkit version to 0.24.0 includes helm-controller fix to
-reduce memory usage by downgrading Helm from 3.7.1 to 3.6.3
+- Bump upstream flux toolkit version to 0.24.0 includes helm-controller fix to reduce memory usage by
+  downgrading Helm from 3.7.1 to 3.6.3
 
 ## [0.7.1] - 2021-11-17
 
@@ -379,6 +390,7 @@ reduce memory usage by downgrading Helm from 3.7.1 to 3.6.3
 - Bump upstream flux toolkit version to 0.17.1
 
 ## [0.3.0] - 2021-06-16
+
 - Bump upstream flux toolkit version to 0.15.0
 - Use kubectl kustomize to update app
 - Use EmptyDir instead of PVC
@@ -386,7 +398,7 @@ reduce memory usage by downgrading Helm from 3.7.1 to 3.6.3
 
 ## [0.2.0] - 2021-06-04
 
-- **Breaking**: Changed values `images` subkeys from snake\_case camelCase
+- **Breaking**: Changed values `images` subkeys from snake_case camelCase
 - Bump upstream flux toolkit version to 0.7.7
 - Change to main catalog
 
@@ -449,12 +461,10 @@ reduce memory usage by downgrading Helm from 3.7.1 to 3.6.3
 [0.3.0]: https://github.com/giantswarm/flux-app/compare/v0.2.0...v0.3.0
 [0.2.0]: https://github.com/giantswarm/flux-app/compare/v0.1.0...v0.2.0
 [0.1.0]: https://github.com/giantswarm/flux-app/releases/tag/v0.1.0
-
 [Flux v0.28.0]: https://github.com/fluxcd/flux2/releases/tag/v0.28.0
 [Flux v0.29.0]: https://github.com/fluxcd/flux2/releases/tag/v0.29.0
 [Flux v0.31.0]: https://github.com/fluxcd/flux2/releases/tag/v0.31.0
 [Flux v0.32.0]: https://github.com/fluxcd/flux2/releases/tag/v0.33.0
 [Flux v0.33.0]: https://github.com/fluxcd/flux2/releases/tag/v0.33.0
-
 [Flux Source v1beta2 API upgrade]: https://github.com/fluxcd/flux2/discussions/2567
 [Flux OCI documentation]: https://fluxcd.io/flux/cheatsheets/oci-artifacts/
