@@ -71,6 +71,9 @@
                                 "cpu": {
                                     "type": "string"
                                 },
+                                "ephemeral-storage": {
+                                    "type": "string"
+                                },
                                 "memory": {
                                     "type": "string"
                                 }
@@ -80,6 +83,9 @@
                             "type": "object",
                             "properties": {
                                 "cpu": {
+                                    "type": "string"
+                                },
+                                "ephemeral-storage": {
                                     "type": "string"
                                 },
                                 "memory": {
@@ -256,6 +262,9 @@
                                 "cpu": {
                                     "type": "string"
                                 },
+                                "ephemeral-storage": {
+                                    "type": "string"
+                                },
                                 "memory": {
                                     "type": "string"
                                 }
@@ -265,6 +274,9 @@
                             "type": "object",
                             "properties": {
                                 "cpu": {
+                                    "type": "string"
+                                },
+                                "ephemeral-storage": {
                                     "type": "string"
                                 },
                                 "memory": {
@@ -283,6 +295,9 @@
                                 "cpu": {
                                     "type": "string"
                                 },
+                                "ephemeral-storage": {
+                                    "type": "string"
+                                },
                                 "memory": {
                                     "type": "string"
                                 }
@@ -292,6 +307,9 @@
                             "type": "object",
                             "properties": {
                                 "cpu": {
+                                    "type": "string"
+                                },
+                                "ephemeral-storage": {
                                     "type": "string"
                                 },
                                 "memory": {
@@ -310,6 +328,9 @@
                                 "cpu": {
                                     "type": "string"
                                 },
+                                "ephemeral-storage": {
+                                    "type": "string"
+                                },
                                 "memory": {
                                     "type": "string"
                                 }
@@ -319,6 +340,9 @@
                             "type": "object",
                             "properties": {
                                 "cpu": {
+                                    "type": "string"
+                                },
+                                "ephemeral-storage": {
                                     "type": "string"
                                 },
                                 "memory": {
@@ -337,6 +361,9 @@
                                 "cpu": {
                                     "type": "string"
                                 },
+                                "ephemeral-storage": {
+                                    "type": "string"
+                                },
                                 "memory": {
                                     "type": "string"
                                 }
@@ -346,6 +373,9 @@
                             "type": "object",
                             "properties": {
                                 "cpu": {
+                                    "type": "string"
+                                },
+                                "ephemeral-storage": {
                                     "type": "string"
                                 },
                                 "memory": {
@@ -364,6 +394,9 @@
                                 "cpu": {
                                     "type": "string"
                                 },
+                                "ephemeral-storage": {
+                                    "type": "string"
+                                },
                                 "memory": {
                                     "type": "string"
                                 }
@@ -373,6 +406,9 @@
                             "type": "object",
                             "properties": {
                                 "cpu": {
+                                    "type": "string"
+                                },
+                                "ephemeral-storage": {
                                     "type": "string"
                                 },
                                 "memory": {
@@ -391,6 +427,9 @@
                                 "cpu": {
                                     "type": "string"
                                 },
+                                "ephemeral-storage": {
+                                    "type": "string"
+                                },
                                 "memory": {
                                     "type": "string"
                                 }
@@ -400,6 +439,9 @@
                             "type": "object",
                             "properties": {
                                 "cpu": {
+                                    "type": "string"
+                                },
+                                "ephemeral-storage": {
                                     "type": "string"
                                 },
                                 "memory": {

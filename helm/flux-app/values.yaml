@@ -59,6 +59,7 @@ crds:
     requests:
       memory: "128Mi"
       cpu: "250m"
+
     limits:
       memory: "256Mi"
       cpu: "500m"
@@ -67,45 +68,57 @@ resources:
   helmController:
     limits:
       cpu: 500m
+      ephemeral-storage: 5Gi
       # Set max allowed memory limit for VPA due to high memory usage.
       memory: 256Mi
     requests:
       cpu: 100m
+      ephemeral-storage: 1Gi
       memory: 64Mi
   imageAutomationController:
     limits:
       cpu: 500m
+      ephemeral-storage: 5Gi
       memory: 256Mi
     requests:
       cpu: 100m
+      ephemeral-storage: 1Gi
       memory: 64Mi
   imageReflectorController:
     limits:
       cpu: 500m
+      ephemeral-storage: 5Gi
       memory: 256Mi
     requests:
       cpu: 100m
+      ephemeral-storage: 1Gi
       memory: 64Mi
   kustomizeController:
     limits:
       cpu: 500m
+      ephemeral-storage: 5Gi
       memory: 256Mi
     requests:
       cpu: 100m
+      ephemeral-storage: 1Gi
       memory: 64Mi
   notificationController:
     limits:
       cpu: 500m
+      ephemeral-storage: 5Gi
       memory: 256Mi
     requests:
       cpu: 100m
+      ephemeral-storage: 1Gi
       memory: 64Mi
   sourceController:
     limits:
       cpu: 500m
+      ephemeral-storage: 5Gi
       memory: 256Mi
     requests:
       cpu: 50m
+      ephemeral-storage: 1Gi
       memory: 64Mi
 
 upstreamMetricsPort: http-prom
