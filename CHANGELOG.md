@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- Support Kyverno `PolicyException` version `v2` when available or when `.policyException.enforce` is enabled.
+  Fall back to `v2beta1` when `v2` is not available. If none of the above is available and not enforced,
+  then the `PolicyException` is not created.
+
 ## [1.7.1] - 2025-06-26
 
 ### Changed
