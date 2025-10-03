@@ -1,5 +1,9 @@
-{{- if or (.Capabilities.APIVersions.Has "kyverno.io/v2beta1/PolicyException") (eq .Values.policyException.enforce true) }}
+{{- if or (or (.Capabilities.APIVersions.Has "kyverno.io/v2beta1/PolicyException") (.Capabilities.APIVersions.Has "kyverno.io/v2/PolicyException")) (eq .Values.policyException.enforce true) }}
+{{- if or (.Capabilities.APIVersions.Has "kyverno.io/v2/PolicyException") (eq .Values.policyException.enforce true) -}}
+apiVersion: kyverno.io/v2
+{{- else -}}
 apiVersion: kyverno.io/v2beta1
+{{- end }}
 kind: PolicyException
 metadata:
   name: {{ .Release.Name | quote }}
