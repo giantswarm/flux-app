@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+- Adding back the `app.kubernetes.io/part-of: flux` label.
+
 ## [1.7.3] - 2025-11-12
 
 ### Removed

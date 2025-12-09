@@ -442,4 +442,3 @@ index 6cd60d1..4dbeef7 100644
 -    app.kubernetes.io/part-of: flux
 +{{ include "labels.common" . | indent 4 }}
    name: source-controller
-
