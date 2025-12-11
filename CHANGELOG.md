@@ -418,9 +418,6 @@ reduce memory usage by downgrading Helm from 3.7.1 to 3.6.3
 
 [Unreleased]: https://github.com/giantswarm/flux-app/compare/v1.7.3...HEAD
 
-### Changed
-
-- Migrate Chart.yaml annotations to new format as per https://docs.giantswarm.io/reference/platform-api/chart-metadata/
 [1.7.3]: https://github.com/giantswarm/flux-app/compare/v1.7.2...v1.7.3
 [1.7.2]: https://github.com/giantswarm/flux-app/compare/v1.7.1...v1.7.2
 [1.7.1]: https://github.com/giantswarm/flux-app/compare/v1.7.0...v1.7.1
