@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+#### Added
+
+- Adding back the `app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}` label.
+
 ## [1.8.1] - 2026-01-23
 
 ### Changed
