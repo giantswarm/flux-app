@@ -20,7 +20,7 @@ and a [fork](https://github.com/giantswarm/fluxcd-pkg) for `fluxcd/package` to e
 Please upgrade them to the version matched in the target Flux version you are upgrading to. Check intranet docs on the upgrade process!
 
 ### Update helm template
- 
+
 - Bump the `appVersion` in `helm/flux-app/Chart.yaml`
 - From the root of the repository run `./hack/flux-manifest.sh`
   - If you need to add a new patch, simply make the change and store the `git diff` output into a file under `hack/git-patches`
