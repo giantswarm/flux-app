@@ -210,7 +210,7 @@ kubeStateMetrics:
   kubeRBACProxy:
     # @schema const: false
     enabled: false
-  # @schema readOnly: true
+  # @schema const: "flux-ksm"
   nameOverride: flux-ksm
   networkPolicy:
     # @schema const: true
