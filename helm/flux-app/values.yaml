@@ -211,7 +211,7 @@ kubeStateMetrics:
     # @schema const: false
     enabled: false
   # @schema readOnly: true
-  nameOverride: dupa
+  nameOverride: flux-ksm
   networkPolicy:
     # @schema const: true
     enabled: true
