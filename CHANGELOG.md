@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Flux own instance of the KSM with partly locked configuration to Flux resources alone. 
+
 ## [1.8.2] - 2026-02-25
 
 ### Added
