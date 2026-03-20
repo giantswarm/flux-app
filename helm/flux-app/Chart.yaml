@@ -6,6 +6,11 @@ annotations:
   io.giantswarm.application.restrictions.cluster-singleton: 'true'
   io.giantswarm.application.team: honeybadger
   io.giantswarm.application.two-step-install: 'true'
+dependencies:
+  - name: kube-state-metrics
+    version: "7.2.1"
+    repository: https://prometheus-community.github.io/helm-charts
+    alias: kubeStateMetrics
 description: |
   Flux is a collection of tools for keeping Kubernetes clusters in sync
   with sources of configuration (like Git repositories), and automating

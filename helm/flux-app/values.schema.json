@@ -1,5 +1,5 @@
 {
-    "$schema": "http://json-schema.org/schema#",
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
     "type": "object",
     "properties": {
         "cilium": {
@@ -171,6 +171,243 @@
                     "properties": {
                         "image": {
                             "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "kubeStateMetrics": {
+            "type": "object",
+            "properties": {
+                "autosharding": {
+                    "type": "object",
+                    "properties": {
+                        "enabled": {
+                            "const": false
+                        }
+                    }
+                },
+                "collectors": {
+                    "const": []
+                },
+                "containers": {
+                    "const": []
+                },
+                "customResourceState": {
+                    "type": "object",
+                    "properties": {
+                        "enabled": {
+                            "const": false
+                        }
+                    }
+                },
+                "extraArgs": {
+                    "const": [
+                        "--custom-resource-state-only=true",
+                        "--custom-resource-state-config-file=/etc/customresourcestate/config.yaml"
+                    ],
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "extraManifests": {
+                    "const": []
+                },
+                "initContainers": {
+                    "const": []
+                },
+                "kubeRBACProxy": {
+                    "type": "object",
+                    "properties": {
+                        "enabled": {
+                            "const": false
+                        }
+                    }
+                },
+                "nameOverride": {
+                    "readOnly": true,
+                    "type": "string"
+                },
+                "networkPolicy": {
+                    "type": "object",
+                    "properties": {
+                        "enabled": {
+                            "const": true
+                        },
+                        "flavor": {
+                            "const": "cilium"
+                        }
+                    }
+                },
+                "prometheus": {
+                    "type": "object",
+                    "properties": {
+                        "monitor": {
+                            "type": "object",
+                            "properties": {
+                                "additionalLabels": {
+                                    "type": "object",
+                                    "properties": {
+                                        "application.giantswarm.io/team": {
+                                            "const": "honeybadger"
+                                        }
+                                    }
+                                },
+                                "enabled": {
+                                    "const": true
+                                },
+                                "http": {
+                                    "type": "object",
+                                    "properties": {
+                                        "interval": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "scrapeconfig": {
+                            "type": "object",
+                            "properties": {
+                                "enabled": {
+                                    "const": false
+                                }
+                            }
+                        }
+                    }
+                },
+                "rbac": {
+                    "type": "object",
+                    "properties": {
+                        "extraRules": {
+                            "type": "array",
+                            "maxItems": 1,
+                            "minItems": 1,
+                            "items": {
+                                "type": "object",
+                                "properties": {
+                                    "apiGroups": {
+                                        "const": [
+                                            "helm.toolkit.fluxcd.io",
+                                            "image.toolkit.fluxcd.io",
+                                            "kustomize.toolkit.fluxcd.io",
+                                            "notification.toolkit.fluxcd.io",
+                                            "source.toolkit.fluxcd.io"
+                                        ],
+                                        "items": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "resources": {
+                                        "const": [
+                                            "alerts",
+                                            "buckets",
+                                            "gitrepositories",
+                                            "helmcharts",
+                                            "helmrepositories",
+                                            "helmreleases",
+                                            "imagerepositories",
+                                            "imagepolicies",
+                                            "imageupdateautomations",
+                                            "kustomizations",
+                                            "ocirepositories",
+                                            "providers",
+                                            "receivers"
+                                        ],
+                                        "items": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "verbs": {
+                                        "const": [
+                                            "list",
+                                            "watch"
+                                        ],
+                                        "items": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "replicas": {
+                    "const": 1
+                },
+                "resources": {
+                    "type": "object",
+                    "properties": {
+                        "limits": {
+                            "type": "object",
+                            "properties": {
+                                "cpu": {
+                                    "type": "string"
+                                },
+                                "memory": {
+                                    "type": "string"
+                                }
+                            }
+                        },
+                        "requests": {
+                            "type": "object",
+                            "properties": {
+                                "cpu": {
+                                    "type": "string"
+                                },
+                                "memory": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                },
+                "volumeMounts": {
+                    "const": [
+                        {
+                            "mountPath": "/etc/customresourcestate",
+                            "name": "customresourcestate-config",
+                            "readOnly": true
+                        }
+                    ],
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "mountPath": {
+                                "type": "string"
+                            },
+                            "name": {
+                                "type": "string"
+                            },
+                            "readOnly": {
+                                "type": "boolean"
+                            }
+                        }
+                    }
+                },
+                "volumes": {
+                    "const": [
+                        {
+                            "configMap": {
+                                "name": "flux-ksm-customresourcestate-config"
+                            },
+                            "name": "customresourcestate-config"
+                        }
+                    ],
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "configMap": {
+                                "type": "object",
+                                "properties": {
+                                    "name": {
+                                        "type": "string"
+                                    }
+                                }
+                            },
+                            "name": {
+                                "type": "string"
+                            }
                         }
                     }
                 }
