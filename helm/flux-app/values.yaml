@@ -184,7 +184,8 @@ kubeStateMetrics:
   rbac:
     # @schema minItems: 1; maxItems: 1
     extraRules:
-    - apiGroups: # @schema const: ["helm.toolkit.fluxcd.io", "image.toolkit.fluxcd.io", "kustomize.toolkit.fluxcd.io", "notification.toolkit.fluxcd.io", "source.toolkit.fluxcd.io"]
+    - # @schema const: ["helm.toolkit.fluxcd.io", "image.toolkit.fluxcd.io", "kustomize.toolkit.fluxcd.io", "notification.toolkit.fluxcd.io", "source.toolkit.fluxcd.io"]
+      apiGroups:
       - helm.toolkit.fluxcd.io
       - image.toolkit.fluxcd.io
       - kustomize.toolkit.fluxcd.io
