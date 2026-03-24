@@ -217,6 +217,10 @@ kubeStateMetrics:
     enabled: true
     # @schema const: "cilium"
     flavor: cilium
+    cilium:
+      kubeApiServerSelector:
+      - toEntities:  # @schema const: ["kube-apiserver"]
+        - kube-apiserver
   prometheus:
     monitor:
       # @schema const: true

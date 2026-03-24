@@ -230,6 +230,27 @@
                 "networkPolicy": {
                     "type": "object",
                     "properties": {
+                        "cilium": {
+                            "type": "object",
+                            "properties": {
+                                "kubeApiServerSelector": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "toEntities": {
+                                                "const": [
+                                                    "kube-apiserver"
+                                                ],
+                                                "items": {
+                                                    "type": "string"
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        },
                         "enabled": {
                             "const": true
                         },
