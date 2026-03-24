@@ -300,49 +300,65 @@
                     "type": "object",
                     "properties": {
                         "extraRules": {
-                            "type": "array",
-                            "maxItems": 1,
-                            "minItems": 1,
+                            "const": [
+                                {
+                                    "apiGroups": [
+                                        "helm.toolkit.fluxcd.io",
+                                        "image.toolkit.fluxcd.io",
+                                        "kustomize.toolkit.fluxcd.io",
+                                        "notification.toolkit.fluxcd.io",
+                                        "source.toolkit.fluxcd.io"
+                                    ],
+                                    "resources": [
+                                        "alerts",
+                                        "buckets",
+                                        "gitrepositories",
+                                        "helmcharts",
+                                        "helmrepositories",
+                                        "helmreleases",
+                                        "imagerepositories",
+                                        "imagepolicies",
+                                        "imageupdateautomations",
+                                        "kustomizations",
+                                        "ocirepositories",
+                                        "providers",
+                                        "receivers"
+                                    ],
+                                    "verbs": [
+                                        "list",
+                                        "watch"
+                                    ]
+                                },
+                                {
+                                    "apiGroups": [
+                                        "apiextensions.k8s.io"
+                                    ],
+                                    "resources": [
+                                        "customresourcedefinitions"
+                                    ],
+                                    "verbs": [
+                                        "list",
+                                        "watch"
+                                    ]
+                                }
+                            ],
                             "items": {
                                 "type": "object",
                                 "properties": {
                                     "apiGroups": {
-                                        "const": [
-                                            "helm.toolkit.fluxcd.io",
-                                            "image.toolkit.fluxcd.io",
-                                            "kustomize.toolkit.fluxcd.io",
-                                            "notification.toolkit.fluxcd.io",
-                                            "source.toolkit.fluxcd.io"
-                                        ],
+                                        "type": "array",
                                         "items": {
                                             "type": "string"
                                         }
                                     },
                                     "resources": {
-                                        "const": [
-                                            "alerts",
-                                            "buckets",
-                                            "gitrepositories",
-                                            "helmcharts",
-                                            "helmrepositories",
-                                            "helmreleases",
-                                            "imagerepositories",
-                                            "imagepolicies",
-                                            "imageupdateautomations",
-                                            "kustomizations",
-                                            "ocirepositories",
-                                            "providers",
-                                            "receivers"
-                                        ],
+                                        "type": "array",
                                         "items": {
                                             "type": "string"
                                         }
                                     },
                                     "verbs": {
-                                        "const": [
-                                            "list",
-                                            "watch"
-                                        ],
+                                        "type": "array",
                                         "items": {
                                             "type": "string"
                                         }
