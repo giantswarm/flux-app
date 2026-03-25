@@ -173,6 +173,10 @@ global:
 
 kubeStateMetrics:
   enabled: true
+  image:
+    registry: gsoci.azurecr.io
+    repository: giantswarm/kube-state-metrics
+    pullPolicy: IfNotPresent
   autosharding:
     # @schema const: false
     enabled: false
