@@ -170,3 +170,108 @@ containerSecurityContext:
 global:
   podSecurityStandards:
     enforced: false
+
+kubeStateMetrics:
+  enabled: true
+  image:
+    registry: gsoci.azurecr.io
+    repository: giantswarm/kube-state-metrics
+    pullPolicy: IfNotPresent
+  autosharding:
+    # @schema const: false
+    enabled: false
+  # @schema const: 1
+  replicas: 1
+  # @schema const: ["--custom-resource-state-only=true", "--custom-resource-state-config-file=/etc/customresourcestate/config.yaml"]
+  extraArgs:
+  - --custom-resource-state-only=true
+  - --custom-resource-state-config-file=/etc/customresourcestate/config.yaml
+  rbac:
+    # @schema const: [{"apiGroups": ["helm.toolkit.fluxcd.io", "image.toolkit.fluxcd.io", "kustomize.toolkit.fluxcd.io", "notification.toolkit.fluxcd.io", "source.toolkit.fluxcd.io"], "resources": ["alerts", "buckets", "gitrepositories", "helmcharts", "helmrepositories", "helmreleases", "imagerepositories", "imagepolicies", "imageupdateautomations", "kustomizations", "ocirepositories", "providers", "receivers"], "verbs": ["list", "watch"]}, {"apiGroups": ["apiextensions.k8s.io"], "resources": ["customresourcedefinitions"], "verbs": ["list", "watch"]}]
+    extraRules:
+    - apiGroups:
+      - helm.toolkit.fluxcd.io
+      - image.toolkit.fluxcd.io
+      - kustomize.toolkit.fluxcd.io
+      - notification.toolkit.fluxcd.io
+      - source.toolkit.fluxcd.io
+      resources:
+      - alerts
+      - buckets
+      - gitrepositories
+      - helmcharts
+      - helmrepositories
+      - helmreleases
+      - imagerepositories
+      - imagepolicies
+      - imageupdateautomations
+      - kustomizations
+      - ocirepositories
+      - providers
+      - receivers
+      verbs: ["list", "watch"]
+    - apiGroups:
+      - apiextensions.k8s.io
+      resources:
+      - customresourcedefinitions
+      verbs: ["list", "watch"]
+  kubeRBACProxy:
+    # @schema const: false
+    enabled: false
+  # @schema const: "flux-ksm"
+  nameOverride: flux-ksm
+  networkPolicy:
+    # @schema const: true
+    enabled: true
+    # @schema const: "cilium"
+    flavor: cilium
+    cilium:
+      kubeApiServerSelector:
+      - toEntities:  # @schema const: ["kube-apiserver"]
+        - kube-apiserver
+  prometheus:
+    monitor:
+      # @schema const: true
+      enabled: true
+      additionalLabels:
+        # @schema const: "honeybadger"
+        application.giantswarm.io/team: honeybadger
+      http:
+        interval: 30s
+    scrapeconfig:
+      # @schema const: false
+      enabled: false
+  # @schema const: []
+  collectors: []
+  customResourceState:
+    # @schema const: false
+    enabled: false
+  resources:
+    limits:
+      cpu: 800m
+      memory: 800Mi
+    requests:
+      cpu: 400m
+      memory: 400Mi
+  verticalPodAutoscaler:
+    # @schema const: true
+    enabled: true
+    maxAllowed:
+      cpu: 2
+      memory: 4Gi
+  # @schema const: [{"name": "customresourcestate-config", "configMap": {"name": "flux-ksm-customresourcestate-config"}}]
+  volumes:
+  - name: customresourcestate-config
+    configMap:
+      name: flux-ksm-customresourcestate-config
+  # @schema const: [{"name": "customresourcestate-config", "mountPath": "/etc/customresourcestate", "readOnly": true}]
+  volumeMounts:
+  - mountPath: /etc/customresourcestate
+    name: customresourcestate-config
+    readOnly: true
+  # @schema const: []
+  extraManifests: []
+  # @schema const: []
+  containers: []
+  # @schema const: []
+  initContainers: []
