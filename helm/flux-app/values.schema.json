@@ -398,6 +398,14 @@
                         }
                     }
                 },
+                "verticalPodAutoscaler": {
+                    "type": "object",
+                    "properties": {
+                        "enabled": {
+                            "const": true
+                        }
+                    }
+                },
                 "volumeMounts": {
                     "const": [
                         {
