@@ -248,14 +248,17 @@ kubeStateMetrics:
     enabled: false
   resources:
     limits:
-      cpu: 400m
+      cpu: 800m
       memory: 800Mi
     requests:
       cpu: 400m
-      memory: 800Mi
+      memory: 400Mi
   verticalPodAutoscaler:
     # @schema const: true
     enabled: true
+    maxAllowed:
+      cpu: 2
+      memory: 4Gi
   # @schema const: [{"name": "customresourcestate-config", "configMap": {"name": "flux-ksm-customresourcestate-config"}}]
   volumes:
   - name: customresourcestate-config
