@@ -172,6 +172,7 @@ global:
     enforced: false
 
 kubeStateMetrics:
+  enabled: true
   autosharding:
     # @schema const: false
     enabled: false
@@ -249,7 +250,8 @@ kubeStateMetrics:
       cpu: 200m
       memory: 400Mi
   verticalPodAutoscaler:
-    enabled: true # @schema const: true
+    # @schema const: true
+    enabled: true
   # @schema const: [{"name": "customresourcestate-config", "configMap": {"name": "flux-ksm-customresourcestate-config"}}]
   volumes:
   - name: customresourcestate-config

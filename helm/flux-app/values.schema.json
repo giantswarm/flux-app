@@ -201,6 +201,9 @@
                         }
                     }
                 },
+                "enabled": {
+                    "type": "boolean"
+                },
                 "extraArgs": {
                     "const": [
                         "--custom-resource-state-only=true",
