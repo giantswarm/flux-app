@@ -148,17 +148,41 @@ data:
             type: Info
           help: The current state of a Flux HelmRelease resource.
           labelsFromPath:
+            chart_app_version:
+            - status
+            - history
+            - "0"
+            - appVersion
             chart_name:
+            - status
+            - history
+            - "0"
+            - chartName
+            chart_ref_kind:
+            - spec
+            - chartRef
+            - kind
+            chart_ref_name:
+            - spec
+            - chartRef
+            - name
+            chart_source_kind:
             - spec
             - chart
             - spec
-            - chart
+            - sourceRef
+            - kind
             chart_source_name:
             - spec
             - chart
             - spec
             - sourceRef
             - name
+            chart_version:
+            - status
+            - history
+            - "0"
+            - chartVersion
             exported_namespace:
             - metadata
             - namespace
@@ -167,9 +191,11 @@ data:
             - conditions
             - '[type=Ready]'
             - status
-            revision:
+            release_status:
             - status
-            - lastAppliedRevision
+            - history
+            - "0"
+            - status
             suspended:
             - spec
             - suspend
