@@ -186,6 +186,16 @@ data:
             exported_namespace:
             - metadata
             - namespace
+            kubeconfig_configmap:
+            - spec
+            - kubeConfig
+            - configMapRef
+            - name
+            kubeconfig_secret:
+            - spec
+            - kubeConfig
+            - secretRef
+            - name
             ready:
             - status
             - conditions
@@ -348,6 +358,16 @@ data:
             exported_namespace:
             - metadata
             - namespace
+            kubeconfig_configmap:
+            - spec
+            - kubeConfig
+            - configMapRef
+            - name
+            kubeconfig_secret:
+            - spec
+            - kubeConfig
+            - secretRef
+            - name
             ready:
             - status
             - conditions
