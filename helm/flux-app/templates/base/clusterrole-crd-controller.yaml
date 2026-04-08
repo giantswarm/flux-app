@@ -96,6 +96,12 @@ rules:
       - update
       - patch
       - delete
+  - apiGroups:
+      - ""
+    resources:
+      - serviceaccounts/token
+    verbs:
+      - create
   - nonResourceURLs:
       - /livez/ping
     verbs:

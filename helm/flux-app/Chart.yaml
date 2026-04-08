@@ -1,5 +1,5 @@
 apiVersion: v2
-appVersion: 2.5.1
+appVersion: 2.6.4
 annotations:
   io.giantswarm.application.audience: all
   io.giantswarm.application.logo: https://s.giantswarm.io/app-icons/flux/2/logo_dark.svg
