@@ -47,6 +47,12 @@ rules:
     verbs:
       - '*'
   - apiGroups:
+      - source.extensions.fluxcd.io
+    resources:
+      - '*'
+    verbs:
+      - '*'
+  - apiGroups:
       - ""
     resources:
       - namespaces

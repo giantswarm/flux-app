@@ -35,17 +35,12 @@ spec:
               valueFrom:
                 fieldRef:
                   fieldPath: metadata.namespace
-            - name: GOMAXPROCS
-              valueFrom:
-                resourceFieldRef:
-                  containerName: manager
-                  resource: limits.cpu
             - name: GOMEMLIMIT
               valueFrom:
                 resourceFieldRef:
                   containerName: manager
                   resource: limits.memory
-          image: '{{ .Values.images.registry }}/{{ .Values.images.kustomizeController.image }}:v1.6.1'
+          image: '{{ .Values.images.registry }}/{{ .Values.images.kustomizeController.image }}:v1.7.3'
           imagePullPolicy: IfNotPresent
           livenessProbe:
             httpGet:
