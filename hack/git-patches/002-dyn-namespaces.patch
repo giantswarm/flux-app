@@ -16,7 +16,7 @@ diff --git a/clusterrolebinding-crd-controller.yaml b/clusterrolebinding-crd-con
 index b00b314..081ae78 100644
 --- a/clusterrolebinding-crd-controller.yaml
 +++ b/clusterrolebinding-crd-controller.yaml
-@@ -12,19 +12,19 @@ roleRef:
+@@ -12,22 +12,22 @@ roleRef:
  subjects:
    - kind: ServiceAccount
      name: kustomize-controller
@@ -40,5 +40,9 @@ index b00b314..081ae78 100644
 +    namespace: "{{ .Release.Namespace }}"
    - kind: ServiceAccount
      name: image-automation-controller
+-    namespace: flux-system
++    namespace: "{{ .Release.Namespace }}"
+   - kind: ServiceAccount
+     name: source-watcher
 -    namespace: flux-system
 +    namespace: "{{ .Release.Namespace }}"
