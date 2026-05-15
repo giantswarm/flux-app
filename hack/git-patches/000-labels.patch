@@ -77,7 +77,7 @@ diff --git a/deployment-helm-controller.yaml b/deployment-helm-controller.yaml
 index acbe319..73f5380 100644
 --- a/deployment-helm-controller.yaml
 +++ b/deployment-helm-controller.yaml
-@@ -3,23 +3,20 @@ apiVersion: apps/v1
+@@ -3,26 +3,20 @@ apiVersion: apps/v1
  kind: Deployment
  metadata:
    labels:
@@ -100,6 +100,9 @@ index acbe319..73f5380 100644
          prometheus.io/scrape: "true"
        labels:
 -        app: helm-controller
+-        app.kubernetes.io/component: helm-controller
+-        app.kubernetes.io/instance: flux-system
+-        app.kubernetes.io/part-of: flux
 +{{ include "labels.selector" . | indent 8 }}
      spec:
        containers:
@@ -108,7 +111,7 @@ diff --git a/deployment-image-automation-controller.yaml b/deployment-image-auto
 index 1874b65..32f0ef6 100644
 --- a/deployment-image-automation-controller.yaml
 +++ b/deployment-image-automation-controller.yaml
-@@ -3,23 +3,20 @@ apiVersion: apps/v1
+@@ -3,26 +3,20 @@ apiVersion: apps/v1
  kind: Deployment
  metadata:
    labels:
@@ -131,6 +134,9 @@ index 1874b65..32f0ef6 100644
          prometheus.io/scrape: "true"
        labels:
 -        app: image-automation-controller
+-        app.kubernetes.io/component: image-automation-controller
+-        app.kubernetes.io/instance: flux-system
+-        app.kubernetes.io/part-of: flux
 +{{ include "labels.selector" . | indent 8 }}
      spec:
        containers:
@@ -139,7 +145,7 @@ diff --git a/deployment-image-reflector-controller.yaml b/deployment-image-refle
 index 6e97bcd..6ea3f0a 100644
 --- a/deployment-image-reflector-controller.yaml
 +++ b/deployment-image-reflector-controller.yaml
-@@ -3,23 +3,20 @@ apiVersion: apps/v1
+@@ -3,26 +3,20 @@ apiVersion: apps/v1
  kind: Deployment
  metadata:
    labels:
@@ -162,6 +168,9 @@ index 6e97bcd..6ea3f0a 100644
          prometheus.io/scrape: "true"
        labels:
 -        app: image-reflector-controller
+-        app.kubernetes.io/component: image-reflector-controller
+-        app.kubernetes.io/instance: flux-system
+-        app.kubernetes.io/part-of: flux
 +{{ include "labels.selector" . | indent 8 }}
      spec:
        containers:
@@ -188,11 +197,14 @@ index 853705a..bb60e01 100644
        app: kustomize-controller
    template:
      metadata:
-@@ -19,7 +17,7 @@ spec:
+@@ -19,10 +17,7 @@ spec:
          prometheus.io/port: "8080"
          prometheus.io/scrape: "true"
        labels:
 -        app: kustomize-controller
+-        app.kubernetes.io/component: kustomize-controller
+-        app.kubernetes.io/instance: flux-system
+-        app.kubernetes.io/part-of: flux
 +{{ include "labels.selector" . | indent 8 }}
      spec:
        containers:
@@ -201,7 +213,7 @@ diff --git a/deployment-notification-controller.yaml b/deployment-notification-c
 index d066061..a1dabd5 100644
 --- a/deployment-notification-controller.yaml
 +++ b/deployment-notification-controller.yaml
-@@ -3,23 +3,20 @@ apiVersion: apps/v1
+@@ -3,26 +3,20 @@ apiVersion: apps/v1
  kind: Deployment
  metadata:
    labels:
@@ -224,6 +236,9 @@ index d066061..a1dabd5 100644
          prometheus.io/scrape: "true"
        labels:
 -        app: notification-controller
+-        app.kubernetes.io/component: notification-controller
+-        app.kubernetes.io/instance: flux-system
+-        app.kubernetes.io/part-of: flux
 +{{ include "labels.selector" . | indent 8 }}
      spec:
        containers:
@@ -251,11 +266,14 @@ index a617825..e1ce853 100644
    strategy:
      type: Recreate
    template:
-@@ -21,7 +18,7 @@ spec:
+@@ -21,10 +18,7 @@ spec:
          prometheus.io/port: "8080"
          prometheus.io/scrape: "true"
        labels:
 -        app: source-controller
+-        app.kubernetes.io/component: source-controller
+-        app.kubernetes.io/instance: flux-system
+-        app.kubernetes.io/part-of: flux
 +{{ include "labels.selector" . | indent 8 }}
      spec:
        containers:
