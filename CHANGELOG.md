@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- Update API version of Flux resources to one considered stable in 2.6.
+
 ## [1.10.0] - 2026-04-08
 
 ### Changed
