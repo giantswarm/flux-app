@@ -40,6 +40,7 @@ spec:
         args:
         - migrate
         - --version=2.6
+        - --dummyflag
         securityContext:
           readOnlyRootFilesystem: true
           {{- with .Values.containerSecurityContext }}
