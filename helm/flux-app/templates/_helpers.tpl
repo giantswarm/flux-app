@@ -42,6 +42,10 @@ app.kubernetes.io/instance: {{ .Release.Name | quote }}
 {{- printf "%s-%s-%s" ( include "name" . ) "crd-install" .Chart.AppVersion | replace "+" "_" | replace "." "-" | trimSuffix "-" | trunc 63 -}}
 {{- end -}}
 
+{{- define "fluxMigratellJob" -}}
+{{- printf "%s-%s-%s" ( include "name" . ) "flux-migrate" .Chart.AppVersion | replace "+" "_" | replace "." "-" | trimSuffix "-" | trunc 63 -}}
+{{- end -}}
+
 {{- define "crdInstallAnnotations" -}}
 "helm.sh/hook": "pre-install,pre-upgrade"
 "helm.sh/hook-delete-policy": "before-hook-creation,hook-succeeded,hook-failed"

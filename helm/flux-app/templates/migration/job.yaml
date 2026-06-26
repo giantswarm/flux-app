@@ -1,0 +1,56 @@
+{{- if .Values.migration.run }}
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: {{ include "fluxMigratellJob" . }}
+  namespace: {{ .Release.Namespace | quote }}
+  annotations:
+    "helm.sh/hook-weight": "-2"
+    "helm.sh/hook": "pre-upgrade"
+    "helm.sh/hook-delete-policy": "before-hook-creation"
+  labels:
+    app.kubernetes.io/component: "flux-migration"
+    {{- include "labels.selector" . | nindent 4 }}
+spec:
+  ttlSecondsAfterFinished: 3600
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/component: "flux-migration"
+        {{- include "labels.selector" . | nindent 8 }}
+    spec:
+      serviceAccountName: kustomize-controller
+      securityContext:
+        runAsUser: 1000
+        runAsGroup: 2000
+        {{- if ge (int .Capabilities.KubeVersion.Minor) 19 }}
+        {{- with .Values.podSeccompProfile }}
+        seccompProfile:
+          {{- . | toYaml | nindent 10 }}
+        {{- end }}
+        {{- end }}
+      tolerations:
+      - key: node-role.kubernetes.io/master
+        effect: NoSchedule
+      - key: node-role.kubernetes.io/control-plane
+        effect: NoSchedule
+      containers:
+      - name: kubectl
+        image: "{{ .Values.images.registry }}/giantswarm/flux-cli:v2.7.5"
+        args:
+        - migrate
+        - --version=2.6
+        securityContext:
+          readOnlyRootFilesystem: true
+          {{- with .Values.containerSecurityContext }}
+          {{- . | toYaml | nindent 10 }}
+          {{- end }}
+          {{- if ge (int .Capabilities.KubeVersion.Minor) 19 }}
+          {{- with .Values.seccompProfile }}
+          seccompProfile:
+            {{- . | toYaml | nindent 12 }}
+          {{- end }}
+          {{- end }}
+      restartPolicy: Never
+  backoffLimit: 4
+{{- end }}
