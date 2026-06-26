@@ -420,6 +420,17 @@
                     "properties": {
                         "enabled": {
                             "const": true
+                        },
+                        "maxAllowed": {
+                            "type": "object",
+                            "properties": {
+                                "cpu": {
+                                    "type": "integer"
+                                },
+                                "memory": {
+                                    "type": "string"
+                                }
+                            }
                         }
                     }
                 },
@@ -498,6 +509,14 @@
             "properties": {
                 "annotations": {
                     "type": "object"
+                }
+            }
+        },
+        "migration": {
+            "type": "object",
+            "properties": {
+                "run": {
+                    "type": "boolean"
                 }
             }
         },

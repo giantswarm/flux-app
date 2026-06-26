@@ -14,7 +14,7 @@ images:
     image: giantswarm/fluxcd-image-reflector-controller
 
 migration:
-  run: true
+  run: false
 
 # allows to change cluster related configurations
 cluster:
