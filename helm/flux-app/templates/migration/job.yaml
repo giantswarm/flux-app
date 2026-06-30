@@ -2,7 +2,7 @@
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: {{ include "fluxMigratellJob" . }}
+  name: {{ include "fluxMigrateJob" . }}
   namespace: {{ .Release.Namespace | quote }}
   annotations:
     "helm.sh/hook-weight": "-2"
@@ -39,7 +39,7 @@ spec:
         image: "{{ .Values.images.registry }}/giantswarm/flux-cli:v2.7.5"
         args:
         - migrate
-        - --version=2.6
+        - --version={{ .Values.migration.targetVersion }}
         securityContext:
           readOnlyRootFilesystem: true
           {{- with .Values.containerSecurityContext }}

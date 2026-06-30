@@ -42,7 +42,7 @@ app.kubernetes.io/instance: {{ .Release.Name | quote }}
 {{- printf "%s-%s-%s" ( include "name" . ) "crd-install" .Chart.AppVersion | replace "+" "_" | replace "." "-" | trimSuffix "-" | trunc 63 -}}
 {{- end -}}
 
-{{- define "fluxMigratellJob" -}}
+{{- define "fluxMigrateJob" -}}
 {{- printf "%s-%s-%s" ( include "name" . ) "flux-migrate" .Chart.AppVersion | replace "+" "_" | replace "." "-" | trimSuffix "-" | trunc 63 -}}
 {{- end -}}
 
