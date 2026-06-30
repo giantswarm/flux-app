@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.10.2] - 2026-06-30
+
 ### Changed
 
 - Update `giantswarm/docker-kubectl` image to 1.36.2.
@@ -459,7 +461,8 @@ reduce memory usage by downgrading Helm from 3.7.1 to 3.6.3
 
 - Initial release containing flux toolkit 0.5.9
 
-[Unreleased]: https://github.com/giantswarm/flux-app/compare/v1.10.1...HEAD
+[Unreleased]: https://github.com/giantswarm/flux-app/compare/v1.10.2...HEAD
+[1.10.2]: https://github.com/giantswarm/flux-app/compare/v1.10.1...v1.10.2
 [1.10.1]: https://github.com/giantswarm/flux-app/compare/v1.10.0...v1.10.1
 [1.10.0]: https://github.com/giantswarm/flux-app/compare/v1.9.1...v1.10.0
 [1.9.1]: https://github.com/giantswarm/flux-app/compare/v1.9.0...v1.9.1
