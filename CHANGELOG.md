@@ -9,7 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
-- Upgrade Flux to 2.7.5 version.
+- **BREAKING CHANGE**: upgrade Flux to 2.7.5 version. Upgrading Flux app to this version requires migration, see [upgrade procedure](https://github.com/fluxcd/flux2/discussions/5572). It can be run in-line by flipping the `.migration.run` field to `true` inside `values.yaml`.
 
 ## [1.10.2] - 2026-06-30
 
