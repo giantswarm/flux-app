@@ -47,17 +47,12 @@ spec:
                   fieldPath: metadata.namespace
             - name: TUF_ROOT
               value: /tmp/.sigstore
-            - name: GOMAXPROCS
-              valueFrom:
-                resourceFieldRef:
-                  containerName: manager
-                  resource: limits.cpu
             - name: GOMEMLIMIT
               valueFrom:
                 resourceFieldRef:
                   containerName: manager
                   resource: limits.memory
-          image: '{{ .Values.images.registry }}/{{ .Values.images.sourceController.image }}:v1.6.2'
+          image: '{{ .Values.images.registry }}/{{ .Values.images.sourceController.image }}:v1.7.4'
           imagePullPolicy: IfNotPresent
           livenessProbe:
             httpGet:

@@ -99,7 +99,7 @@ envsubst < "$IMAGES_PATCH.tmpl" > $IMAGES_PATCH
 git init . && git add . && git commit -m "Init commit"
 for patch in $(find "$CURRENT_DIR/hack/git-patches" -type f -name "*.patch" | sort); do
     echo "applying $patch"
-    git apply $patch
+    git apply $patch --verbose
 done
 # ---------------------------------------------------------------------
 # If you want to add a new patch based on your changes inside
