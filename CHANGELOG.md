@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.11.0] - 2026-08-04
+
 ### Changed
 
 - **BREAKING CHANGE**: upgrade Flux to 2.7.5 version. Upgrading Flux app to this version requires migration, see [upgrade procedure](https://github.com/fluxcd/flux2/discussions/5572). It can be run in-line by flipping the `.migration.run` field to `true` inside `values.yaml`.
@@ -465,7 +467,8 @@ reduce memory usage by downgrading Helm from 3.7.1 to 3.6.3
 
 - Initial release containing flux toolkit 0.5.9
 
-[Unreleased]: https://github.com/giantswarm/flux-app/compare/v1.10.2...HEAD
+[Unreleased]: https://github.com/giantswarm/flux-app/compare/v1.11.0...HEAD
+[1.11.0]: https://github.com/giantswarm/flux-app/compare/v1.10.2...v1.11.0
 [1.10.2]: https://github.com/giantswarm/flux-app/compare/v1.10.1...v1.10.2
 [1.10.1]: https://github.com/giantswarm/flux-app/compare/v1.10.0...v1.10.1
 [1.10.0]: https://github.com/giantswarm/flux-app/compare/v1.9.1...v1.10.0
