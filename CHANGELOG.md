@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+- Bump `kube-state-metrics` sub-chart from `7.2.1` to `7.8.1`, moving `flux-ksm` from kube-state-metrics `v2.18.0` to `v2.19.1`. `v2.18.0` leaks a reflector goroutine and its API server watch on every discovery poll cycle ([kube-state-metrics#2867](https://github.com/kubernetes/kube-state-metrics/issues/2867), fixed by [#2920](https://github.com/kubernetes/kube-state-metrics/pull/2920) in `v2.19.0`), which grows the workload cluster API servers until control plane nodes hit `MemoryPressure`.
+
 ## [1.11.0] - 2026-08-04
 
 ### Changed
@@ -268,7 +272,7 @@ Fixed condition for internal upgrade.
 
 ## [0.19.0] - 2022-11-24
 
-- Add capability to annotate the kustomize-controller service account
+- Add capability to annotate the kustomize controller service account
 
 ### Added
 
