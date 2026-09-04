@@ -272,7 +272,7 @@ Fixed condition for internal upgrade.
 
 ## [0.19.0] - 2022-11-24
 
-- Add capability to annotate the kustomize controller service account
+- Add capability to annotate the kustomize-controller service account
 
 ### Added
 
