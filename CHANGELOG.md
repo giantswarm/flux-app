@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.12.0] - 2026-09-07
+
 ### Fixed
 
 - Bump `kube-state-metrics` sub-chart from `7.2.1` to `7.8.1`, moving `flux-ksm` from kube-state-metrics `v2.18.0` to `v2.19.1`. `v2.18.0` leaks a reflector goroutine and its API server watch on every discovery poll cycle ([kube-state-metrics#2867](https://github.com/kubernetes/kube-state-metrics/issues/2867), fixed by [#2920](https://github.com/kubernetes/kube-state-metrics/pull/2920) in `v2.19.0`), which grows the workload cluster API servers until control plane nodes hit `MemoryPressure`.
@@ -471,7 +473,8 @@ reduce memory usage by downgrading Helm from 3.7.1 to 3.6.3
 
 - Initial release containing flux toolkit 0.5.9
 
-[Unreleased]: https://github.com/giantswarm/flux-app/compare/v1.11.0...HEAD
+[Unreleased]: https://github.com/giantswarm/flux-app/compare/v1.12.0...HEAD
+[1.12.0]: https://github.com/giantswarm/flux-app/compare/v1.11.0...v1.12.0
 [1.11.0]: https://github.com/giantswarm/flux-app/compare/v1.10.2...v1.11.0
 [1.10.2]: https://github.com/giantswarm/flux-app/compare/v1.10.1...v1.10.2
 [1.10.1]: https://github.com/giantswarm/flux-app/compare/v1.10.0...v1.10.1
