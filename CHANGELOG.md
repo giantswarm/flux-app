@@ -15,6 +15,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [1.11.0] - 2026-08-04
 
+:warning: WARNING: please use the v1.12.0 release instead of this one, both are essentially the same, but latter comes with the important KSM memory leak fix :warning:
+
 ### Changed
 
 - **BREAKING CHANGE**: upgrade Flux to 2.7.5 version. Upgrading Flux app to this version requires migration, see [upgrade procedure](https://github.com/fluxcd/flux2/discussions/5572). It can be run in-line by flipping the `.migration.run` field to `true` inside `values.yaml`.
