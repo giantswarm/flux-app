@@ -17,7 +17,7 @@ images:
 
 migration:
   run: false
-  targetVersion: 2.6
+  targetVersion: 2.7
 
 # allows to change cluster related configurations
 cluster:
