@@ -3,18 +3,16 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    app.kubernetes.io/component: source-controller
-{{ include "labels.common" . | indent 4 }}
-  name: source-controller
-  namespace: {{ .Release.Namespace }}
+    app.kubernetes.io/component: source-watcher
+    app.kubernetes.io/instance: flux-system
+    app.kubernetes.io/part-of: flux
+    control-plane: controller
+  name: source-watcher
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: source-controller
-      app.kubernetes.io/instance: {{ .Release.Name }}
-      app.kubernetes.io/managed-by: {{ .Release.Service }}
-      app.kubernetes.io/name: {{ include "name" . }}
+      app: source-watcher
   strategy:
     type: Recreate
   template:
@@ -23,36 +21,31 @@ spec:
         prometheus.io/port: "8080"
         prometheus.io/scrape: "true"
       labels:
-        app: source-controller
-        app.kubernetes.io/instance: {{ .Release.Name }}
-        app.kubernetes.io/managed-by: {{ .Release.Service }}
-        app.kubernetes.io/name: {{ include "name" . }}
-        app.kubernetes.io/version: {{ .Chart.AppVersion }}
-        giantswarm.io/service-type: managed
-        helm.sh/chart: {{ include "chart" . }}
+        app: source-watcher
+        app.kubernetes.io/component: source-watcher
+        app.kubernetes.io/instance: flux-system
+        app.kubernetes.io/part-of: flux
     spec:
       containers:
         - args:
-            - --events-addr=http://notification-controller.$(RUNTIME_NAMESPACE).svc.cluster.local./
+            - --events-addr=http://notification-controller.flux-system.svc.cluster.local./
             - --watch-all-namespaces
             - --log-level=info
             - --log-encoding=json
             - --enable-leader-election
             - --storage-path=/data
-            - --storage-adv-addr=source-controller.$(RUNTIME_NAMESPACE).svc.cluster.local.
+            - --storage-adv-addr=source-watcher.$(RUNTIME_NAMESPACE).svc.cluster.local.
           env:
             - name: RUNTIME_NAMESPACE
               valueFrom:
                 fieldRef:
                   fieldPath: metadata.namespace
-            - name: TUF_ROOT
-              value: /tmp/.sigstore
             - name: GOMEMLIMIT
               valueFrom:
                 resourceFieldRef:
                   containerName: manager
                   resource: limits.memory
-          image: '{{ .Values.images.registry }}/{{ .Values.images.sourceController.image }}:v1.8.5'
+          image: ghcr.io/fluxcd/source-watcher:v2.1.1
           imagePullPolicy: IfNotPresent
           livenessProbe:
             httpGet:
@@ -74,34 +67,30 @@ spec:
               path: /
               port: http
           resources:
-{{ include "resources.sourceController" . | indent 12 }}
+            limits:
+              cpu: 1000m
+              memory: 1Gi
+            requests:
+              cpu: 50m
+              memory: 64Mi
           securityContext:
-            {{- with .Values.containerSecurityContext }}
-            {{- . | toYaml | nindent 12 }}
-            {{- end }}
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
             readOnlyRootFilesystem: true
-            runAsUser: 100
-            {{- if ge (int .Capabilities.KubeVersion.Minor) 19 }}
-            {{- with .Values.seccompProfile }}
+            runAsNonRoot: true
             seccompProfile:
-              {{- . | toYaml | nindent 14 }}
-            {{- end }}
-            {{- end }}
+              type: RuntimeDefault
           volumeMounts:
             - mountPath: /data
               name: data
             - mountPath: /tmp
               name: tmp
-      priorityClassName: {{ include "priorityClass.name" . }}
+      priorityClassName: system-cluster-critical
       securityContext:
         fsGroup: 1337
-        {{- if ge (int .Capabilities.KubeVersion.Minor) 19 }}
-        {{- with .Values.podSeccompProfile }}
-        seccompProfile:
-          {{- . | toYaml | nindent 10 }}
-        {{- end }}
-        {{- end }}
-      serviceAccountName: source-controller
+      serviceAccountName: source-watcher
       terminationGracePeriodSeconds: 10
       volumes:
         - emptyDir: {}
