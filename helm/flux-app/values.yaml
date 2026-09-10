@@ -4,6 +4,8 @@ images:
     image: giantswarm/fluxcd-helm-controller
   sourceController:
     image: giantswarm/fluxcd-source-controller
+  sourceWatcher:
+    image: giantswarm/fluxcd-source-watcher
   kustomizeController:
     image: giantswarm/fluxcd-kustomize-controller
   notificationController:
