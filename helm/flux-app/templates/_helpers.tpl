@@ -146,6 +146,15 @@ limits:
 {{- end -}}
 {{- end -}}
 
+{{- define "resources.sourceWatcher" -}}
+requests:
+{{ toYaml .Values.resources.sourceWatcher.requests | indent 2 -}}
+{{ if eq (include "resource.vpa.enabled" .) "false" }}
+limits:
+{{ toYaml .Values.resources.sourceWatcher.limits | indent 2 -}}
+{{- end -}}
+{{- end -}}
+
 {{ define "podTemplateAnnotations.kustomizeController" }}
 {{- printf "prometheus.io/port: \"8080\"" | nindent 8 -}}
 {{- printf "prometheus.io/scrape: \"true\"" | nindent 8 }}
