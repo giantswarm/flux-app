@@ -106,3 +106,22 @@ index e1ce853..c58bd75 100644
            securityContext:
              allowPrivilegeEscalation: false
              capabilities:
+ddd
+diff --git a/deployment-source-watcher.yaml b/deployment-source-watcher.yaml
+index e1ce853..c58bd75 100644
+--- a/deployment-source-watcher.yaml
++++ b/deployment-source-watcher.yaml
+@@ -58,12 +58,7 @@ spec:
+               path: /
+               port: http
+           resources:
+-            limits:
+-              cpu: 1000m
+-              memory: 1Gi
+-            requests:
+-              cpu: 50m
+-              memory: 64Mi
++{{ include "resources.sourceWatcher" . | indent 12 }}
+           securityContext:
+             allowPrivilegeEscalation: false
+             capabilities:

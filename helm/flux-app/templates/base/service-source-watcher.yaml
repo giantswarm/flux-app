@@ -4,10 +4,9 @@ kind: Service
 metadata:
   labels:
     app.kubernetes.io/component: source-watcher
-    app.kubernetes.io/instance: flux-system
-    app.kubernetes.io/part-of: flux
-    control-plane: source-watcher
+{{ include "labels.common" . | indent 4 }}
   name: source-watcher
+  namespace: {{ .Release.Namespace }}
 spec:
   ports:
     - name: http
@@ -16,4 +15,7 @@ spec:
       targetPort: http
   selector:
     app: source-watcher
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+    app.kubernetes.io/name: {{ include "name" . }}
   type: ClusterIP
