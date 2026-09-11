@@ -329,6 +329,7 @@
                                     "resources": [
                                         "alerts",
                                         "buckets",
+                                        "externalartifacts",
                                         "gitrepositories",
                                         "helmcharts",
                                         "helmrepositories",
@@ -517,6 +518,9 @@
             "properties": {
                 "run": {
                     "type": "boolean"
+                },
+                "targetVersion": {
+                    "type": "number"
                 }
             }
         },

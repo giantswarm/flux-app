@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- Pin Flux API versions in the KSM configuration to not emit duplicated metrics.
+
 ## [1.12.0] - 2026-09-07
 
 ### Fixed
