@@ -332,10 +332,12 @@
                                         "image.toolkit.fluxcd.io",
                                         "kustomize.toolkit.fluxcd.io",
                                         "notification.toolkit.fluxcd.io",
+                                        "source.extensions.fluxcd.io",
                                         "source.toolkit.fluxcd.io"
                                     ],
                                     "resources": [
                                         "alerts",
+                                        "artifactgenerators",
                                         "buckets",
                                         "externalartifacts",
                                         "gitrepositories",
