@@ -6,7 +6,7 @@ data:
       - groupVersionKind:
           group: notification.toolkit.fluxcd.io
           kind: Alert
-          version: '*'
+          version: v1beta3
         metricNamePrefix: gotk
         metrics:
         - each:
@@ -28,7 +28,7 @@ data:
       - groupVersionKind:
           group: source.toolkit.fluxcd.io
           kind: Bucket
-          version: '*'
+          version: v1
         metricNamePrefix: gotk
         metrics:
         - each:
@@ -65,7 +65,7 @@ data:
       - groupVersionKind:
           group: source.toolkit.fluxcd.io
           kind: GitRepository
-          version: '*'
+          version: v1
         metricNamePrefix: gotk
         metrics:
         - each:
@@ -99,7 +99,7 @@ data:
       - groupVersionKind:
           group: source.toolkit.fluxcd.io
           kind: HelmChart
-          version: '*'
+          version: v1
         metricNamePrefix: gotk
         metrics:
         - each:
@@ -136,7 +136,7 @@ data:
       - groupVersionKind:
           group: helm.toolkit.fluxcd.io
           kind: HelmRelease
-          version: '*'
+          version: v2
         metricNamePrefix: gotk
         metrics:
         - each:
@@ -207,7 +207,7 @@ data:
       - groupVersionKind:
           group: source.toolkit.fluxcd.io
           kind: HelmRepository
-          version: '*'
+          version: v1
         metricNamePrefix: gotk
         metrics:
         - each:
@@ -241,7 +241,7 @@ data:
       - groupVersionKind:
           group: image.toolkit.fluxcd.io
           kind: ImagePolicy
-          version: '*'
+          version: v1beta2
         metricNamePrefix: gotk
         metrics:
         - each:
@@ -265,14 +265,11 @@ data:
             - spec
             - imageRepositoryRef
             - name
-            suspended:
-            - spec
-            - suspend
           name: resource_info
       - groupVersionKind:
           group: image.toolkit.fluxcd.io
           kind: ImageRepository
-          version: '*'
+          version: v1beta2
         metricNamePrefix: gotk
         metrics:
         - each:
@@ -302,7 +299,7 @@ data:
       - groupVersionKind:
           group: image.toolkit.fluxcd.io
           kind: ImageUpdateAutomation
-          version: '*'
+          version: v1beta2
         metricNamePrefix: gotk
         metrics:
         - each:
@@ -333,7 +330,7 @@ data:
       - groupVersionKind:
           group: kustomize.toolkit.fluxcd.io
           kind: Kustomization
-          version: '*'
+          version: v1
         metricNamePrefix: gotk
         metrics:
         - each:
@@ -367,7 +364,7 @@ data:
       - groupVersionKind:
           group: source.toolkit.fluxcd.io
           kind: OCIRepository
-          version: v1beta2
+          version: v1
         metricNamePrefix: gotk
         metrics:
         - each:
@@ -405,7 +402,7 @@ data:
       - groupVersionKind:
           group: notification.toolkit.fluxcd.io
           kind: Provider
-          version: '*'
+          version: v1beta3
         metricNamePrefix: gotk
         metrics:
         - each:
@@ -427,7 +424,7 @@ data:
       - groupVersionKind:
           group: notification.toolkit.fluxcd.io
           kind: Receiver
-          version: '*'
+          version: v1
         metricNamePrefix: gotk
         metrics:
         - each:
