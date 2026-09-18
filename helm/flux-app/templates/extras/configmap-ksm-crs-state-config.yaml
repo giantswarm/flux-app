@@ -223,9 +223,17 @@ data:
             - history
             - "0"
             - chartVersion
+            cluster_id:
+            - metadata
+            - labels
+            - cluster.x-k8s.io/cluster-name
             exported_namespace:
             - metadata
             - namespace
+            organization:
+            - metadata
+            - labels
+            - giantswarm.io/organization
             ready:
             - status
             - conditions
