@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Add `cluster_id` and `organization` labels to `HelmRelease` and `OCIRepository` metrics, read from the CR labels, so resources reconciled from a management cluster into a workload cluster are attributed to that cluster instead of the management cluster.
+
 ## [1.12.1] - 2026-09-11
 
 ### Changed
