@@ -11,6 +11,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - **BREAKING CHANGE**: upgrade Flux to 2.8.8 version. Upgrading Flux app to this version requires migration, see [upgrade procedure](https://github.com/fluxcd/flux2/discussions/5572). It can be run in-line by flipping the `.migration.run` field to `true` inside `values.yaml`.
 
+## [1.12.2] - 2026-09-22
+
+### Added
+
+- Add `cluster_id` and `organization` labels to `HelmRelease` and `OCIRepository` metrics, read from the CR labels, so resources reconciled from a management cluster into a workload cluster are attributed to that cluster instead of the management cluster.
+
 ## [1.12.1] - 2026-09-11
 
 ### Changed
@@ -485,7 +491,8 @@ reduce memory usage by downgrading Helm from 3.7.1 to 3.6.3
 
 - Initial release containing flux toolkit 0.5.9
 
-[Unreleased]: https://github.com/giantswarm/flux-app/compare/v1.12.1...HEAD
+[Unreleased]: https://github.com/giantswarm/flux-app/compare/v1.12.2...HEAD
+[1.12.2]: https://github.com/giantswarm/flux-app/compare/v1.12.1...v1.12.2
 [1.12.1]: https://github.com/giantswarm/flux-app/compare/v1.12.0...v1.12.1
 [1.12.0]: https://github.com/giantswarm/flux-app/compare/v1.11.0...v1.12.0
 [1.11.0]: https://github.com/giantswarm/flux-app/compare/v1.10.2...v1.11.0
