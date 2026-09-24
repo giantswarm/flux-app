@@ -36,7 +36,7 @@ spec:
         effect: NoSchedule
       containers:
       - name: kubectl
-        image: "{{ .Values.images.registry }}/giantswarm/flux-cli:v2.7.5"
+        image: "{{ .Values.images.registry }}/giantswarm/flux-cli:v2.8.8"
         args:
         - migrate
         - --version={{ .Values.migration.targetVersion }}

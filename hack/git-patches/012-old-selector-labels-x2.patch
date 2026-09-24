@@ -37,3 +37,16 @@ index cfbd649..07e18a0 100644
 +    app.kubernetes.io/managed-by: {{ .Release.Service }}
 +    app.kubernetes.io/name: {{ include "name" . }}
    type: ClusterIP
+diff --git a/service-source-watcher.yaml b/service-source-watcher.yaml
+index 47f5321..81e6006 100644
+--- a/service-source-watcher.yaml
++++ b/service-source-watcher.yaml
+@@ -15,5 +15,7 @@ spec:
+       targetPort: http
+   selector:
+     app.kubernetes.io/component: source-watcher
+-{{ include "labels.selector" . | indent 4 }}
++    app.kubernetes.io/instance: {{ .Release.Name }}
++    app.kubernetes.io/managed-by: {{ .Release.Service }}
++    app.kubernetes.io/name: {{ include "name" . }}
+   type: ClusterIP

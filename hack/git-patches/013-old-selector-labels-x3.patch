@@ -49,3 +49,16 @@ index 07e18a0..0d33dd5 100644
      app.kubernetes.io/instance: {{ .Release.Name }}
      app.kubernetes.io/managed-by: {{ .Release.Service }}
      app.kubernetes.io/name: {{ include "name" . }}
+diff --git a/service-source-watcher.yaml b/service-source-watcher.yaml
+index 81e6006..4f94e04 100644
+--- a/service-source-watcher.yaml
++++ b/service-source-watcher.yaml
+@@ -14,7 +14,7 @@ spec:
+       protocol: TCP
+       targetPort: http
+   selector:
+-    app.kubernetes.io/component: source-watcher
++    app: source-watcher
+     app.kubernetes.io/instance: {{ .Release.Name }}
+     app.kubernetes.io/managed-by: {{ .Release.Service }}
+     app.kubernetes.io/name: {{ include "name" . }}
