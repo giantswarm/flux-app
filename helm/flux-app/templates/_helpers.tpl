@@ -39,11 +39,11 @@ app.kubernetes.io/instance: {{ .Release.Name | quote }}
 {{- end -}}
 
 {{- define "crdInstallJob" -}}
-{{- printf "%s-%s-%s" ( include "name" . ) "crd-install" .Chart.AppVersion | replace "+" "_" | replace "." "-" | trimSuffix "-" | trunc 63 -}}
+{{- printf "%s-%s-%s" ( include "name" . ) "crd-install" .Chart.AppVersion | replace "+" "_" | replace "." "-" | trunc 63 | trimSuffix "-" -}}
 {{- end -}}
 
 {{- define "fluxMigrateJob" -}}
-{{- printf "%s-%s-%s" ( include "name" . ) "flux-migrate" .Chart.AppVersion | replace "+" "_" | replace "." "-" | trimSuffix "-" | trunc 63 -}}
+{{- printf "%s-%s-%s" ( include "name" . ) "flux-migrate" .Chart.AppVersion | replace "+" "_" | replace "." "-" | trunc 63 | trimSuffix "-" -}}
 {{- end -}}
 
 {{- define "crdInstallAnnotations" -}}
@@ -143,6 +143,15 @@ requests:
 {{ if eq (include "resource.vpa.enabled" .) "false" }}
 limits:
 {{ toYaml .Values.resources.sourceController.limits | indent 2 -}}
+{{- end -}}
+{{- end -}}
+
+{{- define "resources.sourceWatcher" -}}
+requests:
+{{ toYaml .Values.resources.sourceWatcher.requests | indent 2 -}}
+{{ if eq (include "resource.vpa.enabled" .) "false" }}
+limits:
+{{ toYaml .Values.resources.sourceWatcher.limits | indent 2 -}}
 {{- end -}}
 {{- end -}}
 

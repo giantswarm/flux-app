@@ -173,6 +173,14 @@
                             "type": "string"
                         }
                     }
+                },
+                "sourceWatcher": {
+                    "type": "object",
+                    "properties": {
+                        "image": {
+                            "type": "string"
+                        }
+                    }
                 }
             }
         },
@@ -324,10 +332,12 @@
                                         "image.toolkit.fluxcd.io",
                                         "kustomize.toolkit.fluxcd.io",
                                         "notification.toolkit.fluxcd.io",
+                                        "source.extensions.fluxcd.io",
                                         "source.toolkit.fluxcd.io"
                                     ],
                                     "resources": [
                                         "alerts",
+                                        "artifactgenerators",
                                         "buckets",
                                         "externalartifacts",
                                         "gitrepositories",
@@ -704,6 +714,33 @@
                     }
                 },
                 "sourceController": {
+                    "type": "object",
+                    "properties": {
+                        "limits": {
+                            "type": "object",
+                            "properties": {
+                                "cpu": {
+                                    "type": "string"
+                                },
+                                "memory": {
+                                    "type": "string"
+                                }
+                            }
+                        },
+                        "requests": {
+                            "type": "object",
+                            "properties": {
+                                "cpu": {
+                                    "type": "string"
+                                },
+                                "memory": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                },
+                "sourceWatcher": {
                     "type": "object",
                     "properties": {
                         "limits": {
