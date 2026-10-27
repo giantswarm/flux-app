@@ -180,3 +180,31 @@ index ce07dd7..addf352 100644
    name: receivers.notification.toolkit.fluxcd.io
  spec:
    group: notification.toolkit.fluxcd.io
+diff --git a/customresourcedefinition-externalartifacts.yaml b/customresourcedefinition-externalartifacts.yaml
+index ce07dd7..addf352 100644
+--- a/customresourcedefinition-externalartifacts.yaml
++++ b/customresourcedefinition-externalartifacts.yaml
+@@ -6,8 +6,7 @@ metadata:
+     controller-gen.kubebuilder.io/version: v0.19.0
+   labels:
+     app.kubernetes.io/component: source-controller
+-    app.kubernetes.io/instance: flux-system
+-    app.kubernetes.io/part-of: flux
++{{- include "labels.common" . | nindent 4 }}
+   name: externalartifacts.source.toolkit.fluxcd.io
+ spec:
+   group: source.toolkit.fluxcd.io
+diff --git a/customresourcedefinition-artifactgenerators.yaml b/customresourcedefinition-artifactgenerators.yaml
+index ce07dd7..addf352 100644
+--- a/customresourcedefinition-artifactgenerators.yaml
++++ b/customresourcedefinition-artifactgenerators.yaml
+@@ -6,8 +6,7 @@ metadata:
+     controller-gen.kubebuilder.io/version: v0.19.0
+   labels:
+     app.kubernetes.io/component: source-watcher
+-    app.kubernetes.io/instance: flux-system
+-    app.kubernetes.io/part-of: flux
++{{- include "labels.common" . | nindent 4 }}
+   name: artifactgenerators.source.extensions.fluxcd.io
+ spec:
+   group: source.extensions.fluxcd.io

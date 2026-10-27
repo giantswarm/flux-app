@@ -88,6 +88,9 @@ export IMAGE_NOTIFICATION_CTRL_TAG=$(echo $IMAGE_NOTIFICATION_CTRL | cut -d: -f2
 export IMAGE_SOURCE_CTRL=$(bash -c "$CMD deployment-source-controller.yaml")
 export IMAGE_SOURCE_CTRL_TAG=$(echo $IMAGE_SOURCE_CTRL | cut -d: -f2)
 
+export IMAGE_SOURCE_WATCHER=$(bash -c "$CMD deployment-source-watcher.yaml")
+export IMAGE_SOURCE_WATCHER_TAG=$(echo $IMAGE_SOURCE_WATCHER | cut -d: -f2)
+
 env | grep IMAGE
 IMAGES_PATCH=$CURRENT_DIR/hack/git-patches/007-images.patch
 envsubst < "$IMAGES_PATCH.tmpl" > $IMAGES_PATCH

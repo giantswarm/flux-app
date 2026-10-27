@@ -152,4 +152,30 @@ spec:
     name: source-controller
   updatePolicy:
     updateMode: Auto
+---
+apiVersion: autoscaling.k8s.io/v1
+kind: VerticalPodAutoscaler
+metadata:
+  name: source-watcher
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "labels.common" . | nindent 4 }}
+spec:
+  resourcePolicy:
+    containerPolicies:
+    - containerName: manager
+      controlledValues: RequestsAndLimits
+      minAllowed:
+        cpu: {{ .Values.resources.sourceWatcher.requests.cpu }}
+        memory: {{ .Values.resources.sourceWatcher.requests.memory }}
+      maxAllowed:
+        cpu: {{ .Values.resources.sourceWatcher.limits.cpu }}
+        memory: {{ .Values.resources.sourceWatcher.limits.memory }}
+      mode: Auto
+  targetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: source-watcher
+  updatePolicy:
+    updateMode: Auto
 {{- end }}

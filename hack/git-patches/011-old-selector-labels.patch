@@ -184,3 +184,36 @@ index 2191585..d9363a5 100644
      spec:
        containers:
          - args:
+diff --git a/deployment-source-watcher.yaml b/deployment-source-watcher.yaml
+index 2191585..d9363a5 100644
+--- a/deployment-source-watcher.yaml
++++ b/deployment-source-watcher.yaml
+@@ -11,8 +11,10 @@ spec:
+   replicas: 1
+   selector:
+     matchLabels:
+-      app.kubernetes.io/component: source-watcher
+-{{ include "labels.selector" . | indent 6}}
++      app: source-watcher
++      app.kubernetes.io/instance: {{ .Release.Name }}
++      app.kubernetes.io/managed-by: {{ .Release.Service }}
++      app.kubernetes.io/name: {{ include "name" . }}
+   strategy:
+     type: Recreate
+   template:
+@@ -21,8 +23,13 @@ spec:
+         prometheus.io/port: "8080"
+         prometheus.io/scrape: "true"
+       labels:
+-        app.kubernetes.io/component: source-watcher
+-{{ include "labels.selector" . | indent 8 }}
++        app: source-watcher
++        app.kubernetes.io/instance: {{ .Release.Name }}
++        app.kubernetes.io/managed-by: {{ .Release.Service }}
++        app.kubernetes.io/name: {{ include "name" . }}
++        app.kubernetes.io/version: {{ .Chart.AppVersion }}
++        giantswarm.io/service-type: managed
++        helm.sh/chart: {{ include "chart" . }}
+     spec:
+       containers:
+         - args:

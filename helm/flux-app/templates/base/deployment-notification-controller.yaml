@@ -45,7 +45,7 @@ spec:
                 resourceFieldRef:
                   containerName: manager
                   resource: limits.memory
-          image: '{{ .Values.images.registry }}/{{ .Values.images.notificationController.image }}:v1.7.5'
+          image: '{{ .Values.images.registry }}/{{ .Values.images.notificationController.image }}:v1.8.4'
           imagePullPolicy: IfNotPresent
           livenessProbe:
             httpGet:

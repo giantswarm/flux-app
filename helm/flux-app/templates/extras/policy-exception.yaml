@@ -10,7 +10,7 @@ metadata:
   {{- if (.Values.policyException).namespace }}
   namespace: {{ .Values.policyException.namespace }}
   {{- end }}
-  labels: 
+  labels:
     {{- include "labels.common" . | nindent 4 }}
 spec:
   background: true
@@ -53,7 +53,9 @@ spec:
           - "kustomize-controller*"
           - "notification-controller*"
           - "source-controller*"
+          - "source-watcher*"
           - "flux-app-crd-install*"
+          - "flux-app-flux-migrate*"
         namespaces:
         - "{{ .Release.Namespace }}"
 {{- end }}
