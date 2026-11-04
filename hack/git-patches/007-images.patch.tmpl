@@ -76,3 +76,16 @@ index 4231d0d..a14a203 100644
            imagePullPolicy: IfNotPresent
            livenessProbe:
              httpGet:
+diff --git a/deployment-source-watcher.yaml b/deployment-source-watcher.yaml
+index 4231d0d..a14a203 100644
+--- a/deployment-source-watcher.yaml
++++ b/deployment-source-watcher.yaml
+@@ -48,7 +48,7 @@ spec:
+                 resourceFieldRef:
+                   containerName: manager
+                   resource: limits.memory
+-          image: ${IMAGE_SOURCE_WATCHER}
++          image: '{{ .Values.images.registry }}/{{ .Values.images.sourceWatcher.image }}:${IMAGE_SOURCE_WATCHER_TAG}'
+           imagePullPolicy: IfNotPresent
+           livenessProbe:
+             httpGet:

@@ -46,7 +46,7 @@ spec:
                 resourceFieldRef:
                   containerName: manager
                   resource: limits.memory
-          image: '{{ .Values.images.registry }}/{{ .Values.images.imageAutomationController.image }}:v1.0.4'
+          image: '{{ .Values.images.registry }}/{{ .Values.images.imageAutomationController.image }}:v1.1.4'
           imagePullPolicy: IfNotPresent
           livenessProbe:
             httpGet:

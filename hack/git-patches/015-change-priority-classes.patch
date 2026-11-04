@@ -37,3 +37,16 @@ index d9363a5..65a6151 100644
        securityContext:
          fsGroup: 1337
          {{- if ge (int .Capabilities.KubeVersion.Minor) 19 }}
+diff --git a/deployment-source-watcher.yaml b/deployment-source-watcher.yaml
+index d9363a5..65a6151 100644
+--- a/deployment-source-watcher.yaml
++++ b/deployment-source-watcher.yaml
+@@ -87,7 +87,7 @@ spec:
+               name: data
+             - mountPath: /tmp
+               name: tmp
+-      priorityClassName: system-cluster-critical
++      priorityClassName: {{ include "priorityClass.name" . }}
+       securityContext:
+         fsGroup: 1337
+         {{- if ge (int .Capabilities.KubeVersion.Minor) 19 }}
