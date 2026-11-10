@@ -492,6 +492,9 @@
         "kustomizeController": {
             "type": "object",
             "properties": {
+                "noRemoteBases": {
+                    "type": "boolean"
+                },
                 "podTemplate": {
                     "type": "object",
                     "properties": {

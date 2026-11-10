@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Add the value `kustomizeController.noRemoteBases`. When `true`, kustomize-controller runs with `--no-remote-bases=true`: a Kustomization whose `kustomization.yaml` names a remote git base fails to build. Plain `http(s)://` file URLs in `resources:` still load. Off by default, because management clusters build from remote bases in `management-cluster-bases`.
+
 ### Changed
 
 - Update architect to v10.16.7 (giantswarm/flux-app#380)

@@ -30,6 +30,9 @@ spec:
             - --log-level=info
             - --log-encoding=json
             - --enable-leader-election
+            {{- if .Values.kustomizeController.noRemoteBases }}
+            - --no-remote-bases=true
+            {{- end }}
           env:
             - name: RUNTIME_NAMESPACE
               valueFrom:

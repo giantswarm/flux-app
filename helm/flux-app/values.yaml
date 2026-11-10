@@ -128,6 +128,11 @@ kustomizeServiceAccount:
 
 # Provides the ability to add custom labels and annotations to
 kustomizeController:
+  # noRemoteBases sets --no-remote-bases=true on kustomize-controller: a
+  # Kustomization whose kustomization.yaml names a remote git base fails to
+  # build, so only the content of its Flux source is applied. Off by default,
+  # because management clusters use remote bases from management-cluster-bases.
+  noRemoteBases: false
   podTemplate:
     annotations: {}
     labels: {}
