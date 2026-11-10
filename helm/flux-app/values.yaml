@@ -131,6 +131,12 @@ kustomizeController:
   podTemplate:
     annotations: {}
     labels: {}
+  # noRemoteBases sets --no-remote-bases=true on kustomize-controller: a
+  # Kustomization whose kustomization.yaml names a remote git base fails to
+  # build. Plain http(s) file URLs in resources still load. Off by default,
+  # because management clusters build from remote bases in
+  # management-cluster-bases.
+  noRemoteBases: false
 
 # Interface to provide extra configuration to the Image Automation Controller
 imageAutomationController:

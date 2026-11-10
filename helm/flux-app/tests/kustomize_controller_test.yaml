@@ -1,0 +1,16 @@
+suite: kustomize-controller arguments
+templates:
+  - templates/base/deployment-kustomize-controller.yaml
+tests:
+  - it: allows remote bases by default, because management clusters build from them
+    asserts:
+      - notContains:
+          path: spec.template.spec.containers[0].args
+          content: --no-remote-bases=true
+  - it: refuses remote bases when kustomizeController.noRemoteBases is true
+    set:
+      kustomizeController.noRemoteBases: true
+    asserts:
+      - contains:
+          path: spec.template.spec.containers[0].args
+          content: --no-remote-bases=true
