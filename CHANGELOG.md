@@ -13,6 +13,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- Add the `io.giantswarm.application.managed` annotation to `Chart.yaml`, as the chart metadata standard requires.
 - Update architect to v10.16.7 (giantswarm/flux-app#380)
 
 ## [1.12.2] - 2026-09-22

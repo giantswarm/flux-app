@@ -3,6 +3,7 @@ appVersion: 2.7.5
 annotations:
   io.giantswarm.application.audience: all
   io.giantswarm.application.logo: https://s.giantswarm.io/app-icons/flux/2/logo_dark.svg
+  io.giantswarm.application.managed: "true"
   io.giantswarm.application.restrictions.cluster-singleton: 'true'
   io.giantswarm.application.team: honeybadger
   io.giantswarm.application.two-step-install: 'true'
