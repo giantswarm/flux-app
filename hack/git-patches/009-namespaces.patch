@@ -208,3 +208,36 @@ index 4dbeef7..6c2df2a 100644
  {{ include "labels.common" . | indent 4 }}
    name: source-controller
 +  namespace: {{ .Release.Namespace }}
+diff --git a/deployment-source-watcher.yaml b/deployment-source-watcher.yaml
+index 9775469..2191585 100644
+--- a/deployment-source-watcher.yaml
++++ b/deployment-source-watcher.yaml
+@@ -6,6 +6,7 @@ metadata:
+     app.kubernetes.io/component: source-watcher
+ {{ include "labels.common" . | indent 4 }}
+   name: source-watcher
++  namespace: {{ .Release.Namespace }}
+ spec:
+   replicas: 1
+   selector:
+diff --git a/service-source-watcher.yaml b/service-source-watcher.yaml
+index f3e57db..47f5321 100644
+--- a/service-source-watcher.yaml
++++ b/service-source-watcher.yaml
+@@ -6,6 +6,7 @@ metadata:
+     app.kubernetes.io/component: source-watcher
+ {{ include "labels.common" . | indent 4 }}
+   name: source-watcher
++  namespace: {{ .Release.Namespace }}
+ spec:
+   ports:
+     - name: http
+diff --git a/serviceaccount-source-watcher.yaml b/serviceaccount-source-watcher.yaml
+index 4dbeef7..6c2df2a 100644
+--- a/serviceaccount-source-watcher.yaml
++++ b/serviceaccount-source-watcher.yaml
+@@ -5,3 +5,4 @@ metadata:
+   labels:
+ {{ include "labels.common" . | indent 4 }}
+   name: source-watcher
++  namespace: {{ .Release.Namespace }}

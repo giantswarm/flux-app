@@ -26,6 +26,30 @@ data:
             - suspend
           name: resource_info
       - groupVersionKind:
+          group: source.extensions.fluxcd.io
+          kind: ArtifactGenerator
+          version: v1beta1
+        metricNamePrefix: gotk
+        metrics:
+        - each:
+            info:
+              labelsFromPath:
+                name:
+                - metadata
+                - name
+            type: Info
+          help: The current state of a Flux ArtifactGenerator resource.
+          labelsFromPath:
+            exported_namespace:
+            - metadata
+            - namespace
+            ready:
+            - status
+            - conditions
+            - '[type=Ready]'
+            - status
+          name: resource_info
+      - groupVersionKind:
           group: source.toolkit.fluxcd.io
           kind: Bucket
           version: v1
