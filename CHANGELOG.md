@@ -7,9 +7,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Add the value `kustomizeController.noRemoteBases`, off by default. When `true`, kustomize-controller runs with `--no-remote-bases=true`: a Kustomization whose `kustomization.yaml` names a remote git base fails to build. Plain `http(s)://` file URLs in `resources:` still load. (giantswarm/flux-app#384)
+
 ### Changed
 
 - **BREAKING CHANGE**: upgrade Flux to 2.8.8 version. Upgrading Flux app to this version requires migration, see [upgrade procedure](https://github.com/fluxcd/flux2/discussions/5572). It can be run in-line by flipping the `.migration.run` field to `true` inside `values.yaml`.
+- Add the `io.giantswarm.application.managed` annotation to `Chart.yaml`, as the chart metadata standard requires.
+- Update architect to v10.16.7 (giantswarm/flux-app#380)
 
 ## [1.12.2] - 2026-09-22
 

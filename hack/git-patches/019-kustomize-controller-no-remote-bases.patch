@@ -1,0 +1,14 @@
+diff --git a/deployment-kustomize-controller.yaml b/deployment-kustomize-controller.yaml
+index b26f4e0..ba2c555 100644
+--- a/deployment-kustomize-controller.yaml
++++ b/deployment-kustomize-controller.yaml
+@@ -30,6 +30,9 @@ spec:
+             - --log-level=info
+             - --log-encoding=json
+             - --enable-leader-election
++            {{- if .Values.kustomizeController.noRemoteBases }}
++            - --no-remote-bases=true
++            {{- end }}
+           env:
+             - name: RUNTIME_NAMESPACE
+               valueFrom:
