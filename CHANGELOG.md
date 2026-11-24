@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.13.0] - 2026-11-24
+
 ### Added
 
 - Add the value `kustomizeController.noRemoteBases`, off by default. When `true`, kustomize-controller runs with `--no-remote-bases=true`: a Kustomization whose `kustomization.yaml` names a remote git base fails to build. Plain `http(s)://` file URLs in `resources:` still load. (giantswarm/flux-app#384)
@@ -497,7 +499,8 @@ reduce memory usage by downgrading Helm from 3.7.1 to 3.6.3
 
 - Initial release containing flux toolkit 0.5.9
 
-[Unreleased]: https://github.com/giantswarm/flux-app/compare/v1.12.2...HEAD
+[Unreleased]: https://github.com/giantswarm/flux-app/compare/v1.13.0...HEAD
+[1.13.0]: https://github.com/giantswarm/flux-app/compare/v1.12.2...v1.13.0
 [1.12.2]: https://github.com/giantswarm/flux-app/compare/v1.12.1...v1.12.2
 [1.12.1]: https://github.com/giantswarm/flux-app/compare/v1.12.0...v1.12.1
 [1.12.0]: https://github.com/giantswarm/flux-app/compare/v1.11.0...v1.12.0
