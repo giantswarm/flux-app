@@ -1,4 +1,4 @@
-{{- if or (or (.Capabilities.APIVersions.Has "kyverno.io/v2beta1/PolicyException") (.Capabilities.APIVersions.Has "kyverno.io/v2/PolicyException")) (eq .Values.policyException.enforce true) }}
+{{- if and (or (or (.Capabilities.APIVersions.Has "kyverno.io/v2beta1/PolicyException") (.Capabilities.APIVersions.Has "kyverno.io/v2/PolicyException")) (eq .Values.policyException.enforce true)) .Values.kyvernoPolicyExceptions.enabled .Values.kyvernoPolicyExceptions.legacy.enabled }}
 {{- if or (.Capabilities.APIVersions.Has "kyverno.io/v2/PolicyException") (eq .Values.policyException.enforce true) -}}
 apiVersion: kyverno.io/v2
 {{- else -}}
@@ -12,6 +12,7 @@ metadata:
   {{- end }}
   labels:
     {{- include "labels.common" . | nindent 4 }}
+    policy.giantswarm.io/migrated-to-cel: "true"
 spec:
   background: true
   exceptions:
